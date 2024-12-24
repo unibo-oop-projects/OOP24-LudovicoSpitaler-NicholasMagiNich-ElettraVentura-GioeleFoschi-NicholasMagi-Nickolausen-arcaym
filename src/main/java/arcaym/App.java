@@ -1,12 +1,29 @@
 package arcaym;
 
+import java.util.logging.Logger;
+
+/**
+ * App entry class.
+ */
 public class App {
 
-    public static String getGreeting(final String subject) {
+    private static final Logger LOGGER = Logger.getLogger(App.class.getName());
+
+    /**
+     * Get greeting message for subject.
+     * 
+     * @param subject name to greet
+     * @return greeting message
+     */
+    public String getGreeting(final String subject) {
         return "Hello, " + subject;
     }
 
-    public static void main(String[] args) {
-        System.out.println(getGreeting("World"));
+    /**
+     * App entry point.
+     */
+    public static void main() {
+        final var app = new App();
+        LOGGER.info(app.getGreeting("World"));
     }
 }
