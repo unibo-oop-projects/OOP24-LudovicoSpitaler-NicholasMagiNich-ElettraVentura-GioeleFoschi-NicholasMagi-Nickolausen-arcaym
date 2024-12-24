@@ -21,8 +21,10 @@ public class App {
 
     /**
      * App entry point.
+     * 
+     * @param args launch arguments
      */
-    public static void main() {
+    public static void main(final String[] args) {
         final var app = new App();
         LOGGER.info(app.getGreeting("World"));
     }
