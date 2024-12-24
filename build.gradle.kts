@@ -26,15 +26,6 @@ dependencies {
     // Maven dependencies are composed by a group name, a name and a version, separated by colons
     implementation("com.google.guava:guava:33.4.0-jre")
 
-    /*
-     * Simple Logging Facade for Java (SLF4J) with Apache Log4j
-     * See: http://www.slf4j.org/
-     */
-    val slf4jVersion = "2.0.16"
-    implementation("org.slf4j:slf4j-api:$slf4jVersion")
-    // Logback backend for SLF4J
-    runtimeOnly("ch.qos.logback:logback-classic:1.5.15")
-
     // JUnit API and testing engine
     val jUnitVersion = "5.11.4"
     // when dependencies share the same version, grouping in a val helps to keep them in sync
