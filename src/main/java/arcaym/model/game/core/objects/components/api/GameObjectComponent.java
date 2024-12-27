@@ -1,5 +1,6 @@
-package arcaym.model.game.core.objects.api;
+package arcaym.model.game.core.objects.components.api;
 
+import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.core.world.api.EventsManager;
 import arcaym.model.game.core.world.api.GameEvent;
 import arcaym.model.game.core.world.api.InputEvent;

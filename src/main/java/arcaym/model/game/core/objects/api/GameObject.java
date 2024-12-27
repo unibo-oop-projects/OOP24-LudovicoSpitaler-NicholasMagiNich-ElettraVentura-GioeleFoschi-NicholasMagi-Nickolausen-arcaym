@@ -1,6 +1,6 @@
 package arcaym.model.game.core.objects.api;
 
-import arcaym.common.point.api.Point2D;
+import arcaym.common.point.api.Point;
 import arcaym.model.game.core.world.api.GameWorld;
 
 /**
@@ -9,32 +9,31 @@ import arcaym.model.game.core.world.api.GameWorld;
 public interface GameObject {
 
     /**
+     * Get world associated with the object.
+     * @return the game world
+     */
+    GameWorld world();
+
+    /**
      * Get object position.
      * 
      * @return position
      */
-    Point2D getPosition();
+    Point getPosition();
 
     /**
      * Set object position.
      * 
      * @param position new position
      */
-    void setPosition(Point2D position);
+    void setPosition(Point position);
 
     /**
      * Move object from current position by distance.
      * 
      * @param distance amount to move on each coordinate
      */
-    void move(Point2D distance);
-
-    /**
-     * Setup object for world.
-     * 
-     * @param world game world
-     */
-    void setup(GameWorld world);
+    void move(Point distance);
 
     /**
      * Update object for new game frame.

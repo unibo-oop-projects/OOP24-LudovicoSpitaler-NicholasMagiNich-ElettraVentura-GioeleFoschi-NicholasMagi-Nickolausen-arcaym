@@ -1,33 +1,28 @@
 package arcaym.model.game.core.objects.api;
 
 /**
- * Game objects major categories.
+ * Game objects specific types.
  */
 public enum GameObjectType {
 
     /**
-     * Contruction object for the definition of level space and borders.
+     * 
      */
-    BLOCK,
+    PLAYER(GameObjectCategory.PLAYER),
+    GOAL(GameObjectCategory.GOAL),
+    FLOOR(GameObjectCategory.BLOCK),
+    WALL(GameObjectCategory.BLOCK),
+    COIN(GameObjectCategory.COLLECTABLE),
+    SPIKE(GameObjectCategory.OBSTACLE);
 
-    /**
-     * Special block that marks the end of the level.
-     */
-    GOAL,
+    private final GameObjectCategory category;
 
-    /**
-     * Object that interferse with the completition of the level.
-     */
-    OBSTACLE,
+    private GameObjectType(final GameObjectCategory category) {
+        this.category = category;
+    }
 
-    /**
-     * Object that needs to reach a {@link GameObjectType#GOAL} to win.
-     */
-    PLAYER,
-
-    /**
-     * Object that manipulates score on contact.
-     */
-    COLLECTABLE
+    public GameObjectCategory category() {
+        return this.category;
+    }
 
 }
