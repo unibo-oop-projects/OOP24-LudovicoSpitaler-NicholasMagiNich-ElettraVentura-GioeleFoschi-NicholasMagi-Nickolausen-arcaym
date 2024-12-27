@@ -7,21 +7,14 @@ import arcaym.common.point.api.Point2D;
  */
 public class Point2DFactory implements Point2D.Factory {
 
+    private static record Point2DRecord(int x, int y) implements Point2D {}
+
     /**
      * {@inheritDoc}
      */
     @Override
     public Point2D ofCoordinates(final int x, final int y) {
-        return new Point2D() {
-            @Override
-            public int x() {
-                return x;
-            }
-            @Override
-            public int y() {
-                return y;
-            }
-        };
+        return new Point2DRecord(x, y);
     }
 
     /**
