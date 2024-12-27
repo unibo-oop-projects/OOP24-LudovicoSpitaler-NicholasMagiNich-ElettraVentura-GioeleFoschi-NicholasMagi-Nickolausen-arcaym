@@ -42,6 +42,14 @@ public interface Point2D {
         Point2D ofCoordinates(int x, int y);
 
         /**
+         * Create point with 0,0 coordinates
+         * @return resulting point
+         */
+        default Point2D zero() {
+            return this.ofCoordinates(0, 0);
+        };
+
+        /**
          * Sum two points coordinate-by-coordinate.
          * @param p1 first point
          * @param p2 second point
