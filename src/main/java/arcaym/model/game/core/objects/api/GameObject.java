@@ -9,6 +9,13 @@ import arcaym.model.game.core.world.api.GameWorld;
 public interface GameObject {
 
     /**
+     * Get object position.
+     * 
+     * @return position
+     */
+    Point2D getPosition();
+
+    /**
      * Set object position.
      * 
      * @param position new position
@@ -16,11 +23,11 @@ public interface GameObject {
     void setPosition(Point2D position);
 
     /**
-     * Get object position.
+     * Move object from current position by distance.
      * 
-     * @return position
+     * @param distance amount to move on each coordinate
      */
-    Point2D getPosition();
+    void move(Point2D distance);
 
     /**
      * Setup object for world.
