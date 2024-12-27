@@ -1,4 +1,4 @@
-package arcaym.common.point;
+package arcaym.common.point.api;
 
 /**
  * Interface for a 2D point in space.

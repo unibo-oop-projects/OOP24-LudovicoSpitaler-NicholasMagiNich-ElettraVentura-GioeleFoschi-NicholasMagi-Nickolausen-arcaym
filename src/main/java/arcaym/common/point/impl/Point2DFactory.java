@@ -1,4 +1,6 @@
-package arcaym.common.point;
+package arcaym.common.point.impl;
+
+import arcaym.common.point.api.Point2D;
 
 /**
  * Basic implementation of {@link Point2D.Factory}.

@@ -1,6 +1,6 @@
 package arcaym.model.game.core.objects.api;
 
-import arcaym.common.point.Point2D;
+import arcaym.common.point.api.Point2D;
 import arcaym.model.game.core.world.api.GameWorld;
 
 /**
