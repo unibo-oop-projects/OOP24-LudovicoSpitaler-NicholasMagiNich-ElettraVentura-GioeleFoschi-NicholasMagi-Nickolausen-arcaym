@@ -7,7 +7,7 @@ import arcaym.common.point.api.Point2D;
  */
 public class Point2DFactory implements Point2D.Factory {
 
-    private static record Point2DRecord(int x, int y) implements Point2D {}
+    private record Point2DRecord(int x, int y) implements Point2D { }
 
     /**
      * {@inheritDoc}
