@@ -1,5 +1,7 @@
 package arcaym.common.point.api;
 
+import arcaym.common.point.impl.Point2DFactory;
+
 /**
  * Interface for a 2D point in space.
  */
@@ -21,6 +23,15 @@ public interface Point2D {
      * Interface for a {@link Point2D} factory.
      */
     interface Factory {
+
+        /**
+         * Get default factory implementation
+         * 
+         * @return default factory
+         */
+        static Factory getDefault() {
+            return new Point2DFactory();
+        }
 
         /**
          * Create point form coordinates.
