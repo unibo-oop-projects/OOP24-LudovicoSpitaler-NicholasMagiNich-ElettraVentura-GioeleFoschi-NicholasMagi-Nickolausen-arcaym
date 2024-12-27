@@ -25,7 +25,7 @@ public interface Point2D {
     interface Factory {
 
         /**
-         * Get default factory implementation
+         * Get default factory implementation.
          * 
          * @return default factory
          */
