@@ -29,7 +29,7 @@ public interface GameScene {
      * 
      * @return a {@link Stream} of game objects
      */
-    Stream<GameObject> getObjects();
+    Stream<GameObject> objectsStream();
 
     /**
      * Get all objects in the scene other that the one passed.
@@ -37,8 +37,8 @@ public interface GameScene {
      * @param obj object to exclude
      * @return a {@link Stream} of game objects
      */
-    default Stream<GameObject> getOtherObjects(final GameObject obj) {
-        return this.getObjects()
+    default Stream<GameObject> otherObjectsStream(final GameObject obj) {
+        return this.objectsStream()
                 .filter(Predicate.not(obj::equals));
     }
 
