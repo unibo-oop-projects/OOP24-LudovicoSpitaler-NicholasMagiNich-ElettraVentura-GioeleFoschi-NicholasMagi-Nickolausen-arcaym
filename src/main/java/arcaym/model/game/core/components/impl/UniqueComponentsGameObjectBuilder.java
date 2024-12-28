@@ -14,9 +14,11 @@ import arcaym.model.game.objects.GameObjectType;
 
 /**
  * Implementation of {@link ComponentBasedGameObjectBuilder} that forces all
- * components to be of unique types.
+ * components to be of different types.
  */
-public class UniqueComponentsGameObjectBuilder extends AbstractGameObjectBuilder implements ComponentBasedGameObjectBuilder {
+public class UniqueComponentsGameObjectBuilder
+    extends AbstractGameObjectBuilder 
+    implements ComponentBasedGameObjectBuilder {
 
     private final Collection<GameObjectComponent> components = Sets.newHashSet();
 

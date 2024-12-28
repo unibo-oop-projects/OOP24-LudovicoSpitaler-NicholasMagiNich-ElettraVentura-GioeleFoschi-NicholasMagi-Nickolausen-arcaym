@@ -9,12 +9,14 @@ public interface Position {
 
     /**
      * First coordinate.
+     * 
      * @return value of the coordinate
      */
     int x();
 
     /**
      * Second coordinate.
+     * 
      * @return value of the coordinate
      */
     int y();
@@ -35,6 +37,7 @@ public interface Position {
 
         /**
          * Create point form coordinates.
+         * 
          * @param x first coordinate
          * @param y second coordinate
          * @return resulting point
@@ -43,6 +46,7 @@ public interface Position {
 
         /**
          * Create point with 0,0 coordinates.
+         * 
          * @return resulting point
          */
         default Position zero() {
@@ -51,6 +55,7 @@ public interface Position {
 
         /**
          * Sum two points coordinate-by-coordinate.
+         * 
          * @param p1 first point
          * @param p2 second point
          * @return resulting point

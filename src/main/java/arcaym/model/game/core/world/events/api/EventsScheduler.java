@@ -1,14 +1,13 @@
-package arcaym.model.game.core.world.api;
+package arcaym.model.game.core.world.events.api;
 
 import java.util.function.Consumer;
 
 /**
- * Interface for a generic event manager.
+ * Interface for a generic event scheduler.
  * 
- * @param <T> events type
+ * @param <T> event type
  */
-public interface EventsManager<T> {
-
+public interface EventsScheduler<T> {
     /**
      * Register callback for a certain event.
      * 
@@ -31,10 +30,4 @@ public interface EventsManager<T> {
      * @param event event to notify
      */
     void scheduleEvent(T event);
-
-    /**
-     * Notify all observers of all pending events.
-     */
-    void notifyObservers();
-
 }

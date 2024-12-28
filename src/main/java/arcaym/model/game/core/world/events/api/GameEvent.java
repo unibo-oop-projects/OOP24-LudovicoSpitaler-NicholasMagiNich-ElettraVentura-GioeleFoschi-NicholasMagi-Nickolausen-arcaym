@@ -1,4 +1,4 @@
-package arcaym.model.game.core.world.api;
+package arcaym.model.game.core.world.events.api;
 
 /**
  * In-game events.

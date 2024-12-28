@@ -9,7 +9,8 @@ import arcaym.model.game.objects.GameObjectType;
 
 /**
  * Abstract implementation of {@link GameObject}.
- * It provides access to basic fields while leaving abstract the object logic.
+ * It provides access to basic fields while leaving abstract the object 
+ * interaction with the game.
  */
 public abstract class AbstractGameObject implements GameObject {
 

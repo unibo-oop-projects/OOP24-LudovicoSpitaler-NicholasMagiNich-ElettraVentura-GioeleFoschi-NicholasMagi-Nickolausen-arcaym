@@ -7,11 +7,13 @@ import java.util.Set;
 import arcaym.model.game.core.components.api.GameObjectComponent;
 import arcaym.model.game.core.objects.impl.AbstractGameObject;
 import arcaym.model.game.core.world.api.GameWorld;
+import arcaym.model.game.core.world.events.api.EventsScheduler;
+import arcaym.model.game.core.world.events.api.GameEvent;
+import arcaym.model.game.core.world.events.api.InputEvent;
 import arcaym.model.game.objects.GameObjectType;
 
 /**
- * Implementation of {@link ComponentBasedGameObject} with all the components
- * distinct.
+ * Implementation of {@link AbstractGameObject} using a collection of {@link GameObjectComponent}.
  */
 public class ComponentBasedGameObject extends AbstractGameObject {
 
@@ -25,16 +27,12 @@ public class ComponentBasedGameObject extends AbstractGameObject {
      * @param components components to use
      */
     public ComponentBasedGameObject(
-        final GameObjectType type, 
-        final GameWorld world, 
+        final GameObjectType type,
+        final GameWorld world,
         final Collection<GameObjectComponent> components
     ) {
         super(type, world);
         this.components = Set.copyOf(components);
-        this.components.forEach(component -> {
-            component.registerGameObservers(world.gameEvents());
-            component.registerInputObservers(world.inputEvents());
-        });
     }
 
     /**
@@ -53,6 +51,22 @@ public class ComponentBasedGameObject extends AbstractGameObject {
     @Override
     public void update(final long deltaTime) {
         this.components.forEach(component -> component.update(deltaTime));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void registerGameObservers(final EventsScheduler<GameEvent> scheduler) {
+        this.components.forEach(component -> component.registerGameObservers(scheduler));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void registerInputObservers(final EventsScheduler<InputEvent> scheduler) {
+        this.components.forEach(component -> component.registerInputObservers(scheduler));
     }
 
 }
