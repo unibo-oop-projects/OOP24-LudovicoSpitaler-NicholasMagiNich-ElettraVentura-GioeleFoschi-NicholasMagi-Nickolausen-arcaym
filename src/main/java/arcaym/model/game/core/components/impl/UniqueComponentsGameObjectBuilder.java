@@ -8,24 +8,25 @@ import com.google.common.collect.Sets;
 import arcaym.model.game.core.components.api.ComponentBasedGameObjectBuilder;
 import arcaym.model.game.core.components.api.GameObjectComponent;
 import arcaym.model.game.core.objects.api.GameObject;
+import arcaym.model.game.core.objects.impl.AbstractGameObjectBuilder;
 import arcaym.model.game.core.world.api.GameWorld;
+import arcaym.model.game.objects.GameObjectType;
 
 /**
  * Implementation of {@link ComponentBasedGameObjectBuilder} that forces all
  * components to be of unique types.
  */
-public class UniqueComponentsGameObjectBuilder implements ComponentBasedGameObjectBuilder {
+public class UniqueComponentsGameObjectBuilder extends AbstractGameObjectBuilder implements ComponentBasedGameObjectBuilder {
 
-    private final GameWorld world;
     private final Collection<GameObjectComponent> components = Sets.newHashSet();
 
     /**
-     * Initialize builder and set world to attach to the built object.
+     * @see AbstractGameObjectBuilder#AbstractGameObjectBuilder(GameObjectType)
      * 
-     * @param world game world
+     * @param type game object type
      */
-    public UniqueComponentsGameObjectBuilder(final GameWorld world) {
-        this.world = world;
+    public UniqueComponentsGameObjectBuilder(final GameObjectType type) {
+        super(type);
     }
 
     /**
@@ -51,10 +52,8 @@ public class UniqueComponentsGameObjectBuilder implements ComponentBasedGameObje
      * {@inheritDoc}
      */
     @Override
-    public GameObject build() {
-        final var gameObject = new ComponentBasedGameObject(this.world, this.components);
-        this.world.scene().addObject(gameObject);
-        return gameObject;
+    protected GameObject newInstance(final GameWorld world) {
+        return new ComponentBasedGameObject(this.type(), world, this.components);
     }
 
 }

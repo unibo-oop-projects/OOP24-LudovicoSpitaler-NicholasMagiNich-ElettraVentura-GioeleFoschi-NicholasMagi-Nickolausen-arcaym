@@ -5,10 +5,11 @@ import java.util.Objects;
 import arcaym.common.point.api.Point;
 import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.core.world.api.GameWorld;
+import arcaym.model.game.objects.GameObjectType;
 
 /**
  * Abstract implementation of {@link GameObject}.
- * It provides position manipulation and game world access.
+ * It provides access to basic fields while leaving abstract the object logic.
  */
 public abstract class AbstractGameObject implements GameObject {
 
@@ -19,14 +20,25 @@ public abstract class AbstractGameObject implements GameObject {
 
     private Point position = POINT_FACTORY.zero();
     private final GameWorld world;
+    private final GameObjectType type;
 
     /**
      * Initialize game object in the given world.
      * 
+     * @param type  game object type
      * @param world game world
      */
-    protected AbstractGameObject(final GameWorld world) {
+    protected AbstractGameObject(final GameObjectType type, final GameWorld world) {
+        this.type = Objects.requireNonNull(type);
         this.world = Objects.requireNonNull(world);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public GameObjectType type() {
+        return this.type;
     }
 
     /**
@@ -60,11 +72,5 @@ public abstract class AbstractGameObject implements GameObject {
     public void move(final Point distance) {
         this.setPosition(POINT_FACTORY.sum(this.position, distance));
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public abstract void update(long deltaTime);
 
 }

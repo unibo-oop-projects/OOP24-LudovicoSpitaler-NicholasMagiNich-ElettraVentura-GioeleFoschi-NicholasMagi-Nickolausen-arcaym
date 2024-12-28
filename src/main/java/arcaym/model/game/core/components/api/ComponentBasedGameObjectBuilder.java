@@ -2,11 +2,12 @@ package arcaym.model.game.core.components.api;
 
 
 import arcaym.model.game.core.objects.api.GameObject;
+import arcaym.model.game.core.objects.api.GameObjectBuilder;
 
 /**
  * Interface for a {@link GameObject} builder using a component system.
  */
-public interface ComponentBasedGameObjectBuilder {
+public interface ComponentBasedGameObjectBuilder extends GameObjectBuilder {
 
     /**
      * Add a component to the build steps.
@@ -15,12 +16,5 @@ public interface ComponentBasedGameObjectBuilder {
      * @return the builder
      */
     ComponentBasedGameObjectBuilder addComponent(GameObjectComponent component);
-
-    /**
-     * Build the game object with the added components.
-     * 
-     * @return the game object
-     */
-    GameObject build();
 
 }

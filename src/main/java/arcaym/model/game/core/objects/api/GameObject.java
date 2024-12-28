@@ -2,11 +2,28 @@ package arcaym.model.game.core.objects.api;
 
 import arcaym.common.point.api.Point;
 import arcaym.model.game.core.world.api.GameWorld;
+import arcaym.model.game.objects.GameObjectType;
 
 /**
  * Interface for a basic game object.
  */
 public interface GameObject {
+
+    /**
+     * Get the specific type of the object.
+     * 
+     * @return game object type
+     */
+    GameObjectType type();
+
+    /**
+     * Get the major category of the object.
+     * 
+     * @return game object category
+     */
+    default GameObjectCategory category() {
+        return this.type().category();
+    }
 
     /**
      * Get world associated with the object.
