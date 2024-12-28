@@ -1,4 +1,6 @@
-package arcaym.model.game.core.objects.api;
+package arcaym.model.game.objects;
+
+import arcaym.model.game.core.objects.api.GameObjectCategory;
 
 /**
  * Game objects specific types.
@@ -8,8 +10,8 @@ public enum GameObjectType {
     /**
      * 
      */
-    PLAYER(GameObjectCategory.PLAYER),
-    GOAL(GameObjectCategory.GOAL),
+    USER_PLAYER(GameObjectCategory.PLAYER),
+    GOAL_TILE(GameObjectCategory.GOAL),
     FLOOR(GameObjectCategory.BLOCK),
     WALL(GameObjectCategory.BLOCK),
     COIN(GameObjectCategory.COLLECTABLE),
