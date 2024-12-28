@@ -2,9 +2,9 @@ package arcaym.model.game.core.components.impl;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Set;
+import java.util.Objects;
 
-import arcaym.model.game.core.components.api.GameObjectComponent;
+import arcaym.model.game.core.components.api.GameComponent;
 import arcaym.model.game.core.objects.impl.AbstractGameObject;
 import arcaym.model.game.core.world.api.GameWorld;
 import arcaym.model.game.core.world.events.api.EventsScheduler;
@@ -13,11 +13,11 @@ import arcaym.model.game.core.world.events.api.InputEvent;
 import arcaym.model.game.objects.GameObjectType;
 
 /**
- * Implementation of {@link AbstractGameObject} using a collection of {@link GameObjectComponent}.
+ * Implementation of {@link AbstractGameObject} using a collection of {@link GameComponent}.
  */
 public class ComponentBasedGameObject extends AbstractGameObject {
 
-    private final Set<GameObjectComponent> components;
+    private final Collection<GameComponent> components;
 
     /**
      * Initialize game object in the given world and attach all components to it.
@@ -29,20 +29,10 @@ public class ComponentBasedGameObject extends AbstractGameObject {
     public ComponentBasedGameObject(
         final GameObjectType type,
         final GameWorld world,
-        final Collection<GameObjectComponent> components
+        final Collection<GameComponent> components
     ) {
         super(type, world);
-        this.components = Set.copyOf(components);
-    }
-
-    /**
-     * Initialize game object in the given world without components.
-     * 
-     * @param type game object type
-     * @param world game world
-     */
-    public ComponentBasedGameObject(final GameObjectType type, final GameWorld world) {
-        this(type, world, Collections.emptySet());
+        this.components = Collections.unmodifiableCollection(Objects.requireNonNull(components));
     }
 
     /**

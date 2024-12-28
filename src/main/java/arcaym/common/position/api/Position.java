@@ -27,9 +27,9 @@ public interface Position {
     interface Factory {
 
         /**
-         * Get default factory implementation.
+         * Get new instance of the default factory implementation.
          * 
-         * @return default factory
+         * @return factory instance
          */
         static Factory newDefault() {
             return new PositionFactory();
