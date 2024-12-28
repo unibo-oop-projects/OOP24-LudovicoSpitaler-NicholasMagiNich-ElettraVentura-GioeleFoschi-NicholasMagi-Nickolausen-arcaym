@@ -1,11 +1,11 @@
-package arcaym.common.point.api;
+package arcaym.common.position.api;
 
-import arcaym.common.point.impl.PointFactory;
+import arcaym.common.position.impl.PositionFactory;
 
 /**
  * Interface for a 2D point in space.
  */
-public interface Point {
+public interface Position {
 
     /**
      * First coordinate.
@@ -20,7 +20,7 @@ public interface Point {
     int y();
 
     /**
-     * Interface for a {@link Point} factory.
+     * Interface for a {@link Position} factory.
      */
     interface Factory {
 
@@ -30,7 +30,7 @@ public interface Point {
          * @return default factory
          */
         static Factory newDefault() {
-            return new PointFactory();
+            return new PositionFactory();
         }
 
         /**
@@ -39,13 +39,13 @@ public interface Point {
          * @param y second coordinate
          * @return resulting point
          */
-        Point ofCoordinates(int x, int y);
+        Position ofCoordinates(int x, int y);
 
         /**
          * Create point with 0,0 coordinates.
          * @return resulting point
          */
-        default Point zero() {
+        default Position zero() {
             return this.ofCoordinates(0, 0);
         }
 
@@ -55,7 +55,7 @@ public interface Point {
          * @param p2 second point
          * @return resulting point
          */
-        Point sum(Point p1, Point p2);
+        Position sum(Position p1, Position p2);
 
     }
 
