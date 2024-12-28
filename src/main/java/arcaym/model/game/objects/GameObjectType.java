@@ -8,21 +8,46 @@ import arcaym.model.game.core.objects.api.GameObjectCategory;
 public enum GameObjectType {
 
     /**
-     * 
+     * {@link GameObjectCategory#PLAYER} controlled by external input.
      */
     USER_PLAYER(GameObjectCategory.PLAYER),
-    GOAL_TILE(GameObjectCategory.GOAL),
+
+    /**
+     * {@link GameObjectCategory#GOAL} that marks the completition with success.
+     */
+    WIN_GOAL(GameObjectCategory.GOAL),
+
+    /**
+     * {@link GameObjectCategory#BLOCK} for defining level area. 
+     */
     FLOOR(GameObjectCategory.BLOCK),
+
+    /**
+     * {@link GameObjectCategory#BLOCK} for defining level borders.
+     */
     WALL(GameObjectCategory.BLOCK),
+
+    /**
+     * {@link GameObjectCategory#COLLECTABLE} that increments score on contact.
+     */
     COIN(GameObjectCategory.COLLECTABLE),
+
+    /**
+     * {@link GameObjectCategory#OBSTACLE} that triggers game over on contact.
+     */
     SPIKE(GameObjectCategory.OBSTACLE);
 
     private final GameObjectCategory category;
 
-    private GameObjectType(final GameObjectCategory category) {
+    GameObjectType(final GameObjectCategory category) {
         this.category = category;
     }
 
+    /**
+     * Get the object type major category.
+     * 
+     * @return type category
+     */
     public GameObjectCategory category() {
         return this.category;
     }

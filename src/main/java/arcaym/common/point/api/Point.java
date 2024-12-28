@@ -42,12 +42,12 @@ public interface Point {
         Point ofCoordinates(int x, int y);
 
         /**
-         * Create point with 0,0 coordinates
+         * Create point with 0,0 coordinates.
          * @return resulting point
          */
         default Point zero() {
             return this.ofCoordinates(0, 0);
-        };
+        }
 
         /**
          * Sum two points coordinate-by-coordinate.
