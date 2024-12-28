@@ -18,7 +18,7 @@ public enum GameObjectType {
     WIN_GOAL(GameObjectCategory.GOAL),
 
     /**
-     * {@link GameObjectCategory#BLOCK} for defining level area. 
+     * {@link GameObjectCategory#BLOCK} for defining level area.
      */
     FLOOR(GameObjectCategory.BLOCK),
 
@@ -35,7 +35,18 @@ public enum GameObjectType {
     /**
      * {@link GameObjectCategory#OBSTACLE} that triggers game over on contact.
      */
-    SPIKE(GameObjectCategory.OBSTACLE);
+    SPIKE(GameObjectCategory.OBSTACLE),
+
+    /**
+     * {@link GameObjectCategory#OBSTACLE} that moves on the x axis and triggers
+     * game over on contact.
+     */
+    MOVING_X_OBSTACLE(GameObjectCategory.OBSTACLE),
+
+    /**
+     * {@link GameObjectCategory#OBSTACLE} that triggers game over on contact.
+     */
+    MOVING_Y_OBSTACLE(GameObjectCategory.OBSTACLE);
 
     private final GameObjectCategory category;
 
