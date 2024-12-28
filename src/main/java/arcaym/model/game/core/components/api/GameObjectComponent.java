@@ -1,4 +1,4 @@
-package arcaym.model.game.core.objects.components.api;
+package arcaym.model.game.core.components.api;
 
 import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.core.world.api.EventsManager;
