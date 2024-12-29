@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 
 import arcaym.model.game.core.components.api.ComponentsGameObjectBuilder;
-import arcaym.model.game.core.components.api.GameObjectComponent;
+import arcaym.model.game.core.components.api.GameComponent;
 import arcaym.model.game.core.events.api.EventsScheduler;
 import arcaym.model.game.core.events.api.GameEvent;
 import arcaym.model.game.core.events.api.InputEvent;
@@ -23,14 +23,14 @@ public abstract class AbstractComponentsGameObjectBuilder
     extends AbstractGameObjectBuilder 
     implements ComponentsGameObjectBuilder {
 
-    private final Collection<GameObjectComponent> components = new LinkedList<>();
+    private final Collection<GameComponent> components = new LinkedList<>();
 
     /**
      * Get current components in builder.
      * 
      * @return components collection
      */
-    protected Collection<GameObjectComponent> components() {
+    protected Collection<GameComponent> components() {
         return this.components;
     }
 

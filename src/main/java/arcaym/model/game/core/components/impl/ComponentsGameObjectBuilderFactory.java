@@ -2,7 +2,7 @@ package arcaym.model.game.core.components.impl;
 
 
 import arcaym.model.game.core.components.api.ComponentsGameObjectBuilder;
-import arcaym.model.game.core.components.api.GameObjectComponent;
+import arcaym.model.game.core.components.api.GameComponent;
 import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.core.world.api.GameWorld;
 import arcaym.model.game.objects.GameObjectType;
@@ -14,7 +14,7 @@ public class ComponentsGameObjectBuilderFactory implements ComponentsGameObjectB
 
     private static class BaseBuilder extends AbstractComponentsGameObjectBuilder {
         @Override
-        public ComponentsGameObjectBuilder addComponent(final GameObjectComponent component) {
+        public ComponentsGameObjectBuilder addComponent(final GameComponent component) {
             this.components().add(component);
             return this;
         }
@@ -32,7 +32,7 @@ public class ComponentsGameObjectBuilderFactory implements ComponentsGameObjectB
      * {@inheritDoc}
      */
     @Override
-    public GameObject.StepBuilder ofComponentsFactory(final GameObjectComponent.Factory componentsFactory) {
+    public GameObject.StepBuilder ofComponentsFactory(final GameComponent.Factory componentsFactory) {
         return new BaseBuilder() {
             @Override
             protected GameObject newInstance(final GameObjectType type, final GameWorld world) {

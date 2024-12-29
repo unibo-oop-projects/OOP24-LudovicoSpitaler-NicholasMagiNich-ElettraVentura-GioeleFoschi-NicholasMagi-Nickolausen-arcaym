@@ -4,18 +4,18 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
 
-import arcaym.model.game.core.components.api.GameObjectComponent;
+import arcaym.model.game.core.components.api.GameComponent;
 
 /**
- * Basic implementation of {@link GameObjectComponent.Factory}.
+ * Basic implementation of {@link GameComponent.Factory}.
  */
-public class GameObjectComponentFactory implements GameObjectComponent.Factory {
+public class GameComponentFactory implements GameComponent.Factory {
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Collection<GameObjectComponent> ofType(final GameObjectType type) {
+    public Collection<GameComponent> ofType(final GameObjectType type) {
         return switch (Objects.requireNonNull(type)) {
             default -> Collections.emptyList();
         };

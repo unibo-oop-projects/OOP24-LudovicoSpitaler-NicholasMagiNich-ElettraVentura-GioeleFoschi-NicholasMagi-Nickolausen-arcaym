@@ -6,12 +6,13 @@ import java.util.Optional;
 import arcaym.common.utils.Optionals;
 import arcaym.model.game.core.engine.api.InteractiveObject;
 import arcaym.model.game.core.objects.api.GameObject;
+import arcaym.model.game.objects.GameComponentFactory;
 import arcaym.model.game.objects.GameObjectType;
 
 /**
  * Interface for basic {@link GameObject} component.
  */
-public interface GameObjectComponent extends InteractiveObject {
+public interface GameComponent extends InteractiveObject {
 
     /**
      * Set component game object.
@@ -38,9 +39,18 @@ public interface GameObjectComponent extends InteractiveObject {
     }
 
     /**
-     * Interface for a {@link GameObjectComponent} factory.
+     * Interface for a {@link GameComponent} factory.
      */
     interface Factory {
+
+        /**
+         * Get new instance of the default factory implementation.
+         * 
+         * @return factory instance
+         */
+        static Factory newDefault() {
+            return new GameComponentFactory();
+        }
 
         /**
          * Create a collection of components associated with a game object type.
@@ -48,7 +58,7 @@ public interface GameObjectComponent extends InteractiveObject {
          * @param type game object type
          * @return the components
          */
-        Collection<GameObjectComponent> ofType(GameObjectType type);
+        Collection<GameComponent> ofType(GameObjectType type);
 
     }
 

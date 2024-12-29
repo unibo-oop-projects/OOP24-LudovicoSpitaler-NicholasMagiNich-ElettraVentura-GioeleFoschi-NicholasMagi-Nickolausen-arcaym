@@ -15,7 +15,7 @@ public interface ComponentsGameObjectBuilder extends GameObject.StepBuilder {
      * @param component component to add
      * @return the builder
      */
-    ComponentsGameObjectBuilder addComponent(GameObjectComponent component);
+    ComponentsGameObjectBuilder addComponent(GameComponent component);
 
     /**
      * Interface for a {@link ComponentsGameObjectBuilder} factory.
@@ -44,7 +44,7 @@ public interface ComponentsGameObjectBuilder extends GameObject.StepBuilder {
          * @param componentsFactory components factory
          * @return resulting builder at final build steps
          */
-        GameObject.StepBuilder ofComponentsFactory(GameObjectComponent.Factory componentsFactory);
+        GameObject.StepBuilder ofComponentsFactory(GameComponent.Factory componentsFactory);
 
     }
 
