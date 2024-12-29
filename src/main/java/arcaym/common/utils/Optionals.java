@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 /**
- * Utility class for type {@link Optional}.
+ * Utility class for {@link Optional}.
  */
 public final class Optionals {
 

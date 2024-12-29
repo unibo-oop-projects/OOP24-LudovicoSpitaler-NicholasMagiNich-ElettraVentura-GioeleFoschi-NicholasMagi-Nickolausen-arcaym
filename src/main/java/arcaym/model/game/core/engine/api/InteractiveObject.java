@@ -1,8 +1,8 @@
 package arcaym.model.game.core.engine.api;
 
-import arcaym.model.game.core.world.events.api.EventsScheduler;
-import arcaym.model.game.core.world.events.api.GameEvent;
-import arcaym.model.game.core.world.events.api.InputEvent;
+import arcaym.model.game.core.events.api.EventsScheduler;
+import arcaym.model.game.core.events.api.GameEvent;
+import arcaym.model.game.core.events.api.InputEvent;
 
 /**
  * Interface for an object that reacts to game updates.

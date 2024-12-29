@@ -1,5 +1,8 @@
 package arcaym.model.game.core.world.api;
 
+import arcaym.model.game.core.scene.api.GameScene;
+import arcaym.model.game.core.score.api.GameScore;
+
 /**
  * Interface for a game world.
  */

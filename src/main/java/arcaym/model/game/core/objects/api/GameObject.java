@@ -1,11 +1,11 @@
 package arcaym.model.game.core.objects.api;
 
-import arcaym.common.position.api.Position;
+import arcaym.common.point.api.Point;
 import arcaym.model.game.core.engine.api.InteractiveObject;
+import arcaym.model.game.core.events.api.EventsScheduler;
+import arcaym.model.game.core.events.api.GameEvent;
+import arcaym.model.game.core.events.api.InputEvent;
 import arcaym.model.game.core.world.api.GameWorld;
-import arcaym.model.game.core.world.events.api.EventsScheduler;
-import arcaym.model.game.core.world.events.api.GameEvent;
-import arcaym.model.game.core.world.events.api.InputEvent;
 import arcaym.model.game.objects.GameObjectType;
 
 /**
@@ -41,21 +41,21 @@ public interface GameObject extends InteractiveObject {
      * 
      * @return position
      */
-    Position getPosition();
+    Point getPosition();
 
     /**
      * Set object position.
      * 
      * @param position new position
      */
-    void setPosition(Position position);
+    void setPosition(Point position);
 
     /**
      * Move object from current position by distance.
      * 
      * @param distance amount to move on each coordinate
      */
-    void move(Position distance);
+    void move(Point distance);
 
     /**
      * Base interface for representing a {@link GameObject} builder.

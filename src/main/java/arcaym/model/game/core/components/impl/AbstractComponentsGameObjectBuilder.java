@@ -6,13 +6,13 @@ import java.util.LinkedList;
 
 import arcaym.model.game.core.components.api.ComponentsGameObjectBuilder;
 import arcaym.model.game.core.components.api.GameObjectComponent;
+import arcaym.model.game.core.events.api.EventsScheduler;
+import arcaym.model.game.core.events.api.GameEvent;
+import arcaym.model.game.core.events.api.InputEvent;
 import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.core.objects.impl.AbstractGameObject;
 import arcaym.model.game.core.objects.impl.AbstractGameObjectBuilder;
 import arcaym.model.game.core.world.api.GameWorld;
-import arcaym.model.game.core.world.events.api.EventsScheduler;
-import arcaym.model.game.core.world.events.api.GameEvent;
-import arcaym.model.game.core.world.events.api.InputEvent;
 import arcaym.model.game.objects.GameObjectType;
 
 /**

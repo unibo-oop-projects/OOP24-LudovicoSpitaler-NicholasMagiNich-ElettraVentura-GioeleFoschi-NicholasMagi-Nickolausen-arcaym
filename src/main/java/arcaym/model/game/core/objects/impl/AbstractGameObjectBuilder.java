@@ -4,12 +4,12 @@ import java.util.Objects;
 import java.util.Optional;
 
 import arcaym.common.utils.Optionals;
+import arcaym.model.game.core.events.api.EventsScheduler;
+import arcaym.model.game.core.events.api.GameEvent;
+import arcaym.model.game.core.events.api.InputEvent;
 import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.core.objects.api.GameObject.BuildSteps;
 import arcaym.model.game.core.world.api.GameWorld;
-import arcaym.model.game.core.world.events.api.EventsScheduler;
-import arcaym.model.game.core.world.events.api.GameEvent;
-import arcaym.model.game.core.world.events.api.InputEvent;
 import arcaym.model.game.objects.GameObjectType;
 
 /**

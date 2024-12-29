@@ -1,4 +1,4 @@
-package arcaym.model.game.core.world.events.api;
+package arcaym.model.game.core.events.api;
 
 import java.util.function.Consumer;
 

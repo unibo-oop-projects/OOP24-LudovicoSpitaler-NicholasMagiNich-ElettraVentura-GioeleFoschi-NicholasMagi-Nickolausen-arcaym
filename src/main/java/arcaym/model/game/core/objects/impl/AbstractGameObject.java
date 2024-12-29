@@ -2,7 +2,7 @@ package arcaym.model.game.core.objects.impl;
 
 import java.util.Objects;
 
-import arcaym.common.position.api.Position;
+import arcaym.common.point.api.Point;
 import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.core.world.api.GameWorld;
 import arcaym.model.game.objects.GameObjectType;
@@ -15,11 +15,11 @@ import arcaym.model.game.objects.GameObjectType;
 public abstract class AbstractGameObject implements GameObject {
 
     /**
-     * Factory used for the creation of all {@link Position} instances.
+     * Factory used for the creation of all {@link Point} instances.
      */
-    protected static final Position.Factory POSITION_FACTORY = Position.Factory.newDefault();
+    protected static final Point.Factory POINT_FACTORY = Point.Factory.newDefault();
 
-    private Position position = POSITION_FACTORY.zero();
+    private Point position = POINT_FACTORY.zero();
     private final GameWorld world;
     private final GameObjectType type;
 
@@ -54,7 +54,7 @@ public abstract class AbstractGameObject implements GameObject {
      * {@inheritDoc}
      */
     @Override
-    public Position getPosition() {
+    public Point getPosition() {
         return this.position;
     }
 
@@ -62,7 +62,7 @@ public abstract class AbstractGameObject implements GameObject {
      * {@inheritDoc}
      */
     @Override
-    public void setPosition(final Position position) {
+    public void setPosition(final Point position) {
         this.position = Objects.requireNonNull(position);
     }
 
@@ -70,8 +70,8 @@ public abstract class AbstractGameObject implements GameObject {
      * {@inheritDoc}
      */
     @Override
-    public void move(final Position distance) {
-        this.position = POSITION_FACTORY.sum(this.position, distance);
+    public void move(final Point distance) {
+        this.position = POINT_FACTORY.sum(this.position, distance);
     }
 
 }
