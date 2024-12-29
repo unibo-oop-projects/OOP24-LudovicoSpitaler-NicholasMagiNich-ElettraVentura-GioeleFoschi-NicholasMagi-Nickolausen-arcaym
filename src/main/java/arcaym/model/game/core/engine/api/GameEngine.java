@@ -1,17 +1,17 @@
 package arcaym.model.game.core.engine.api;
 
 /**
- * Interface for a game update loop manager.
+ * Interface for a game manager.
  */
 public interface GameEngine {
 
     /**
-     * Start game update loop.
+     * Start game.
      */
     void startGame();
 
     /**
-     * Stop game update loop.
+     * Stop game.
      */
     void stopGame();
 

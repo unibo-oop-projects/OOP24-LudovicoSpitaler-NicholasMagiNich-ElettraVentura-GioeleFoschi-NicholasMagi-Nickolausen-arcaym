@@ -44,7 +44,7 @@ public enum GameObjectType {
     MOVING_X_OBSTACLE(GameObjectCategory.OBSTACLE),
 
     /**
-     * {@link GameObjectCategory#OBSTACLE} that moves on the x axis and triggers
+     * {@link GameObjectCategory#OBSTACLE} that moves on the y axis and triggers
      * game over on contact.
      */
     MOVING_Y_OBSTACLE(GameObjectCategory.OBSTACLE);

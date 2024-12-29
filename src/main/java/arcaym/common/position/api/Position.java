@@ -3,7 +3,7 @@ package arcaym.common.position.api;
 import arcaym.common.position.impl.PositionFactory;
 
 /**
- * Interface for a 2D point in space.
+ * Interface for a position in space.
  */
 public interface Position {
 
@@ -36,29 +36,29 @@ public interface Position {
         }
 
         /**
-         * Create point form coordinates.
+         * Create position form coordinates.
          * 
          * @param x first coordinate
          * @param y second coordinate
-         * @return resulting point
+         * @return resulting position
          */
         Position ofCoordinates(int x, int y);
 
         /**
-         * Create point with 0,0 coordinates.
+         * Create position with 0,0 coordinates.
          * 
-         * @return resulting point
+         * @return resulting position
          */
         default Position zero() {
             return this.ofCoordinates(0, 0);
         }
 
         /**
-         * Sum two points coordinate-by-coordinate.
+         * Sum two positions coordinate-by-coordinate.
          * 
-         * @param p1 first point
-         * @param p2 second point
-         * @return resulting point
+         * @param p1 first position
+         * @param p2 second position
+         * @return resulting position
          */
         Position sum(Position p1, Position p2);
 
