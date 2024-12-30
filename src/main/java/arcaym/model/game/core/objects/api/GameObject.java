@@ -1,33 +1,21 @@
 package arcaym.model.game.core.objects.api;
 
+import java.util.Collection;
+
 import arcaym.common.point.api.Point;
+import arcaym.model.game.core.components.api.GameComponent;
 import arcaym.model.game.core.engine.api.InteractiveObject;
-import arcaym.model.game.core.events.api.EventsScheduler;
+import arcaym.model.game.core.events.api.Events;
 import arcaym.model.game.core.events.api.GameEvent;
 import arcaym.model.game.core.events.api.InputEvent;
+import arcaym.model.game.core.objects.impl.GameObjectBuilderFactory;
 import arcaym.model.game.core.world.api.GameWorld;
 import arcaym.model.game.objects.GameObjectType;
 
 /**
  * Interface for a basic game object.
  */
-public interface GameObject extends InteractiveObject {
-
-    /**
-     * Get the specific type of the object.
-     * 
-     * @return game object type
-     */
-    GameObjectType type();
-
-    /**
-     * Get the major category of the object.
-     * 
-     * @return game object category
-     */
-    default GameObjectCategory category() {
-        return this.type().category();
-    }
+public interface GameObject extends InteractiveObject, GameObjectView {
 
     /**
      * Get world associated with the object.
@@ -35,13 +23,6 @@ public interface GameObject extends InteractiveObject {
      * @return the game world
      */
     GameWorld world();
-
-    /**
-     * Get object position.
-     * 
-     * @return position
-     */
-    Point getPosition();
 
     /**
      * Set object position.
@@ -58,71 +39,105 @@ public interface GameObject extends InteractiveObject {
     void move(Point distance);
 
     /**
-     * Base interface for representing a {@link GameObject} builder.
+     * Interface for a {@link GameObject} builder.
      */
-    interface StepBuilder extends 
+    interface Builder extends 
         BuildSteps.First, 
         BuildSteps.Second,
         BuildSteps.Third,
-        BuildSteps.Fourth { }
+        BuildSteps.Fourth {
+
+            /**
+             * Interface for a {@link GameObject.Builder} factory.
+             */
+            interface Factory {
+
+                /**
+                 * Get new instance of the default factory implementation.
+                 * 
+                 * @return factory instance
+                 */
+                static Factory newDefault() {
+                    return new GameObjectBuilderFactory();
+                }
+
+                /**
+                 * Create builder for a game object that uses the given components.
+                 * 
+                 * @param components game components
+                 * @return resulting builder
+                 */
+                BuildSteps.First ofComponents(Collection<GameComponent> components);
+
+                /**
+                 * Create builder for a game object that uses components from a factory.
+                 * 
+                 * @param componentsFactory game components factory
+                 * @return resulting builder
+                 */
+                BuildSteps.First ofComponentsFactory(GameComponent.Factory componentsFactory);
+
+            }
+
+    }
 
     /**
-     * Group of interfaces for the {@link GameObject.StepBuilder} build steps.
+     * Group of interfaces for the {@link GameObject.Builder} build steps.
      */
     interface BuildSteps {
 
         /**
-         * Interface for the first build step of a {@link GameObject.StepBuilder}.
+         * Interface for the first build step of a {@link GameObject.Builder}.
          */
         interface First {
 
             /**
-             * Set world of the game object.
+             * Set game world to use.
              * 
              * @param world game world
              * @return next build step
              */
-            Second addWorld(GameWorld world);
+            Second useWorld(GameWorld world);
 
         }
 
         /**
-         * Interface for the second build step of a {@link GameObject.StepBuilder}.
+         * Interface for the second build step of a {@link GameObject.Builder}.
          */
         interface Second {
 
             /**
-             * Set the game events scheduler to use for the game object.
+             * Set game events subscriber to use.
              * 
-             * @param scheduler game events scheduler
+             * @param eventsSubscriber game events subscriber
              * @return next build step
              */
-            Third addGameEventsScheduler(EventsScheduler<GameEvent> scheduler);
+            Third useGameEventsSubscriber(Events.Subscriber<GameEvent> eventsSubscriber);
 
         }
 
         /**
-         * Interface for the third build step of a {@link GameObject.StepBuilder}.
+         * Interface for the third build step of a {@link GameObject.Builder}.
          */
         interface Third {
 
             /**
-             * Set the input events scheduler to use for the game object.
+             * Set input events subscriber to use.
              * 
-             * @param scheduler input events scheduler
+             * @param eventsSubscriber input events subscriber
              * @return next build step
              */
-            Fourth addInputEventsScheduler(EventsScheduler<InputEvent> scheduler);
+            Fourth useInputEventsSubscriber(Events.Subscriber<InputEvent> eventsSubscriber);
 
         }
 
         /**
-         * Interface for the fourth build step of a {@link GameObject.StepBuilder}.
+         * Interface for the fourth build step of a {@link GameObject.Builder}.
          */
         interface Fourth {
 
             /**
-             * Build game object of a specific type.
+             * Build and set up game object of a specific type.
              * 
              * @param type game object type
              * @return resulting game object

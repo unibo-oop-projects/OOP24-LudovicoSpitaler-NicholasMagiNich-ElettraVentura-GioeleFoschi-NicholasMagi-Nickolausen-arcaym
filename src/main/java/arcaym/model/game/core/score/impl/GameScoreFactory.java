@@ -7,6 +7,8 @@ import arcaym.model.game.core.score.api.GameScore;
  */
 public class GameScoreFactory implements GameScore.Factory {
 
+    private static final int SIMPLE_SCORE_UNIT_SIZE = 1;
+
     private int checkValidAmount(final int amount) {
         if (amount < 0) {
             throw new IllegalArgumentException("Score manipulation amount must be positive");
@@ -37,7 +39,7 @@ public class GameScoreFactory implements GameScore.Factory {
      */
     @Override
     public GameScore simpleScore() {
-        return this.ofUnit(1);
+        return this.ofUnit(SIMPLE_SCORE_UNIT_SIZE);
     }
 
 }

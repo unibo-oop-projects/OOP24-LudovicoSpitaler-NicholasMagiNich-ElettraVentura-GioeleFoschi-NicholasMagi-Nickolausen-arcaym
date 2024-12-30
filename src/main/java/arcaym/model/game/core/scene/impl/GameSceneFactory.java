@@ -1,6 +1,7 @@
 package arcaym.model.game.core.scene.impl;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 
@@ -16,12 +17,20 @@ public class GameSceneFactory implements GameScene.Factory {
      * {@inheritDoc}
      */
     @Override
-    public GameScene ofCollection(final Collection<GameObject> collection) {
-        Objects.requireNonNull(collection);
+    public GameScene ofCollection(final Collection<GameObject> gameObjects) {
+        Objects.requireNonNull(gameObjects);
         return new AbstractGameScene() {
             @Override
-            protected Collection<GameObject> gameObjects() {
-                return collection;
+            public void addObject(final GameObject object) {
+                gameObjects.add(Objects.requireNonNull(object));
+            }
+            @Override
+            public void removeObject(final GameObject object) {
+                gameObjects.remove(Objects.requireNonNull(object));
+            }
+            @Override
+            public Collection<GameObject> getObjects() {
+                return Collections.unmodifiableCollection(gameObjects);
             }
         };
     }

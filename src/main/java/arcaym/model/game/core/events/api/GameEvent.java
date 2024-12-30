@@ -14,4 +14,5 @@ public enum GameEvent {
      * Game ended with failure.
      */
     GAME_OVER
+
 }

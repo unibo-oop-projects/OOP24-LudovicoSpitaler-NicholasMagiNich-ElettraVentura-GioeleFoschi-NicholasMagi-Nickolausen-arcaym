@@ -24,4 +24,5 @@ public enum InputEvent {
      * Down input.
      */
     DOWN
+
 }

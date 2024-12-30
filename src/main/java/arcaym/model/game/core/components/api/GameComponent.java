@@ -6,7 +6,7 @@ import java.util.Optional;
 import arcaym.common.utils.Optionals;
 import arcaym.model.game.core.engine.api.InteractiveObject;
 import arcaym.model.game.core.objects.api.GameObject;
-import arcaym.model.game.objects.GameComponentFactory;
+import arcaym.model.game.components.GameComponentFactory;
 import arcaym.model.game.objects.GameObjectType;
 
 /**
@@ -53,7 +53,7 @@ public interface GameComponent extends InteractiveObject {
         }
 
         /**
-         * Create a collection of components associated with a game object type.
+         * Create a collection of components from a game object type.
          * 
          * @param type game object type
          * @return the components

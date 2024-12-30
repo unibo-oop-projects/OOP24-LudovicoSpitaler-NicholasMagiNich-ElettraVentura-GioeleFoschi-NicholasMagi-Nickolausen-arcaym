@@ -1,7 +1,6 @@
 package arcaym.model.game.core.scene.api;
 
 import java.util.Collection;
-import java.util.stream.Stream;
 
 import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.core.scene.impl.GameSceneFactory;
@@ -28,18 +27,9 @@ public interface GameScene {
     /**
      * Get all objects in the scene.
      * 
-     * @return a {@link Stream} of the game objects
+     * @return game objects
      */
-    Stream<GameObject> getObjectsStream();
-
-    /**
-     * Get all objects within the search radius of an object.
-     * 
-     * @param searchPivot center of the search
-     * @param searchRadius max search distance
-     * @return a {@link Stream} of the game objects within the radius
-     */
-    Stream<GameObject> getNearObjectsStream(GameObject searchPivot, int searchRadius);
+    Collection<GameObject> getObjects();
 
     /**
      * Interface for a {@link GameScene} factory.

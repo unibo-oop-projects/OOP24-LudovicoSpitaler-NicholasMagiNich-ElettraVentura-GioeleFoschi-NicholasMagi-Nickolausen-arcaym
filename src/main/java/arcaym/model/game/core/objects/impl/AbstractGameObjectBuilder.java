@@ -4,7 +4,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import arcaym.common.utils.Optionals;
-import arcaym.model.game.core.events.api.EventsScheduler;
+import arcaym.model.game.core.events.api.Events;
 import arcaym.model.game.core.events.api.GameEvent;
 import arcaym.model.game.core.events.api.InputEvent;
 import arcaym.model.game.core.objects.api.GameObject;
@@ -13,15 +13,14 @@ import arcaym.model.game.core.world.api.GameWorld;
 import arcaym.model.game.objects.GameObjectType;
 
 /**
- * Abstract implementation of {@link GameObjectBuilder}.
- * It provides the build step while leaving abstract the middle steps and the 
- * creation of the instance.
+ * Abstract implementation of {@link GameObject.Builder}.
+ * It provides the final build step while leaving the creation of the instance.
  */
-public abstract class AbstractGameObjectBuilder implements GameObject.StepBuilder {
+public abstract class AbstractGameObjectBuilder implements GameObject.Builder {
 
     private Optional<GameWorld> world = Optional.empty();
-    private Optional<EventsScheduler<GameEvent>> gameEventsScheduler = Optional.empty();
-    private Optional<EventsScheduler<InputEvent>> inputEventsScheduler = Optional.empty();
+    private Optional<Events.Subscriber<GameEvent>> gameEventsSubscriber = Optional.empty();
+    private Optional<Events.Subscriber<InputEvent>> inputEventsSubscriber = Optional.empty();
 
     /**
      * Get a new game object instance for the build step.
@@ -36,7 +35,7 @@ public abstract class AbstractGameObjectBuilder implements GameObject.StepBuilde
      * {@inheritDoc}
      */
     @Override
-    public BuildSteps.Second addWorld(final GameWorld world) {
+    public BuildSteps.Second useWorld(final GameWorld world) {
         this.world = Optional.ofNullable(world);
         return this;
     }
@@ -45,8 +44,8 @@ public abstract class AbstractGameObjectBuilder implements GameObject.StepBuilde
      * {@inheritDoc}
      */
     @Override
-    public BuildSteps.Third addGameEventsScheduler(final EventsScheduler<GameEvent> scheduler) {
-        this.gameEventsScheduler = Optional.ofNullable(scheduler);
+    public BuildSteps.Third useGameEventsSubscriber(final Events.Subscriber<GameEvent> eventScheduler) {
+        this.gameEventsSubscriber = Optional.ofNullable(eventScheduler);
         return this;
     }
 
@@ -54,8 +53,8 @@ public abstract class AbstractGameObjectBuilder implements GameObject.StepBuilde
      * {@inheritDoc}
      */
     @Override
-    public BuildSteps.Fourth addInputEventsScheduler(final EventsScheduler<InputEvent> scheduler) {
-        this.inputEventsScheduler = Optional.ofNullable(scheduler);
+    public BuildSteps.Fourth useInputEventsSubscriber(final Events.Subscriber<InputEvent> eventScheduler) {
+        this.inputEventsSubscriber = Optional.ofNullable(eventScheduler);
         return this;
     }
 
@@ -69,18 +68,18 @@ public abstract class AbstractGameObjectBuilder implements GameObject.StepBuilde
             "Missing game world from build steps"
         );
         final var gameEventsScheduler = Optionals.orIllegalState(
-            this.gameEventsScheduler, 
+            this.gameEventsSubscriber, 
             "Missing game events scheduler from build steps"
         );
         final var inputEventsScheduler = Optionals.orIllegalState(
-            this.inputEventsScheduler, 
+            this.inputEventsSubscriber, 
             "Missing game inputs scheduler from build steps"
         );
 
         final var gameObject = this.newInstance(Objects.requireNonNull(type), world);
         world.scene().addObject(gameObject);
-        gameObject.registerGameObservers(gameEventsScheduler);
-        gameObject.registerInputObservers(inputEventsScheduler);
+        gameObject.registerGameEventsCallbacks(gameEventsScheduler);
+        gameObject.registerInputEventsCallbacks(inputEventsScheduler);
         return gameObject;
     }
 

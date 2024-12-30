@@ -9,8 +9,7 @@ import arcaym.model.game.objects.GameObjectType;
 
 /**
  * Abstract implementation of {@link GameObject}.
- * It provides access to basic fields while leaving the object 
- * interaction with the game.
+ * It provides access to basic fields while leaving the object interaction with the game.
  */
 public abstract class AbstractGameObject implements GameObject {
 
@@ -26,7 +25,7 @@ public abstract class AbstractGameObject implements GameObject {
     /**
      * Initialize game object in the given world.
      * 
-     * @param type  game object type
+     * @param type game object type
      * @param world game world
      */
     protected AbstractGameObject(final GameObjectType type, final GameWorld world) {
