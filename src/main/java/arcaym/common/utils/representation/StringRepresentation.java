@@ -22,7 +22,7 @@ public final class StringRepresentation {
      */
     public static String toString(final Object object) {
         if (object == null) {
-            return String.valueOf((Object) null); // cast to ensure object overload is used
+            return String.valueOf((Object) null); // cast to ensure overload for objects is used
         }
         final var objectClass = object.getClass();
         if (!objectClass.isAnnotationPresent(TypeRepresentation.class)) {
