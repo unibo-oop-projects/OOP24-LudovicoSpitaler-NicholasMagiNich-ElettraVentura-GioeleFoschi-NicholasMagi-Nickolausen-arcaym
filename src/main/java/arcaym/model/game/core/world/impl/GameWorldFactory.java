@@ -34,5 +34,5 @@ public class GameWorldFactory implements GameWorld.Factory {
             }
         };
     }
-    
+
 }

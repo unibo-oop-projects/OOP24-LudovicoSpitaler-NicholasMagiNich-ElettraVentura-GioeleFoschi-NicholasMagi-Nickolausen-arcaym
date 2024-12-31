@@ -1,10 +1,10 @@
 package arcaym.model.game.core.objects.impl;
 
 import java.util.Collection;
-import java.util.Collections;
+import java.util.Map;
 import java.util.Objects;
 
-import arcaym.common.utils.representation.FieldRepresentation;
+import arcaym.common.utils.representation.StringRepresentation;
 import arcaym.model.game.core.components.api.GameComponent;
 import arcaym.model.game.core.events.api.Events;
 import arcaym.model.game.core.events.api.GameEvent;
@@ -53,9 +53,9 @@ public class GameObjectBuilderFactory implements GameObject.Builder.Factory {
             protected GameObject newInstance(final GameObjectType type, final GameWorld world) {
                 return createComponentsObject(components, type, world);
             }
-            @FieldRepresentation
-            public Collection<GameComponent> components() {
-                return Collections.unmodifiableCollection(components);
+            @Override
+            public String toString() {
+                return StringRepresentation.ofObject(this, Map.of("components", () -> components));
             }
         };
     }
@@ -71,9 +71,9 @@ public class GameObjectBuilderFactory implements GameObject.Builder.Factory {
             protected GameObject newInstance(final GameObjectType type, final GameWorld world) {
                 return createComponentsObject(componentsFactory.ofType(type), type, world);
             }
-            @FieldRepresentation
-            public GameComponent.Factory componentsFactory() {
-                return componentsFactory;
+            @Override
+            public String toString() {
+                return StringRepresentation.ofObject(this, Map.of("componentsFactory", () -> componentsFactory));
             }
         };
     }

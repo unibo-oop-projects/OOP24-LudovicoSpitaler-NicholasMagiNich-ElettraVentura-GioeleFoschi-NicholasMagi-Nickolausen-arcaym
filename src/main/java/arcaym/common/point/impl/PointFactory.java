@@ -12,7 +12,7 @@ public class PointFactory implements Point.Factory {
 
     private record PositionRecord(int x, int y) implements Point {
         @Override
-        public final String toString() {
+        public String toString() {
             return StringRepresentation.ofObject(this);
         }
     }

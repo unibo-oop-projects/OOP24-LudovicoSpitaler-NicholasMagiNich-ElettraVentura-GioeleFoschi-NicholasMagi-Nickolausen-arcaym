@@ -2,8 +2,11 @@ package arcaym.common.utils.representation;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.List;
+import java.util.Collections;
 import java.util.Objects;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
+import java.util.Map;
 
 /**
  * Utility class to represent objects as strings.
@@ -13,14 +16,25 @@ public final class StringRepresentation {
     private StringRepresentation() { }
 
     /**
-     * Get string representation of object.
-     * If the object class is annotated as {@link TypeRepresentation}, represent accordingly.
-     * Otherwise, use {@link String#valueOf(Object)}.
+     * Call {@link #ofObject(Object, Map)} with no extra fields.
      * 
      * @param object object to represent
      * @return string representation
      */
     public static String ofObject(final Object object) {
+        return ofObject(object, Collections.emptyMap());
+    }
+
+    /**
+     * Get string representation of object.
+     * If the object class is annotated as {@link TypeRepresentation}, represent accordingly.
+     * Otherwise, use {@link String#valueOf(Object)}.
+     * 
+     * @param object object to represent
+     * @param extraFields name-getters pairs to use as extra fields
+     * @return string representation
+     */
+    public static String ofObject(final Object object, final Map<String, Supplier<Object>> extraFields) {
         if (object == null) {
             return String.valueOf((Object) null); // cast to ensure overload for objects is used
         }
@@ -32,11 +46,15 @@ public final class StringRepresentation {
         final var builder = new StringBuilder(objectClass.getSimpleName());
         final var typeAnnotation = objectClass.getAnnotation(TypeRepresentation.class);
         builder.append(typeAnnotation.open());
-        final var methodsRepresentations = List.of(objectClass.getMethods()).stream()
-            .filter(m -> m.isAnnotationPresent(FieldRepresentation.class))
-            .map(m -> ofMethod(m, object, typeAnnotation)).toList();
+        final var fieldsRepresentations = Stream.concat(
+            Stream.of(objectClass.getMethods())
+                .filter(m -> m.isAnnotationPresent(FieldRepresentation.class))
+                .map(m -> ofMethod(m, object, typeAnnotation)),
+            extraFields.entrySet().stream()
+                .map(e -> ofField(e.getKey(), e.getValue(), typeAnnotation))
+        ).toList();
 
-        builder.append(String.join(typeAnnotation.separator(), methodsRepresentations));
+        builder.append(String.join(typeAnnotation.separator(), fieldsRepresentations));
         return builder.toString();
     }
 
@@ -54,10 +72,17 @@ public final class StringRepresentation {
             );
         }
 
-        final var methodResult = invokeMethod(fieldMethod, object);
-        return new StringBuilder(fieldMethod.getName())
+        return ofField(fieldMethod.getName(), invokeMethod(fieldMethod, object), typeAnnotation);
+    }
+
+    private static String ofField(
+        final String name, 
+        final Object value, 
+        final TypeRepresentation typeAnnotation
+    ) {
+        return new StringBuilder(name)
             .append(typeAnnotation.association())
-            .append(ofObject(methodResult))
+            .append(ofObject(value))
             .toString();
     }
 
