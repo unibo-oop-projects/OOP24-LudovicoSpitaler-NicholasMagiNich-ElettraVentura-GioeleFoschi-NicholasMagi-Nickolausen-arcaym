@@ -3,8 +3,8 @@ package arcaym.model.game.core.objects.api;
 import java.util.Collection;
 
 import arcaym.common.point.api.Point;
-import arcaym.common.utils.representation.Representation.FieldRepresentation;
-import arcaym.common.utils.representation.Representation.TypeRepresentation;
+import arcaym.common.utils.representation.FieldRepresentation;
+import arcaym.common.utils.representation.TypeRepresentation;
 import arcaym.model.game.core.components.api.GameComponent;
 import arcaym.model.game.core.engine.api.InteractiveObject;
 import arcaym.model.game.core.events.api.Events;

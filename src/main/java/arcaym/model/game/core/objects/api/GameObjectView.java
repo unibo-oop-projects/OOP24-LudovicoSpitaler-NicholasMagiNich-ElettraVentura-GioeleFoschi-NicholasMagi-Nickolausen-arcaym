@@ -1,8 +1,8 @@
 package arcaym.model.game.core.objects.api;
 
 import arcaym.common.point.api.Point;
-import arcaym.common.utils.representation.Representation.FieldRepresentation;
-import arcaym.common.utils.representation.Representation.TypeRepresentation;
+import arcaym.common.utils.representation.FieldRepresentation;
+import arcaym.common.utils.representation.TypeRepresentation;
 import arcaym.model.game.objects.GameObjectType;
 
 /**

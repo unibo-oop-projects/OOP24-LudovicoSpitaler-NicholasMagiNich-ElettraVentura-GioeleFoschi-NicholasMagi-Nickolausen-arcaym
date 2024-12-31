@@ -4,8 +4,8 @@ import java.util.Collection;
 import java.util.Optional;
 
 import arcaym.common.utils.Optionals;
-import arcaym.common.utils.representation.Representation.FieldRepresentation;
-import arcaym.common.utils.representation.Representation.TypeRepresentation;
+import arcaym.common.utils.representation.FieldRepresentation;
+import arcaym.common.utils.representation.TypeRepresentation;
 import arcaym.model.game.core.engine.api.InteractiveObject;
 import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.components.GameComponentFactory;

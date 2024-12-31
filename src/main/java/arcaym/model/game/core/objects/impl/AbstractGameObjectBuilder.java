@@ -83,7 +83,7 @@ public abstract class AbstractGameObjectBuilder implements GameObject.Builder {
         gameObject.registerInputEventsCallbacks(inputEventsScheduler);
         return gameObject;
     }
-    
+
     /**
      * {@inheritDoc}
      */

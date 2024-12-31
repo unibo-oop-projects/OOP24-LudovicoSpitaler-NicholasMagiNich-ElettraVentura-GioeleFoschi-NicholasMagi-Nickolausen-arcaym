@@ -1,7 +1,7 @@
 package arcaym.model.game.core.score.api;
 
-import arcaym.common.utils.representation.Representation.FieldRepresentation;
-import arcaym.common.utils.representation.Representation.TypeRepresentation;
+import arcaym.common.utils.representation.FieldRepresentation;
+import arcaym.common.utils.representation.TypeRepresentation;
 import arcaym.model.game.core.score.impl.GameScoreFactory;
 
 /**
