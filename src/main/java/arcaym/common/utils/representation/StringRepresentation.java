@@ -50,7 +50,7 @@ public final class StringRepresentation {
             Stream.of(objectClass.getMethods())
                 .filter(m -> m.isAnnotationPresent(FieldRepresentation.class))
                 .map(m -> ofMethod(m, object, typeAnnotation)),
-            extraFields.entrySet().stream()
+            Objects.requireNonNull(extraFields).entrySet().stream()
                 .map(e -> ofField(e.getKey(), e.getValue(), typeAnnotation))
         ).toList();
 
