@@ -1,5 +1,6 @@
 package arcaym.model.game.core.score.impl;
 
+import arcaym.common.utils.representation.StringRepresentation;
 import arcaym.model.game.core.score.api.GameScore;
 
 /**
@@ -51,6 +52,14 @@ public abstract class AbstractGameScore implements GameScore {
      */
     protected void changeValue(final int amount) {
         this.value += amount;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return StringRepresentation.toString(this);
     }
 
 }

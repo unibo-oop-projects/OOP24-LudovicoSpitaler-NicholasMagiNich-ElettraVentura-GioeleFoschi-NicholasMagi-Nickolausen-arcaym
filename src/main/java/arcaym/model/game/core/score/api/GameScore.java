@@ -1,10 +1,13 @@
 package arcaym.model.game.core.score.api;
 
+import arcaym.common.utils.representation.Representation.FieldRepresentation;
+import arcaym.common.utils.representation.Representation.TypeRepresentation;
 import arcaym.model.game.core.score.impl.GameScoreFactory;
 
 /**
  * Interface for a game score manager.
  */
+@TypeRepresentation
 public interface GameScore {
 
     /**
@@ -17,6 +20,7 @@ public interface GameScore {
      * 
      * @return score value
      */
+    @FieldRepresentation
     int getValue();
 
     /**

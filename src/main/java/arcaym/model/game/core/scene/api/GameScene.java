@@ -2,12 +2,15 @@ package arcaym.model.game.core.scene.api;
 
 import java.util.Collection;
 
+import arcaym.common.utils.representation.Representation.FieldRepresentation;
+import arcaym.common.utils.representation.Representation.TypeRepresentation;
 import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.core.scene.impl.GameSceneFactory;
 
 /**
  * Interface for a game objects manager.
  */
+@TypeRepresentation
 public interface GameScene {
 
     /**
@@ -30,6 +33,16 @@ public interface GameScene {
      * @return game objects
      */
     Collection<GameObject> getObjects();
+
+    /**
+     * Get number of objects in the scene.
+     * 
+     * @return number of objects
+     */
+    @FieldRepresentation
+    default int size() {
+        return this.getObjects().size();
+    }
 
     /**
      * Interface for a {@link GameScene} factory.

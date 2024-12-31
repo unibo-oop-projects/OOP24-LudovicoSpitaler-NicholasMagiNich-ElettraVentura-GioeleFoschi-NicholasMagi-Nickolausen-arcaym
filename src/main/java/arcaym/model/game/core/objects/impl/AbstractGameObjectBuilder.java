@@ -4,6 +4,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import arcaym.common.utils.Optionals;
+import arcaym.common.utils.representation.StringRepresentation;
 import arcaym.model.game.core.events.api.Events;
 import arcaym.model.game.core.events.api.GameEvent;
 import arcaym.model.game.core.events.api.InputEvent;
@@ -81,6 +82,14 @@ public abstract class AbstractGameObjectBuilder implements GameObject.Builder {
         gameObject.registerGameEventsCallbacks(gameEventsScheduler);
         gameObject.registerInputEventsCallbacks(inputEventsScheduler);
         return gameObject;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return StringRepresentation.toString(this);
     }
 
 }

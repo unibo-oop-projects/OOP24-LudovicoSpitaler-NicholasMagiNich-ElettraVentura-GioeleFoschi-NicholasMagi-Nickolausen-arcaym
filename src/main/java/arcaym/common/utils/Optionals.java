@@ -21,7 +21,7 @@ public final class Optionals {
      * @return the value inside the optional
      * @throws IllegalStateException if optional value is empty
      */
-    public static <T> T orIllegalState(final Optional<T> value, final String message) {
+    public static final <T> T orIllegalState(final Optional<T> value, final String message) {
         return value.orElseThrow(() -> new IllegalStateException(Objects.requireNonNull(message)));
     }
 

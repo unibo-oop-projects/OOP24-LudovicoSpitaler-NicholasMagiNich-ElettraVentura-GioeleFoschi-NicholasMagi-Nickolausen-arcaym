@@ -1,5 +1,6 @@
 package arcaym.model.game.core.scene.impl;
 
+import arcaym.common.utils.representation.StringRepresentation;
 import arcaym.model.game.core.scene.api.GameScene;
 
 /**
@@ -12,8 +13,7 @@ public abstract class AbstractGameScene implements GameScene {
      */
     @Override
     public String toString() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toString'");
+        return StringRepresentation.toString(this);
     }
 
 }

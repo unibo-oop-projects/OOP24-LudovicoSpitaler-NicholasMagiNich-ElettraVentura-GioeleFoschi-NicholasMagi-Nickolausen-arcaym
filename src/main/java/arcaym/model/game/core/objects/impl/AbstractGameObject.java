@@ -3,6 +3,7 @@ package arcaym.model.game.core.objects.impl;
 import java.util.Objects;
 
 import arcaym.common.point.api.Point;
+import arcaym.common.utils.representation.StringRepresentation;
 import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.core.world.api.GameWorld;
 import arcaym.model.game.objects.GameObjectType;
@@ -71,6 +72,14 @@ public abstract class AbstractGameObject implements GameObject {
     @Override
     public void move(final Point distance) {
         this.position = POINT_FACTORY.sum(this.position, distance);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return StringRepresentation.toString(this);
     }
 
 }
