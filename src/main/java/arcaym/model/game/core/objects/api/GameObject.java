@@ -1,6 +1,7 @@
 package arcaym.model.game.core.objects.api;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import arcaym.common.point.api.Point;
 import arcaym.common.utils.representation.FieldRepresentation;
@@ -45,11 +46,36 @@ public interface GameObject extends InteractiveObject, GameObjectView {
     /**
      * Interface for a {@link GameObject} builder.
      */
+    @TypeRepresentation
     interface Builder extends 
         BuildSteps.First, 
         BuildSteps.Second,
         BuildSteps.Third,
         BuildSteps.Fourth {
+
+            /**
+             * Get world in use if set.
+             * 
+             * @return game world
+             */
+            @FieldRepresentation
+            Optional<GameWorld> world();
+
+            /**
+             * Get game events scheduler in use if set.
+             * 
+             * @return game events scheduler
+             */
+            @FieldRepresentation
+            Optional<Events.Subscriber<GameEvent>> gameEventsSubscriber();
+
+            /**
+             * Get input events scheduler in use if set.
+             * 
+             * @return input events scheduler
+             */
+            @FieldRepresentation
+            Optional<Events.Subscriber<InputEvent>> inputEventsSubscriber();
 
             /**
              * Interface for a {@link GameObject.Builder} factory.

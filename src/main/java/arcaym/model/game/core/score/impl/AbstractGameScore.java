@@ -59,7 +59,7 @@ public abstract class AbstractGameScore implements GameScore {
      */
     @Override
     public String toString() {
-        return StringRepresentation.toString(this);
+        return StringRepresentation.ofObject(this);
     }
 
 }

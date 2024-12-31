@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 
+import arcaym.common.utils.representation.StringRepresentation;
 import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.core.scene.api.GameScene;
 
@@ -19,7 +20,7 @@ public class GameSceneFactory implements GameScene.Factory {
     @Override
     public GameScene ofCollection(final Collection<GameObject> gameObjects) {
         Objects.requireNonNull(gameObjects);
-        return new AbstractGameScene() {
+        return new GameScene() {
             @Override
             public void addObject(final GameObject object) {
                 gameObjects.add(Objects.requireNonNull(object));
@@ -31,6 +32,10 @@ public class GameSceneFactory implements GameScene.Factory {
             @Override
             public Collection<GameObject> getObjects() {
                 return Collections.unmodifiableCollection(gameObjects);
+            }
+            @Override
+            public String toString() {
+                return StringRepresentation.ofObject(this);
             }
         };
     }

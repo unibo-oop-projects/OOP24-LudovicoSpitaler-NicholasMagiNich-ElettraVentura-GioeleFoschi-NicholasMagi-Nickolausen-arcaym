@@ -79,7 +79,7 @@ public abstract class AbstractGameObject implements GameObject {
      */
     @Override
     public String toString() {
-        return StringRepresentation.toString(this);
+        return StringRepresentation.ofObject(this);
     }
 
 }

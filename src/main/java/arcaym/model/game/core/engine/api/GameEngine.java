@@ -1,11 +1,13 @@
 package arcaym.model.game.core.engine.api;
 
 import java.util.Collection;
+import java.util.Optional;
 
+import arcaym.common.utils.representation.FieldRepresentation;
+import arcaym.common.utils.representation.TypeRepresentation;
 import arcaym.model.game.core.events.api.Events;
 import arcaym.model.game.core.events.api.InputEvent;
 import arcaym.model.game.core.objects.api.GameObject;
-import arcaym.model.game.core.view.api.GameView;
 
 /**
  * Interface for a game manager.
@@ -25,10 +27,28 @@ public interface GameEngine extends Events.Scheduler<InputEvent> {
     /**
      * Interface for a {@link GameEngine} builder.
      */
+    @TypeRepresentation
     interface Builder extends
         BuildSteps.First,
         BuildSteps.Second,
-        BuildSteps.Third { }
+        BuildSteps.Third {
+        
+            /**
+             * Get game objects in use if set.
+             * 
+             * @return game objects
+             */
+            @FieldRepresentation
+            Optional<Collection<GameObject>> gameObjects();
+
+            /**
+             * Get game view in use if set.
+             * 
+             * @return game view
+             */
+            @FieldRepresentation
+            Optional<GameView> view();
+    }
 
 
     /**

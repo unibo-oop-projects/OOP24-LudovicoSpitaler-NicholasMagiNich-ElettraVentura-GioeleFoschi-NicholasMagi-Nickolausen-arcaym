@@ -1,10 +1,13 @@
 package arcaym.common.point.api;
 
 import arcaym.common.point.impl.PointFactory;
+import arcaym.common.utils.representation.FieldRepresentation;
+import arcaym.common.utils.representation.TypeRepresentation;
 
 /**
  * Interface for a 2D point in space.
  */
+@TypeRepresentation
 public interface Point {
 
     /**
@@ -12,6 +15,7 @@ public interface Point {
      * 
      * @return value of the coordinate
      */
+    @FieldRepresentation
     int x();
 
     /**
@@ -19,6 +23,7 @@ public interface Point {
      * 
      * @return value of the coordinate
      */
+    @FieldRepresentation
     int y();
 
     /**

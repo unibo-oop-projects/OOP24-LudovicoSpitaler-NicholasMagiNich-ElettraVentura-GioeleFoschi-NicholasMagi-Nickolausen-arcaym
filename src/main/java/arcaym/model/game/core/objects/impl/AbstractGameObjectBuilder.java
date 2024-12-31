@@ -8,6 +8,7 @@ import arcaym.common.utils.representation.StringRepresentation;
 import arcaym.model.game.core.events.api.Events;
 import arcaym.model.game.core.events.api.GameEvent;
 import arcaym.model.game.core.events.api.InputEvent;
+import arcaym.model.game.core.events.api.Events.Subscriber;
 import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.core.objects.api.GameObject.BuildSteps;
 import arcaym.model.game.core.world.api.GameWorld;
@@ -42,6 +43,14 @@ public abstract class AbstractGameObjectBuilder implements GameObject.Builder {
     }
 
     /**
+     * @{inheritDoc}
+     */
+    @Override
+    public Optional<GameWorld> world() {
+        return this.world;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -51,12 +60,28 @@ public abstract class AbstractGameObjectBuilder implements GameObject.Builder {
     }
 
     /**
+     * @{inheritDoc}
+     */
+    @Override
+    public Optional<Subscriber<GameEvent>> gameEventsSubscriber() {
+        return this.gameEventsSubscriber;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
     public BuildSteps.Fourth useInputEventsSubscriber(final Events.Subscriber<InputEvent> eventScheduler) {
         this.inputEventsSubscriber = Optional.ofNullable(eventScheduler);
         return this;
+    }
+
+    /**
+     * @{inheritDoc}
+     */
+    @Override
+    public Optional<Subscriber<InputEvent>> inputEventsSubscriber() {
+        return this.inputEventsSubscriber;
     }
 
     /**
@@ -89,7 +114,7 @@ public abstract class AbstractGameObjectBuilder implements GameObject.Builder {
      */
     @Override
     public String toString() {
-        return StringRepresentation.toString(this);
+        return StringRepresentation.ofObject(this);
     }
 
 }

@@ -32,17 +32,8 @@ public interface GameScene {
      * 
      * @return game objects
      */
-    Collection<GameObject> getObjects();
-
-    /**
-     * Get number of objects in the scene.
-     * 
-     * @return number of objects
-     */
     @FieldRepresentation
-    default int size() {
-        return this.getObjects().size();
-    }
+    Collection<GameObject> getObjects();
 
     /**
      * Interface for a {@link GameScene} factory.

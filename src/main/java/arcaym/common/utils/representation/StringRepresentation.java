@@ -13,14 +13,14 @@ public final class StringRepresentation {
     private StringRepresentation() { }
 
     /**
-     * Represent object as string.
+     * Get string representation of object.
      * If the object class is annotated as {@link TypeRepresentation}, represent accordingly.
-     * Else, use {@link String#valueOf(Object)}.
+     * Otherwise, use {@link String#valueOf(Object)}.
      * 
      * @param object object to represent
      * @return string representation
      */
-    public static String toString(final Object object) {
+    public static String ofObject(final Object object) {
         if (object == null) {
             return String.valueOf((Object) null); // cast to ensure overload for objects is used
         }
@@ -34,16 +34,16 @@ public final class StringRepresentation {
         builder.append(typeAnnotation.open());
         final var methodsRepresentations = List.of(objectClass.getMethods()).stream()
             .filter(m -> m.isAnnotationPresent(FieldRepresentation.class))
-            .map(m -> methodString(typeAnnotation, m, object)).toList();
+            .map(m -> ofMethod(m, object, typeAnnotation)).toList();
 
         builder.append(String.join(typeAnnotation.separator(), methodsRepresentations));
         return builder.toString();
     }
 
-    private static String methodString(
-        final TypeRepresentation typeAnnotation, 
+    private static String ofMethod(
         final Method fieldMethod,
-        final Object object
+        final Object object,
+        final TypeRepresentation typeAnnotation
     ) {
         if (fieldMethod.getParameterCount() != 0) {
             throw new IllegalArgumentException(
@@ -57,7 +57,7 @@ public final class StringRepresentation {
         final var methodResult = invokeMethod(fieldMethod, object);
         return new StringBuilder(fieldMethod.getName())
             .append(typeAnnotation.association())
-            .append(toString(methodResult))
+            .append(ofObject(methodResult))
             .toString();
     }
 
