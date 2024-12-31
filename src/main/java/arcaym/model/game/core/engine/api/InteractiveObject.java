@@ -14,7 +14,7 @@ public interface InteractiveObject extends
      * Update object for new game frame.
      * 
      * @param deltaTime time since last update
-     * @param eventsScheduler time since last update
+     * @param eventsScheduler game events scheduler
      */
     void update(long deltaTime, Events.Scheduler<GameEvent> eventsScheduler);
 
