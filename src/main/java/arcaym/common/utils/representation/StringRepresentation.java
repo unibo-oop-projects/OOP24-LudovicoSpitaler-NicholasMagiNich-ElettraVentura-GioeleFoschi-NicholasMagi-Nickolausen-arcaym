@@ -59,20 +59,20 @@ public final class StringRepresentation {
     }
 
     private static String ofMethod(
-        final Method fieldMethod,
+        final Method method,
         final Object object,
         final TypeRepresentation typeAnnotation
     ) {
-        if (fieldMethod.getParameterCount() != 0) {
+        if (method.getParameterCount() != 0) {
             throw new IllegalArgumentException(
                 new StringBuilder("Method ")
-                .append(fieldMethod.getName())
+                .append(method.getName())
                 .append(" is annotated as field but has parameters")
                 .toString()
             );
         }
 
-        return ofField(fieldMethod.getName(), invokeMethod(fieldMethod, object), typeAnnotation);
+        return ofField(method.getName(), invokeMethod(method, object), typeAnnotation);
     }
 
     private static String ofField(
