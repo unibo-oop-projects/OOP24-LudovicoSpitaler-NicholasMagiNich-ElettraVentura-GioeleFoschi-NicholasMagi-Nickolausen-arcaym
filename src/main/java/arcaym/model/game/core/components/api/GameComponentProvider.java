@@ -16,5 +16,5 @@ public interface GameComponentProvider {
      * @return the components
      */
     Collection<GameComponent> ofType(GameObjectType type);
-    
+
 }

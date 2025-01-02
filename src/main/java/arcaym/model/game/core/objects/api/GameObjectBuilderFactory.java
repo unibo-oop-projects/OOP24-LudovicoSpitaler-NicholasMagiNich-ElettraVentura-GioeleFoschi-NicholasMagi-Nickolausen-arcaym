@@ -6,6 +6,9 @@ import arcaym.model.game.core.components.api.GameComponent;
 import arcaym.model.game.core.components.api.GameComponentProvider;
 import arcaym.model.game.core.objects.impl.BaseGameObjectBuilderFactory;
 
+/**
+ * Interface for a {@link GameObjectBuilder} factory.
+ */
 public interface GameObjectBuilderFactory {
 
     /**
