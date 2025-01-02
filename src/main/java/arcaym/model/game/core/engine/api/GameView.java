@@ -8,7 +8,7 @@ import arcaym.model.game.core.objects.api.GameObjectView;
 /**
  * Interface for a game view.
  */
-public interface GameView extends Events.GameEventObserver {
+public interface GameView extends Events.GameEventsObserver {
 
     /**
      * Render al the game objects.

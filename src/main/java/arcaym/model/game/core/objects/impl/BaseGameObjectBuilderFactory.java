@@ -6,18 +6,20 @@ import java.util.Objects;
 
 import arcaym.common.utils.representation.StringRepresentation;
 import arcaym.model.game.core.components.api.GameComponent;
+import arcaym.model.game.core.components.api.GameComponentProvider;
 import arcaym.model.game.core.events.api.Events;
 import arcaym.model.game.core.events.api.GameEvent;
 import arcaym.model.game.core.events.api.InputEvent;
 import arcaym.model.game.core.objects.api.GameObject;
-import arcaym.model.game.core.objects.api.GameObject.BuildSteps;
+import arcaym.model.game.core.objects.api.GameObjectBuilder;
+import arcaym.model.game.core.objects.api.GameObjectBuilderFactory;
 import arcaym.model.game.core.world.api.GameWorld;
 import arcaym.model.game.objects.GameObjectType;
 
 /**
- * Basic implementation of {@link GameObject.Builder.Factory}.
+ * Basic implementation of {@link GameObjectBuilderFactory}.
  */
-public class GameObjectBuilderFactory implements GameObject.Builder.Factory {
+public class BaseGameObjectBuilderFactory implements GameObjectBuilderFactory {
 
     private GameObject createComponentsObject(
         final Collection<GameComponent> components,
@@ -47,7 +49,7 @@ public class GameObjectBuilderFactory implements GameObject.Builder.Factory {
      * {@inheritDoc}
      */
     @Override
-    public BuildSteps.First ofComponents(final Collection<GameComponent> components) {
+    public GameObjectBuilder ofComponents(final Collection<GameComponent> components) {
         return new AbstractGameObjectBuilder() {
             @Override
             protected GameObject newInstance(final GameObjectType type, final GameWorld world) {
@@ -64,16 +66,16 @@ public class GameObjectBuilderFactory implements GameObject.Builder.Factory {
      * {@inheritDoc}
      */
     @Override
-    public BuildSteps.First ofComponentsFactory(final GameComponent.Factory componentsFactory) {
-        Objects.requireNonNull(componentsFactory);
+    public GameObjectBuilder ofComponentsProvider(final GameComponentProvider componentsProvider) {
+        Objects.requireNonNull(componentsProvider);
         return new AbstractGameObjectBuilder() {
             @Override
             protected GameObject newInstance(final GameObjectType type, final GameWorld world) {
-                return createComponentsObject(componentsFactory.ofType(type), type, world);
+                return createComponentsObject(componentsProvider.ofType(type), type, world);
             }
             @Override
             public String toString() {
-                return StringRepresentation.ofObject(this, Map.of("componentsFactory", () -> componentsFactory));
+                return StringRepresentation.ofObject(this, Map.of("componentsFactory", () -> componentsProvider));
             }
         };
     }

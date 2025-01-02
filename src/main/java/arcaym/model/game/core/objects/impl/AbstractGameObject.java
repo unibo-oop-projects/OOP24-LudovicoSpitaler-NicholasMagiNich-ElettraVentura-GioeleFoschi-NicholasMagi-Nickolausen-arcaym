@@ -3,6 +3,7 @@ package arcaym.model.game.core.objects.impl;
 import java.util.Objects;
 
 import arcaym.common.point.api.Point;
+import arcaym.common.point.api.PointFactory;
 import arcaym.common.utils.representation.StringRepresentation;
 import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.core.world.api.GameWorld;
@@ -17,7 +18,7 @@ public abstract class AbstractGameObject implements GameObject {
     /**
      * Factory used for the creation of all {@link Point} instances.
      */
-    protected static final Point.Factory POINT_FACTORY = Point.Factory.newDefault();
+    protected static final PointFactory POINT_FACTORY = PointFactory.newDefault();
 
     private Point position = POINT_FACTORY.zero();
     private final GameWorld world;

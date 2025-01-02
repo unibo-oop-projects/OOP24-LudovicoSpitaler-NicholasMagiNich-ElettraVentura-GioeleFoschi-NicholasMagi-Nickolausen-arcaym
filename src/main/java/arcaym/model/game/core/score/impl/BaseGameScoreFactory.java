@@ -1,11 +1,12 @@
 package arcaym.model.game.core.score.impl;
 
 import arcaym.model.game.core.score.api.GameScore;
+import arcaym.model.game.core.score.api.GameScoreFactory;
 
 /**
- * Basic implementation of {@link GameScore.Factory}.
+ * Basic implementation of {@link GameScoreFactory}.
  */
-public class GameScoreFactory implements GameScore.Factory {
+public class BaseGameScoreFactory implements GameScoreFactory {
 
     private static final int SIMPLE_SCORE_UNIT_SIZE = 1;
 

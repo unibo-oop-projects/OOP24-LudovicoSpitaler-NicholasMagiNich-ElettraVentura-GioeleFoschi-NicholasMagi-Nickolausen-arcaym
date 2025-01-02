@@ -8,11 +8,12 @@ import java.util.Objects;
 import arcaym.common.utils.representation.StringRepresentation;
 import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.core.scene.api.GameScene;
+import arcaym.model.game.core.scene.api.GameSceneFactory;
 
 /**
- * Basic implementation of {@link GameScene.Factory}.
+ * Basic implementation of {@link GameSceneFactory}.
  */
-public class GameSceneFactory implements GameScene.Factory {
+public class BaseGameSceneFactory implements GameSceneFactory {
 
     /**
      * {@inheritDoc}

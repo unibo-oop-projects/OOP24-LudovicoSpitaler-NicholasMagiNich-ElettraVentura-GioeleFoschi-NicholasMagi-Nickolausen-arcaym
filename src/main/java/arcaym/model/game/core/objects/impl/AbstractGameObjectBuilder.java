@@ -10,15 +10,19 @@ import arcaym.model.game.core.events.api.GameEvent;
 import arcaym.model.game.core.events.api.InputEvent;
 import arcaym.model.game.core.events.api.Events.Subscriber;
 import arcaym.model.game.core.objects.api.GameObject;
-import arcaym.model.game.core.objects.api.GameObject.BuildSteps;
+import arcaym.model.game.core.objects.api.GameObjectBuilder;
 import arcaym.model.game.core.world.api.GameWorld;
 import arcaym.model.game.objects.GameObjectType;
 
 /**
- * Abstract implementation of {@link GameObject.Builder}.
+ * Abstract implementation of {@link GameObjectBuilder}.
  * It provides the final build step while leaving the creation of the instance.
  */
-public abstract class AbstractGameObjectBuilder implements GameObject.Builder {
+public abstract class AbstractGameObjectBuilder implements
+    GameObjectBuilder,
+    GameObjectBuilder.SecondStep,
+    GameObjectBuilder.ThirdStep,
+    GameObjectBuilder.FourthStep {
 
     private Optional<GameWorld> world = Optional.empty();
     private Optional<Events.Subscriber<GameEvent>> gameEventsSubscriber = Optional.empty();
@@ -37,7 +41,7 @@ public abstract class AbstractGameObjectBuilder implements GameObject.Builder {
      * {@inheritDoc}
      */
     @Override
-    public BuildSteps.Second useWorld(final GameWorld world) {
+    public GameObjectBuilder.SecondStep useWorld(final GameWorld world) {
         this.world = Optional.ofNullable(world);
         return this;
     }
@@ -54,7 +58,7 @@ public abstract class AbstractGameObjectBuilder implements GameObject.Builder {
      * {@inheritDoc}
      */
     @Override
-    public BuildSteps.Third useGameEventsSubscriber(final Events.Subscriber<GameEvent> eventScheduler) {
+    public GameObjectBuilder.ThirdStep useGameEventsSubscriber(final Events.Subscriber<GameEvent> eventScheduler) {
         this.gameEventsSubscriber = Optional.ofNullable(eventScheduler);
         return this;
     }
@@ -71,7 +75,7 @@ public abstract class AbstractGameObjectBuilder implements GameObject.Builder {
      * {@inheritDoc}
      */
     @Override
-    public BuildSteps.Fourth useInputEventsSubscriber(final Events.Subscriber<InputEvent> eventScheduler) {
+    public GameObjectBuilder.FourthStep useInputEventsSubscriber(final Events.Subscriber<InputEvent> eventScheduler) {
         this.inputEventsSubscriber = Optional.ofNullable(eventScheduler);
         return this;
     }

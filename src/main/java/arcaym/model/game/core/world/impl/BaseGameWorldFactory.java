@@ -6,11 +6,12 @@ import arcaym.common.utils.representation.StringRepresentation;
 import arcaym.model.game.core.scene.api.GameScene;
 import arcaym.model.game.core.score.api.GameScore;
 import arcaym.model.game.core.world.api.GameWorld;
+import arcaym.model.game.core.world.api.GameWorldFactory;
 
 /**
- * Basic implementation of {@link GameWorld.Factory}.
+ * Basic implementation of {@link GameWorldFactory}.
  */
-public class GameWorldFactory implements GameWorld.Factory {
+public class BaseGameWorldFactory implements GameWorldFactory {
 
     /**
      * {@inheritDoc}

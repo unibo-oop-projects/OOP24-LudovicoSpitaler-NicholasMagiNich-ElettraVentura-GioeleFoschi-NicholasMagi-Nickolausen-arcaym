@@ -5,7 +5,6 @@ import java.util.Collection;
 import arcaym.common.utils.representation.FieldRepresentation;
 import arcaym.common.utils.representation.TypeRepresentation;
 import arcaym.model.game.core.objects.api.GameObject;
-import arcaym.model.game.core.scene.impl.GameSceneFactory;
 
 /**
  * Interface for a game objects manager.
@@ -34,36 +33,5 @@ public interface GameScene {
      */
     @FieldRepresentation
     Collection<GameObject> getObjects();
-
-    /**
-     * Interface for a {@link GameScene} factory.
-     */
-    interface Factory {
-
-        /**
-         * Get new instance of the default factory implementation.
-         * 
-         * @return factory instance
-         */
-        static Factory newDefault() {
-            return new GameSceneFactory();
-        }
-
-        /**
-         * Create a scene that uses the provided collection.
-         * 
-         * @param collection game objects collection
-         * @return resulting scene
-         */
-        GameScene ofCollection(Collection<GameObject> collection);
-
-        /**
-         * Create a scene where the same game object is not allowed twice.
-         * 
-         * @return game scene
-         */
-        GameScene ofDistinctObjects();
-
-    }
 
 }

@@ -3,12 +3,13 @@ package arcaym.common.point.impl;
 import java.util.Objects;
 
 import arcaym.common.point.api.Point;
+import arcaym.common.point.api.PointFactory;
 import arcaym.common.utils.representation.StringRepresentation;
 
 /**
- * Basic implementation of {@link Position.Factory}.
+ * Basic implementation of {@link Provider.Factory}.
  */
-public class PointFactory implements Point.Factory {
+public class BasePointFactory implements PointFactory {
 
     private record PositionRecord(int x, int y) implements Point {
         @Override

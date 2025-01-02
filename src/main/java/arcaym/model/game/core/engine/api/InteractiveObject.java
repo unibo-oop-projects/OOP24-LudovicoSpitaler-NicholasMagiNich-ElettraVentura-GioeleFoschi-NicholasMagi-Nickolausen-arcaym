@@ -7,8 +7,8 @@ import arcaym.model.game.core.events.api.GameEvent;
  * Interface for an object that reacts to game updates.
  */
 public interface InteractiveObject extends 
-    Events.GameEventObserver,
-    Events.InputEventObserver {
+    Events.GameEventsObserver,
+    Events.InputEventsObserver {
 
     /**
      * Update object for new game frame.

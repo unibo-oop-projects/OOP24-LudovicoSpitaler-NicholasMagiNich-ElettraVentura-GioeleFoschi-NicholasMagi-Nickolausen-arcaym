@@ -3,19 +3,9 @@ package arcaym.model.game.core.events.api;
 import java.util.function.Consumer;
 
 /**
- * Group of interfaces for events management.
+ * Collection of interfaces for events management.
  */
 public interface Events {
-
-    /**
-     * Interface for an events manager.
-     * 
-     * @param <T> events type
-     */
-    interface Manager<T> extends
-        Scheduler<T>,
-        Subscriber<T>,
-        Notifier<T> { }
 
     /**
      * Interface for an events scheduler.
@@ -65,14 +55,14 @@ public interface Events {
     }
 
     /*
-    Due to generic type ereasure, you need separate observer interfaces for each type to
-    be able to implement both on the same type.
+    Due to generic type ereasure, you need separate observer interfaces for each event type
+    to be able to implement both at the same time.
     */
 
     /**
      * Interface for a game events observer.
      */
-    interface GameEventObserver {
+    interface GameEventsObserver {
 
         /**
          * Register all game events callbacks to subscriber.
@@ -86,7 +76,7 @@ public interface Events {
     /**
      * Interface for a input events observer.
      */
-    interface InputEventObserver {
+    interface InputEventsObserver {
 
         /**
          * Register all input events callbacks to subscriber.

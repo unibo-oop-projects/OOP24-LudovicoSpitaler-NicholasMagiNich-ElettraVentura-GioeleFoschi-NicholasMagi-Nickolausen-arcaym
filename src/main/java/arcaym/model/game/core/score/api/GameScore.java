@@ -2,7 +2,6 @@ package arcaym.model.game.core.score.api;
 
 import arcaym.common.utils.representation.FieldRepresentation;
 import arcaym.common.utils.representation.TypeRepresentation;
-import arcaym.model.game.core.score.impl.GameScoreFactory;
 
 /**
  * Interface for a game score manager.
@@ -49,37 +48,6 @@ public interface GameScore {
      */
     default void decrement() {
         this.decrement(DEFAULT_AMOUNT);
-    }
-
-    /**
-     * Interface for a {@link GameScore} factory.
-     */
-    interface Factory {
-
-        /**
-         * Get new instance of the default factory implementation.
-         * 
-         * @return factory instance
-         */
-        static Factory newDefault() {
-            return new GameScoreFactory();
-        }
-
-        /**
-         * Create game score that varies by one each change.
-         * 
-         * @return resulting score
-         */
-        GameScore simpleScore();
-
-        /**
-         * Create game score that varies by a fixed unit each change.
-         * 
-         * @param unit unit amount
-         * @return resulting score
-         */
-        GameScore ofUnit(int unit);
-
     }
 
 }
