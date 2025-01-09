@@ -10,6 +10,9 @@ import java.util.Map;
 
 /**
  * Utility class to represent objects as strings.
+ * 
+ * @see TypeRepresentation
+ * @see FieldRepresentation
  */
 public final class StringRepresentation {
 
