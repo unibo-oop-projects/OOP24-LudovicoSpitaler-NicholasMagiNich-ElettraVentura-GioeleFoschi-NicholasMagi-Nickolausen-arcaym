@@ -74,6 +74,6 @@ public interface PointFactory {
      * @param p2 second point
      * @return resulting point
      */
-    Point difference(Point p1, Point p2);
+    Point subtract(Point p1, Point p2);
 
 }

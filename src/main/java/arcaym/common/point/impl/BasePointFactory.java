@@ -4,26 +4,18 @@ import java.util.Objects;
 
 import arcaym.common.point.api.Point;
 import arcaym.common.point.api.PointFactory;
-import arcaym.common.utils.representation.StringRepresentation;
 
 /**
- * Basic implementation of {@link Provider.Factory}.
+ * Basic implementation of {@link PointFactory}.
  */
 public class BasePointFactory implements PointFactory {
-
-    private record PositionRecord(int x, int y) implements Point {
-        @Override
-        public String toString() {
-            return StringRepresentation.ofObject(this);
-        }
-    }
 
     /**
      * {@inheritDoc}
      */
     @Override
     public Point ofCoordinates(final int x, final int y) {
-        return new PositionRecord(x, y);
+        return new BasePoint(x, y);
     }
 
     /**
@@ -66,7 +58,7 @@ public class BasePointFactory implements PointFactory {
      * {@inheritDoc}
      */
     @Override
-    public Point difference(final Point p1, final Point p2) {
+    public Point subtract(final Point p1, final Point p2) {
         return this.sum(p1, this.invert(p2));
     }
 

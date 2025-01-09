@@ -9,17 +9,16 @@ import org.junit.jupiter.api.Test;
 
 class TestOptionals {
 
-    private static final String ERROR_MESSAGE = "Test error";
-    private static final int VALUE = 0;
-
     @Test
     void testOrIllegalState() {
-        assertEquals(VALUE, Optionals.orIllegalState(Optional.of(VALUE), ERROR_MESSAGE));
+        assertEquals(0, Optionals.orIllegalState(Optional.of(0), ""));
+
+        final var errorMessage = "Test error";
         final var exception = assertThrowsExactly(
             IllegalStateException.class, 
-            () -> Optionals.orIllegalState(Optional.empty(), ERROR_MESSAGE)
+            () -> Optionals.orIllegalState(Optional.empty(), errorMessage)
         );
-        assertEquals(ERROR_MESSAGE, exception.getMessage());
+        assertEquals(errorMessage, exception.getMessage());
     }
 
 }

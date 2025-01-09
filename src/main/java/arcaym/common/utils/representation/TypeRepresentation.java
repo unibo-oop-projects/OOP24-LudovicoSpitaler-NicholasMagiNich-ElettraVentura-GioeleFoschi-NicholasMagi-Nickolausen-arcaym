@@ -29,7 +29,7 @@ public @interface TypeRepresentation {
     /**
      * Default {@link #separator()} value.
      */
-    String DEFAULT_SEPARATOR = ", ";
+    String DEFAULT_SEPARATOR = ",";
 
     /**
      * Default {@link #association()} value.

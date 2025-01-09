@@ -55,10 +55,12 @@ public final class StringRepresentation {
                 .map(m -> ofMethod(m, object, typeAnnotation)),
             Objects.requireNonNull(extraFields).entrySet().stream()
                 .map(e -> ofField(e.getKey(), e.getValue(), typeAnnotation))
-        ).toList();
+        ).sorted()
+        .toList();
 
-        builder.append(String.join(typeAnnotation.separator(), fieldsRepresentations));
-        return builder.toString();
+        return builder.append(String.join(typeAnnotation.separator(), fieldsRepresentations))
+            .append(typeAnnotation.close())
+            .toString();
     }
 
     private static String ofMethod(
@@ -69,9 +71,9 @@ public final class StringRepresentation {
         if (method.getParameterCount() != 0) {
             throw new IllegalArgumentException(
                 new StringBuilder("Method ")
-                .append(method.getName())
-                .append(" is annotated as field but has parameters")
-                .toString()
+                    .append(method.getName())
+                    .append(" is annotated as field but has parameters")
+                    .toString()
             );
         }
 

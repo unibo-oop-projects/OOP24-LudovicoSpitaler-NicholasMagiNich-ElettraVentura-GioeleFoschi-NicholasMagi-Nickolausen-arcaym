@@ -30,6 +30,7 @@ dependencies {
     val jUnitVersion = "5.11.4"
     // when dependencies share the same version, grouping in a val helps to keep them in sync
     testImplementation("org.junit.jupiter:junit-jupiter-api:$jUnitVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:$jUnitVersion")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$jUnitVersion")
 }
 
