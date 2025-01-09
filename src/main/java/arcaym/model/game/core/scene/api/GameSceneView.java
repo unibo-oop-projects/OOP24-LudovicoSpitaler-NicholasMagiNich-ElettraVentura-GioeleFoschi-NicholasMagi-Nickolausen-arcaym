@@ -1,6 +1,6 @@
 package arcaym.model.game.core.scene.api;
 
-import java.util.Collection;
+import java.util.Set;
 
 import arcaym.model.game.core.objects.api.GameObjectView;
 
@@ -9,11 +9,11 @@ import arcaym.model.game.core.objects.api.GameObjectView;
  */
 public interface GameSceneView {
 
-        /**
+    /**
      * Get all objects in the scene.
      * 
      * @return game objects
      */
-    Collection<GameObjectView> getObjects();
+    Set<GameObjectView> getObjects();
 
 }

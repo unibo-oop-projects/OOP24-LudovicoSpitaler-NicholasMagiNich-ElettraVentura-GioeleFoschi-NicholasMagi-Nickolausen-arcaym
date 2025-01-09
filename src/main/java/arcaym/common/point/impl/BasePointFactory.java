@@ -11,6 +11,14 @@ import arcaym.common.point.api.PointFactory;
 public class BasePointFactory implements PointFactory {
 
     /**
+     * Basic implementation of {@link Point}.
+     * 
+     * @param x first coordinate
+     * @param y second coordinate
+     */
+    public record BasePoint(int x, int y) implements Point { }
+
+    /**
      * {@inheritDoc}
      */
     @Override

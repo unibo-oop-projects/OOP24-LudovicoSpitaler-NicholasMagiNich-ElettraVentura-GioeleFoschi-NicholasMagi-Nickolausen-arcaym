@@ -12,8 +12,6 @@ import arcaym.model.game.core.score.api.GameScore;
 @TypeRepresentation
 public abstract class AbstractGameScore implements GameScore {
 
-    private static final int DEFAULT_STARTING_VALUE = 0;
-
     private int value;
 
     /**
@@ -22,13 +20,6 @@ public abstract class AbstractGameScore implements GameScore {
      */
     protected AbstractGameScore(final int value) {
         this.value = value;
-    }
-
-    /**
-     * Initialize game score with a default starting value.
-     */
-    protected AbstractGameScore() {
-        this(DEFAULT_STARTING_VALUE);
     }
 
     /**

@@ -8,6 +8,7 @@ import arcaym.model.game.core.score.api.GameScoreFactory;
  */
 public class BaseGameScoreFactory implements GameScoreFactory {
 
+    private static final int STARTING_VALUE = 0;
     private static final int SIMPLE_SCORE_UNIT_SIZE = 1;
 
     private int checkValidAmount(final int amount) {
@@ -23,7 +24,7 @@ public class BaseGameScoreFactory implements GameScoreFactory {
     @Override
     public GameScore ofUnit(final int unit) {
         this.checkValidAmount(unit);
-        return new AbstractGameScore() {
+        return new AbstractGameScore(STARTING_VALUE) {
             @Override
             public void increment(final int amount) {
                 this.changeValue(checkValidAmount(amount) * unit);

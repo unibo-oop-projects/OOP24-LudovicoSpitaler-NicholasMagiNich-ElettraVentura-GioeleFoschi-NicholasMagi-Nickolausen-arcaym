@@ -1,6 +1,6 @@
 package arcaym.model.game.core.scene.api;
 
-import java.util.Collection;
+import java.util.Set;
 
 import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.core.scene.impl.BaseGameSceneFactory;
@@ -25,13 +25,13 @@ public interface GameSceneFactory {
      * @param collection game objects collection
      * @return resulting scene
      */
-    GameScene ofCollection(Collection<GameObject> collection);
+    GameScene ofObjects(Set<GameObject> collection);
 
     /**
      * Create a scene where the same game object is not allowed twice.
      * 
      * @return game scene
      */
-    GameScene ofDistinctObjects();
+    GameScene empty();
 
 }

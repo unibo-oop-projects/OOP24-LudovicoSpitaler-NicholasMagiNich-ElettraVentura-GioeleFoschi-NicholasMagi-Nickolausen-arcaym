@@ -8,6 +8,15 @@ import arcaym.model.game.core.objects.api.GameObject;
 public interface GameScene extends GameSceneView {
 
     /**
+     * Get this game scene with a restricted view.
+     * 
+     * @return this game scene's view
+     */
+    default GameSceneView view() {
+        return this;
+    }
+
+    /**
      * Add object to the scene.
      * 
      * @param object game object to add
