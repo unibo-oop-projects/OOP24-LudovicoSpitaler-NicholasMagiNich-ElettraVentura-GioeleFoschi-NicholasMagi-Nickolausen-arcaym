@@ -1,12 +1,8 @@
 package arcaym.model.game.core.score.api;
 
-import arcaym.common.utils.representation.FieldRepresentation;
-import arcaym.common.utils.representation.TypeRepresentation;
-
 /**
  * Interface for a game score manager.
  */
-@TypeRepresentation
 public interface GameScore {
 
     /**
@@ -19,7 +15,6 @@ public interface GameScore {
      * 
      * @return score value
      */
-    @FieldRepresentation
     int getValue();
 
     /**

@@ -1,8 +1,9 @@
 package arcaym.model.game.core.objects.impl;
 
-import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 import arcaym.common.utils.representation.StringRepresentation;
 import arcaym.model.game.core.components.api.GameComponent;
@@ -13,7 +14,8 @@ import arcaym.model.game.core.events.api.InputEvent;
 import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.core.objects.api.GameObjectBuilder;
 import arcaym.model.game.core.objects.api.GameObjectBuilderFactory;
-import arcaym.model.game.core.world.api.GameWorld;
+import arcaym.model.game.core.scene.api.GameSceneView;
+import arcaym.model.game.core.score.api.GameScore;
 import arcaym.model.game.objects.GameObjectType;
 
 /**
@@ -22,12 +24,13 @@ import arcaym.model.game.objects.GameObjectType;
 public class BaseGameObjectBuilderFactory implements GameObjectBuilderFactory {
 
     private GameObject createComponentsObject(
-        final Collection<GameComponent> components,
+        final Set<GameComponent> components,
         final GameObjectType type,
-        final GameWorld world
+        final GameSceneView scene,
+        final GameScore score
     ) {
         Objects.requireNonNull(components);
-        final var gameObject = new AbstractGameObject(Objects.requireNonNull(type), Objects.requireNonNull(world)) {
+        final var gameObject = new AbstractGameObject(type, scene, score) {
             @Override
             public void update(final long deltaTime, final Events.Scheduler<GameEvent> eventsScheduler) {
                 components.forEach(c -> c.update(deltaTime, eventsScheduler));
@@ -49,15 +52,15 @@ public class BaseGameObjectBuilderFactory implements GameObjectBuilderFactory {
      * {@inheritDoc}
      */
     @Override
-    public GameObjectBuilder ofComponents(final Collection<GameComponent> components) {
+    public GameObjectBuilder ofComponents(final Set<GameComponent> components) {
         return new AbstractGameObjectBuilder() {
             @Override
-            protected GameObject newInstance(final GameObjectType type, final GameWorld world) {
-                return createComponentsObject(components, type, world);
+            protected GameObject newInstance(final GameObjectType type, final GameSceneView scene, final GameScore score) {
+                return createComponentsObject(components, type, scene, score);
             }
             @Override
             public String toString() {
-                return StringRepresentation.ofObject(this, Map.of("components", () -> components));
+                return StringRepresentation.ofObject(this, Map.of("components", () -> Collections.unmodifiableSet(components)));
             }
         };
     }
@@ -70,12 +73,12 @@ public class BaseGameObjectBuilderFactory implements GameObjectBuilderFactory {
         Objects.requireNonNull(componentsProvider);
         return new AbstractGameObjectBuilder() {
             @Override
-            protected GameObject newInstance(final GameObjectType type, final GameWorld world) {
-                return createComponentsObject(componentsProvider.ofType(type), type, world);
+            protected GameObject newInstance(final GameObjectType type, final GameSceneView scene, final GameScore score) {
+                return createComponentsObject(componentsProvider.ofType(type), type, scene, score);
             }
             @Override
             public String toString() {
-                return StringRepresentation.ofObject(this, Map.of("componentsFactory", () -> componentsProvider));
+                return StringRepresentation.ofObject(this, Map.of("componentsProvider", () -> componentsProvider));
             }
         };
     }

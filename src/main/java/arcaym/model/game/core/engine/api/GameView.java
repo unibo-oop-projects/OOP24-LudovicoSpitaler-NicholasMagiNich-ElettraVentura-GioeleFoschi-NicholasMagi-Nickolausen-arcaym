@@ -1,6 +1,6 @@
 package arcaym.model.game.core.engine.api;
 
-import java.util.Collection;
+import java.util.Set;
 
 import arcaym.model.game.core.events.api.Events;
 import arcaym.model.game.core.objects.api.GameObjectView;
@@ -13,8 +13,8 @@ public interface GameView extends Events.GameEventsObserver {
     /**
      * Render al the game objects.
      * 
-     * @param gameObjects game objects collection
+     * @param gameObjects game objects
      */
-    void render(Collection<GameObjectView> gameObjects);
+    void render(Set<GameObjectView> gameObjects);
 
 }

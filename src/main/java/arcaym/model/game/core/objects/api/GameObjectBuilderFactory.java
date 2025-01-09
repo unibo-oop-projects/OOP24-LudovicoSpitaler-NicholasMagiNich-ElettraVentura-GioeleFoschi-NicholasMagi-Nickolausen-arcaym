@@ -1,6 +1,6 @@
 package arcaym.model.game.core.objects.api;
 
-import java.util.Collection;
+import java.util.Set;
 
 import arcaym.model.game.core.components.api.GameComponent;
 import arcaym.model.game.core.components.api.GameComponentProvider;
@@ -26,7 +26,7 @@ public interface GameObjectBuilderFactory {
      * @param components game components
      * @return resulting builder
      */
-    GameObjectBuilder ofComponents(Collection<GameComponent> components);
+    GameObjectBuilder ofComponents(Set<GameComponent> components);
 
     /**
      * Create builder for a game object that uses components from a factory.

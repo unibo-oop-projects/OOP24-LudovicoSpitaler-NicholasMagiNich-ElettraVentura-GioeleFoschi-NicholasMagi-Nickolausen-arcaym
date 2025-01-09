@@ -1,42 +1,44 @@
 package arcaym.model.game.core.objects.api;
 
-import java.util.Optional;
-
-import arcaym.common.utils.representation.FieldRepresentation;
-import arcaym.common.utils.representation.TypeRepresentation;
 import arcaym.model.game.core.events.api.Events;
 import arcaym.model.game.core.events.api.GameEvent;
 import arcaym.model.game.core.events.api.InputEvent;
-import arcaym.model.game.core.world.api.GameWorld;
+import arcaym.model.game.core.scene.api.GameScene;
+import arcaym.model.game.core.score.api.GameScore;
 import arcaym.model.game.objects.GameObjectType;
 
 /**
  * Interface for a {@link GameObject} builder.
  */
-@TypeRepresentation
 public interface GameObjectBuilder {
 
     /**
      * Set game world to use.
      * 
-     * @param world game world
+     * @param scene game scene
      * @return next build step
      */
-    SecondStep useWorld(GameWorld world);
+    ScoreStep useScene(GameScene scene);
 
     /**
-     * Get world in use if set.
-     * 
-     * @return game world
+     * Interface for the game score build step of a {@link GameObjectBuilder}.
      */
-    @FieldRepresentation
-    Optional<GameWorld> world();
+    interface ScoreStep {
+
+        /**
+         * Set game score to use.
+         * 
+         * @param gameScore game score
+         * @return next build step
+         */
+        GameEventsStep useScore(GameScore gameScore);
+
+    }
 
     /**
-     * Interface for the second build step of a {@link GameObjectBuilder}.
+     * Interface for the game events build step of a {@link GameObjectBuilder}.
      */
-    @TypeRepresentation
-    interface SecondStep {
+    interface GameEventsStep {
 
         /**
          * Set game events subscriber to use.
@@ -44,23 +46,14 @@ public interface GameObjectBuilder {
          * @param eventsSubscriber game events subscriber
          * @return next build step
          */
-        ThirdStep useGameEventsSubscriber(Events.Subscriber<GameEvent> eventsSubscriber);
-
-        /**
-         * Get game events scheduler in use if set.
-         * 
-         * @return game events scheduler
-         */
-        @FieldRepresentation
-        Optional<Events.Subscriber<GameEvent>> gameEventsSubscriber();
+        InputEventsStep useGameEventsSubscriber(Events.Subscriber<GameEvent> eventsSubscriber);
 
     }
 
     /**
-     * Interface for the third build step of a {@link GameObjectBuilder}.
+     * Interface for the input events build step of a {@link GameObjectBuilder}.
      */
-    @TypeRepresentation
-    interface ThirdStep {
+    interface InputEventsStep {
 
         /**
          * Set input events subscriber to use.
@@ -68,22 +61,14 @@ public interface GameObjectBuilder {
          * @param eventsSubscriber input events subscriber
          * @return next build step
          */
-        FourthStep useInputEventsSubscriber(Events.Subscriber<InputEvent> eventsSubscriber);
-
-        /**
-         * Get input events scheduler in use if set.
-         * 
-         * @return input events scheduler
-         */
-        @FieldRepresentation
-        Optional<Events.Subscriber<InputEvent>> inputEventsSubscriber();
+        BuildStep useInputEventsSubscriber(Events.Subscriber<InputEvent> eventsSubscriber);
 
     }
 
     /**
-     * Interface for the fourth build step of a {@link GameObjectBuilder}.
+     * Interface for the final build step of a {@link GameObjectBuilder}.
      */
-    interface FourthStep {
+    interface BuildStep {
 
         /**
          * Build and set up game object of a specific type.

@@ -1,12 +1,15 @@
 package arcaym.model.game.core.score.impl;
 
+import arcaym.common.utils.representation.FieldRepresentation;
 import arcaym.common.utils.representation.StringRepresentation;
+import arcaym.common.utils.representation.TypeRepresentation;
 import arcaym.model.game.core.score.api.GameScore;
 
 /**
  * Abstract implementation of {@link GameScore}.
  * It provides score access and initialization while leaving manipulation logic.
  */
+@TypeRepresentation
 public abstract class AbstractGameScore implements GameScore {
 
     private static final int DEFAULT_STARTING_VALUE = 0;
@@ -32,6 +35,7 @@ public abstract class AbstractGameScore implements GameScore {
      * {@inheritDoc}
      */
     @Override
+    @FieldRepresentation
     public int getValue() {
         return this.value;
     }

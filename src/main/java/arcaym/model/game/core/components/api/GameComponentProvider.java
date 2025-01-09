@@ -1,6 +1,6 @@
 package arcaym.model.game.core.components.api;
 
-import java.util.Collection;
+import java.util.Set;
 
 import arcaym.model.game.objects.GameObjectType;
 
@@ -10,11 +10,11 @@ import arcaym.model.game.objects.GameObjectType;
 public interface GameComponentProvider {
 
     /**
-     * Create a collection of components from a game object type.
+     * Create components for a game object of a certain type.
      * 
      * @param type game object type
      * @return the components
      */
-    Collection<GameComponent> ofType(GameObjectType type);
+    Set<GameComponent> ofType(GameObjectType type);
 
 }

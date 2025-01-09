@@ -7,6 +7,7 @@ import java.util.Objects;
 
 import arcaym.common.utils.representation.StringRepresentation;
 import arcaym.model.game.core.objects.api.GameObject;
+import arcaym.model.game.core.objects.api.GameObjectView;
 import arcaym.model.game.core.scene.api.GameScene;
 import arcaym.model.game.core.scene.api.GameSceneFactory;
 
@@ -31,7 +32,7 @@ public class BaseGameSceneFactory implements GameSceneFactory {
                 gameObjects.remove(Objects.requireNonNull(object));
             }
             @Override
-            public Collection<GameObject> getObjects() {
+            public Collection<GameObjectView> getObjects() {
                 return Collections.unmodifiableCollection(gameObjects);
             }
             @Override
