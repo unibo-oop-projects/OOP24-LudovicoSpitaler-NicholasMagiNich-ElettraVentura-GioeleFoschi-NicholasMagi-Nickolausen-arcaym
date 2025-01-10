@@ -16,8 +16,8 @@ import arcaym.model.game.objects.api.GameObjectType;
 @TypeRepresentation
 public abstract class AbstractGameObject implements GameObject {
 
-    private Point position = Point.zero();
     private final GameObjectType type;
+    private Point position = Point.zero();
 
     /**
      * Initialize game object.

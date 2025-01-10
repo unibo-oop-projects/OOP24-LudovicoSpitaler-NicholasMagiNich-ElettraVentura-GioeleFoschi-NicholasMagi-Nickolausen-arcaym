@@ -1,7 +1,7 @@
 package arcaym.model.game.core.objects.api;
 
 import arcaym.common.point.api.Point;
-import arcaym.controller.game.core.engine.api.InteractiveObject;
+import arcaym.model.game.core.engine.api.InteractiveObject;
 
 /**
  * Interface for a basic game object.

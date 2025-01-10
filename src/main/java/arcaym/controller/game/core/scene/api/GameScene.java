@@ -1,9 +1,11 @@
-package arcaym.model.game.core.scene.api;
+package arcaym.controller.game.core.scene.api;
 
 import java.util.Collection;
 
+import arcaym.common.point.api.Point;
 import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.core.objects.api.GameObjectView;
+import arcaym.model.game.objects.api.GameObjectType;
 
 /**
  * Interface for a game scene.
@@ -11,18 +13,19 @@ import arcaym.model.game.core.objects.api.GameObjectView;
 public interface GameScene {
 
     /**
-     * Add object to the scene.
+     * Spawn object in the scene.
      * 
-     * @param object game object to add
+     * @param type game object type
+     * @param position game object position
      */
-    void addObject(GameObject object);
+    void scheduleCreation(GameObjectType type, Point position);
 
     /**
      * Remove object from the scene.
      * 
-     * @param object game object to remove
+     * @param gameObject game object to remove
      */
-    void removeObject(GameObject object);
+    void scheduleDestruction(GameObject gameObject);
 
     /**
      * Get all objects in the scene.

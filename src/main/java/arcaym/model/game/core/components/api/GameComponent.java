@@ -1,6 +1,6 @@
 package arcaym.model.game.core.components.api;
 
-import arcaym.controller.game.core.engine.api.InteractiveObject;
+import arcaym.model.game.core.engine.api.InteractiveObject;
 import arcaym.model.game.core.objects.api.GameObject;
 
 /**

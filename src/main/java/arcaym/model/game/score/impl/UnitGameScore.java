@@ -1,7 +1,7 @@
 package arcaym.model.game.score.impl;
 
 /**
- * Implementation of {@link GameScoreFactory} using a fixed-size base unit.
+ * Implementation of {@link GameScoreFactory} that uses a fixed-size base unit.
  */
 public class UnitGameScore extends AbstractGameScore {
 

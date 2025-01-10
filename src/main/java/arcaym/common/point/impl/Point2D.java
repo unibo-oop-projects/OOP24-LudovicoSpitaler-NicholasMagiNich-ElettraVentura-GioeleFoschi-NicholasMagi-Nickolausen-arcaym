@@ -5,7 +5,7 @@ import java.util.Objects;
 import arcaym.common.point.api.Point;
 
 /**
- * Implementation of {@link Point} using a sandard 2D cartesian system.
+ * Implementation of {@link Point} that uses a sandard 2D cartesian system.
  * 
  * @param x first coordinate
  * @param y second coordinate

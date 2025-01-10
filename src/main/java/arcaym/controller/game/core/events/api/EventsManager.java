@@ -1,11 +1,11 @@
 package arcaym.controller.game.core.events.api;
 
 /**
- * Interface for an events notifier.
+ * Interface for a general events manager.
  * 
  * @param <T> events type
  */
-public interface EventsNotifier<T> {
+public interface EventsManager<T> extends EventsScheduler<T>, EventsSubscriber<T> {
 
     /**
      * Notify all observers of all pending events.

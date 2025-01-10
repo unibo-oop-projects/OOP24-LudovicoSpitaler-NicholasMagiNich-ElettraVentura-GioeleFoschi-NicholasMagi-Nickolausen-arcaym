@@ -7,6 +7,7 @@ import java.util.Set;
 
 import arcaym.controller.game.core.events.api.EventsScheduler;
 import arcaym.controller.game.core.events.api.EventsSubscriber;
+import arcaym.controller.game.core.scene.api.GameScene;
 import arcaym.model.game.core.components.api.ComponentsBasedObject;
 import arcaym.model.game.core.components.api.GameComponent;
 import arcaym.model.game.core.objects.impl.AbstractGameObject;
@@ -15,7 +16,7 @@ import arcaym.model.game.events.api.InputEvent;
 import arcaym.model.game.objects.api.GameObjectType;
 
 /**
- * Implementation of {@link ComponentsBasedObject} using a {@link Set} of components.
+ * Implementation of {@link ComponentsBasedObject} that uses a {@link Set} of components.
 */
 public class UniqueComponentsBasedObject extends AbstractGameObject implements ComponentsBasedObject {
 
@@ -34,24 +35,28 @@ public class UniqueComponentsBasedObject extends AbstractGameObject implements C
      * {@inheritDoc}
      */
     @Override
-    public void update(final long deltaTime, final EventsScheduler<GameEvent> eventsScheduler) {
-        this.components.forEach(c -> c.update(deltaTime, eventsScheduler));
+    public void update(
+        final long deltaTime, 
+        final EventsScheduler<GameEvent> eventsScheduler, 
+        final GameScene scene
+    ) {
+        this.components.forEach(c -> c.update(deltaTime, eventsScheduler, scene));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void registerGameEventsCallbacks(final EventsSubscriber<GameEvent> eventsSubscriber) {
-        this.components.forEach(c -> c.registerGameEventsCallbacks(eventsSubscriber));
+    public void registerGameEventsCallbacks(final EventsSubscriber<GameEvent> eventsSubscriber, final GameScene scene) {
+        this.components.forEach(c -> c.registerGameEventsCallbacks(eventsSubscriber, scene));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void registerInputEventsCallbacks(final EventsSubscriber<InputEvent> eventsSubscriber) {
-        this.components.forEach(c -> c.registerInputEventsCallbacks(eventsSubscriber));
+    public void registerInputEventsCallbacks(final EventsSubscriber<InputEvent> eventsSubscriber, final GameScene scene) {
+        this.components.forEach(c -> c.registerInputEventsCallbacks(eventsSubscriber, scene));
     }
 
     /**
