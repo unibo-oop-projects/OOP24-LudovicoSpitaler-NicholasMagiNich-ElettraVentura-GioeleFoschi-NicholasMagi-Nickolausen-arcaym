@@ -1,10 +1,11 @@
 package arcaym.model.game.core.components.impl;
 
-import java.util.Optional;
+import java.util.Objects;
 
 import arcaym.common.utils.representation.FieldRepresentation;
 import arcaym.common.utils.representation.StringRepresentation;
 import arcaym.common.utils.representation.TypeRepresentation;
+import arcaym.model.game.core.components.api.ComponentsBasedObject;
 import arcaym.model.game.core.components.api.GameComponent;
 import arcaym.model.game.core.objects.api.GameObject;
 
@@ -15,23 +16,25 @@ import arcaym.model.game.core.objects.api.GameObject;
 @TypeRepresentation
 public abstract class AbstractGameComponent implements GameComponent {
 
-    private Optional<GameObject> gameObject;
+    private final GameObject gameObject;
 
     /**
-     * {@inheritDoc}
+     * Initialize game component.
+     * 
+     * @param gameObject game object
      */
-    @Override
-    @FieldRepresentation
-    public Optional<GameObject> getObject() {
-        return this.gameObject;
+    protected AbstractGameComponent(final ComponentsBasedObject gameObject) {
+        this.gameObject = Objects.requireNonNull(gameObject);
     }
 
     /**
-     * {@inheritDoc}
+     * Get component game object.
+     * 
+     * @return game object
      */
-    @Override
-    public void setObject(final GameObject object) {
-        this.gameObject = Optional.ofNullable(object);
+    @FieldRepresentation
+    protected GameObject gameObject() {
+        return this.gameObject;
     }
 
     /**

@@ -1,37 +1,12 @@
 package arcaym.model.game.core.objects.api;
 
 import arcaym.common.point.api.Point;
-import arcaym.model.game.core.engine.api.InteractiveObject;
-import arcaym.model.game.core.scene.api.GameSceneView;
-import arcaym.model.game.core.score.api.GameScore;
+import arcaym.controller.game.core.engine.api.InteractiveObject;
 
 /**
  * Interface for a basic game object.
  */
 public interface GameObject extends InteractiveObject, GameObjectView {
-
-    /**
-     * Get a {@link GameObjectView} on this game object.
-     * 
-     * @return this object's view
-     */
-    default GameObjectView view() {
-        return this;
-    }
-
-    /**
-     * Get game scene of the object.
-     * 
-     * @return game scene
-     */
-    GameSceneView scene();
-
-    /**
-     * Get game score used by the object.
-     * 
-     * @return game score
-     */
-    GameScore score();
 
     /**
      * Set object position.
@@ -45,6 +20,8 @@ public interface GameObject extends InteractiveObject, GameObjectView {
      * 
      * @param distance amount to move on each coordinate
      */
-    void move(Point distance);
+    default void move(final Point distance) {
+        this.setPosition(this.getPosition().sum(distance));
+    }
 
 }

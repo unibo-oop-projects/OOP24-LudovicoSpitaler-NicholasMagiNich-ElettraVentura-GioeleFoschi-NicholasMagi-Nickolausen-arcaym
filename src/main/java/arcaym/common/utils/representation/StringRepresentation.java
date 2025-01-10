@@ -9,7 +9,29 @@ import java.util.stream.Stream;
 import java.util.Map;
 
 /**
- * Utility class to represent objects as strings.
+ * Utility class to represent {@link TypeRepresentation}-annotated objects as strings.
+ * 
+ * <p>
+ * Example of usage:
+ * <pre>
+ * {@code @TypeRepresentation}
+ * public class TestClass {
+ *      private int value = 5;
+ *      ...
+ *      {@code @FieldRepresentation}
+ *      int getValue() {
+ *          return this.value;
+ *      }
+ *      ...
+ *      {@code @Override}
+ *      String toString() {
+ *          return StringRepresentation.ofObject(this);
+ *      }
+ * }
+ * 
+ * System.out.println(new TestClass()); // TestClass[getValue=5]
+ * </pre>
+ * </p>
  * 
  * @see TypeRepresentation
  * @see FieldRepresentation

@@ -1,7 +1,9 @@
 package arcaym.model.game.core.objects.api;
 
+import arcaym.model.game.objects.api.GameObjectType;
+
 /**
- * Game objects major categories.
+ * {@link GameObjectType} major categories.
  */
 public enum GameObjectCategory {
 

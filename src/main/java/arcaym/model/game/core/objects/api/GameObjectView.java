@@ -1,7 +1,7 @@
 package arcaym.model.game.core.objects.api;
 
 import arcaym.common.point.api.Point;
-import arcaym.model.game.objects.GameObjectType;
+import arcaym.model.game.objects.api.GameObjectType;
 
 /**
  * Interface for a {@link GameObject} restricted view.
@@ -14,6 +14,15 @@ public interface GameObjectView {
      * @return game object type
      */
     GameObjectType type();
+
+    /**
+     * Get the major category of the object's type.
+     * 
+     * @return game object's type category
+     */
+    default GameObjectCategory category() {
+        return this.type().category();
+    }
 
     /**
      * Get object position.
