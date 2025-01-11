@@ -6,15 +6,13 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import arcaym.common.point.api.Point;
-import arcaym.model.game.core.objects.GameObjectsProvider.GameObjectConstructor;
-import arcaym.model.game.objects.api.GameObjectType;
+import arcaym.model.game.core.objects.api.GameObject;
 
 class TestGameObject {
 
     @ParameterizedTest
     @ArgumentsSource(GameObjectsProvider.class)
-    void testPosition(final GameObjectConstructor constructor, final GameObjectType type) {
-        final var gameObject = constructor.apply(type);
+    void testPosition(final GameObject gameObject) {
         assertEquals(gameObject.getPosition(), Point.zero());
         final var position = Point.of(2, 3);
         gameObject.setPosition(position);
@@ -23,8 +21,7 @@ class TestGameObject {
 
     @ParameterizedTest
     @ArgumentsSource(GameObjectsProvider.class)
-    void testMove(final GameObjectConstructor constructor, final GameObjectType type) {
-        final var gameObject = constructor.apply(type);
+    void testMove(final GameObject gameObject) {
         assertEquals(gameObject.getPosition(), Point.zero());
         final var distance1 = Point.of(2, 3);
         gameObject.move(distance1);
