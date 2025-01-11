@@ -1,6 +1,6 @@
 package arcaym.controller.game.core.events.api;
 
-import arcaym.controller.game.core.scene.api.GameScene;
+import arcaym.controller.game.core.scene.api.GameSceneView;
 import arcaym.model.game.events.api.GameEvent;
 
 /*
@@ -19,6 +19,6 @@ public interface GameEventsObserver {
      * @param eventsSubscriber game events subscriber
      * @param scene game scene
      */
-    void registerGameEventsCallbacks(EventsSubscriber<GameEvent> eventsSubscriber, GameScene scene);
+    void registerGameEventsCallbacks(EventsSubscriber<GameEvent> eventsSubscriber, GameSceneView scene);
 
 }

@@ -2,16 +2,16 @@ package arcaym.view.game.api;
 
 import java.util.Collection;
 
-import arcaym.controller.game.core.events.api.EventsListener;
+import arcaym.controller.game.core.events.api.EventsObserver;
 import arcaym.controller.game.core.events.api.EventsScheduler;
 import arcaym.model.game.core.objects.api.GameObjectView;
 import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.events.api.InputEvent;
 
 /**
- * Interface for a game view.
+ * Interface for a game observer.
  */
-public interface GameView extends EventsListener<GameEvent> {
+public interface GameObserver extends EventsObserver<GameEvent> {
 
     /**
      * Set input events scheduler to use.

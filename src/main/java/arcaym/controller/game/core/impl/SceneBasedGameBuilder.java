@@ -5,25 +5,25 @@ import java.util.Objects;
 import arcaym.common.point.api.Point;
 import arcaym.controller.game.core.api.Game;
 import arcaym.controller.game.core.api.GameBuilder;
-import arcaym.controller.game.core.scene.api.GameSceneManager;
+import arcaym.controller.game.core.scene.api.GameScene;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.model.game.score.api.GameScore;
-import arcaym.view.game.api.GameView;
+import arcaym.view.game.api.GameObserver;
 
 /**
- * Implementation of {@link GameBuilder} that uses a {@link GameSceneManager}.
+ * Implementation of {@link GameBuilder} that uses a {@link GameScene}.
  */
 public class SceneBasedGameBuilder implements GameBuilder {
 
-    private final GameSceneManager scene;
+    private final GameScene scene;
     private boolean consumed;
 
     /**
-     * Initialize with the given view and factory.
+     * Initialize with the given scene.
      * 
-     * @param scene game view
+     * @param scene game scene
      */
-    public SceneBasedGameBuilder(final GameSceneManager scene) {
+    public SceneBasedGameBuilder(final GameScene scene) {
         this.scene = Objects.requireNonNull(scene);
     }
 
@@ -44,10 +44,11 @@ public class SceneBasedGameBuilder implements GameBuilder {
      * {@inheritDoc}
      */
     @Override
-    public Game build(final GameView view, final GameScore score) {
+    public Game build(final GameObserver gameObserver, final GameScore score) {
+        // re-give observer because of spotBugs
         this.consumed = true;
         this.scene.consumePendingActions();
-        return new SingleThreadedGame(this.scene, view, score);
+        return new SingleThreadedGame(this.scene, gameObserver, score);
     }
 
 }

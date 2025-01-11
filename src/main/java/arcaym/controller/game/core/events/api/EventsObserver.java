@@ -1,11 +1,11 @@
 package arcaym.controller.game.core.events.api;
 
 /**
- * Interface for a generic events listener.
+ * Interface for a generic events observer.
  * 
  * @param <T> events type
  */
-public interface EventsListener<T> {
+public interface EventsObserver<T> {
 
     /**
      * Register all events callbacks to subscriber.

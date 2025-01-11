@@ -3,7 +3,7 @@ package arcaym.model.game.core.engine.api;
 import arcaym.controller.game.core.events.api.EventsScheduler;
 import arcaym.controller.game.core.events.api.GameEventsObserver;
 import arcaym.controller.game.core.events.api.InputEventsObserver;
-import arcaym.controller.game.core.scene.api.GameScene;
+import arcaym.controller.game.core.scene.api.GameSceneView;
 import arcaym.model.game.events.api.GameEvent;
 
 /**
@@ -20,6 +20,6 @@ public interface InteractiveObject extends
      * @param eventsScheduler game events scheduler
      * @param scene game scene
      */
-    void update(long deltaTime, EventsScheduler<GameEvent> eventsScheduler, GameScene scene);
+    void update(long deltaTime, EventsScheduler<GameEvent> eventsScheduler, GameSceneView scene);
 
 }

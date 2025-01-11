@@ -5,12 +5,12 @@ import java.util.Objects;
 import arcaym.controller.game.core.api.Game;
 import arcaym.controller.game.core.events.api.EventsManager;
 import arcaym.controller.game.core.events.impl.ThreadSafeEventsManager;
-import arcaym.controller.game.core.scene.api.GameSceneManager;
+import arcaym.controller.game.core.scene.api.GameScene;
 import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.events.api.InputEvent;
 import arcaym.model.game.score.api.GameScore;
 import arcaym.model.game.score.api.GameScoreView;
-import arcaym.view.game.api.GameView;
+import arcaym.view.game.api.GameObserver;
 
 /**
  * Abstract implementation of {@link Game}.
@@ -20,29 +20,32 @@ public abstract class AbstractThreadSafeGame implements Game {
 
     private final EventsManager<GameEvent> gameEventsManager = new ThreadSafeEventsManager<>();
     private final EventsManager<InputEvent> inputEventsManager = new ThreadSafeEventsManager<>();
-    private final GameSceneManager scene;
+    private final GameScene scene;
     private final GameScore score;
 
     /**
-     * Initialize with the given scene and view.
+     * Initialize with the given scene and game observer.
      * 
      * @param scene game scene manager
-     * @param view game view
+     * @param gameObserver game observer
      * @param score game score
      */
     protected AbstractThreadSafeGame(
-        final GameSceneManager scene, 
-        final GameView view,
+        final GameScene scene, 
+        final GameObserver gameObserver,
         final GameScore score
     ) {
-        Objects.requireNonNull(view);
+        Objects.requireNonNull(gameObserver);
         this.scene = Objects.requireNonNull(scene);
         this.score = Objects.requireNonNull(score);
 
-        view.registerEventsCallbacks(this.gameEventsManager);
+        gameObserver.registerEventsCallbacks(this.gameEventsManager);
         score.registerEventsCallbacks(this.gameEventsManager);
         scene.gameObjects().forEach(o -> o.registerGameEventsCallbacks(this.gameEventsManager, scene));
         scene.gameObjects().forEach(o -> o.registerInputEventsCallbacks(this.inputEventsManager, scene));
+
+        this.gameEventsManager.registerCallback(GameEvent.GAME_OVER, this::stop);
+        this.gameEventsManager.registerCallback(GameEvent.VICTORY, this::stop);
     }
 
     /**
@@ -68,7 +71,7 @@ public abstract class AbstractThreadSafeGame implements Game {
      * 
      * @return game scene
      */
-    protected final GameSceneManager scene() {
+    protected final GameScene scene() {
         return this.scene;
     }
 

@@ -24,6 +24,6 @@ public interface Game extends EventsScheduler<InputEvent> {
     /**
      * Force stop the game.
      */
-    void abort();
+    void stop();
 
 }

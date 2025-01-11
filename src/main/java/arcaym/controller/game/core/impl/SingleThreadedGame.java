@@ -3,9 +3,9 @@ package arcaym.controller.game.core.impl;
 import java.util.logging.Logger;
 
 import arcaym.controller.game.core.api.Game;
-import arcaym.controller.game.core.scene.api.GameSceneManager;
+import arcaym.controller.game.core.scene.api.GameScene;
 import arcaym.model.game.score.api.GameScore;
-import arcaym.view.game.api.GameView;
+import arcaym.view.game.api.GameObserver;
 
 /**
  * Implementation of {@link Game} that uses a single background thread.
@@ -15,17 +15,13 @@ public class SingleThreadedGame extends AbstractThreadSafeGame {
     private static final String GAME_LOOP_THREAD_NAME = "GameLoopThread";
     private static final long GAME_LOOP_PERIOD_MS = 10;
     private static final Logger LOGGER = Logger.getLogger(SingleThreadedGame.class.getName());
-
+    private volatile boolean runGameLoop;
     private final Thread gameLoopThread = Thread.ofPlatform()
                                             .name(GAME_LOOP_THREAD_NAME)
                                             .daemon()
                                             .unstarted(this::gameLoop);
 
-    SingleThreadedGame(
-        final GameSceneManager scene, 
-        final GameView view,
-        final GameScore score
-    ) {
+    SingleThreadedGame(final GameScene scene, final GameObserver view, final GameScore score) {
         super(scene, view, score);
     }
 
@@ -34,6 +30,7 @@ public class SingleThreadedGame extends AbstractThreadSafeGame {
      */
     @Override
     public void start() {
+        this.runGameLoop = true;
         this.gameLoopThread.start();
     }
 
@@ -41,13 +38,13 @@ public class SingleThreadedGame extends AbstractThreadSafeGame {
      * {@inheritDoc}
      */
     @Override
-    public void abort() {
-        this.gameLoopThread.interrupt();
+    public void stop() {
+        this.runGameLoop = false;
     }
 
     private void gameLoop() {
         long deltaTime = this.updateDeltaTime(0);
-        while (!this.gameLoopThread.isInterrupted()) {
+        while (this.runGameLoop) {
             this.inputEventsManager().consumePendingEvents();
             deltaTime = this.updateDeltaTime(deltaTime);
             for (final var gameObject : this.scene().gameObjects()) {

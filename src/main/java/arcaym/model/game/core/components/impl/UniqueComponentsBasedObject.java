@@ -7,7 +7,7 @@ import java.util.Set;
 
 import arcaym.controller.game.core.events.api.EventsScheduler;
 import arcaym.controller.game.core.events.api.EventsSubscriber;
-import arcaym.controller.game.core.scene.api.GameScene;
+import arcaym.controller.game.core.scene.api.GameSceneView;
 import arcaym.model.game.core.components.api.ComponentsBasedObject;
 import arcaym.model.game.core.components.api.GameComponent;
 import arcaym.model.game.core.objects.impl.AbstractGameObject;
@@ -38,7 +38,7 @@ public class UniqueComponentsBasedObject extends AbstractGameObject implements C
     public void update(
         final long deltaTime, 
         final EventsScheduler<GameEvent> eventsScheduler, 
-        final GameScene scene
+        final GameSceneView scene
     ) {
         this.components.forEach(c -> c.update(deltaTime, eventsScheduler, scene));
     }
@@ -47,7 +47,7 @@ public class UniqueComponentsBasedObject extends AbstractGameObject implements C
      * {@inheritDoc}
      */
     @Override
-    public void registerGameEventsCallbacks(final EventsSubscriber<GameEvent> eventsSubscriber, final GameScene scene) {
+    public void registerGameEventsCallbacks(final EventsSubscriber<GameEvent> eventsSubscriber, final GameSceneView scene) {
         this.components.forEach(c -> c.registerGameEventsCallbacks(eventsSubscriber, scene));
     }
 
@@ -55,7 +55,7 @@ public class UniqueComponentsBasedObject extends AbstractGameObject implements C
      * {@inheritDoc}
      */
     @Override
-    public void registerInputEventsCallbacks(final EventsSubscriber<InputEvent> eventsSubscriber, final GameScene scene) {
+    public void registerInputEventsCallbacks(final EventsSubscriber<InputEvent> eventsSubscriber, final GameSceneView scene) {
         this.components.forEach(c -> c.registerInputEventsCallbacks(eventsSubscriber, scene));
     }
 

@@ -2,36 +2,23 @@ package arcaym.controller.game.core.scene.api;
 
 import java.util.Collection;
 
-import arcaym.common.point.api.Point;
 import arcaym.model.game.core.objects.api.GameObject;
-import arcaym.model.game.core.objects.api.GameObjectView;
-import arcaym.model.game.objects.api.GameObjectType;
 
 /**
  * Interface for a game scene.
  */
-public interface GameScene {
+public interface GameScene extends GameSceneView {
 
     /**
-     * Spawn object in the scene.
-     * 
-     * @param type game object type
-     * @param position game object position
+     * Consume pending scene events.
      */
-    void scheduleCreation(GameObjectType type, Point position);
+    void consumePendingActions();
 
     /**
-     * Remove object from the scene.
-     * 
-     * @param gameObject game object to remove
-     */
-    void scheduleDestruction(GameObject gameObject);
-
-    /**
-     * Get a view of all objects in the scene.
+     * Get all objects in the scene.
      * 
      * @return game objects
      */
-    Collection<GameObjectView> getObjects();
+    Collection<GameObject> gameObjects();
 
 }
