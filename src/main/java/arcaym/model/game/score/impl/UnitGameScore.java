@@ -13,7 +13,7 @@ public class UnitGameScore extends AbstractGameScore {
      * @param unit base unit
      */
     public UnitGameScore(final int unit) {
-        this.unit = requirePositive(unit);
+        this.unit = this.requirePositive(unit);
     }
 
     /**
@@ -21,7 +21,7 @@ public class UnitGameScore extends AbstractGameScore {
      */
     @Override
     public void increment(final int amount) {
-        this.changeValue(requirePositive(amount) * this.unit);
+        this.changeValue(this.requirePositive(amount) * this.unit);
     }
 
     /**
@@ -29,7 +29,7 @@ public class UnitGameScore extends AbstractGameScore {
      */
     @Override
     public void decrement(final int amount) {
-        this.changeValue(-requirePositive(amount) * this.unit);
+        this.changeValue(-this.requirePositive(amount) * this.unit);
     }
 
 }

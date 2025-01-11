@@ -33,7 +33,7 @@ public abstract class AbstractGameComponent implements GameComponent {
      * @return game object
      */
     @FieldRepresentation
-    protected GameObject gameObject() {
+    protected final GameObject gameObject() {
         return this.gameObject;
     }
 

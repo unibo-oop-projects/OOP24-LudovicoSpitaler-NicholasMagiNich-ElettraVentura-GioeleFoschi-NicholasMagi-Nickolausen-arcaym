@@ -21,7 +21,7 @@ public abstract class AbstractGameScore implements GameScore {
      * @return the value
      * @throws IllegalArgumentException if the value is negative
      */
-    protected static int requirePositive(final int amount) {
+    protected final int requirePositive(final int amount) {
         if (amount < 0) {
             throw new IllegalArgumentException("Score manipulation amount must be positive");
         }
