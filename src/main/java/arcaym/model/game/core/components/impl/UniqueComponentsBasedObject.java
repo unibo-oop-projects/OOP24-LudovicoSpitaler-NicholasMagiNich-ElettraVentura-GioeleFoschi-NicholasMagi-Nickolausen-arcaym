@@ -23,7 +23,7 @@ public class UniqueComponentsBasedObject extends AbstractGameObject implements C
     private final Set<GameComponent> components = new HashSet<>();
 
     /**
-     * Initialize game object.
+     * Initialize with the given object type.
      * 
      * @param type game object type
      */

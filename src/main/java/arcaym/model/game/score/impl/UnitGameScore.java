@@ -8,7 +8,7 @@ public class UnitGameScore extends AbstractGameScore {
     private final int unit;
 
     /**
-     * Initialize game score with unit.
+     * Initialize with the given unit.
      * 
      * @param unit base unit
      */

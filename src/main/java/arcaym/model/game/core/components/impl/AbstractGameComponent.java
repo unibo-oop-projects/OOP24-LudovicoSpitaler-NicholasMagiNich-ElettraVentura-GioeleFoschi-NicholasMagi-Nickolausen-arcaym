@@ -19,7 +19,7 @@ public abstract class AbstractGameComponent implements GameComponent {
     private final GameObject gameObject;
 
     /**
-     * Initialize game component.
+     * Initialize with the given game object.
      * 
      * @param gameObject game object
      */

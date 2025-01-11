@@ -22,9 +22,9 @@ public interface GameView {
     /**
      * Create all the given objects.
      * 
-     * @param gameObjects game objects
+     * @param gameObject game objects
      */
-    void createObjects(Collection<GameObjectView> gameObjects);
+    void createObject(GameObjectView gameObject);
 
     /**
      * Render all the given objects.
@@ -36,9 +36,9 @@ public interface GameView {
     /**
      * Destroy all the given objects.
      * 
-     * @param gameObjects game objects
+     * @param gameObject game objects
      */
-    void destroyObjects(Collection<GameObjectView> gameObjects);
+    void destroyObject(GameObjectView gameObject);
 
     /**
      * React to game event.

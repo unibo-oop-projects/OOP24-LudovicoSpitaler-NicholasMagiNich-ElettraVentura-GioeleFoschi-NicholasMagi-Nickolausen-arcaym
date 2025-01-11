@@ -20,7 +20,7 @@ public abstract class AbstractGameObject implements GameObject {
     private Point position = Point.zero();
 
     /**
-     * Initialize game object.
+     * Initialize with the given object type.
      * 
      * @param type game object type
      */
