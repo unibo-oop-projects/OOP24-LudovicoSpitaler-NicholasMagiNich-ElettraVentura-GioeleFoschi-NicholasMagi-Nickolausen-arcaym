@@ -1,5 +1,6 @@
 package arcaym.common.point;
 
+import java.util.List;
 import java.util.function.BiFunction;
 import java.util.stream.Stream;
 
@@ -8,18 +9,19 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 
 import arcaym.common.point.impl.Point2D;
+import arcaym.testutils.ArgumentsUtils;
 import arcaym.common.point.api.Point;
 
-class PointInstancesProvider implements ArgumentsProvider {
+class PointsProvider implements ArgumentsProvider {
 
     interface PointConstructor extends BiFunction<Integer, Integer, Point> { }
 
     @Override
     public Stream<? extends Arguments> provideArguments(final ExtensionContext context) throws Exception {
-        final Stream<PointConstructor> implementations = Stream.of(
+        final List<PointConstructor> implementations = List.of(
             Point2D::new
         );
-        return implementations.map(Arguments::of);
+        return ArgumentsUtils.allCombinations(implementations);
     }
 
 }

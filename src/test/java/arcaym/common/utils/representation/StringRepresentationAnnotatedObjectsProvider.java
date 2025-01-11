@@ -7,6 +7,8 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 
+import arcaym.testutils.ArgumentsUtils;
+
 class StringRepresentationAnnotatedObjectsProvider implements ArgumentsProvider {
 
     interface TypeRepresentationObject {
@@ -122,10 +124,10 @@ class StringRepresentationAnnotatedObjectsProvider implements ArgumentsProvider 
 
     @Override
     public Stream<? extends Arguments> provideArguments(final ExtensionContext context) throws Exception {
-        return Stream.of(
-            Arguments.of(new MainObject()),
-            Arguments.of(new DifferentRepresentationObject())
-        );
+        return ArgumentsUtils.allCombinations(List.of(
+            new MainObject(),
+            new DifferentRepresentationObject()
+        ));
     }
 
 }
