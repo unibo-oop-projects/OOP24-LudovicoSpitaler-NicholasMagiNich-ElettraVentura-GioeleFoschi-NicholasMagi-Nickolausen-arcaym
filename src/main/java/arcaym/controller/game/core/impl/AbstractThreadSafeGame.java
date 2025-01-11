@@ -41,8 +41,7 @@ public abstract class AbstractThreadSafeGame implements Game {
 
         gameObserver.registerEventsCallbacks(this.gameEventsManager);
         score.registerEventsCallbacks(this.gameEventsManager);
-        scene.gameObjects().forEach(o -> o.registerGameEventsCallbacks(this.gameEventsManager, scene));
-        scene.gameObjects().forEach(o -> o.registerInputEventsCallbacks(this.inputEventsManager, scene));
+        scene.gameObjects().forEach(o -> o.setup(scene, this.gameEventsManager, this.inputEventsManager));
 
         this.gameEventsManager.registerCallback(GameEvent.GAME_OVER, this::stop);
         this.gameEventsManager.registerCallback(GameEvent.VICTORY, this::stop);

@@ -1,17 +1,28 @@
 package arcaym.model.game.core.engine.api;
 
 import arcaym.controller.game.core.events.api.EventsScheduler;
-import arcaym.controller.game.core.events.api.GameEventsObserver;
-import arcaym.controller.game.core.events.api.InputEventsObserver;
+import arcaym.controller.game.core.events.api.EventsSubscriber;
 import arcaym.controller.game.core.scene.api.GameSceneView;
 import arcaym.model.game.events.api.GameEvent;
+import arcaym.model.game.events.api.InputEvent;
 
 /**
  * Interface for an object that reacts to game updates.
  */
-public interface InteractiveObject extends 
-    GameEventsObserver,
-    InputEventsObserver {
+public interface InteractiveObject {
+
+    /**
+     * Setup object before game.
+     * 
+     * @param scene game scene
+     * @param gameEventsSubscriber game events subscriber
+     * @param inputEventsSubscriber input events subscriber
+     */
+    void setup(
+        GameSceneView scene, 
+        EventsSubscriber<GameEvent> gameEventsSubscriber, 
+        EventsSubscriber<InputEvent> inputEventsSubscriber
+    );
 
     /**
      * Update object for new game frame.

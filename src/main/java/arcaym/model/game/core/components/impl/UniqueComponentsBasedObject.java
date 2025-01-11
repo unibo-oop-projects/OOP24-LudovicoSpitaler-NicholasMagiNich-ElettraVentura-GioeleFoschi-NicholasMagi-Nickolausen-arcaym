@@ -35,28 +35,24 @@ public class UniqueComponentsBasedObject extends AbstractGameObject implements C
      * {@inheritDoc}
      */
     @Override
+    public void setup(
+        final GameSceneView scene,
+        final EventsSubscriber<GameEvent> gameEventsSubscriber,
+        final EventsSubscriber<InputEvent> inputEventsSubscriber
+    ) {
+        this.components.forEach(c -> c.setup(scene, gameEventsSubscriber, inputEventsSubscriber));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void update(
         final long deltaTime, 
         final EventsScheduler<GameEvent> eventsScheduler, 
         final GameSceneView scene
     ) {
         this.components.forEach(c -> c.update(deltaTime, eventsScheduler, scene));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void registerGameEventsCallbacks(final EventsSubscriber<GameEvent> eventsSubscriber, final GameSceneView scene) {
-        this.components.forEach(c -> c.registerGameEventsCallbacks(eventsSubscriber, scene));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void registerInputEventsCallbacks(final EventsSubscriber<InputEvent> eventsSubscriber, final GameSceneView scene) {
-        this.components.forEach(c -> c.registerInputEventsCallbacks(eventsSubscriber, scene));
     }
 
     /**
