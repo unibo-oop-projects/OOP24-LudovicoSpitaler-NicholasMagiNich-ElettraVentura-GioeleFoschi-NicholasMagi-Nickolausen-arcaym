@@ -21,8 +21,8 @@ import arcaym.controller.game.core.events.api.EventsManager;
  */
 public class ThreadSafeEventsManager<T> implements EventsManager<T> {
 
-    private static final int POLL_TIMEOUT = 1;
-    private static final TimeUnit POLL_TIME_UNIT = TimeUnit.MILLISECONDS;
+    private static final long POLL_TIMEOUT = 1;
+    private static final TimeUnit POLL_TIMEOUT_UNIT = TimeUnit.MILLISECONDS;
     private static final Logger LOGGER = Logger.getLogger(ThreadSafeEventsManager.class.getName());
 
     private final ConcurrentMap<T, List<Consumer<T>>> callbacks = new ConcurrentHashMap<>();
@@ -51,13 +51,11 @@ public class ThreadSafeEventsManager<T> implements EventsManager<T> {
      * {@inheritDoc}
      */
     @Override
-    public void notifyObservers() {
-        T event;
+    public void consumePendingEvents() {
         try {
-            while ((event = this.pendingEvents.poll(POLL_TIMEOUT, POLL_TIME_UNIT)) != null) {
-                for (final var callback : this.callbacks.getOrDefault(event, Collections.emptyList())) {
-                    callback.accept(event);
-                };
+            while (this.pendingEvents.peek() != null) {
+                final var event = this.pendingEvents.poll(POLL_TIMEOUT, POLL_TIMEOUT_UNIT);
+                this.callbacks.getOrDefault(event, Collections.emptyList()).forEach(c -> c.accept(event));
             }
         } catch (InterruptedException e) {
             LOGGER.warning("Pending events poll interrupted");

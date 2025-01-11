@@ -10,6 +10,6 @@ public interface EventsManager<T> extends EventsScheduler<T>, EventsSubscriber<T
     /**
      * Notify all observers of all pending events.
      */
-    void notifyObservers();
+    void consumePendingEvents();
 
 }

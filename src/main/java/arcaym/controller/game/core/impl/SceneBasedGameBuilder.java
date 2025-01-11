@@ -6,29 +6,24 @@ import arcaym.common.point.api.Point;
 import arcaym.controller.game.core.api.Game;
 import arcaym.controller.game.core.api.GameBuilder;
 import arcaym.controller.game.core.scene.api.GameSceneManager;
-import arcaym.controller.game.core.scene.impl.FactoryBasedGameSceneManager;
-import arcaym.model.game.core.objects.api.GameObjectFactory;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.view.game.api.GameView;
 
 /**
- * Implementation of {@link GameBuilder} that uses a {@link GameObjectFactory}.
+ * Implementation of {@link GameBuilder} that uses a {@link GameSceneManager}.
  */
-public class FactoryBasedGameBuilder implements GameBuilder {
+public class SceneBasedGameBuilder implements GameBuilder {
 
     private final GameSceneManager scene;
-    private final GameView view;
-    private boolean consumed = false;
+    private boolean consumed;
 
     /**
      * Initialize with the given view and factory.
      * 
-     * @param view game view
-     * @param factory game objects factory
+     * @param scene game view
      */
-    public FactoryBasedGameBuilder(final GameView view, final GameObjectFactory factory) {
-        this.view = Objects.requireNonNull(view);
-        this.scene = new FactoryBasedGameSceneManager(view, factory);
+    public SceneBasedGameBuilder(final GameSceneManager scene) {
+        this.scene = Objects.requireNonNull(scene);
     }
 
     /**
@@ -48,9 +43,10 @@ public class FactoryBasedGameBuilder implements GameBuilder {
      * {@inheritDoc}
      */
     @Override
-    public Game build() {
+    public Game build(final GameView view) {
         this.consumed = true;
-        return new SingleThreadedGame(this.scene, this.view);
+        this.scene.consumePendingActions();
+        return new SingleThreadedGame(this.scene, view);
     }
 
 }

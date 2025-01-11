@@ -28,7 +28,7 @@ public interface GameScene {
     void scheduleDestruction(GameObject gameObject);
 
     /**
-     * Get all objects in the scene.
+     * Get a view of all objects in the scene.
      * 
      * @return game objects
      */

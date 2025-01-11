@@ -21,13 +21,12 @@ import arcaym.view.game.api.GameView;
  */
 public abstract class AbstractGameSceneManager implements GameSceneManager {
 
-    private record CreationEvent(GameObjectType type, Point position) { }
-
     private final Set<GameObject> gameObjects = new HashSet<>();
-    private List<CreationEvent> creationEvents = new ArrayList<>();
-    private List<GameObject> destroyEvents = new ArrayList<>();
-
+    private final List<CreationEvent> creationEvents = new ArrayList<>();
+    private final List<GameObject> destroyEvents = new ArrayList<>();
     private final GameView view;
+
+    private record CreationEvent(GameObjectType type, Point position) { }
 
     /**
      * Initialize with the given view.
@@ -67,7 +66,15 @@ public abstract class AbstractGameSceneManager implements GameSceneManager {
      */
     @Override
     public Collection<GameObjectView> getObjects() {
-        return Collections.unmodifiableCollection(gameObjects);
+        return Collections.unmodifiableCollection(this.gameObjects);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Collection<GameObject> gameObjects() {
+        return Collections.unmodifiableCollection(this.gameObjects);
     }
 
     /**
