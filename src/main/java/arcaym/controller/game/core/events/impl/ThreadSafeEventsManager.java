@@ -9,7 +9,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
 import java.util.logging.Logger;
 
 import arcaym.controller.game.core.events.api.EventsManager;
@@ -25,14 +24,14 @@ public class ThreadSafeEventsManager<T> implements EventsManager<T> {
     private static final TimeUnit POLL_TIMEOUT_UNIT = TimeUnit.MILLISECONDS;
     private static final Logger LOGGER = Logger.getLogger(ThreadSafeEventsManager.class.getName());
 
-    private final ConcurrentMap<T, List<Consumer<T>>> callbacks = new ConcurrentHashMap<>();
+    private final ConcurrentMap<T, List<Runnable>> callbacks = new ConcurrentHashMap<>();
     private final BlockingQueue<T> pendingEvents = new LinkedBlockingQueue<>();
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void registerCallback(final T event, final Consumer<T> callback) {
+    public void registerCallback(final T event, final Runnable callback) {
         if (!this.callbacks.containsKey(Objects.requireNonNull(event))) {
             this.callbacks.put(event, new LinkedList<>());
         }
@@ -55,7 +54,7 @@ public class ThreadSafeEventsManager<T> implements EventsManager<T> {
         try {
             while (this.pendingEvents.peek() != null) {
                 final var event = this.pendingEvents.poll(POLL_TIMEOUT, POLL_TIMEOUT_UNIT);
-                this.callbacks.getOrDefault(event, Collections.emptyList()).forEach(c -> c.accept(event));
+                this.callbacks.getOrDefault(event, Collections.emptyList()).forEach(Runnable::run);
             }
         } catch (InterruptedException e) {
             LOGGER.warning("Pending events poll interrupted");

@@ -1,7 +1,6 @@
 package arcaym.controller.game.core.impl;
 
 import java.util.Objects;
-import java.util.stream.Stream;
 
 import arcaym.controller.game.core.api.Game;
 import arcaym.controller.game.core.events.api.EventsManager;
@@ -9,6 +8,8 @@ import arcaym.controller.game.core.events.impl.ThreadSafeEventsManager;
 import arcaym.controller.game.core.scene.api.GameSceneManager;
 import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.events.api.InputEvent;
+import arcaym.model.game.score.api.GameScore;
+import arcaym.model.game.score.api.GameScoreView;
 import arcaym.view.game.api.GameView;
 
 /**
@@ -20,17 +21,23 @@ public abstract class AbstractThreadSafeGame implements Game {
     private final EventsManager<GameEvent> gameEventsManager = new ThreadSafeEventsManager<>();
     private final EventsManager<InputEvent> inputEventsManager = new ThreadSafeEventsManager<>();
     private final GameSceneManager scene;
+    private final GameScore score;
 
     /**
      * Initialize with the given scene and view.
      * 
      * @param scene game scene manager
      * @param view game view
+     * @param score game score
      */
-    protected AbstractThreadSafeGame(final GameSceneManager scene, final GameView view) {
-        Objects.requireNonNull(view);
+    protected AbstractThreadSafeGame(
+        final GameSceneManager scene, 
+        final GameView view,
+        final GameScore score
+    ) {
         this.scene = Objects.requireNonNull(scene);
-        Stream.of(GameEvent.values()).forEach(e -> this.gameEventsManager.registerCallback(e, view::onGameEvent));
+        this.score = Objects.requireNonNull(score);
+        Objects.requireNonNull(view).registerEventsCallbacks(this.gameEventsManager);
         scene.gameObjects().forEach(o -> o.registerGameEventsCallbacks(this.gameEventsManager, scene));
         scene.gameObjects().forEach(o -> o.registerInputEventsCallbacks(this.inputEventsManager, scene));
     }
@@ -60,6 +67,14 @@ public abstract class AbstractThreadSafeGame implements Game {
      */
     protected final GameSceneManager scene() {
         return this.scene;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public GameScoreView score() {
+        return this.score;
     }
 
     /**

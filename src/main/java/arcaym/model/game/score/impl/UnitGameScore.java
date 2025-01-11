@@ -13,23 +13,23 @@ public class UnitGameScore extends AbstractGameScore {
      * @param unit base unit
      */
     public UnitGameScore(final int unit) {
-        this.unit = this.requirePositive(unit);
+        this.unit = unit;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void increment(final int amount) {
-        this.changeValue(this.requirePositive(amount) * this.unit);
+    protected void increment() {
+        this.changeValue(this.unit);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void decrement(final int amount) {
-        this.changeValue(-this.requirePositive(amount) * this.unit);
+    protected void decrement() {
+        this.changeValue(-this.unit);
     }
 
 }

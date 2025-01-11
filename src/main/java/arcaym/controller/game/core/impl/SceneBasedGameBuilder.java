@@ -7,6 +7,7 @@ import arcaym.controller.game.core.api.Game;
 import arcaym.controller.game.core.api.GameBuilder;
 import arcaym.controller.game.core.scene.api.GameSceneManager;
 import arcaym.model.game.objects.api.GameObjectType;
+import arcaym.model.game.score.api.GameScore;
 import arcaym.view.game.api.GameView;
 
 /**
@@ -43,10 +44,10 @@ public class SceneBasedGameBuilder implements GameBuilder {
      * {@inheritDoc}
      */
     @Override
-    public Game build(final GameView view) {
+    public Game build(final GameView view, final GameScore score) {
         this.consumed = true;
         this.scene.consumePendingActions();
-        return new SingleThreadedGame(this.scene, view);
+        return new SingleThreadedGame(this.scene, view, score);
     }
 
 }

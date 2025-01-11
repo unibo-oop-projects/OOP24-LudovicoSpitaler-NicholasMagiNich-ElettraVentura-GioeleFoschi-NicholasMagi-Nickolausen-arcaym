@@ -3,6 +3,8 @@ package arcaym.model.game.score.impl;
 import arcaym.common.utils.representation.FieldRepresentation;
 import arcaym.common.utils.representation.StringRepresentation;
 import arcaym.common.utils.representation.TypeRepresentation;
+import arcaym.controller.game.core.events.api.EventsSubscriber;
+import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.score.api.GameScore;
 
 /**
@@ -15,17 +17,31 @@ public abstract class AbstractGameScore implements GameScore {
     private int value;
 
     /**
-     * Check if amout is a positive value.
+     * Change current value of certain amount.
      * 
-     * @param amount value to check
-     * @return the value
-     * @throws IllegalArgumentException if the value is negative
+     * @param amount change value
      */
-    protected final int requirePositive(final int amount) {
-        if (amount < 0) {
-            throw new IllegalArgumentException("Score manipulation amount must be positive");
-        }
-        return amount;
+    protected final void changeValue(final int amount) {
+        this.value += amount;
+    }
+
+    /**
+     * Increment score.
+     */
+    protected abstract void increment();
+
+    /**
+     * Decrement score.
+     */
+    protected abstract void decrement();
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void registerEventsCallbacks(final EventsSubscriber<GameEvent> eventsSubscriber) {
+        eventsSubscriber.registerCallback(GameEvent.INCREMENT_SCORE, this::increment);
+        eventsSubscriber.registerCallback(GameEvent.DECREMENT_SCORE, this::decrement);
     }
 
     /**
@@ -35,24 +51,6 @@ public abstract class AbstractGameScore implements GameScore {
     @FieldRepresentation
     public int getValue() {
         return this.value;
-    }
-
-    /**
-     * Set current value.
-     * 
-     * @param value new value
-     */
-    protected void setValue(final int value) {
-        this.value = value;
-    }
-
-    /**
-     * Change current value of certain amount.
-     * 
-     * @param amount change value
-     */
-    protected void changeValue(final int amount) {
-        this.value += amount;
     }
 
     /**

@@ -2,6 +2,7 @@ package arcaym.view.game.api;
 
 import java.util.Collection;
 
+import arcaym.controller.game.core.events.api.EventsListener;
 import arcaym.controller.game.core.events.api.EventsScheduler;
 import arcaym.model.game.core.objects.api.GameObjectView;
 import arcaym.model.game.events.api.GameEvent;
@@ -10,7 +11,7 @@ import arcaym.model.game.events.api.InputEvent;
 /**
  * Interface for a game view.
  */
-public interface GameView {
+public interface GameView extends EventsListener<GameEvent> {
 
     /**
      * Set input events scheduler to use.
@@ -39,12 +40,5 @@ public interface GameView {
      * @param gameObject game objects
      */
     void destroyObject(GameObjectView gameObject);
-
-    /**
-     * React to game event.
-     * 
-     * @param event game event
-     */
-    void onGameEvent(GameEvent event);
 
 }

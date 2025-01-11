@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import arcaym.controller.game.core.api.Game;
 import arcaym.controller.game.core.scene.api.GameSceneManager;
+import arcaym.model.game.score.api.GameScore;
 import arcaym.view.game.api.GameView;
 
 /**
@@ -20,8 +21,12 @@ public class SingleThreadedGame extends AbstractThreadSafeGame {
                                             .daemon()
                                             .unstarted(this::gameLoop);
 
-    SingleThreadedGame(final GameSceneManager scene, final GameView view) {
-        super(scene, view);
+    SingleThreadedGame(
+        final GameSceneManager scene, 
+        final GameView view,
+        final GameScore score
+    ) {
+        super(scene, view, score);
     }
 
     /**

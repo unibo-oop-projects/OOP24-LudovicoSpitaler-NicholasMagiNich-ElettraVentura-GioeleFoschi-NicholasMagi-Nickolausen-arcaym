@@ -2,6 +2,7 @@ package arcaym.controller.game.core.api;
 
 import arcaym.common.point.api.Point;
 import arcaym.model.game.objects.api.GameObjectType;
+import arcaym.model.game.score.api.GameScore;
 import arcaym.view.game.api.GameView;
 
 /**
@@ -23,8 +24,9 @@ public interface GameBuilder {
      * Build game with added objects and attach view to it.
      * 
      * @param view game view
+     * @param score game score
      * @return resulting game
      */
-    Game build(GameView view);
+    Game build(GameView view, GameScore score);
 
 }
