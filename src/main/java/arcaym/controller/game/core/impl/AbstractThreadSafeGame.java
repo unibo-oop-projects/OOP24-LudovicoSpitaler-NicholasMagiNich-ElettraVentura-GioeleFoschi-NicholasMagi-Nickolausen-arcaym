@@ -3,6 +3,7 @@ package arcaym.controller.game.core.impl;
 import java.util.Objects;
 
 import arcaym.controller.game.core.api.Game;
+import arcaym.controller.game.core.api.GameObserver;
 import arcaym.controller.game.core.events.api.EventsManager;
 import arcaym.controller.game.core.events.impl.ThreadSafeEventsManager;
 import arcaym.controller.game.core.scene.api.GameScene;
@@ -10,7 +11,6 @@ import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.events.api.InputEvent;
 import arcaym.model.game.score.api.GameScore;
 import arcaym.model.game.score.api.GameScoreView;
-import arcaym.view.game.api.GameObserver;
 
 /**
  * Abstract implementation of {@link Game}.

@@ -3,7 +3,6 @@ package arcaym.controller.game.core.api;
 import arcaym.common.point.api.Point;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.model.game.score.api.GameScore;
-import arcaym.view.game.api.GameObserver;
 
 /**
  * Interface for a {@link Game} builder.

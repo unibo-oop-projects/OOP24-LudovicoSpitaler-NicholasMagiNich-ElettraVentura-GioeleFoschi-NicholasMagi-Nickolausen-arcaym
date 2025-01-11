@@ -2,11 +2,11 @@ package arcaym.controller.game.core.scene.impl;
 
 import java.util.Objects;
 
+import arcaym.controller.game.core.api.GameObserver;
 import arcaym.controller.game.core.scene.api.GameScene;
 import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.core.objects.api.GameObjectFactory;
 import arcaym.model.game.objects.api.GameObjectType;
-import arcaym.view.game.api.GameObserver;
 
 /**
  * Implementation of {@link GameScene} that uses a {@link GameObjectFactory}.
