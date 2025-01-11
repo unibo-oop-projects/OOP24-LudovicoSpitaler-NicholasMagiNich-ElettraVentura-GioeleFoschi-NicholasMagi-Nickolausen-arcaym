@@ -35,9 +35,12 @@ public abstract class AbstractThreadSafeGame implements Game {
         final GameView view,
         final GameScore score
     ) {
+        Objects.requireNonNull(view);
         this.scene = Objects.requireNonNull(scene);
         this.score = Objects.requireNonNull(score);
-        Objects.requireNonNull(view).registerEventsCallbacks(this.gameEventsManager);
+
+        view.registerEventsCallbacks(this.gameEventsManager);
+        score.registerEventsCallbacks(this.gameEventsManager);
         scene.gameObjects().forEach(o -> o.registerGameEventsCallbacks(this.gameEventsManager, scene));
         scene.gameObjects().forEach(o -> o.registerInputEventsCallbacks(this.inputEventsManager, scene));
     }
