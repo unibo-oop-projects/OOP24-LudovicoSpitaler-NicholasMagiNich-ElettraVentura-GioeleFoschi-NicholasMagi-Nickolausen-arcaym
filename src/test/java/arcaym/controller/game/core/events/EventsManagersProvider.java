@@ -6,7 +6,7 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 
-import arcaym.controller.game.core.events.impl.ThreadSafeEventsManager;
+import arcaym.controller.game.events.impl.ThreadSafeEventsManager;
 
 class EventsManagersProvider implements ArgumentsProvider {
 

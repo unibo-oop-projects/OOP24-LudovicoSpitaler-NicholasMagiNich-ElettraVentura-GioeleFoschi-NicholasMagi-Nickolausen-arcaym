@@ -4,7 +4,7 @@ import java.util.logging.Logger;
 
 import arcaym.controller.game.core.api.Game;
 import arcaym.controller.game.core.api.GameObserver;
-import arcaym.controller.game.core.scene.api.GameScene;
+import arcaym.controller.game.scene.api.GameScene;
 import arcaym.model.game.score.api.GameScore;
 
 /**
