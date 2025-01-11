@@ -1,6 +1,6 @@
 package arcaym.model.game.score.api;
 
-import arcaym.controller.game.core.events.api.EventsObserver;
+import arcaym.controller.game.events.api.EventsObserver;
 import arcaym.model.game.events.api.GameEvent;
 
 /**

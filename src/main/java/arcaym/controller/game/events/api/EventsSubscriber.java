@@ -1,4 +1,4 @@
-package arcaym.controller.game.core.events.api;
+package arcaym.controller.game.events.api;
 
 /**
  * Interface for an events subscriber.

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
-import arcaym.controller.game.core.events.api.EventsManager;
+import arcaym.controller.game.events.api.EventsManager;
 
 class TestEventsManager {
 

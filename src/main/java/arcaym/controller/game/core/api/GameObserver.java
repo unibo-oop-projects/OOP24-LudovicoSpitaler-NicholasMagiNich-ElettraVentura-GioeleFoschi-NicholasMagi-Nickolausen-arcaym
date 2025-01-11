@@ -2,8 +2,8 @@ package arcaym.controller.game.core.api;
 
 import java.util.Collection;
 
-import arcaym.controller.game.core.events.api.EventsObserver;
-import arcaym.controller.game.core.events.api.EventsScheduler;
+import arcaym.controller.game.events.api.EventsObserver;
+import arcaym.controller.game.events.api.EventsScheduler;
 import arcaym.model.game.core.objects.api.GameObjectView;
 import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.events.api.InputEvent;
