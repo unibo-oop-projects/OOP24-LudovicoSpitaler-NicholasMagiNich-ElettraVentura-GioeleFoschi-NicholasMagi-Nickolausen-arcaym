@@ -10,11 +10,14 @@ import org.junit.jupiter.params.provider.Arguments;
 
 class TestArgumentsUtils {
 
-    private List<List<Object>> argumentsList(final Stream<? extends Arguments> arguments) {
+    private static List<List<Object>> argumentsList(final Stream<? extends Arguments> arguments) {
         return arguments.map(Arguments::get).map(List::of).toList();
     }
 
-    private void assertArgumentsEquals(final Stream<? extends Arguments> expected, final Stream<? extends Arguments> arguments) {
+    private static void assertArgumentsEquals(
+        final Stream<? extends Arguments> expected, 
+        final Stream<? extends Arguments> arguments
+    ) {
         assertEquals(argumentsList(expected), argumentsList(arguments));
     }
 
@@ -39,7 +42,6 @@ class TestArgumentsUtils {
                 List.of("a", "b")
             )
         );
-
         assertArgumentsEquals(
             Stream.of(
                 Arguments.of(1, "a", true),
