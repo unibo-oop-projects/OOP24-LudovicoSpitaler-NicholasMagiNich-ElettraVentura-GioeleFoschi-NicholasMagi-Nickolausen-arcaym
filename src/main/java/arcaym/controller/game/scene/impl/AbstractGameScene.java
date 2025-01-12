@@ -19,7 +19,7 @@ import arcaym.model.game.objects.api.GameObjectType;
  * Abstract implementation of {@link GameScene}.
  * It provides events handling while leaving the creation of the objects.
  */
-public abstract class AbstractGameSceneManager implements GameScene {
+public abstract class AbstractGameScene implements GameScene {
 
     private final Set<GameObject> gameObjects = new HashSet<>();
     private final List<CreationEvent> creationEvents = new ArrayList<>();
@@ -33,7 +33,7 @@ public abstract class AbstractGameSceneManager implements GameScene {
      * 
      * @param gameObserver game observer
      */
-    protected AbstractGameSceneManager(final GameObserver gameObserver) {
+    protected AbstractGameScene(final GameObserver gameObserver) {
         this.gameObserver = Objects.requireNonNull(gameObserver);
     }
 

@@ -1,30 +1,31 @@
 package arcaym.controller.game.core.impl;
 
-import java.util.Objects;
-
 import arcaym.common.point.api.Point;
 import arcaym.controller.game.core.api.Game;
 import arcaym.controller.game.core.api.GameBuilder;
 import arcaym.controller.game.core.api.GameObserver;
 import arcaym.controller.game.scene.api.GameScene;
+import arcaym.controller.game.scene.impl.FactoryBasedGameScene;
+import arcaym.model.game.core.objects.api.GameObjectFactory;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.model.game.score.api.GameScore;
 
 /**
- * Implementation of {@link GameBuilder} that uses a {@link GameScene}.
+ * Implementation of {@link GameBuilder} that uses a {@link GameObjectFactory}.
  */
-public class SceneBasedGameBuilder implements GameBuilder {
+public class FactoryBasedGameBuilder implements GameBuilder {
 
     private final GameScene scene;
     private boolean consumed;
 
     /**
-     * Initialize with the given scene.
+     * Initialize with the given factory and observer.
      * 
-     * @param scene game scene
+     * @param gameObserver game observer
+     * @param factory game objects factory
      */
-    public SceneBasedGameBuilder(final GameScene scene) {
-        this.scene = Objects.requireNonNull(scene);
+    public FactoryBasedGameBuilder(final GameObserver gameObserver, final GameObjectFactory factory) {
+        this.scene = new FactoryBasedGameScene(gameObserver, factory);
     }
 
     /**

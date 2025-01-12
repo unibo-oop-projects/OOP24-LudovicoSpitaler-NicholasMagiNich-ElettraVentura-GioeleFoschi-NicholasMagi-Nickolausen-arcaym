@@ -11,7 +11,7 @@ import arcaym.model.game.objects.api.GameObjectType;
 /**
  * Implementation of {@link GameScene} that uses a {@link GameObjectFactory}.
  */
-public class FactoryBasedGameSceneManager extends AbstractGameSceneManager {
+public class FactoryBasedGameScene extends AbstractGameScene {
 
     private final GameObjectFactory factory;
 
@@ -21,7 +21,7 @@ public class FactoryBasedGameSceneManager extends AbstractGameSceneManager {
      * @param gameObserver game observer
      * @param factory game objects factory
      */
-    public FactoryBasedGameSceneManager(final GameObserver gameObserver, final GameObjectFactory factory) {
+    public FactoryBasedGameScene(final GameObserver gameObserver, final GameObjectFactory factory) {
         super(gameObserver);
         this.factory = Objects.requireNonNull(factory);
     }
