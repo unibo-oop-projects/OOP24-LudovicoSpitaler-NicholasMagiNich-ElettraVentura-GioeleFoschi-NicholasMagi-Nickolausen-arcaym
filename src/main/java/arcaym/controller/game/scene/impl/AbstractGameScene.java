@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import arcaym.common.point.api.Point;
 import arcaym.controller.game.core.api.GameObserver;
 import arcaym.controller.game.scene.api.GameScene;
 import arcaym.model.game.core.objects.api.GameObject;
@@ -22,11 +21,9 @@ import arcaym.model.game.objects.api.GameObjectType;
 public abstract class AbstractGameScene implements GameScene {
 
     private final Set<GameObject> gameObjects = new HashSet<>();
-    private final List<CreationEvent> creationEvents = new ArrayList<>();
+    private final List<CreationInfo> creationEvents = new ArrayList<>();
     private final List<GameObject> destroyEvents = new ArrayList<>();
     private final GameObserver gameObserver;
-
-    private record CreationEvent(GameObjectType type, Point position) { }
 
     /**
      * Initialize with the given game observer.
@@ -49,8 +46,8 @@ public abstract class AbstractGameScene implements GameScene {
      * {@inheritDoc}
      */
     @Override
-    public void scheduleCreation(final GameObjectType type, final Point position) {
-        this.creationEvents.add(new CreationEvent(Objects.requireNonNull(type), Objects.requireNonNull(position)));
+    public void scheduleCreation(final CreationInfo creationInfo) {
+        this.creationEvents.add(creationInfo);
     }
 
     /**
@@ -86,9 +83,9 @@ public abstract class AbstractGameScene implements GameScene {
         destroyEvents.forEach(this::destroyObject);
     }
 
-    private void createObject(final CreationEvent event) {
-        final var gameObject = this.createInstance(event.type);
-        gameObject.setPosition(event.position);
+    private void createObject(final CreationInfo event) {
+        final var gameObject = this.createInstance(event.type());
+        gameObject.setPosition(event.position());
         this.gameObserver.createObject(gameObject);
     }
 

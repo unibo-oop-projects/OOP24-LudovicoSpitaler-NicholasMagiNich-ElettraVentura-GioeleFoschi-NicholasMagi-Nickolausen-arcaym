@@ -2,7 +2,6 @@ package arcaym.controller.game.core.api;
 
 import arcaym.controller.game.events.api.EventsScheduler;
 import arcaym.model.game.events.api.InputEvent;
-import arcaym.model.game.score.api.GameScoreView;
 
 /**
  * Interface for the main game.
@@ -10,20 +9,20 @@ import arcaym.model.game.score.api.GameScoreView;
 public interface Game extends EventsScheduler<InputEvent> {
 
     /**
-     * Get game score.
-     * 
-     * @return game score
-     */
-    GameScoreView score();
-
-    /**
      * Start game.
      */
     void start();
 
     /**
-     * Force stop the game.
+     * Schedule ending of the game.
      */
-    void stop();
+    void scheduleStop();
+
+    /**
+     * Get game state.
+     * 
+     * @return game state
+     */
+    GameState state();
 
 }

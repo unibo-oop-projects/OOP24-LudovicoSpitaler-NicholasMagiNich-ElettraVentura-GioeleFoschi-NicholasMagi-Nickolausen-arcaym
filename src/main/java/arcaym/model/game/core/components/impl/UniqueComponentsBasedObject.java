@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import arcaym.controller.game.core.api.GameState;
 import arcaym.controller.game.events.api.EventsScheduler;
 import arcaym.controller.game.events.api.EventsSubscriber;
 import arcaym.controller.game.scene.api.GameSceneView;
@@ -38,9 +39,10 @@ public class UniqueComponentsBasedObject extends AbstractGameObject implements C
     public void setup(
         final GameSceneView scene,
         final EventsSubscriber<GameEvent> gameEventsSubscriber,
-        final EventsSubscriber<InputEvent> inputEventsSubscriber
+        final EventsSubscriber<InputEvent> inputEventsSubscriber,
+        final GameState state
     ) {
-        this.components.forEach(c -> c.setup(scene, gameEventsSubscriber, inputEventsSubscriber));
+        this.components.forEach(c -> c.setup(scene, gameEventsSubscriber, inputEventsSubscriber, state));
     }
 
     /**
@@ -50,9 +52,10 @@ public class UniqueComponentsBasedObject extends AbstractGameObject implements C
     public void update(
         final long deltaTime, 
         final EventsScheduler<GameEvent> eventsScheduler, 
-        final GameSceneView scene
+        final GameSceneView scene,
+        final GameState state
     ) {
-        this.components.forEach(c -> c.update(deltaTime, eventsScheduler, scene));
+        this.components.forEach(c -> c.update(deltaTime, eventsScheduler, scene, state));
     }
 
     /**

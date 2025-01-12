@@ -1,6 +1,7 @@
 package arcaym.controller.game.scene.api;
 
 import java.util.Collection;
+import java.util.Objects;
 
 import arcaym.common.point.api.Point;
 import arcaym.model.game.core.objects.api.GameObject;
@@ -13,12 +14,29 @@ import arcaym.model.game.objects.api.GameObjectType;
 public interface GameSceneView {
 
     /**
-     * Spawn object in the scene.
+     * Record to represent a creation event.
      * 
      * @param type game object type
      * @param position game object position
      */
-    void scheduleCreation(GameObjectType type, Point position);
+    record CreationInfo(GameObjectType type, Point position) { }
+
+    /**
+     * Schedule creation of an object in the scene.
+     * 
+     * @param type game object type
+     * @param position game object position
+     */
+    default void scheduleCreation(final GameObjectType type, final Point position) {
+        this.scheduleCreation(new CreationInfo(Objects.requireNonNull(type), Objects.requireNonNull(position)));
+    }
+
+    /**
+     * Schedule creation of an object in the scene.
+     * 
+     * @param creationEvent creation event
+     */
+    void scheduleCreation(CreationInfo creationEvent);
 
     /**
      * Remove object from the scene.

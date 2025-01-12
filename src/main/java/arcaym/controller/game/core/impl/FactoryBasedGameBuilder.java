@@ -1,55 +1,44 @@
 package arcaym.controller.game.core.impl;
 
-import arcaym.common.point.api.Point;
+import java.util.Objects;
+
 import arcaym.controller.game.core.api.Game;
 import arcaym.controller.game.core.api.GameBuilder;
 import arcaym.controller.game.core.api.GameObserver;
 import arcaym.controller.game.scene.api.GameScene;
 import arcaym.controller.game.scene.impl.FactoryBasedGameScene;
 import arcaym.model.game.core.objects.api.GameObjectsFactory;
-import arcaym.model.game.objects.api.GameObjectType;
-import arcaym.model.game.score.api.GameScore;
 
 /**
  * Implementation of {@link GameBuilder} that uses a {@link GameObjectsFactory}.
  */
-public class FactoryBasedGameBuilder implements GameBuilder {
+public class FactoryBasedGameBuilder extends AbstractGameBuilder {
 
-    private final GameScene scene;
-    private boolean consumed;
+    private final GameObjectsFactory factory;
 
     /**
-     * Initialize with the given factory and observer.
+     * Initialize with the given factory.
      * 
-     * @param gameObserver game observer
      * @param factory game objects factory
      */
-    public FactoryBasedGameBuilder(final GameObserver gameObserver, final GameObjectsFactory factory) {
-        this.scene = new FactoryBasedGameScene(gameObserver, factory);
+    public FactoryBasedGameBuilder(final GameObjectsFactory factory) {
+        this.factory = Objects.requireNonNull(factory);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public GameBuilder addObject(final GameObjectType type, final Point position) {
-        if (this.consumed) {
-            throw new IllegalStateException("Builder already consumed");
-        }
-
-        this.scene.scheduleCreation(type, position);
-        return this;
+    public GameScene buildScene(final GameObserver gameObserver) {
+        return new FactoryBasedGameScene(gameObserver, this.factory);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Game build(final GameObserver gameObserver, final GameScore score) {
-        // re-give observer because of spotBugs
-        this.consumed = true;
-        this.scene.consumePendingActions();
-        return new SingleThreadedGame(this.scene, gameObserver, score);
+    protected Game buildGame(final GameScene scene, final GameObserver gameObserver) {
+        return new SingleThreadedGame(scene, gameObserver);
     }
 
 }
