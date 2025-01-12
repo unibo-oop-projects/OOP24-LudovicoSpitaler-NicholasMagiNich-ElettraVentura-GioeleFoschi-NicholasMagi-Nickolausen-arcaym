@@ -1,5 +1,8 @@
 package arcaym.view.editor.components.api;
 
-public interface SideMenu{
+/**
+ * An interface exposing the methods used for the side menu.
+ */
+public interface SideMenu {
 
 }

@@ -1,5 +1,8 @@
 package arcaym.view.editor.components.api;
 
-public interface EditorGrid{
+/**
+ * An interface exposing the methods necessary for the editor grid.
+ */
+public interface EditorGrid {
 
 }
