@@ -12,22 +12,22 @@ public interface ComponentsBasedObject extends GameObject {
     /**
      * Add game component.
      * 
-     * @param component game component
+     * @param gameComponent game component
      */
-    void addComponent(GameComponent component);
+    void addComponent(GameComponent gameComponent);
 
     /**
      * Remove game component.
      * 
-     * @param component game component
+     * @param gameComponent game component
      */
-    void removeComponent(GameComponent component);
+    void removeComponent(GameComponent gameComponent);
 
     /**
      * Get current components.
      * 
      * @return game components collection
      */
-    Collection<GameComponent> getComponents();
+    Collection<GameComponent> getGameComponents();
 
 }

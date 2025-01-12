@@ -6,7 +6,7 @@ import arcaym.model.game.core.engine.api.InteractiveObject;
 /**
  * Interface for a basic game object.
  */
-public interface GameObject extends InteractiveObject, GameObjectView {
+public interface GameObject extends InteractiveObject, GameObjectInfo {
 
     /**
      * Set object position.

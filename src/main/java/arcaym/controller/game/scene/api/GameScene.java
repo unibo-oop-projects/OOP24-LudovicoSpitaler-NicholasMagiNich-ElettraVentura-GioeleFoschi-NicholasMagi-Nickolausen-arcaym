@@ -7,7 +7,7 @@ import arcaym.model.game.core.objects.api.GameObject;
 /**
  * Interface for a game scene.
  */
-public interface GameScene extends GameSceneView {
+public interface GameScene extends GameSceneInfo {
 
     /**
      * Consume pending scene events.
@@ -19,6 +19,6 @@ public interface GameScene extends GameSceneView {
      * 
      * @return game objects
      */
-    Collection<GameObject> gameObjects();
+    Collection<GameObject> getGameObjects();
 
 }

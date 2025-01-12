@@ -8,7 +8,7 @@ import java.util.Set;
 import arcaym.controller.game.core.api.GameState;
 import arcaym.controller.game.events.api.EventsScheduler;
 import arcaym.controller.game.events.api.EventsSubscriber;
-import arcaym.controller.game.scene.api.GameSceneView;
+import arcaym.controller.game.scene.api.GameSceneInfo;
 import arcaym.model.game.core.components.api.ComponentsBasedObject;
 import arcaym.model.game.core.components.api.GameComponent;
 import arcaym.model.game.core.objects.impl.AbstractGameObject;
@@ -21,15 +21,15 @@ import arcaym.model.game.objects.api.GameObjectType;
 */
 public class UniqueComponentsBasedObject extends AbstractGameObject implements ComponentsBasedObject {
 
-    private final Set<GameComponent> components = new HashSet<>();
+    private final Set<GameComponent> gameComponents = new HashSet<>();
 
     /**
      * Initialize with the given object type.
      * 
-     * @param type game object type
+     * @param gameObjectType game object type
      */
-    public UniqueComponentsBasedObject(final GameObjectType type) {
-        super(type);
+    public UniqueComponentsBasedObject(final GameObjectType gameObjectType) {
+        super(gameObjectType);
     }
 
     /**
@@ -37,12 +37,12 @@ public class UniqueComponentsBasedObject extends AbstractGameObject implements C
      */
     @Override
     public void setup(
-        final GameSceneView scene,
         final EventsSubscriber<GameEvent> gameEventsSubscriber,
         final EventsSubscriber<InputEvent> inputEventsSubscriber,
-        final GameState state
+        final GameSceneInfo gameScene,
+        final GameState gameState
     ) {
-        this.components.forEach(c -> c.setup(scene, gameEventsSubscriber, inputEventsSubscriber, state));
+        this.gameComponents.forEach(c -> c.setup(gameEventsSubscriber, inputEventsSubscriber, gameScene, gameState));
     }
 
     /**
@@ -52,34 +52,34 @@ public class UniqueComponentsBasedObject extends AbstractGameObject implements C
     public void update(
         final long deltaTime, 
         final EventsScheduler<GameEvent> eventsScheduler, 
-        final GameSceneView scene,
-        final GameState state
+        final GameSceneInfo gameScene,
+        final GameState gameState
     ) {
-        this.components.forEach(c -> c.update(deltaTime, eventsScheduler, scene, state));
+        this.gameComponents.forEach(c -> c.update(deltaTime, eventsScheduler, gameScene, gameState));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void addComponent(final GameComponent component) {
-        this.components.add(component);
+    public void addComponent(final GameComponent gameComponent) {
+        this.gameComponents.add(gameComponent);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void removeComponent(final GameComponent component) {
-        this.components.remove(component);
+    public void removeComponent(final GameComponent gameComponent) {
+        this.gameComponents.remove(gameComponent);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Collection<GameComponent> getComponents() {
-        return Collections.unmodifiableCollection(this.components);
+    public Collection<GameComponent> getGameComponents() {
+        return Collections.unmodifiableCollection(this.gameComponents);
     }
 
 }

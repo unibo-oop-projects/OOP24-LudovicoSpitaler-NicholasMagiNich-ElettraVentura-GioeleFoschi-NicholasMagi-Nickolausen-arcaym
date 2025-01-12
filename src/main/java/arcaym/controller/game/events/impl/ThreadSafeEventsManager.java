@@ -26,7 +26,7 @@ public class ThreadSafeEventsManager<T extends Event> implements EventsManager<T
     private static final Logger LOGGER = Logger.getLogger(ThreadSafeEventsManager.class.getName());
     private static final int EVENTS_QUEUE_INITIAL_CAPACITY = 10;
 
-    private final ConcurrentMap<T, List<Runnable>> callbacks = new ConcurrentHashMap<>();
+    private final ConcurrentMap<T, List<Runnable>> eventsCallbacks = new ConcurrentHashMap<>();
     private final BlockingQueue<T> pendingEvents = new PriorityBlockingQueue<>(
         EVENTS_QUEUE_INITIAL_CAPACITY, 
         Event::compare
@@ -37,10 +37,10 @@ public class ThreadSafeEventsManager<T extends Event> implements EventsManager<T
      */
     @Override
     public void registerCallback(final T event, final Runnable callback) {
-        if (!this.callbacks.containsKey(Objects.requireNonNull(event))) {
-            this.callbacks.put(event, new LinkedList<>());
+        if (!this.eventsCallbacks.containsKey(Objects.requireNonNull(event))) {
+            this.eventsCallbacks.put(event, new LinkedList<>());
         }
-        this.callbacks.get(event).add(Objects.requireNonNull(callback));
+        this.eventsCallbacks.get(event).add(Objects.requireNonNull(callback));
     }
 
     /**
@@ -59,7 +59,7 @@ public class ThreadSafeEventsManager<T extends Event> implements EventsManager<T
         try {
             while (this.pendingEvents.peek() != null) {
                 final var event = this.pendingEvents.poll(POLL_TIMEOUT, POLL_TIMEOUT_UNIT);
-                this.callbacks.getOrDefault(event, Collections.emptyList()).forEach(Runnable::run);
+                this.eventsCallbacks.getOrDefault(event, Collections.emptyList()).forEach(Runnable::run);
             }
         } catch (InterruptedException e) {
             LOGGER.warning("Pending events poll interrupted");

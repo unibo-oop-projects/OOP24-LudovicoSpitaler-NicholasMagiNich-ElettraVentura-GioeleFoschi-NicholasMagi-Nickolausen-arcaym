@@ -5,13 +5,13 @@ import java.util.Objects;
 
 import arcaym.common.point.api.Point;
 import arcaym.model.game.core.objects.api.GameObject;
-import arcaym.model.game.core.objects.api.GameObjectView;
+import arcaym.model.game.core.objects.api.GameObjectInfo;
 import arcaym.model.game.objects.api.GameObjectType;
 
 /**
- * Interface for a {@link GameScene} restricted view.
+ * Interface for a {@link GameScene} info view.
  */
-public interface GameSceneView {
+public interface GameSceneInfo {
 
     /**
      * Record to represent a creation event.
@@ -24,11 +24,11 @@ public interface GameSceneView {
     /**
      * Schedule creation of an object in the scene.
      * 
-     * @param type game object type
+     * @param gameObjectType game object type
      * @param position game object position
      */
-    default void scheduleCreation(final GameObjectType type, final Point position) {
-        this.scheduleCreation(new CreationInfo(Objects.requireNonNull(type), Objects.requireNonNull(position)));
+    default void scheduleCreation(final GameObjectType gameObjectType, final Point position) {
+        this.scheduleCreation(new CreationInfo(Objects.requireNonNull(gameObjectType), Objects.requireNonNull(position)));
     }
 
     /**
@@ -50,6 +50,6 @@ public interface GameSceneView {
      * 
      * @return game objects
      */
-    Collection<GameObjectView> getObjects();
+    Collection<GameObjectInfo> getGameObjectsInfos();
 
 }

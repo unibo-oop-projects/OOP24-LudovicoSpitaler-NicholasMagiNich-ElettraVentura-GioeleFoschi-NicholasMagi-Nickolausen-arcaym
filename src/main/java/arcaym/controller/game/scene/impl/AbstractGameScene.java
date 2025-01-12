@@ -11,7 +11,7 @@ import java.util.Set;
 import arcaym.controller.game.core.api.GameObserver;
 import arcaym.controller.game.scene.api.GameScene;
 import arcaym.model.game.core.objects.api.GameObject;
-import arcaym.model.game.core.objects.api.GameObjectView;
+import arcaym.model.game.core.objects.api.GameObjectInfo;
 import arcaym.model.game.objects.api.GameObjectType;
 
 /**
@@ -37,10 +37,10 @@ public abstract class AbstractGameScene implements GameScene {
     /**
      * Create a new instance of a game object.
      * 
-     * @param type game object type
+     * @param gameObjectType game object type
      * @return resulting object
      */
-    protected abstract GameObject createInstance(GameObjectType type);
+    protected abstract GameObject createInstance(GameObjectType gameObjectType);
 
     /**
      * {@inheritDoc}
@@ -62,7 +62,7 @@ public abstract class AbstractGameScene implements GameScene {
      * {@inheritDoc}
      */
     @Override
-    public Collection<GameObjectView> getObjects() {
+    public Collection<GameObjectInfo> getGameObjectsInfos() {
         return Collections.unmodifiableCollection(this.gameObjects);
     }
 
@@ -70,7 +70,7 @@ public abstract class AbstractGameScene implements GameScene {
      * {@inheritDoc}
      */
     @Override
-    public Collection<GameObject> gameObjects() {
+    public Collection<GameObject> getGameObjects() {
         return Collections.unmodifiableCollection(this.gameObjects);
     }
 
@@ -83,9 +83,9 @@ public abstract class AbstractGameScene implements GameScene {
         destroyEvents.forEach(this::destroyObject);
     }
 
-    private void createObject(final CreationInfo event) {
-        final var gameObject = this.createInstance(event.type());
-        gameObject.setPosition(event.position());
+    private void createObject(final CreationInfo creationEvent) {
+        final var gameObject = this.createInstance(creationEvent.type());
+        gameObject.setPosition(creationEvent.position());
         this.gameObserver.createObject(gameObject);
     }
 

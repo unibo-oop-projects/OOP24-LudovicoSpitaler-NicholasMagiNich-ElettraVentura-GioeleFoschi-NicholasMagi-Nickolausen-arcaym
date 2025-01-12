@@ -19,20 +19,22 @@ public abstract class AbstractThreadSafeGame implements Game {
 
     private final EventsManager<GameEvent> gameEventsManager = new ThreadSafeEventsManager<>();
     private final EventsManager<InputEvent> inputEventsManager = new ThreadSafeEventsManager<>();
-    private final GameState state = new DefaultGameState(this.gameEventsManager);
-    private final GameScene scene;
+    private final GameState gameState = new DefaultGameState(this.gameEventsManager);
+    private final GameScene gameScene;
 
     /**
      * Initialize with the given scene and game observer.
      * 
-     * @param scene game scene manager
+     * @param gameScene game scene manager
      * @param gameObserver game observer
      */
-    protected AbstractThreadSafeGame(final GameScene scene, final GameObserver gameObserver) {
-        this.scene = Objects.requireNonNull(scene);
+    protected AbstractThreadSafeGame(final GameScene gameScene, final GameObserver gameObserver) {
+        this.gameScene = Objects.requireNonNull(gameScene);
         Objects.requireNonNull(gameObserver).registerEventsCallbacks(this.gameEventsManager);
-        scene.consumePendingActions();
-        scene.gameObjects().forEach(o -> o.setup(scene, this.gameEventsManager, this.inputEventsManager, this.state));
+        gameScene.consumePendingActions();
+        gameScene.getGameObjects().forEach(
+            o -> o.setup(this.gameEventsManager, this.inputEventsManager, gameScene, this.gameState)
+        );
 
         this.gameEventsManager.registerCallback(GameEvent.GAME_OVER, this::scheduleStop);
         this.gameEventsManager.registerCallback(GameEvent.VICTORY, this::scheduleStop);
@@ -62,7 +64,7 @@ public abstract class AbstractThreadSafeGame implements Game {
      * @return game scene
      */
     protected final GameScene scene() {
-        return this.scene;
+        return this.gameScene;
     }
 
     /**
@@ -70,7 +72,7 @@ public abstract class AbstractThreadSafeGame implements Game {
      */
     @Override
     public final GameState state() {
-        return this.state;
+        return this.gameState;
     }
 
     /**

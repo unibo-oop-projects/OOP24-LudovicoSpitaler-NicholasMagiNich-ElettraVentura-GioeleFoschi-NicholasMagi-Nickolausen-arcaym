@@ -14,15 +14,15 @@ import arcaym.model.game.core.objects.api.GameObjectsFactory;
  */
 public class FactoryBasedGameBuilder extends AbstractGameBuilder {
 
-    private final GameObjectsFactory factory;
+    private final GameObjectsFactory gameObjectsFactory;
 
     /**
      * Initialize with the given factory.
      * 
-     * @param factory game objects factory
+     * @param gameObjectsFactory game objects factory
      */
-    public FactoryBasedGameBuilder(final GameObjectsFactory factory) {
-        this.factory = Objects.requireNonNull(factory);
+    public FactoryBasedGameBuilder(final GameObjectsFactory gameObjectsFactory) {
+        this.gameObjectsFactory = Objects.requireNonNull(gameObjectsFactory);
     }
 
     /**
@@ -30,15 +30,15 @@ public class FactoryBasedGameBuilder extends AbstractGameBuilder {
      */
     @Override
     public GameScene buildScene(final GameObserver gameObserver) {
-        return new FactoryBasedGameScene(gameObserver, this.factory);
+        return new FactoryBasedGameScene(gameObserver, this.gameObjectsFactory);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected Game buildGame(final GameScene scene, final GameObserver gameObserver) {
-        return new SingleThreadedGame(scene, gameObserver);
+    protected Game buildGame(final GameScene gameScene, final GameObserver gameObserver) {
+        return new SingleThreadedGame(gameScene, gameObserver);
     }
 
 }

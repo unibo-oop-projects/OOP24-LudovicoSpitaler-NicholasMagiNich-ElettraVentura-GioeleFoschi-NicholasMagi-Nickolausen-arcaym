@@ -9,7 +9,7 @@ import arcaym.controller.game.core.api.Game;
 import arcaym.controller.game.core.api.GameBuilder;
 import arcaym.controller.game.core.api.GameObserver;
 import arcaym.controller.game.scene.api.GameScene;
-import arcaym.controller.game.scene.api.GameSceneView.CreationInfo;
+import arcaym.controller.game.scene.api.GameSceneInfo.CreationInfo;
 import arcaym.model.game.objects.api.GameObjectType;
 
 /**
@@ -32,21 +32,21 @@ public abstract class AbstractGameBuilder implements GameBuilder {
     /**
      * Create game with scene and observer.
      * 
-     * @param scene game scene
+     * @param gameScene game scene
      * @param gameObserver game observer
      * @return resulting game
      */
-    protected abstract Game buildGame(GameScene scene, GameObserver gameObserver);
+    protected abstract Game buildGame(GameScene gameScene, GameObserver gameObserver);
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public GameBuilder addObject(final GameObjectType type, final Point position) {
+    public GameBuilder addObject(final GameObjectType gameObjectType, final Point position) {
         if (this.consumed) {
             throw new IllegalStateException("Builder already consumed");
         }
-        this.creationEvents.add(new CreationInfo(type, position));
+        this.creationEvents.add(new CreationInfo(gameObjectType, position));
         return this;
     }
 

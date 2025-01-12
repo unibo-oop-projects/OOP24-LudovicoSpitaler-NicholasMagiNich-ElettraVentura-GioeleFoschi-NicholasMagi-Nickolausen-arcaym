@@ -20,8 +20,8 @@ public class SingleThreadedGame extends AbstractThreadSafeGame {
                                             .daemon()
                                             .unstarted(this::gameLoop);
 
-    SingleThreadedGame(final GameScene scene, final GameObserver view) {
-        super(scene, view);
+    SingleThreadedGame(final GameScene gameScene, final GameObserver gameObserver) {
+        super(gameScene, gameObserver);
     }
 
     /**
@@ -46,7 +46,7 @@ public class SingleThreadedGame extends AbstractThreadSafeGame {
         while (this.runGameLoop) {
             this.inputEventsManager().consumePendingEvents();
             deltaTime = this.updateDeltaTime(deltaTime);
-            for (final var gameObject : this.scene().gameObjects()) {
+            for (final var gameObject : this.scene().getGameObjects()) {
                 gameObject.update(deltaTime, this.gameEventsManager(), this.scene(), this.state());
             }
             this.scene().consumePendingActions();

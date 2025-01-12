@@ -4,9 +4,9 @@ import arcaym.common.point.api.Point;
 import arcaym.model.game.objects.api.GameObjectType;
 
 /**
- * Interface for a {@link GameObject} restricted view.
+ * Interface for a {@link GameObject} info view.
  */
-public interface GameObjectView {
+public interface GameObjectInfo {
 
     /**
      * Get the specific type of the object.

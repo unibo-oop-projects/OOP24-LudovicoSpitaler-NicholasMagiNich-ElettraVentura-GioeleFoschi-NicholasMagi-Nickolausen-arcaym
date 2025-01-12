@@ -13,25 +13,25 @@ import arcaym.model.game.objects.api.GameObjectType;
  */
 public class FactoryBasedGameScene extends AbstractGameScene {
 
-    private final GameObjectsFactory factory;
+    private final GameObjectsFactory gameObjectsFactory;
 
     /**
      * Initialize game scene manager with the given observer and factory.
      * 
      * @param gameObserver game observer
-     * @param factory game objects factory
+     * @param gameObjectsFactory game objects factory
      */
-    public FactoryBasedGameScene(final GameObserver gameObserver, final GameObjectsFactory factory) {
+    public FactoryBasedGameScene(final GameObserver gameObserver, final GameObjectsFactory gameObjectsFactory) {
         super(gameObserver);
-        this.factory = Objects.requireNonNull(factory);
+        this.gameObjectsFactory = Objects.requireNonNull(gameObjectsFactory);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected GameObject createInstance(final GameObjectType type) {
-        return this.factory.ofType(type);
+    protected GameObject createInstance(final GameObjectType gameObjectType) {
+        return this.gameObjectsFactory.ofType(gameObjectType);
     }
 
 }

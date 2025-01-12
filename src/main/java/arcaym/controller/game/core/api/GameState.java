@@ -1,6 +1,6 @@
 package arcaym.controller.game.core.api;
 
-import arcaym.model.game.score.api.GameScoreView;
+import arcaym.model.game.score.api.GameScoreInfo;
 
 /**
  * Interface for a {@link Game} state.
@@ -12,6 +12,6 @@ public interface GameState {
      * 
      * @return game score
      */
-    GameScoreView score();
+    GameScoreInfo score();
 
 }

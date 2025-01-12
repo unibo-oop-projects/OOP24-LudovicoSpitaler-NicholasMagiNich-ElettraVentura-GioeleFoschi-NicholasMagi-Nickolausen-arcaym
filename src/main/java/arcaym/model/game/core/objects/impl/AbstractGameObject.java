@@ -16,16 +16,16 @@ import arcaym.model.game.objects.api.GameObjectType;
 @TypeRepresentation
 public abstract class AbstractGameObject implements GameObject {
 
-    private final GameObjectType type;
+    private final GameObjectType gameObjectType;
     private Point position = Point.zero();
 
     /**
      * Initialize with the given object type.
      * 
-     * @param type game object type
+     * @param gameObjectType game object type
      */
-    protected AbstractGameObject(final GameObjectType type) {
-        this.type = Objects.requireNonNull(type);
+    protected AbstractGameObject(final GameObjectType gameObjectType) {
+        this.gameObjectType = Objects.requireNonNull(gameObjectType);
     }
 
     /**
@@ -34,7 +34,7 @@ public abstract class AbstractGameObject implements GameObject {
     @Override
     @FieldRepresentation
     public GameObjectType type() {
-        return this.type;
+        return this.gameObjectType;
     }
 
     /**

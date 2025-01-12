@@ -1,9 +1,9 @@
 package arcaym.model.game.score.api;
 
 /**
- * Interface for a {@link GameScore} restricted view.
+ * Interface for a {@link GameScore} info view.
  */
-public interface GameScoreView {
+public interface GameScoreInfo {
 
     /**
      * Get current score.
