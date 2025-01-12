@@ -6,12 +6,12 @@ import arcaym.controller.game.core.api.GameBuilder;
 import arcaym.controller.game.core.api.GameObserver;
 import arcaym.controller.game.scene.api.GameScene;
 import arcaym.controller.game.scene.impl.FactoryBasedGameScene;
-import arcaym.model.game.core.objects.api.GameObjectFactory;
+import arcaym.model.game.core.objects.api.GameObjectsFactory;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.model.game.score.api.GameScore;
 
 /**
- * Implementation of {@link GameBuilder} that uses a {@link GameObjectFactory}.
+ * Implementation of {@link GameBuilder} that uses a {@link GameObjectsFactory}.
  */
 public class FactoryBasedGameBuilder implements GameBuilder {
 
@@ -24,7 +24,7 @@ public class FactoryBasedGameBuilder implements GameBuilder {
      * @param gameObserver game observer
      * @param factory game objects factory
      */
-    public FactoryBasedGameBuilder(final GameObserver gameObserver, final GameObjectFactory factory) {
+    public FactoryBasedGameBuilder(final GameObserver gameObserver, final GameObjectsFactory factory) {
         this.scene = new FactoryBasedGameScene(gameObserver, factory);
     }
 

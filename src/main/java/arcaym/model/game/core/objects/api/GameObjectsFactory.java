@@ -5,7 +5,7 @@ import arcaym.model.game.objects.api.GameObjectType;
 /**
  * Interface for a {@link GameObject} factory.
  */
-public interface GameObjectFactory {
+public interface GameObjectsFactory {
 
     /**
      * Create game object of a specific type.
