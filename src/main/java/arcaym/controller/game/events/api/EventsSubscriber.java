@@ -1,11 +1,13 @@
 package arcaym.controller.game.events.api;
 
+import arcaym.model.game.events.api.Event;
+
 /**
  * Interface for an events subscriber.
  * 
  * @param <T> events type
  */
-public interface EventsSubscriber<T> {
+public interface EventsSubscriber<T extends Event> {
 
     /**
      * Subscribe callback to the happening of an event.
