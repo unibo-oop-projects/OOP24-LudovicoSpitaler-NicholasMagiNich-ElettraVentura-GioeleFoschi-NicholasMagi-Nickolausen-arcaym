@@ -6,9 +6,9 @@ import java.util.logging.Logger;
  * App entry class.
  * Merry Christmas
  */
-public class App {
+public class AppLauncher {
 
-    private static final Logger LOGGER = Logger.getLogger(App.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(AppLauncher.class.getName());
 
     /**
      * Get greeting message for subject.
@@ -26,7 +26,9 @@ public class App {
      * @param args launch arguments
      */
     public static void main(final String[] args) {
-        final var app = new App();
+        //var controller = new MainController();
+        //controller.setView(new MainView(controller));
+        final var app = new AppLauncher();
         LOGGER.info(app.getGreeting("World"));
     }
 }

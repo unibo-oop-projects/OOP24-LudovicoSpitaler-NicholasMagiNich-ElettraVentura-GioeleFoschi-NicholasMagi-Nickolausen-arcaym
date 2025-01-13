@@ -7,11 +7,11 @@ import org.junit.jupiter.api.Test;
 
 class TestApp {
 
-    private App app;
+    private AppLauncher app;
 
     @BeforeEach
     void setup() {
-        this.app = new App();
+        this.app = new AppLauncher();
     }
 
     @Test
