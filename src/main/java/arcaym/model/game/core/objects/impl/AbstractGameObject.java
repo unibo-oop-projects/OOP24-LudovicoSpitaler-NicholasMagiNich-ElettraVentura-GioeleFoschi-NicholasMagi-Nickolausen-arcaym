@@ -7,6 +7,7 @@ import arcaym.common.utils.representation.FieldRepresentation;
 import arcaym.common.utils.representation.StringRepresentation;
 import arcaym.common.utils.representation.TypeRepresentation;
 import arcaym.model.game.core.objects.api.GameObject;
+import arcaym.model.game.core.objects.api.GameObjectBoundaries;
 import arcaym.model.game.objects.api.GameObjectType;
 
 /**
@@ -16,16 +17,19 @@ import arcaym.model.game.objects.api.GameObjectType;
 @TypeRepresentation
 public abstract class AbstractGameObject implements GameObject {
 
-    private final GameObjectType gameObjectType;
+    private final GameObjectType type;
+    private final GameObjectBoundaries boundaries;
     private Point position = Point.zero();
 
     /**
      * Initialize with the given object type.
      * 
-     * @param gameObjectType game object type
+     * @param type game object type
+     * @param boundaries game object boundaries
      */
-    protected AbstractGameObject(final GameObjectType gameObjectType) {
-        this.gameObjectType = Objects.requireNonNull(gameObjectType);
+    protected AbstractGameObject(final GameObjectType type, final GameObjectBoundaries boundaries) {
+        this.type = Objects.requireNonNull(type);
+        this.boundaries = Objects.requireNonNull(boundaries);
     }
 
     /**
@@ -34,7 +38,7 @@ public abstract class AbstractGameObject implements GameObject {
     @Override
     @FieldRepresentation
     public GameObjectType type() {
-        return this.gameObjectType;
+        return this.type;
     }
 
     /**
@@ -52,6 +56,14 @@ public abstract class AbstractGameObject implements GameObject {
     @Override
     public void setPosition(final Point position) {
         this.position = Objects.requireNonNull(position);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public GameObjectBoundaries boundaries() {
+        return this.boundaries;
     }
 
     /**

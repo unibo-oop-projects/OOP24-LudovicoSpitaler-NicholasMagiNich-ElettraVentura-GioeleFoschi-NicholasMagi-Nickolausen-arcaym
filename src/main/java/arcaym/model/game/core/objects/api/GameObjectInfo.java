@@ -31,4 +31,11 @@ public interface GameObjectInfo {
      */
     Point getPosition();
 
+    /**
+     * Get object boundaries.
+     * 
+     * @return boundaries
+     */
+    GameObjectBoundaries boundaries();
+
 }
