@@ -9,6 +9,8 @@ import arcaym.common.shapes.api.Rectangle;
 
 /**
  * Basic implementation of {@link Rectangle}.
+ * @param northEast
+ * @param southWest
  */
 public record BaseRectangle(Point northEast, Point southWest) implements Rectangle {
 

@@ -37,7 +37,7 @@ public interface Grid {
      * @param positions The incoming collection of objects, to be added to the grid.
      * @return True if the constraint is respected
      */
-    default boolean playerConstraint(Collection<Point> positions){
+    default boolean playerConstraint(Collection<Point> positions) {
         return false;
     }
 
@@ -49,7 +49,7 @@ public interface Grid {
      * @param positions The incoming collection of objects, to be added to the grid.
      * @return True if the constraint is respected
      */
-    default boolean goalConstraint(Collection<Point> positions){
+    default boolean goalConstraint(Collection<Point> positions) {
         return false;
     }
 }
