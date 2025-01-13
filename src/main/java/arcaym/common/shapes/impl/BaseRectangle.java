@@ -40,7 +40,7 @@ public record BaseRectangle(Point northEast, Point southWest) implements Rectang
      */
     @Override
     public Point northWest() {
-        return Point.of(southWest.x(), northEast.y());
+        return Point.of(this.southWest.x(), this.northEast.y());
     }
 
     /**
@@ -48,7 +48,7 @@ public record BaseRectangle(Point northEast, Point southWest) implements Rectang
      */
     @Override
     public Point southEast() {
-        return Point.of(northEast.x(), southWest.y());
+        return Point.of(this.northEast.x(), this.southWest.y());
     }
 
     /**
@@ -72,9 +72,9 @@ public record BaseRectangle(Point northEast, Point southWest) implements Rectang
      */
     @Override
     public Stream<Point> surface() {
-        return IntStream.rangeClosed(northEast.x(), southWest.x()).boxed()
+        return IntStream.rangeClosed(this.northEast.x(), this.southWest.x()).boxed()
             .flatMap(
-                x -> IntStream.rangeClosed(northEast.y(), southWest.y())
+                x -> IntStream.rangeClosed(this.northEast.y(), this.southWest.y())
                     .mapToObj(y -> Point.of(x, y))
             );
     }
