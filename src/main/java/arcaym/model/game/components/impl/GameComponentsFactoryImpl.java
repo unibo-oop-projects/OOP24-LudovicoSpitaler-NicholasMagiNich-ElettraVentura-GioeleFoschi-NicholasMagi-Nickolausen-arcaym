@@ -6,6 +6,8 @@ import java.util.function.Predicate;
 
 import arcaym.common.point.api.Point;
 import arcaym.common.point.impl.Points;
+import arcaym.common.shapes.api.Rectangle;
+import arcaym.common.shapes.impl.Rectangles;
 import arcaym.controller.game.core.api.GameState;
 import arcaym.controller.game.events.api.EventsScheduler;
 import arcaym.controller.game.events.api.EventsSubscriber;
@@ -48,9 +50,14 @@ public class GameComponentsFactoryImpl implements GameComponentsFactory {
                     GameState gameState) {
                 gameScene.getGameObjectsInfos().stream()
                         .filter(infos -> predicateFromObjectInfo.test(infos))
-                        .filter(infos -> isThereACollision(infos.getPosition()))
+                        .filter(infos -> areRectanglesColliding(infos.boundaries().drawArea(),
+                                gameObject.boundaries().drawArea()))
+                        .filter(infos -> infos.boundaries().surface().anyMatch(point -> isThereACollision(point)))
                         .forEach(obj -> reaction.reactToCollision(deltaTime, eventsScheduler, obj, gameScene));
+            }
 
+            private boolean areRectanglesColliding(Rectangle rect1, Rectangle rect2) {
+                return Rectangles.intersecting(rect1, rect2);
             }
 
         };

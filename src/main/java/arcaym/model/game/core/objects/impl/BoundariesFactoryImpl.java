@@ -18,18 +18,17 @@ public class BoundariesFactoryImpl implements BoundariesFactory {
     @Override
     public GameObjectBoundaries squareBoundaries(Point center) {
         return new GameObjectBoundaries() {
-            int radius = tileSize / 2;
+            int halfSide = tileSize / 2;
 
             @Override
             public boolean isInside(Point point) {
-
-                return Points.distance(point, center) <= radius;
+                return (Math.abs(point.x()-center.x())<=halfSide) && (Math.abs(point.y()-center.y())<=halfSide);
             }
 
             @Override
             public Rectangle drawArea() {
-                var pointOperations = new BasePoint(radius, radius);
-                return new BaseRectangle(center.subtract(pointOperations),
+                var pointOperations = Point.of(halfSide, halfSide);
+                return Rectangle.of(center.subtract(pointOperations),
                         center.sum(pointOperations));
             }
 
@@ -49,8 +48,8 @@ public class BoundariesFactoryImpl implements BoundariesFactory {
 
             @Override
             public Rectangle drawArea() {
-                var pointOperations = new BasePoint(radius, radius);
-                return new BaseRectangle(center.subtract(pointOperations),
+                var pointOperations = Point.of(radius, radius);
+                return Rectangle.of(center.subtract(pointOperations),
                         center.sum(pointOperations));
             }
 
