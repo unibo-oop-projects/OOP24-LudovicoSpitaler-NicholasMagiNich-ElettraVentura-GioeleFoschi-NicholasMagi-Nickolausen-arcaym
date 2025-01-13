@@ -1,29 +1,20 @@
 package arcaym.model.game.components.impl;
 
-import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.Predicate;
 
 import arcaym.common.point.api.Point;
-import arcaym.common.point.impl.Points;
 import arcaym.common.shapes.api.Rectangle;
 import arcaym.common.shapes.impl.Rectangles;
 import arcaym.controller.game.core.api.GameState;
 import arcaym.controller.game.events.api.EventsScheduler;
-import arcaym.controller.game.events.api.EventsSubscriber;
-import arcaym.controller.game.events.impl.ThreadSafeEventsManager;
 import arcaym.controller.game.scene.api.GameSceneInfo;
 import arcaym.model.game.components.api.GameComponentsFactory;
-import arcaym.model.game.core.components.api.ComponentsBasedGameObject;
 import arcaym.model.game.core.components.api.GameComponent;
 import arcaym.model.game.core.components.impl.UniqueComponentsGameObject;
 import arcaym.model.game.core.components.impl.AbstractGameComponent;
-import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.core.objects.api.GameObjectCategory;
 import arcaym.model.game.core.objects.api.GameObjectInfo;
-import arcaym.model.game.core.objects.impl.AbstractGameObject;
 import arcaym.model.game.events.api.GameEvent;
-import arcaym.model.game.events.api.InputEvent;
 import arcaym.model.game.objects.api.GameObjectType;
 
 /**
