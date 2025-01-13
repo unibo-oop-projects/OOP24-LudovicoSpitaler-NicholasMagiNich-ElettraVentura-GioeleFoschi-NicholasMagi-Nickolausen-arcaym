@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-import arcaym.controller.game.core.objects.api.GameObjectCategory;
+import arcaym.model.game.core.objects.api.GameObjectCategory;
 
 /**
  * Generic class to represent all the views of the objects implemented via Swing. 

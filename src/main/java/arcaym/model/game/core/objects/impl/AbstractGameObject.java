@@ -6,7 +6,7 @@ import arcaym.common.point.api.Point;
 import arcaym.common.utils.representation.FieldRepresentation;
 import arcaym.common.utils.representation.StringRepresentation;
 import arcaym.common.utils.representation.TypeRepresentation;
-import arcaym.controller.game.core.objects.api.GameObjectType;
+import arcaym.model.game.core.objects.api.GameObjectType;
 import arcaym.model.game.core.objects.api.GameObject;
 
 /**

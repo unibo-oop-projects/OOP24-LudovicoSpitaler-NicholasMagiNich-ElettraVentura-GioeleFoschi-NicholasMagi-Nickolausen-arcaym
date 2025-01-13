@@ -2,7 +2,7 @@ package arcaym.view.objects;
 
 import java.io.IOException;
 
-import arcaym.controller.game.core.objects.api.GameObjectCategory;
+import arcaym.model.game.core.objects.api.GameObjectCategory;
 
 /**
  * Visual representation of the player.

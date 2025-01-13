@@ -1,7 +1,6 @@
 package arcaym.model.game.core.objects.api;
 
 import arcaym.common.point.api.Point;
-import arcaym.controller.game.core.objects.api.GameObjectType;
 
 /**
  * Interface for a {@link GameObject} restricted view.

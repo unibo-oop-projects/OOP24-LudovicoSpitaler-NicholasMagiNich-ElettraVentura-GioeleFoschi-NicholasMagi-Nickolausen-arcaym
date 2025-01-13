@@ -2,7 +2,7 @@ package arcaym.view.objects;
 
 import java.io.IOException;
 
-import arcaym.controller.game.core.objects.api.GameObjectCategory;
+import arcaym.model.game.core.objects.api.GameObjectCategory;
 
 /**
  * Visual representation of a collectable coin.
@@ -26,6 +26,6 @@ public class CoinView extends GameObjectSwingView {
      */
     @Override
     public GameObjectCategory getCategory() {
-        return GameObjectCategory.COLLECTABLE;
+        return GameObjectCategory.OBSTACLE;
     }
 }

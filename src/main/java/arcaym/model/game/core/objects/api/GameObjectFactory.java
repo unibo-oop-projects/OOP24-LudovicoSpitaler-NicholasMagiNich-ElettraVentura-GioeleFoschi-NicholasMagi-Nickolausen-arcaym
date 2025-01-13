@@ -1,7 +1,5 @@
 package arcaym.model.game.core.objects.api;
 
-import arcaym.controller.game.core.objects.api.GameObjectType;
-
 /**
  * Interface for a {@link GameObject} factory.
  */

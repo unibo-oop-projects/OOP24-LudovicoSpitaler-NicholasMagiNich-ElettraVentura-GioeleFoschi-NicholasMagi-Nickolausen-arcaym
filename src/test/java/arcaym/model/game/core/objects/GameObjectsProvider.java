@@ -7,7 +7,7 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 
-import arcaym.controller.game.core.objects.api.GameObjectType;
+import arcaym.model.game.core.objects.api.GameObjectType;
 import arcaym.model.game.core.components.impl.UniqueComponentsBasedObject;
 import arcaym.model.game.core.objects.api.GameObject;
 
