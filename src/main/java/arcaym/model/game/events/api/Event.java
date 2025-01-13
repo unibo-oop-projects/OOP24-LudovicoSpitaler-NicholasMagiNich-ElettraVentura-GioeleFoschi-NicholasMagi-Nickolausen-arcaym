@@ -6,7 +6,7 @@ package arcaym.model.game.events.api;
 public interface Event {
 
     /**
-     * Default {@link Event#priority()} value.
+     * Default {@link #priority()} value.
      */
     int NO_PRIORITY = Integer.MAX_VALUE;
 
@@ -20,7 +20,7 @@ public interface Event {
     }
 
     /**
-     * Compare two events based on {@link Event#priority()}.
+     * Compare two events based on {@link #priority()}.
      * Lower value means higher priority.
      * 
      * @param e1 first event
