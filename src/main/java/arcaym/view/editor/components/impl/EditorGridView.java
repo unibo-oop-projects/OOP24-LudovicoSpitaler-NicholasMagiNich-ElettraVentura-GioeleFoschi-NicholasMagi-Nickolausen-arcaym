@@ -19,4 +19,12 @@ public class EditorGridView extends JComponent implements EditorGrid {
     public EditorGridView() {
         this.setBackground(Color.RED);
     }
+
+    /**
+     * {@inheritDoc}
+    */
+    @Override
+    public void initView() {
+
+    }
 }

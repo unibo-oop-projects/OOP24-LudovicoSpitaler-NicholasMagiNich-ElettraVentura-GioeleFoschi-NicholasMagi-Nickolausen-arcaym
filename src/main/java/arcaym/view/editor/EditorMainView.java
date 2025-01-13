@@ -1,40 +1,54 @@
 package arcaym.view.editor;
 
 import java.awt.Dimension;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
-import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
+import arcaym.model.game.core.objects.api.GameObjectCategory;
+import arcaym.view.editor.components.api.GeneralSwingView;
 import arcaym.view.editor.components.impl.EditorGridView;
 import arcaym.view.editor.components.impl.SideMenuView;
+import arcaym.view.objects.GameObjectSwingView;
 
 /**
  * The editor complete page.
  */
-public class EditorMainView extends JFrame {
+public class EditorMainView extends JPanel implements GeneralSwingView {
 
     private static final long serialVersionUID = 1L;
     private static final int COLUMNS = 3;
-    private static final int TEST_WIDTH = 1000;
-    private static final int TEST_HEIGHT = 500;
-
-    private final EditorGridView grid;
-    private final SideMenuView sideMenu;
-    private final JSplitPane splitPane;
+    private EditorGridView grid;
+    private SideMenuView sideMenu;
+    private JSplitPane splitPane;
+    private final Map<GameObjectCategory, Set<GameObjectSwingView>> gameObjects;
 
     /**
      * The constructor for the page.
      */
-    public EditorMainView() {
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setSize(new Dimension(TEST_WIDTH, TEST_HEIGHT));
+    public EditorMainView(final Map<GameObjectCategory, Set<GameObjectSwingView>> gameObjects) {
+        this.gameObjects = Collections.unmodifiableMap(Objects.requireNonNull(gameObjects));
+    }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void initView() {
         grid = new EditorGridView();
-        sideMenu = new SideMenuView();
-        sideMenu.setMinimumSize(new Dimension(Math.floorDiv(this.getWidth(), COLUMNS), this.getHeight()));
-        grid.setMinimumSize(new Dimension(Math.floorDiv(this.getWidth(), COLUMNS) * 2, this.getHeight()));
+        sideMenu = new SideMenuView(gameObjects);
+        sideMenu.setSize(new Dimension(Math.floorDiv(this.getWidth(), COLUMNS), this.getHeight()));
+        grid.setSize(new Dimension(Math.floorDiv(this.getWidth(), COLUMNS) * 2, this.getHeight()));
+
+        sideMenu.initView();
+        grid.initView();
 
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+        splitPane.setSize(this.getSize());
         splitPane.setLeftComponent(sideMenu);
         splitPane.setRightComponent(grid);
         splitPane.setDividerLocation(Math.floorDiv(this.getWidth(), COLUMNS));
@@ -43,13 +57,5 @@ public class EditorMainView extends JFrame {
 
         this.add(splitPane);
         this.setVisible(true);
-    }
-
-    /**
-     * Debug-only main!
-     * @param args ignored
-     */
-    public static void main(final String... args) {
-        new EditorMainView();
     }
 }

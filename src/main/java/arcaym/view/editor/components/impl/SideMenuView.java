@@ -2,18 +2,22 @@ package arcaym.view.editor.components.impl;
 
 // import java.awt.Color;
 import java.awt.GridLayout;
+import java.util.Collections;
 // import java.util.HashMap;
 // import java.util.Map;
 // import java.util.Set;
+import java.util.Map;
+import java.util.Set;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
 
+import arcaym.model.game.core.objects.api.GameObjectCategory;
 import arcaym.view.editor.components.api.SideMenu;
-import arcaym.view.objects.CoinView;
-//import arcaym.view.objects.GameObjectSwingView;
-import arcaym.view.objects.StaticObstacleView;
-//import arcaym.controller.game.core.objects.api.GameObjectCategory;
+import arcaym.view.objects.GameObjectSwingView;
 
 /**
  * An implementation of the side menu component in swing.
@@ -21,19 +25,28 @@ import arcaym.view.objects.StaticObstacleView;
 public class SideMenuView extends JScrollPane implements SideMenu {
 
     private static final long serialVersionUID = 1L;
-    private final JPanel content;
-    private static final int NR_OBJECTS = 40;
-    //private final Map<GameObjectCategory, Set<GameObjectSwingView>> objects = new HashMap<>();
+    private JPanel content;
+    private final Map<GameObjectCategory, Set<GameObjectSwingView>> gameObjects;
 
     /**
      * A constructor of the component.
      */
-    public SideMenuView() {
+    public SideMenuView(final Map<GameObjectCategory, Set<GameObjectSwingView>> gameObjects) {
+        this.gameObjects = Collections.unmodifiableMap(gameObjects);
+    }
+
+    /**
+     * {@inheritDoc}
+    */
+    @Override
+    public void initView() {
         content = new JPanel();
+        content.setMinimumSize(this.getSize());
         content.setLayout(new GridLayout(0, 1));
-        for (int i = 0; i < NR_OBJECTS; i++) {
-            content.add(i % 2 == 0 ? new CoinView() : new StaticObstacleView());
-        }
+        gameObjects.forEach((category, objects) -> {
+            content.add(new JLabel(category.toString(), SwingConstants.CENTER));
+            objects.forEach(content::add);
+        });
         this.setViewportView(content);
         this.setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_NEVER);
     }

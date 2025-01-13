@@ -13,26 +13,35 @@ import arcaym.model.game.core.objects.api.GameObjectCategory;
 /**
  * Generic class to represent all the views of the objects implemented via Swing. 
  */
-public abstract class GameObjectSwingView extends JButton {
+public class GameObjectSwingView extends JButton {
 
     private final String resourcesPath = "src/main/resources/";
+    private final GameObjectCategory category;
+    private final String spritePath;
 
     /**
+     * Default constructor.
      * 
-     * @return the path of the resources folder 
+     * @param category the category (OBSTACLE, WALL, PLAYER...)
+     * @param spritePath the path of the corresponding image.
      */
-    public final String getResourcesPath() {
-        return resourcesPath;
+    public GameObjectSwingView(final GameObjectCategory category, final String spritePath) {
+        this.category = category;
+        this.spritePath = spritePath;
+        try {
+            this.loadSprite();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * Loads the corresponding image of the object created.
      * 
-     * @param spritePath the path to the image of the object (must be inside the resources folder)
-     * @throws IOException if {@link @param spritePath} not found
+     * @throws IOException if the loading has not been successfull
      */
-    public void loadSprite(final String spritePath) throws IOException {
-        BufferedImage icon = ImageIO.read(new File(spritePath));
+    private void loadSprite() throws IOException {
+        BufferedImage icon = ImageIO.read(new File(resourcesPath + spritePath));
         this.setIcon(new ImageIcon(icon));
         this.setOpaque(false);
         this.setContentAreaFilled(false);
@@ -43,5 +52,7 @@ public abstract class GameObjectSwingView extends JButton {
      * 
      * @return the category the game object belongs to
      */
-    public abstract GameObjectCategory getCategory();
+    public GameObjectCategory getCategory() {
+        return this.category;
+    }
 }
