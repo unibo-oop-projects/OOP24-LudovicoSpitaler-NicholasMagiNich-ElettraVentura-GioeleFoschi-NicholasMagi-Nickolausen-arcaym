@@ -24,19 +24,19 @@ public interface GameSceneInfo {
     /**
      * Schedule creation of an object in the scene.
      * 
-     * @param gameObjectType game object type
+     * @param type game object type
      * @param position game object position
      */
-    default void scheduleCreation(final GameObjectType gameObjectType, final Point position) {
-        this.scheduleCreation(new CreationInfo(Objects.requireNonNull(gameObjectType), Objects.requireNonNull(position)));
+    default void scheduleCreation(final GameObjectType type, final Point position) {
+        this.scheduleCreation(new CreationInfo(Objects.requireNonNull(type), Objects.requireNonNull(position)));
     }
 
     /**
      * Schedule creation of an object in the scene.
      * 
-     * @param creationEvent creation event
+     * @param creation creation info
      */
-    void scheduleCreation(CreationInfo creationEvent);
+    void scheduleCreation(CreationInfo creation);
 
     /**
      * Remove object from the scene.

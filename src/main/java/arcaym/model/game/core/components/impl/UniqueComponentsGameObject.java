@@ -9,27 +9,29 @@ import arcaym.controller.game.core.api.GameState;
 import arcaym.controller.game.events.api.EventsScheduler;
 import arcaym.controller.game.events.api.EventsSubscriber;
 import arcaym.controller.game.scene.api.GameSceneInfo;
-import arcaym.model.game.core.components.api.ComponentsBasedObject;
+import arcaym.model.game.core.components.api.ComponentsBasedGameObject;
 import arcaym.model.game.core.components.api.GameComponent;
+import arcaym.model.game.core.objects.api.GameObjectBoundaries;
 import arcaym.model.game.core.objects.impl.AbstractGameObject;
 import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.events.api.InputEvent;
 import arcaym.model.game.objects.api.GameObjectType;
 
 /**
- * Implementation of {@link ComponentsBasedObject} that uses a {@link Set} of components.
+ * Implementation of {@link ComponentsBasedGameObject} that uses a {@link Set} of components.
 */
-public class UniqueComponentsBasedObject extends AbstractGameObject implements ComponentsBasedObject {
+public class UniqueComponentsGameObject extends AbstractGameObject implements ComponentsBasedGameObject {
 
-    private final Set<GameComponent> gameComponents = new HashSet<>();
+    private final Set<GameComponent> components = new HashSet<>();
 
     /**
      * Initialize with the given object type.
      * 
-     * @param gameObjectType game object type
+     * @param type game object type
+     * @param boundaries game object boundaries
      */
-    public UniqueComponentsBasedObject(final GameObjectType gameObjectType) {
-        super(gameObjectType);
+    public UniqueComponentsGameObject(final GameObjectType type, final GameObjectBoundaries boundaries) {
+        super(type, boundaries);
     }
 
     /**
@@ -42,7 +44,7 @@ public class UniqueComponentsBasedObject extends AbstractGameObject implements C
         final GameSceneInfo gameScene,
         final GameState gameState
     ) {
-        this.gameComponents.forEach(c -> c.setup(gameEventsSubscriber, inputEventsSubscriber, gameScene, gameState));
+        this.components.forEach(c -> c.setup(gameEventsSubscriber, inputEventsSubscriber, gameScene, gameState));
     }
 
     /**
@@ -52,34 +54,34 @@ public class UniqueComponentsBasedObject extends AbstractGameObject implements C
     public void update(
         final long deltaTime, 
         final EventsScheduler<GameEvent> eventsScheduler, 
-        final GameSceneInfo gameScene,
-        final GameState gameState
+        final GameSceneInfo scene,
+        final GameState state
     ) {
-        this.gameComponents.forEach(c -> c.update(deltaTime, eventsScheduler, gameScene, gameState));
+        this.components.forEach(c -> c.update(deltaTime, eventsScheduler, scene, state));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void addComponent(final GameComponent gameComponent) {
-        this.gameComponents.add(gameComponent);
+    public void addComponent(final GameComponent component) {
+        this.components.add(component);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void removeComponent(final GameComponent gameComponent) {
-        this.gameComponents.remove(gameComponent);
+    public void removeComponent(final GameComponent component) {
+        this.components.remove(component);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Collection<GameComponent> getGameComponents() {
-        return Collections.unmodifiableCollection(this.gameComponents);
+    public Collection<GameComponent> getComponents() {
+        return Collections.unmodifiableCollection(this.components);
     }
 
 }

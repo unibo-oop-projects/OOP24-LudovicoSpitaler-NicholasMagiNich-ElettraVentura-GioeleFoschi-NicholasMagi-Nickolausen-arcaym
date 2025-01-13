@@ -42,11 +42,11 @@ public abstract class AbstractGameBuilder implements GameBuilder {
      * {@inheritDoc}
      */
     @Override
-    public GameBuilder addObject(final GameObjectType gameObjectType, final Point position) {
+    public GameBuilder addObject(final GameObjectType type, final Point position) {
         if (this.consumed) {
             throw new IllegalStateException("Builder already consumed");
         }
-        this.creationEvents.add(new CreationInfo(gameObjectType, position));
+        this.creationEvents.add(new CreationInfo(type, position));
         return this;
     }
 

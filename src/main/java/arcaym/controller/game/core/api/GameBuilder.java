@@ -11,11 +11,11 @@ public interface GameBuilder {
     /**
      * Add game object to the game.
      * 
-     * @param gameObjectType game object type
+     * @param type game object type
      * @param position game object position
      * @return this builder
      */
-    GameBuilder addObject(GameObjectType gameObjectType, Point position);
+    GameBuilder addObject(GameObjectType type, Point position);
 
 
     /**

@@ -10,9 +10,9 @@ public interface GameObjectsFactory {
     /**
      * Create game object of a specific type.
      * 
-     * @param gameObjectType game object type
+     * @param type game object type
      * @return resulting game object
      */
-    GameObject ofType(GameObjectType gameObjectType);
+    GameObject ofType(GameObjectType type);
 
 }

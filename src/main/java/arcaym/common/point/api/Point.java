@@ -1,6 +1,6 @@
 package arcaym.common.point.api;
 
-import arcaym.common.point.impl.Point2D;
+import arcaym.common.point.impl.BasePoint;
 
 /**
  * Interface for a 2D point in space.
@@ -15,7 +15,7 @@ public interface Point {
      * @return resulting point
      */
     static Point of(final int x, final int y) {
-        return new Point2D(x, y);
+        return new BasePoint(x, y);
     }
 
     /**

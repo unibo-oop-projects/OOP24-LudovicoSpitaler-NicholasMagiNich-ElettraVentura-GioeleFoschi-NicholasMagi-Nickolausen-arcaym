@@ -7,27 +7,27 @@ import arcaym.model.game.core.objects.api.GameObject;
 /**
  * Interface for a {@link GameObject} that uses a collection of {@link GameComponent}.
  */
-public interface ComponentsBasedObject extends GameObject {
+public interface ComponentsBasedGameObject extends GameObject {
 
     /**
      * Add game component.
      * 
-     * @param gameComponent game component
+     * @param component game component
      */
-    void addComponent(GameComponent gameComponent);
+    void addComponent(GameComponent component);
 
     /**
      * Remove game component.
      * 
-     * @param gameComponent game component
+     * @param component game component
      */
-    void removeComponent(GameComponent gameComponent);
+    void removeComponent(GameComponent component);
 
     /**
      * Get current components.
      * 
      * @return game components collection
      */
-    Collection<GameComponent> getGameComponents();
+    Collection<GameComponent> getComponents();
 
 }

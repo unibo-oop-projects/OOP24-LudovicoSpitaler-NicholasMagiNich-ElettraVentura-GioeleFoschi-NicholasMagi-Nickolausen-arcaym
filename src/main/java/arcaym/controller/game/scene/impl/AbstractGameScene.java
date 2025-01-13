@@ -37,17 +37,17 @@ public abstract class AbstractGameScene implements GameScene {
     /**
      * Create a new instance of a game object.
      * 
-     * @param gameObjectType game object type
+     * @param type game object type
      * @return resulting object
      */
-    protected abstract GameObject createInstance(GameObjectType gameObjectType);
+    protected abstract GameObject createObject(GameObjectType type);
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void scheduleCreation(final CreationInfo creationInfo) {
-        this.creationEvents.add(creationInfo);
+    public void scheduleCreation(final CreationInfo creation) {
+        this.creationEvents.add(creation);
     }
 
     /**
@@ -83,9 +83,9 @@ public abstract class AbstractGameScene implements GameScene {
         destroyEvents.forEach(this::destroyObject);
     }
 
-    private void createObject(final CreationInfo creationEvent) {
-        final var gameObject = this.createInstance(creationEvent.type());
-        gameObject.setPosition(creationEvent.position());
+    private void createObject(final CreationInfo creation) {
+        final var gameObject = this.createObject(creation.type());
+        gameObject.setPosition(creation.position());
         this.gameObserver.createObject(gameObject);
     }
 
