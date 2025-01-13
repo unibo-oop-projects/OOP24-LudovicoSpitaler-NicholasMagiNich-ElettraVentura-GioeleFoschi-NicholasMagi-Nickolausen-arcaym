@@ -1,4 +1,4 @@
-package arcaym.model.game.objects.api;
+package arcaym.controller.game.core.objects.api;
 
 import arcaym.model.game.core.objects.api.GameObjectCategory;
 

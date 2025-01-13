@@ -5,15 +5,15 @@ import java.io.IOException;
 import arcaym.controller.game.core.objects.api.GameObjectCategory;
 
 /**
- * Visual representation of the ending tile.
+ * Visual representation of the player.
  */
-public class FinishView extends GameObjectSwingView {
-    private final String iconPath = getResourcesPath() + "finish_tile.png";
+public class PlayerView extends GameObjectSwingView {
+    private final String iconPath = getResourcesPath() + "start_tile.png";
 
     /**
      * Default constructor, which loads the icon.
      */
-    public FinishView() {
+    public PlayerView() {
         try {
             loadSprite(iconPath);
         } catch (IOException e) {
@@ -26,6 +26,6 @@ public class FinishView extends GameObjectSwingView {
      */
     @Override
     public GameObjectCategory getCategory() {
-        return GameObjectCategory.GOAL;
+        return GameObjectCategory.PLAYER;
     }
 }

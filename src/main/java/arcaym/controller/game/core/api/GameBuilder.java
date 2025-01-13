@@ -1,7 +1,7 @@
 package arcaym.controller.game.core.api;
 
 import arcaym.common.point.api.Point;
-import arcaym.model.game.objects.api.GameObjectType;
+import arcaym.controller.game.core.objects.api.GameObjectType;
 import arcaym.model.game.score.api.GameScore;
 
 /**

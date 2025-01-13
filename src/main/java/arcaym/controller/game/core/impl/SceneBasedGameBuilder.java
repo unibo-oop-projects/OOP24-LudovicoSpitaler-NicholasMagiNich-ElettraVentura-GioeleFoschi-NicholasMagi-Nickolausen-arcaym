@@ -6,8 +6,8 @@ import arcaym.common.point.api.Point;
 import arcaym.controller.game.core.api.Game;
 import arcaym.controller.game.core.api.GameBuilder;
 import arcaym.controller.game.core.api.GameObserver;
+import arcaym.controller.game.core.objects.api.GameObjectType;
 import arcaym.controller.game.scene.api.GameScene;
-import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.model.game.score.api.GameScore;
 
 /**

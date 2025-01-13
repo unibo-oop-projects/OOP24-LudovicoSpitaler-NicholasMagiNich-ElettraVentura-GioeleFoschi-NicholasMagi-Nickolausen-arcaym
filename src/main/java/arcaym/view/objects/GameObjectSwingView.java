@@ -6,13 +6,14 @@ import java.io.IOException;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.JButton;
+
+import arcaym.controller.game.core.objects.api.GameObjectCategory;
 
 /**
  * Generic class to represent all the views of the objects implemented via Swing. 
  */
-public class GameObjectSwingView extends JPanel {
+public abstract class GameObjectSwingView extends JButton {
 
     private final String resourcesPath = "src/main/resources/";
 
@@ -26,13 +27,21 @@ public class GameObjectSwingView extends JPanel {
 
     /**
      * Loads the corresponding image of the object created.
-     *   
+     * 
      * @param spritePath the path to the image of the object (must be inside the resources folder)
      * @throws IOException if {@link @param spritePath} not found
      */
     public void loadSprite(final String spritePath) throws IOException {
         BufferedImage icon = ImageIO.read(new File(spritePath));
-        JLabel picLabel = new JLabel(new ImageIcon(icon));
-        this.add(picLabel);
+        this.setIcon(new ImageIcon(icon));
+        this.setOpaque(false);
+        this.setContentAreaFilled(false);
+        this.setBorderPainted(false);
     }
+
+    /**
+     * 
+     * @return the category the game object belongs to
+     */
+    public abstract GameObjectCategory getCategory();
 }
