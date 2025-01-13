@@ -1,7 +1,6 @@
 package arcaym.model.game.components.api;
 
 import arcaym.model.game.core.components.api.GameComponent;
-import arcaym.model.game.core.objects.api.GameObject;
 
 public interface GameComponentsFactory {
 
@@ -13,6 +12,10 @@ public interface GameComponentsFactory {
 
     public GameComponent fromKeyBoardMovement();
 
-    public GameComponent automaticMovement();
+    public GameComponent automaticXMovement();
+
+    public GameComponent automaticYMovement();
+
+    public GameComponent reachedGoal();
 
 }

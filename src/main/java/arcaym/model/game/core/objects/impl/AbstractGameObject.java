@@ -1,6 +1,7 @@
 package arcaym.model.game.core.objects.impl;
 
 import java.util.Objects;
+import java.util.function.Function;
 
 import arcaym.common.point.api.Point;
 import arcaym.common.utils.representation.FieldRepresentation;
@@ -12,24 +13,26 @@ import arcaym.model.game.objects.api.GameObjectType;
 
 /**
  * Abstract implementation of {@link GameObject}.
- * It provides access to basic fields while leaving the object interaction with the game.
+ * It provides access to basic fields while leaving the object interaction with
+ * the game.
  */
 @TypeRepresentation
 public abstract class AbstractGameObject implements GameObject {
 
     private final GameObjectType type;
-    private final GameObjectBoundaries boundaries;
     private Point position = Point.zero();
+    private Function<Point, GameObjectBoundaries> boundariesFunction;
 
     /**
      * Initialize with the given object type.
      * 
-     * @param type game object type
+     * @param type       game object type
      * @param boundaries game object boundaries
      */
-    protected AbstractGameObject(final GameObjectType type, final GameObjectBoundaries boundaries) {
+    protected AbstractGameObject(final GameObjectType type,
+            final Function<Point, GameObjectBoundaries> boundariesFunction) {
         this.type = Objects.requireNonNull(type);
-        this.boundaries = Objects.requireNonNull(boundaries);
+        this.boundariesFunction = boundariesFunction;
     }
 
     /**
@@ -63,7 +66,7 @@ public abstract class AbstractGameObject implements GameObject {
      */
     @Override
     public GameObjectBoundaries boundaries() {
-        return this.boundaries;
+        return this.boundariesFunction.apply(this.position);
     }
 
     /**

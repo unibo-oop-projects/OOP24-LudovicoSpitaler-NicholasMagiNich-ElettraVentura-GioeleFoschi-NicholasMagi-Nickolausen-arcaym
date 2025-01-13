@@ -4,7 +4,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Function;
 
+import arcaym.common.point.api.Point;
 import arcaym.controller.game.core.api.GameState;
 import arcaym.controller.game.events.api.EventsScheduler;
 import arcaym.controller.game.events.api.EventsSubscriber;
@@ -18,8 +20,9 @@ import arcaym.model.game.events.api.InputEvent;
 import arcaym.model.game.objects.api.GameObjectType;
 
 /**
- * Implementation of {@link ComponentsBasedGameObject} that uses a {@link Set} of components.
-*/
+ * Implementation of {@link ComponentsBasedGameObject} that uses a {@link Set}
+ * of components.
+ */
 public class UniqueComponentsGameObject extends AbstractGameObject implements ComponentsBasedGameObject {
 
     private final Set<GameComponent> components = new HashSet<>();
@@ -27,11 +30,12 @@ public class UniqueComponentsGameObject extends AbstractGameObject implements Co
     /**
      * Initialize with the given object type.
      * 
-     * @param type game object type
+     * @param type       game object type
      * @param boundaries game object boundaries
      */
-    public UniqueComponentsGameObject(final GameObjectType type, final GameObjectBoundaries boundaries) {
-        super(type, boundaries);
+    public UniqueComponentsGameObject(final GameObjectType type,
+            final Function<Point, GameObjectBoundaries> boundariesFunction) {
+        super(type, boundariesFunction);
     }
 
     /**
@@ -39,11 +43,10 @@ public class UniqueComponentsGameObject extends AbstractGameObject implements Co
      */
     @Override
     public void setup(
-        final EventsSubscriber<GameEvent> gameEventsSubscriber,
-        final EventsSubscriber<InputEvent> inputEventsSubscriber,
-        final GameSceneInfo gameScene,
-        final GameState gameState
-    ) {
+            final EventsSubscriber<GameEvent> gameEventsSubscriber,
+            final EventsSubscriber<InputEvent> inputEventsSubscriber,
+            final GameSceneInfo gameScene,
+            final GameState gameState) {
         this.components.forEach(c -> c.setup(gameEventsSubscriber, inputEventsSubscriber, gameScene, gameState));
     }
 
@@ -52,11 +55,10 @@ public class UniqueComponentsGameObject extends AbstractGameObject implements Co
      */
     @Override
     public void update(
-        final long deltaTime, 
-        final EventsScheduler<GameEvent> eventsScheduler, 
-        final GameSceneInfo scene,
-        final GameState state
-    ) {
+            final long deltaTime,
+            final EventsScheduler<GameEvent> eventsScheduler,
+            final GameSceneInfo scene,
+            final GameState state) {
         this.components.forEach(c -> c.update(deltaTime, eventsScheduler, scene, state));
     }
 

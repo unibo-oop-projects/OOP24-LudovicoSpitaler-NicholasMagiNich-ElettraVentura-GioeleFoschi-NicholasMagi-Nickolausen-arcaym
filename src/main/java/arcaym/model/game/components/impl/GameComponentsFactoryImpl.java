@@ -4,6 +4,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+import arcaym.common.point.api.Point;
 import arcaym.common.point.impl.Points;
 import arcaym.controller.game.core.api.GameState;
 import arcaym.controller.game.events.api.EventsScheduler;
@@ -11,8 +12,9 @@ import arcaym.controller.game.events.api.EventsSubscriber;
 import arcaym.controller.game.events.impl.ThreadSafeEventsManager;
 import arcaym.controller.game.scene.api.GameSceneInfo;
 import arcaym.model.game.components.api.GameComponentsFactory;
-import arcaym.model.game.core.components.api.ComponentsBasedObject;
+import arcaym.model.game.core.components.api.ComponentsBasedGameObject;
 import arcaym.model.game.core.components.api.GameComponent;
+import arcaym.model.game.core.components.impl.UniqueComponentsGameObject;
 import arcaym.model.game.core.components.impl.AbstractGameComponent;
 import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.core.objects.api.GameObjectCategory;
@@ -26,15 +28,15 @@ import arcaym.model.game.objects.api.GameObjectType;
  * Basic implementation of {@link GameComponentsFactory}.
  */
 public class GameComponentsFactoryImpl implements GameComponentsFactory {
-    private final ComponentsBasedObject gameObject;
+    private final UniqueComponentsGameObject gameObject;
 
-    public GameComponentsFactoryImpl(ComponentsBasedObject gameObject) {
+    public GameComponentsFactoryImpl(UniqueComponentsGameObject gameObject) {
         this.gameObject = gameObject;
     }
 
     interface CollisionConsumer {
         void reactToCollision(long deltaTime, EventsScheduler<GameEvent> eventsScheduler,
-                GameObjectInfo collidingObject);
+                GameObjectInfo collidingObject, GameSceneInfo gameScene);
     }
 
     private GameComponent genericCollision(Predicate<GameObjectInfo> predicateFromObjectInfo,
@@ -42,23 +44,20 @@ public class GameComponentsFactoryImpl implements GameComponentsFactory {
         return new AbstractGameComponent(gameObject) {
 
             @Override
-            public void setup(EventsSubscriber<GameEvent> gameEventsSubscriber,
-                    EventsSubscriber<InputEvent> inputEventsSubscriber, GameSceneInfo gameScene, GameState gameState) {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'setup'");
-            }
-
-            @Override
             public void update(long deltaTime, EventsScheduler<GameEvent> eventsScheduler, GameSceneInfo gameScene,
                     GameState gameState) {
                 gameScene.getGameObjectsInfos().stream()
                         .filter(infos -> predicateFromObjectInfo.test(infos))
-                        .filter(infos -> Points.distance(infos.getPosition(), gameObject.getPosition()) == 0)
-                        .forEach(obj -> reaction.reactToCollision(deltaTime, eventsScheduler, obj));
+                        .filter(infos -> isThereACollision(infos.getPosition()))
+                        .forEach(obj -> reaction.reactToCollision(deltaTime, eventsScheduler, obj, gameScene));
 
             }
 
         };
+    }
+
+    private boolean isThereACollision(Point point) {
+        return gameObject.boundaries().isInside(point);
     }
 
     private GameComponent objectTypeCollision(Predicate<GameObjectType> predicateFromType,
@@ -70,8 +69,8 @@ public class GameComponentsFactoryImpl implements GameComponentsFactory {
     @Override
     public GameComponent obstacleCollision() {
         if (gameObject.type().equals(GameObjectType.USER_PLAYER)) {
-            return genericCollision(info -> info.category().equals(GameObjectCategory.OBSTACLE),
-                    (deltaTime, eventsScheduler, collidingObject) -> {
+            return genericCollision(info -> info.category() == GameObjectCategory.OBSTACLE,
+                    (deltaTime, eventsScheduler, collidingObject, gameScene) -> {
                         eventsScheduler.scheduleEvent(GameEvent.GAME_OVER);
                     });
         } else {
@@ -82,13 +81,20 @@ public class GameComponentsFactoryImpl implements GameComponentsFactory {
     @Override
     public GameComponent wallCollision() {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'wallCollision'");
+        throw new UnsupportedOperationException("Unimplemented method 'fromKeyBoardMovement'");
     }
 
     @Override
     public GameComponent coinCollision() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'coinCollision'");
+        if (gameObject.type().equals(GameObjectType.COIN)) {
+            return genericCollision(info -> info.category() == GameObjectCategory.PLAYER,
+                    (deltaTime, eventsScheduler, collidingObject, gameScene) -> {
+                        eventsScheduler.scheduleEvent(GameEvent.INCREMENT_SCORE);
+                        gameScene.scheduleDestruction(gameObject);
+                    });
+        } else {
+            throw new IllegalStateException("Unsupported GameObject type for obstacleCollision");
+        }
     }
 
     @Override
@@ -98,8 +104,21 @@ public class GameComponentsFactoryImpl implements GameComponentsFactory {
     }
 
     @Override
-    public GameComponent automaticMovement() {
+    public GameComponent automaticXMovement() {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'automaticMovement'");
+        throw new UnsupportedOperationException("Unimplemented method 'automaticXMovement'");
+    }
+
+    @Override
+    public GameComponent automaticYMovement() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'automaticYMovement'");
+    }
+
+    @Override
+    public GameComponent reachedGoal() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'reachedGoal'");
+
     }
 }
