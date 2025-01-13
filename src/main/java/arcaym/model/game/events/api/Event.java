@@ -21,7 +21,7 @@ public interface Event {
 
     /**
      * Compare two events based on {@link #priority()}.
-     * Lower value means higher priority.
+     * A lower value means higher priority.
      * 
      * @param e1 first event
      * @param e2 second event
