@@ -45,7 +45,7 @@ public class EditorMainView extends JPanel implements GeneralSwingView {
         sideMenu.setSize(sideMenuDimension);
         sideMenu.setPreferredSize(sideMenuDimension);
         sideMenu.setMinimumSize(sideMenuDimension);
-        final Dimension gridDimension = new Dimension(Math.floorDiv(this.getWidth(), COLUMNS) * 4, this.getHeight());
+        final Dimension gridDimension = calculateGridDimension();
         grid.setSize(gridDimension);
         grid.setPreferredSize(gridDimension);
         grid.setMinimumSize(gridDimension);
@@ -63,5 +63,17 @@ public class EditorMainView extends JPanel implements GeneralSwingView {
 
         this.add(splitPane);
         this.setVisible(true);
+    }
+
+    /**
+     * The space of the screen is organized as follows:
+     * 1. The screen is horizontally divided into COLUMNS columns;
+     * 2. The side menu always take 1 of the COLUMNS columns;
+     * 3. The grid must take the remaining columns COLUMNS (which are 1 - COLUMNS)
+     * 
+     * @return The dimension of the grid that fills the remaining space 
+     */
+    private Dimension calculateGridDimension() {
+        return new Dimension(Math.floorDiv(this.getWidth(), COLUMNS) * (COLUMNS - 1), this.getHeight());
     }
 }

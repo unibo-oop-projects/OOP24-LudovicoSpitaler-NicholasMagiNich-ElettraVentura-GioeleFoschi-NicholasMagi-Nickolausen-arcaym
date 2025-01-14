@@ -1,42 +1,33 @@
 package arcaym.view.app.impl;
 
 import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
 import arcaym.model.game.core.objects.api.GameObjectCategory;
 import arcaym.view.app.api.MainView;
 import arcaym.view.editor.EditorMainView;
+import arcaym.view.editor.components.api.GeneralSwingView;
 import arcaym.view.objects.GameObjectSwingView;
 
 /**
  * Implementation of the main window of the application.
  */
-public class MainViewImpl extends JFrame implements MainView {
+public class MainViewImpl extends JFrame implements MainView, GeneralSwingView {
 
     private static final long serialVersionUID = 1L;
-    private static final Dimension MINIMUM_DIMENSIONS = new Dimension(1366, 768);
+    private static final Dimension MINIMUM_SCREEN_SIZE = new Dimension(1024, 768);
+    private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    private final String WINDOW_TITLE = "Architect of Mayhem";
     private EditorMainView editor;
     private JPanel game;
-
-    /**
-     * Default constructor.
-     */
-    public MainViewImpl() {
-        // Sets the location of the JFrame in the center of the screen
-        this.setLocationRelativeTo(null);
-        this.setMinimumSize(MINIMUM_DIMENSIONS);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        this.initEditor();
-        this.initGame();
-        this.switchToEditor();
-        this.setVisible(true);
-    }
 
     private Map<GameObjectCategory, Set<GameObjectSwingView>> createGameObjects() {
         final var obstaclesSet = Set.of(
@@ -75,6 +66,7 @@ public class MainViewImpl extends JFrame implements MainView {
         this.remove(game);
         this.add(editor);
         editor.setVisible(true);
+        this.setTitle(WINDOW_TITLE + " - Editing");
     }
 
     /**
@@ -86,19 +78,27 @@ public class MainViewImpl extends JFrame implements MainView {
         this.remove(editor);
         this.add(game);
         game.setVisible(true);
+        this.setTitle(WINDOW_TITLE);
     }
 
     private void initEditor() {
         this.editor = new EditorMainView(createGameObjects());
-        editor.setSize(this.getSize());
-        editor.setPreferredSize(this.getSize());
+        editor.setMinimumSize(MINIMUM_SCREEN_SIZE);
+        editor.setSize(screenSize);
+        editor.setPreferredSize(screenSize);
         editor.initView();
+    }
+
+    private void resizeMainPanels() {
+        editor.setSize(this.getSize());
+        game.setSize(this.getSize());
     }
 
     private void initGame() {
         game = new JPanel();
-        game.setSize(this.getSize());
-        game.setPreferredSize(this.getSize());
+        game.setMinimumSize(MINIMUM_SCREEN_SIZE);
+        game.setSize(screenSize);
+        game.setPreferredSize(screenSize);
         // game.initView();
     }
 
@@ -107,7 +107,41 @@ public class MainViewImpl extends JFrame implements MainView {
      * @param args
      */
     public static void main(final String... args) {
-        new MainViewImpl();
+        new MainViewImpl().initView();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void initView() {
+        // Sets the location of the JFrame in the center of the screen
+        this.setLocationRelativeTo(null);
+        this.setMinimumSize(MINIMUM_SCREEN_SIZE);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        this.initEditor();
+        this.initGame();
+        this.switchToEditor();
+        this.pack();
+        this.setVisible(true);
+        this.addComponentListener(new ComponentListener() {
+
+            @Override
+            public void componentResized(ComponentEvent e) {
+                resizeMainPanels();
+            }
+
+            @Override
+            public void componentMoved(ComponentEvent e) { }
+
+            @Override
+            public void componentShown(ComponentEvent e) { }
+
+            @Override
+            public void componentHidden(ComponentEvent e) { }
+            
+        });
     }
 
 }
