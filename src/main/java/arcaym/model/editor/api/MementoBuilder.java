@@ -32,6 +32,13 @@ public interface MementoBuilder {
     void setCollectablesLayer(Map<Point, GameObjectType> collectableLayer);
 
     /**
+     * Saves the entire current state of the {@link Grid}.
+     * 
+     * @param grid the grid to save
+     */
+    void saveAllState(Grid grid);
+
+    /**
      * Builds the {@link Memento} object.
      * 
      * @return The memento object built

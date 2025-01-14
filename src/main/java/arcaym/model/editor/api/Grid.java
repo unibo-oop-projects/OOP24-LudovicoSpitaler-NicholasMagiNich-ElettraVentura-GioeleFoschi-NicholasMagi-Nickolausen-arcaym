@@ -3,6 +3,7 @@ package arcaym.model.editor.api;
 import java.util.Collection;
 
 import arcaym.common.point.api.Point;
+import arcaym.model.game.core.objects.api.GameObjectCategory;
 import arcaym.model.game.objects.api.GameObjectType;
 
 /**
@@ -13,9 +14,13 @@ public interface Grid {
     /**
      * Takes a snapshot of the current state of the grid for undo / redo 
      * implementation.
+     * Parameter are needed to store as little information as possible.
+     * 
+     * @param positions The collection of position that will be changing.
+     * @param changingTo The category the position will be changing to.
      * @return The current state of the Grid without breaking encapsulation.
      */
-    Memento takeSnapshot();
+    Memento takeSnapshot(Collection<Point> positions, GameObjectCategory changingTo);
 
     /**
      * Restores the state described by the memento object.

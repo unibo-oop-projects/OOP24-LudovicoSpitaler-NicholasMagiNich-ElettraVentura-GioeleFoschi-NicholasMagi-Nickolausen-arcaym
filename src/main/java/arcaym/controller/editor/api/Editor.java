@@ -18,12 +18,12 @@ public interface Editor {
     void setSelectedObject(GameObjectType object);
 
     /**
-     * Restores the previews state of the editor.
+     * Restores the previeus state of the editor.
      */
     void undo();
 
     /**
-     * If an undo was previewsly executed, this can revert that action.
+     * If an {@link #undo()} was executed, this can revert that action.
      */
     void redo();
 
@@ -39,6 +39,13 @@ public interface Editor {
      * @return True if an redo can be performed
      */
     boolean canRedo();
+
+    /**
+     * Ereases every object in the selected position.
+     * 
+     * @param positions the selected positions
+     */
+    void eraseArea(Collection<Point> positions);
 
     /**
      * Adds the last selected object from {@link #setSelectedObject(GameObjectType)} and
