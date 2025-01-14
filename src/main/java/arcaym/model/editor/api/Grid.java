@@ -36,6 +36,12 @@ public interface Grid {
     void setObjects(Collection<Point> positions, GameObjectType type);
 
     /**
+     * Removes every objects from the given positions.
+     * @param positions
+     */
+    void removeObjects(Collection<Point> positions);
+
+    /**
      * At any given time there can only be a maximum of 1
      * {@link arcaym.model.game.core.objects.api.GameObjectCategory#PLAYER}.
      * 
