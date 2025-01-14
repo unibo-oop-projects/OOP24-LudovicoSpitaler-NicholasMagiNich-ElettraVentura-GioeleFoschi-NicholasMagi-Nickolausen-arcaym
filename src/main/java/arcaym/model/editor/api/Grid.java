@@ -42,8 +42,17 @@ public interface Grid {
     void removeObjects(Collection<Point> positions);
 
     /**
+     * Returns a set of {@link GameObjectType} that represent every object contained
+     * in @param pos
+     * 
+     * @param pos The position of which to get the objects
+     * @return A collection of {@link GameObjectType}
+     */
+    Collection<GameObjectType> getObjects(Point pos);
+
+    /**
      * At any given time there can only be a maximum of 1
-     * {@link arcaym.model.game.core.objects.api.GameObjectCategory#PLAYER}.
+     * {@link GameObjectCategory#PLAYER}.
      * 
      * @param positions The incoming collection of objects, to be added to the grid.
      * @return True if the constraint is respected
@@ -54,7 +63,7 @@ public interface Grid {
 
     /**
      * At any given time there can only be one cluster of
-     * {@link arcaym.model.game.core.objects.api.GameObjectCategory#GOAL}.
+     * {@link GameObjectCategory#GOAL}.
      * A cluster is a set of cells all directly connected (not diagonally)
      * 
      * @param positions The incoming collection of objects, to be added to the grid.
