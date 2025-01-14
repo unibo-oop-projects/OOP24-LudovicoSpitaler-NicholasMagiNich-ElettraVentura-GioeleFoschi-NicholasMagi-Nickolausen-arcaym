@@ -36,7 +36,7 @@ public interface MementoBuilder {
      * 
      * @param grid the grid to save
      */
-    void saveAllState(Grid grid);
+    void saveAllState();
 
     /**
      * Builds the {@link Memento} object.

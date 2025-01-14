@@ -23,12 +23,6 @@ public interface Grid {
     Memento takeSnapshot(Collection<Point> positions, GameObjectCategory changingTo);
 
     /**
-     * Restores the state described by the memento object.
-     * @param state
-     */
-    void restore(Memento state);
-
-    /**
      * Sets the object @param type in all the positions in the collection.
      * @param positions The collection of position of the grid
      * @param type The type of object to be placed
@@ -57,7 +51,7 @@ public interface Grid {
      * @param positions The incoming collection of objects, to be added to the grid.
      * @return True if the constraint is respected
      */
-    default boolean playerConstraint(Collection<Point> positions) {
+    default boolean playerConstraint(Collection<Point> positions, Point mapSize) {
         return false;
     }
 
@@ -69,7 +63,7 @@ public interface Grid {
      * @param positions The incoming collection of objects, to be added to the grid.
      * @return True if the constraint is respected
      */
-    default boolean goalConstraint(Collection<Point> positions) {
+    default boolean goalConstraint(Collection<Point> positions, Point mapSize) {
         return false;
     }
 }
