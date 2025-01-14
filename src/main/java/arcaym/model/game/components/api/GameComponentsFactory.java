@@ -6,8 +6,6 @@ public interface GameComponentsFactory {
 
     public GameComponent obstacleCollision();
 
-    public GameComponent wallCollision();
-
     public GameComponent coinCollision();
 
     public GameComponent fromKeyBoardMovement();

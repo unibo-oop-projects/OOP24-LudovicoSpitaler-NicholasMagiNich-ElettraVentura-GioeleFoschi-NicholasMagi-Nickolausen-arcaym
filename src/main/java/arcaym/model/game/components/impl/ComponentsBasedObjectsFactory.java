@@ -1,6 +1,5 @@
 package arcaym.model.game.components.impl;
 
-import java.util.Collection;
 import java.util.function.Function;
 
 import arcaym.common.point.api.Point;
@@ -24,17 +23,16 @@ public class ComponentsBasedObjectsFactory implements GameObjectsFactory {
     public GameObject ofType(GameObjectType gameObjectType) {
         var obj = new UniqueComponentsGameObject(gameObjectType, boundariesOfType(gameObjectType));
         GameComponentsFactory componentsProvider = new GameComponentsFactoryImpl(obj);
+
         switch (gameObjectType) {
             case USER_PLAYER:
                 obj.addComponent(componentsProvider.fromKeyBoardMovement());
                 obj.addComponent(componentsProvider.obstacleCollision());
-                obj.addComponent(componentsProvider.wallCollision());
+                obj.addComponent(componentsProvider.reachedGoal());
             case MOVING_X_OBSTACLE:
                 obj.addComponent(componentsProvider.automaticXMovement());
-                obj.addComponent(componentsProvider.wallCollision());
             case MOVING_Y_OBSTACLE:
                 obj.addComponent(componentsProvider.automaticYMovement());
-                obj.addComponent(componentsProvider.wallCollision());
             case COIN:
                 obj.addComponent(componentsProvider.coinCollision());
             default:
@@ -50,7 +48,6 @@ public class ComponentsBasedObjectsFactory implements GameObjectsFactory {
             case GOAL -> this.boundariesFactory::squareBoundaries;
             case OBSTACLE -> this.boundariesFactory::circularBoundaries;
             case PLAYER -> this.boundariesFactory::circularBoundaries;
-
         };
     }
 

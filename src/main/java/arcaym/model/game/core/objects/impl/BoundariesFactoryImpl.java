@@ -1,10 +1,8 @@
 package arcaym.model.game.core.objects.impl;
 
 import arcaym.common.point.api.Point;
-import arcaym.common.point.impl.BasePoint;
 import arcaym.common.point.impl.Points;
 import arcaym.common.shapes.api.Rectangle;
-import arcaym.common.shapes.impl.BaseRectangle;
 import arcaym.model.game.core.objects.api.BoundariesFactory;
 import arcaym.model.game.core.objects.api.GameObjectBoundaries;
 
