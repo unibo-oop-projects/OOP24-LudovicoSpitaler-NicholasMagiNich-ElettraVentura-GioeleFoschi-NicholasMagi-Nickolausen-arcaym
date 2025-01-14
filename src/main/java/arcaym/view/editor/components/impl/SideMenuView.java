@@ -12,7 +12,6 @@ import java.util.Set;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
 import arcaym.model.game.core.objects.api.GameObjectCategory;

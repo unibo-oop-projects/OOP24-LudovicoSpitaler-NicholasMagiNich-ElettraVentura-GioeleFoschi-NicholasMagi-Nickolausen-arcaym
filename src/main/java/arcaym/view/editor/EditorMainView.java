@@ -21,7 +21,7 @@ import arcaym.view.objects.GameObjectSwingView;
 public class EditorMainView extends JPanel implements GeneralSwingView {
 
     private static final long serialVersionUID = 1L;
-    private static final int COLUMNS = 3;
+    private static final int COLUMNS = 5;
     private EditorGridView grid;
     private SideMenuView sideMenu;
     private JSplitPane splitPane;
@@ -41,8 +41,14 @@ public class EditorMainView extends JPanel implements GeneralSwingView {
     public void initView() {
         grid = new EditorGridView();
         sideMenu = new SideMenuView(gameObjects);
-        sideMenu.setSize(new Dimension(Math.floorDiv(this.getWidth(), COLUMNS), this.getHeight()));
-        grid.setSize(new Dimension(Math.floorDiv(this.getWidth(), COLUMNS) * 2, this.getHeight()));
+        final Dimension sideMenuDimension = new Dimension(Math.floorDiv(this.getWidth(), COLUMNS), this.getHeight());
+        sideMenu.setSize(sideMenuDimension);
+        sideMenu.setPreferredSize(sideMenuDimension);
+        sideMenu.setMinimumSize(sideMenuDimension);
+        final Dimension gridDimension = new Dimension(Math.floorDiv(this.getWidth(), COLUMNS) * 4, this.getHeight());
+        grid.setSize(gridDimension);
+        grid.setPreferredSize(gridDimension);
+        grid.setMinimumSize(gridDimension);
 
         sideMenu.initView();
         grid.initView();

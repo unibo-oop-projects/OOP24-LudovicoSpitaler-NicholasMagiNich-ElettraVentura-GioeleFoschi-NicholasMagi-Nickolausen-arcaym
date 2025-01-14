@@ -1,6 +1,7 @@
 package arcaym.view.app.impl;
 
 import java.awt.Dimension;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -26,6 +27,8 @@ public class MainViewImpl extends JFrame implements MainView {
      * Default constructor.
      */
     public MainViewImpl() {
+        // Sets the location of the JFrame in the center of the screen
+        this.setLocationRelativeTo(null);
         this.setMinimumSize(MINIMUM_DIMENSIONS);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -48,9 +51,11 @@ public class MainViewImpl extends JFrame implements MainView {
         final var collectableSet = Set.of(
             new GameObjectSwingView(GameObjectCategory.COLLECTABLE, "coin.png")
         );
-        final var blockSet = Set.of(
-            new GameObjectSwingView(GameObjectCategory.BLOCK, "coin.png")
-        );
+        
+        final var blockSet = new HashSet<GameObjectSwingView>();
+        for (int i = 0; i < 30; i++) {
+            blockSet.add(new GameObjectSwingView(GameObjectCategory.BLOCK, "coin.png"));
+        }
 
         return Map.of(
             GameObjectCategory.OBSTACLE, obstaclesSet,
@@ -86,12 +91,14 @@ public class MainViewImpl extends JFrame implements MainView {
     private void initEditor() {
         this.editor = new EditorMainView(createGameObjects());
         editor.setSize(this.getSize());
+        editor.setPreferredSize(this.getSize());
         editor.initView();
     }
 
     private void initGame() {
         game = new JPanel();
         game.setSize(this.getSize());
+        game.setPreferredSize(this.getSize());
         // game.initView();
     }
 
