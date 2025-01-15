@@ -3,6 +3,7 @@ package arcaym.model.editor.api;
 import java.util.Collection;
 
 import arcaym.common.point.api.Point;
+import arcaym.model.editor.EditorGridException;
 import arcaym.model.game.core.objects.api.GameObjectCategory;
 import arcaym.model.game.objects.api.GameObjectType;
 
@@ -26,8 +27,9 @@ public interface Grid {
      * Sets the object @param type in all the positions in the collection.
      * @param positions The collection of position of the grid
      * @param type The type of object to be placed
+     * @throws 
      */
-    void setObjects(Collection<Point> positions, GameObjectType type);
+    void setObjects(Collection<Point> positions, GameObjectType type) throws EditorGridException;
 
     /**
      * Removes every objects from the given positions.
@@ -36,34 +38,10 @@ public interface Grid {
     void removeObjects(Collection<Point> positions);
 
     /**
-     * Returns a set of {@link GameObjectType} that represent every object contained
-     * in @param pos
+     * Returns a set of {@link GameObjectType} that represent every object contained in @param pos .
      * 
      * @param pos The position of which to get the objects
      * @return A collection of {@link GameObjectType}
      */
     Collection<GameObjectType> getObjects(Point pos);
-
-    /**
-     * At any given time there can only be a maximum of 1
-     * {@link GameObjectCategory#PLAYER}.
-     * 
-     * @param positions The incoming collection of objects, to be added to the grid.
-     * @return True if the constraint is respected
-     */
-    default boolean playerConstraint(Collection<Point> positions, Point mapSize) {
-        return false;
-    }
-
-    /**
-     * At any given time there can only be one cluster of
-     * {@link GameObjectCategory#GOAL}.
-     * A cluster is a set of cells all directly connected (not diagonally)
-     * 
-     * @param positions The incoming collection of objects, to be added to the grid.
-     * @return True if the constraint is respected
-     */
-    default boolean goalConstraint(Collection<Point> positions, Point mapSize) {
-        return false;
-    }
 }

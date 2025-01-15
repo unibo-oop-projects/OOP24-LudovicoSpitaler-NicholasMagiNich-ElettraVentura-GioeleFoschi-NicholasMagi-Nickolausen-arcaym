@@ -34,7 +34,6 @@ public interface MementoBuilder {
     /**
      * Saves the entire current state of the {@link Grid}.
      * 
-     * @param grid the grid to save
      */
     void saveAllState();
 
