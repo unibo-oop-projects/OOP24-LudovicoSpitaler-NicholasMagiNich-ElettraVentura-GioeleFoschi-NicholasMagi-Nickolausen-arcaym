@@ -10,7 +10,6 @@ import java.util.stream.Stream;
 import arcaym.common.point.api.Point;
 import arcaym.model.editor.EditorGridException;
 import arcaym.model.editor.api.Grid;
-import arcaym.model.editor.api.Memento;
 import arcaym.model.game.core.objects.api.GameObjectCategory;
 import arcaym.model.game.objects.api.GameObjectType;
 
@@ -24,9 +23,9 @@ public class GridImpl implements Grid {
     private static final String GOAL_CONSTRAINT_EXCEPTION_MESSAGE = "All Goal Cells must be adjacent";
     private static final String ILLEGAL_POSITION_EXCEPTION_MESSAGE = "The given position is out of the grid boundary";
 
-    private Map<Point, GameObjectType> lowerLayer;
-    private Map<Point, GameObjectType> enemyLayer;
-    private Map<Point, GameObjectType> collectablesLayer;
+    private final Map<Point, GameObjectType> lowerLayer;
+    private final Map<Point, GameObjectType> enemyLayer;
+    private final Map<Point, GameObjectType> collectablesLayer;
     private final Point mapSize;
 
     /**
@@ -39,24 +38,6 @@ public class GridImpl implements Grid {
         this.enemyLayer = new HashMap<>();
         this.collectablesLayer = new HashMap<>();
         this.mapSize = Point.of(x, y);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Memento takeSnapshot(final Collection<Point> positions, final GameObjectCategory changingTo) {
-        return new ConcreteMemento(this, List.of(lowerLayer, enemyLayer, collectablesLayer));
-    }
-
-    /**
-     * Restores the given state.
-     * @param state the state to be restored
-     */
-    public void setState(final List<Map<Point, GameObjectType>> state) {
-        this.lowerLayer = state.get(0);
-        this.enemyLayer = state.get(1);
-        this.collectablesLayer = state.get(2);
     }
 
     /**
