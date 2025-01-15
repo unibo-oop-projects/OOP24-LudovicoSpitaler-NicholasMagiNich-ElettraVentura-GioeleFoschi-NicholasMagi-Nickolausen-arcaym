@@ -3,6 +3,7 @@ package arcaym.controller.editor.api;
 import java.util.Collection;
 
 import arcaym.common.point.api.Point;
+import arcaym.model.editor.EditorGridException;
 import arcaym.model.game.objects.api.GameObjectType;
 
 /**
@@ -53,5 +54,5 @@ public interface Editor {
      * 
      * @param positions The collection of position to change
      */
-    void applyChange(Collection<Point> positions);
+    void applyChange(Collection<Point> positions) throws EditorGridException;
 }
