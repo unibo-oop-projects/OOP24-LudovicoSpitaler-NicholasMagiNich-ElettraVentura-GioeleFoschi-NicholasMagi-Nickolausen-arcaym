@@ -43,7 +43,7 @@ public class BaseVector implements Vector {
 
     @Override
     public double multiply(Vector other) {
-        return this.x * other.getX()+ this.y * other.getY();
+        return this.x * other.getX() + this.y * other.getY();
     }
 
 }

@@ -8,7 +8,7 @@ public interface GameComponentsFactory {
 
     public GameComponent coinCollision();
 
-    public GameComponent fromKeyBoardMovement();
+    public GameComponent fromInputMovement();
 
     public GameComponent automaticXMovement();
 

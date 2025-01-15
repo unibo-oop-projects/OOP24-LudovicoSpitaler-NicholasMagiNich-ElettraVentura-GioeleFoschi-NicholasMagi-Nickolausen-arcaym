@@ -3,8 +3,6 @@ package arcaym.model.game.components.impl;
 import java.util.function.Predicate;
 
 import arcaym.common.point.api.Point;
-import arcaym.common.shapes.api.Rectangle;
-import arcaym.common.shapes.impl.Rectangles;
 import arcaym.common.vector.api.Vector;
 import arcaym.controller.game.core.api.GameState;
 import arcaym.controller.game.events.api.EventsScheduler;
@@ -17,6 +15,10 @@ import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.core.objects.api.GameObjectCategory;
 import arcaym.model.game.core.objects.api.GameObjectInfo;
 import arcaym.model.game.events.api.GameEvent;
+import arcaym.model.game.logics.api.CollisionHandler;
+import arcaym.model.game.logics.api.MovementHandler;
+import arcaym.model.game.logics.impl.BasicCollisionHandler;
+import arcaym.model.game.logics.impl.BasicMovementHandler;
 import arcaym.model.game.objects.api.GameObjectType;
 
 /**
@@ -24,9 +26,13 @@ import arcaym.model.game.objects.api.GameObjectType;
  */
 public class GameComponentsFactoryImpl implements GameComponentsFactory {
     private final UniqueComponentsGameObject gameObject;
+    private final CollisionHandler collisionHandler;
+    private final MovementHandler movementHandler;
 
     public GameComponentsFactoryImpl(UniqueComponentsGameObject gameObject) {
         this.gameObject = gameObject;
+        this.collisionHandler = new BasicCollisionHandler(gameObject);
+        this.movementHandler = new BasicMovementHandler(gameObject);
     }
 
     interface CollisionConsumer {
@@ -35,7 +41,7 @@ public class GameComponentsFactoryImpl implements GameComponentsFactory {
     }
 
     interface IllegalMovementConsumer {
-        void handleCollisionWithBlock(long deltaTime, EventsScheduler<GameEvent> eventsScheduler, Vector vel,
+        void reactToLimitReached(long deltaTime, EventsScheduler<GameEvent> eventsScheduler, Vector vel,
                 GameObject gameObject);
     }
 
@@ -46,23 +52,12 @@ public class GameComponentsFactoryImpl implements GameComponentsFactory {
             @Override
             public void update(long deltaTime, EventsScheduler<GameEvent> eventsScheduler, GameSceneInfo gameScene,
                     GameState gameState) {
-                gameScene.getGameObjectsInfos().stream()
+                collisionHandler.getCollidingObjects(gameScene)
                         .filter(infos -> predicateFromObjectInfo.test(infos))
-                        .filter(infos -> areRectanglesColliding(infos.boundaries().drawArea(),
-                                gameObject.boundaries().drawArea()))
-                        .filter(infos -> infos.boundaries().surface().anyMatch(point -> isThereACollision(point)))
                         .forEach(obj -> reaction.reactToCollision(deltaTime, eventsScheduler, obj, gameScene));
             }
 
         };
-    }
-
-    private boolean areRectanglesColliding(Rectangle rect1, Rectangle rect2) {
-        return Rectangles.intersecting(rect1, rect2);
-    }
-
-    private boolean isThereACollision(Point point) {
-        return gameObject.boundaries().isInside(point);
     }
 
     @Override
@@ -98,15 +93,12 @@ public class GameComponentsFactoryImpl implements GameComponentsFactory {
             @Override
             public void update(long deltaTime, EventsScheduler<GameEvent> eventsScheduler, GameSceneInfo gameScene,
                     GameState gameState) {
-                Point currentPosition = gameObject.getPosition();
-                double newX = currentPosition.x() + (vel.getX() * deltaTime);
-                double newY = currentPosition.y() + (vel.getY() * deltaTime);
-                Point newPosition = Point.of((int) Math.round(newX), (int) Math.round(newY));
+                Point newPosition = movementHandler.nextPosition(initialVelocity, deltaTime);
 
-                if (isWallCollisionActive(gameObject, gameScene)) {
-                    gameObject.setPosition(newPosition);
+                if (!isWallCollisionActive(gameScene)) {
+                    movementHandler.updatePosition(newPosition);
                 } else {
-                    reaction.handleCollisionWithBlock(deltaTime, eventsScheduler, vel, gameObject);
+                    reaction.reactToLimitReached(deltaTime, eventsScheduler, vel, gameObject);
                 }
             }
 
@@ -114,16 +106,12 @@ public class GameComponentsFactoryImpl implements GameComponentsFactory {
     }
 
     @Override
-    public GameComponent fromKeyBoardMovement() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'fromKeyBoardMovement'");
+    public GameComponent fromInputMovement() {
+        return new InputMovementComponent(gameObject);
     }
 
-    private boolean isWallCollisionActive(UniqueComponentsGameObject gameObject, GameSceneInfo gameScene) {
-        return gameScene.getGameObjectsInfos().stream()
-                .filter(infos -> areRectanglesColliding(infos.boundaries().drawArea(),
-                        gameObject.boundaries().drawArea()))
-                .filter(infos -> infos.boundaries().surface().anyMatch(point -> isThereACollision(point)))
+    private boolean isWallCollisionActive(GameSceneInfo gameScene) {
+        return collisionHandler.getCollidingObjects(gameScene)
                 .anyMatch(obj -> obj.type() == GameObjectType.WALL);
     }
 
@@ -149,13 +137,9 @@ public class GameComponentsFactoryImpl implements GameComponentsFactory {
 
     @Override
     public GameComponent reachedGoal() {
-        if (gameObject.type() == GameObjectType.USER_PLAYER) {
-            return genericCollision(info -> info.category() == GameObjectCategory.GOAL,
-                    (deltaTime, eventsScheduler, collidingObject, gameScene) -> {
-                        eventsScheduler.scheduleEvent(GameEvent.VICTORY);
-                    });
-        } else {
-            throw new IllegalStateException("Unsupported GameObject type for obstacleCollision");
-        }
+        return genericCollision(info -> info.category() == GameObjectCategory.GOAL,
+                (deltaTime, eventsScheduler, collidingObject, gameScene) -> {
+                    eventsScheduler.scheduleEvent(GameEvent.VICTORY);
+                });
     }
 }

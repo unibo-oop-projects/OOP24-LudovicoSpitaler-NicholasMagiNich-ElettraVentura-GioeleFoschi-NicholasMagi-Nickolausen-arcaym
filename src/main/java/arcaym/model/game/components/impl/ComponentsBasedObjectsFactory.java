@@ -26,7 +26,7 @@ public class ComponentsBasedObjectsFactory implements GameObjectsFactory {
 
         switch (gameObjectType) {
             case USER_PLAYER:
-                obj.addComponent(componentsProvider.fromKeyBoardMovement());
+                obj.addComponent(componentsProvider.fromInputMovement());
                 obj.addComponent(componentsProvider.obstacleCollision());
                 obj.addComponent(componentsProvider.reachedGoal());
             case MOVING_X_OBSTACLE:
