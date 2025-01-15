@@ -72,6 +72,8 @@ public class GridImpl implements Grid {
             case GameObjectCategory.GOAL :
                 if (!type.category().equals(GameObjectCategory.GOAL) || goalConstraint(positions)) {
                     setFromMap(positions, type, lowerLayer);
+                    removeFromMap(positions, enemyLayer);
+                    removeFromMap(positions, collectablesLayer);
                 } else {
                     throw new EditorGridException(GOAL_CONSTRAINT_EXCEPTION_MESSAGE);
                 }
