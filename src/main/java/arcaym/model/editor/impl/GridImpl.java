@@ -73,19 +73,19 @@ public class GridImpl implements Grid {
             throw new EditorGridException(ILLEGAL_POSITION_EXCEPTION_MESSAGE);
         }
         if (objectConstraint.containsKey(type)) {
-            final var mapOfType = getMapOfType(type);
+            final var mapOfType = getSetOfType(type);
             mapOfType.addAll(positions);
             objectConstraint.get(type).checkConstraint(mapOfType);
         }
         if (categoryConstraint.containsKey(type.category())) {
-            final var mapOfCategory = getMapOfCategory(type.category());
+            final var mapOfCategory = getSetOfCategory(type.category());
             mapOfCategory.addAll(positions);
             categoryConstraint.get(type.category()).checkConstraint(mapOfCategory);
         }
         positions.forEach(pos -> map.get(pos).setValue(type));
     }
 
-    private Set<Point> getMapOfCategory(final GameObjectCategory category) {
+    private Set<Point> getSetOfCategory(final GameObjectCategory category) {
         return map
             .entrySet()
             .stream()
@@ -94,7 +94,7 @@ public class GridImpl implements Grid {
             .collect(Collectors.toSet());
     }
 
-    private Set<Point> getMapOfType(final GameObjectType type) {
+    private Set<Point> getSetOfType(final GameObjectType type) {
         return map.entrySet()
             .stream()
             .filter(e -> e.getValue().getValues().contains(type))
@@ -110,8 +110,20 @@ public class GridImpl implements Grid {
      * {@inheritDoc}
      */
     @Override
-    public void removeObjects(final Collection<Point> positions) {
-        // check constraints;
+    public void removeObjects(final Collection<Point> positions) throws EditorGridException {
+        if (positions.stream().anyMatch(this::outsideBoundary)) {
+            throw new EditorGridException(ILLEGAL_POSITION_EXCEPTION_MESSAGE);
+        }
+        objectConstraint.forEach((type, constr) -> {
+            final var mapOfType = getSetOfType(type);
+            mapOfType.removeAll(positions);
+            constr.checkConstraint(positions);
+        });
+        categoryConstraint.forEach((cat, constr) -> {
+            final var mapOfCategory = getSetOfCategory(cat);
+            mapOfCategory.removeAll(positions);
+            constr.checkConstraint(mapOfCategory);
+        });
         positions.forEach(pos -> map.put(pos, new ThreeLayerCell(DEFAUL_TYPE)));
     }
 

@@ -43,7 +43,7 @@ public interface Grid {
      * Removes every objects from the given positions.
      * @param positions
      */
-    void removeObjects(Collection<Point> positions);
+    void removeObjects(Collection<Point> positions) throws EditorGridException;
 
     /**
      * Returns a set of {@link GameObjectType} that represent every object contained in @param pos .

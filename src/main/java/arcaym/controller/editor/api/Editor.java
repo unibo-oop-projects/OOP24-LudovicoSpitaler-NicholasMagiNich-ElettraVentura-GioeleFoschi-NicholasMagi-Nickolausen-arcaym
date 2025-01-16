@@ -46,7 +46,7 @@ public interface Editor {
      * 
      * @param positions the selected positions
      */
-    void eraseArea(Collection<Point> positions);
+    void eraseArea(Collection<Point> positions) throws EditorGridException;
 
     /**
      * Adds the last selected object from {@link #setSelectedObject(GameObjectType)} and

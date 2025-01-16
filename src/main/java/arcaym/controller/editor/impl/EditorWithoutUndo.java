@@ -69,7 +69,7 @@ public class EditorWithoutUndo implements Editor {
      * {@inheritDoc}
      */
     @Override
-    public void eraseArea(final Collection<Point> positions) {
+    public void eraseArea(final Collection<Point> positions) throws EditorGridException {
         this.editorGrid.removeObjects(positions);
     }
 
