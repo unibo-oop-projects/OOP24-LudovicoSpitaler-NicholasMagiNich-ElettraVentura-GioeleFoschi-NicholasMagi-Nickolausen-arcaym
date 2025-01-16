@@ -44,7 +44,7 @@ public abstract class AbstractGameComponent implements GameComponent {
     @Override
     public void setup(EventsSubscriber<GameEvent> gameEventsSubscriber,
             EventsSubscriber<InputEvent> inputEventsSubscriber, GameSceneInfo gameScene, GameState gameState) {
-        // TODO Auto-generated method stub
+        return;
         
     }
 

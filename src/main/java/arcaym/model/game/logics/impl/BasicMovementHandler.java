@@ -5,6 +5,9 @@ import arcaym.common.vector.api.Vector;
 import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.logics.api.MovementHandler;
 
+/**
+ * Basic implementation of {@MovementHandler}
+ */
 public class BasicMovementHandler implements MovementHandler {
     private final GameObject object;
 
@@ -12,6 +15,9 @@ public class BasicMovementHandler implements MovementHandler {
         this.object = object;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Point nextPosition(Vector velocity, long deltaTime) {
         Point currentPosition = object.getPosition();
@@ -20,6 +26,9 @@ public class BasicMovementHandler implements MovementHandler {
         return Point.of((int) Math.round(newX), (int) Math.round(newY));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void updatePosition(final Point newPosition) {
         this.object.setPosition(newPosition);

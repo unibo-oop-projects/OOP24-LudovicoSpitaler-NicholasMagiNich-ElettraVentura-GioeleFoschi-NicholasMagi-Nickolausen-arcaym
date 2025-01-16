@@ -29,29 +29,31 @@ public class GameComponentsFactoryImpl implements GameComponentsFactory {
     private final CollisionHandler collisionHandler;
     private final MovementHandler movementHandler;
 
-    public GameComponentsFactoryImpl(UniqueComponentsGameObject gameObject) {
+    public GameComponentsFactoryImpl(final UniqueComponentsGameObject gameObject) {
         this.gameObject = gameObject;
         this.collisionHandler = new BasicCollisionHandler(gameObject);
         this.movementHandler = new BasicMovementHandler(gameObject);
     }
 
     interface CollisionConsumer {
-        void reactToCollision(long deltaTime, EventsScheduler<GameEvent> eventsScheduler,
-                GameObjectInfo collidingObject, GameSceneInfo gameScene);
+        void reactToCollision(final long deltaTime, final EventsScheduler<GameEvent> eventsScheduler,
+                final GameObjectInfo collidingObject, final GameSceneInfo gameScene);
     }
 
     interface IllegalMovementConsumer {
-        void reactToLimitReached(long deltaTime, EventsScheduler<GameEvent> eventsScheduler, Vector vel,
-                GameObject gameObject);
+        void reactToLimitReached(final long deltaTime, final EventsScheduler<GameEvent> eventsScheduler,
+                final Vector vel,
+                final GameObject gameObject);
     }
 
-    private GameComponent genericCollision(Predicate<GameObjectInfo> predicateFromObjectInfo,
-            CollisionConsumer reaction) {
+    private GameComponent genericCollision(final Predicate<GameObjectInfo> predicateFromObjectInfo,
+            final CollisionConsumer reaction) {
         return new AbstractGameComponent(gameObject) {
 
             @Override
-            public void update(long deltaTime, EventsScheduler<GameEvent> eventsScheduler, GameSceneInfo gameScene,
-                    GameState gameState) {
+            public void update(final long deltaTime, final EventsScheduler<GameEvent> eventsScheduler,
+                    final GameSceneInfo gameScene,
+                    final GameState gameState) {
                 collisionHandler.getCollidingObjects(gameScene)
                         .filter(infos -> predicateFromObjectInfo.test(infos))
                         .forEach(obj -> reaction.reactToCollision(deltaTime, eventsScheduler, obj, gameScene));
@@ -60,6 +62,9 @@ public class GameComponentsFactoryImpl implements GameComponentsFactory {
         };
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GameComponent obstacleCollision() {
         if (gameObject.type() == GameObjectType.USER_PLAYER) {
@@ -72,8 +77,11 @@ public class GameComponentsFactoryImpl implements GameComponentsFactory {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public GameComponent coinCollision() {
+    public GameComponent collectableCollision() {
         if (gameObject.type().equals(GameObjectType.COIN)) {
             return genericCollision(info -> info.category() == GameObjectCategory.PLAYER,
                     (deltaTime, eventsScheduler, collidingObject, gameScene) -> {
@@ -85,14 +93,15 @@ public class GameComponentsFactoryImpl implements GameComponentsFactory {
         }
     }
 
-    private GameComponent genericMovement(Vector initialVelocity,
+    private GameComponent genericMovement(final Vector initialVelocity,
             IllegalMovementConsumer reaction) {
         return new AbstractGameComponent(gameObject) {
             private Vector vel = initialVelocity;
 
             @Override
-            public void update(long deltaTime, EventsScheduler<GameEvent> eventsScheduler, GameSceneInfo gameScene,
-                    GameState gameState) {
+            public void update(final long deltaTime, final EventsScheduler<GameEvent> eventsScheduler,
+                    final GameSceneInfo gameScene,
+                    final GameState gameState) {
                 Point newPosition = movementHandler.nextPosition(initialVelocity, deltaTime);
 
                 if (!isWallCollisionActive(gameScene)) {
@@ -105,16 +114,22 @@ public class GameComponentsFactoryImpl implements GameComponentsFactory {
         };
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GameComponent fromInputMovement() {
         return new InputMovementComponent(gameObject);
     }
 
-    private boolean isWallCollisionActive(GameSceneInfo gameScene) {
+    private boolean isWallCollisionActive(final GameSceneInfo gameScene) {
         return collisionHandler.getCollidingObjects(gameScene)
                 .anyMatch(obj -> obj.type() == GameObjectType.WALL);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GameComponent automaticXMovement() {
         if (gameObject.type() == GameObjectType.MOVING_X_OBSTACLE) {
@@ -125,6 +140,9 @@ public class GameComponentsFactoryImpl implements GameComponentsFactory {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GameComponent automaticYMovement() {
         if (gameObject.type() == GameObjectType.MOVING_Y_OBSTACLE) {
@@ -135,6 +153,9 @@ public class GameComponentsFactoryImpl implements GameComponentsFactory {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GameComponent reachedGoal() {
         return genericCollision(info -> info.category() == GameObjectCategory.GOAL,

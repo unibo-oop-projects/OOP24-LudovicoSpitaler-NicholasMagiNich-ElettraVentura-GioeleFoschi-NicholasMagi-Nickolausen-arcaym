@@ -2,47 +2,64 @@ package arcaym.common.vector.impl;
 
 import arcaym.common.vector.api.Vector;
 
-public class BaseVector implements Vector {
-    private final double x;
-    private final double y;
+/**
+ * Basic implementation of {@link Vector}.
+ */
+public record BaseVector(double x, double y) implements Vector {
 
-    public BaseVector(double x, double y) {
-        this.x = x;
-        this.y = y;
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getX() {
         return this.x;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getY() {
         return this.y;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Vector add(Vector other) {
+    public Vector add(final Vector other) {
         return Vector.of(this.x + other.getX(), this.y + other.getY());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Vector subtract(Vector other) {
+    public Vector subtract(final Vector other) {
         return Vector.of(this.x - other.getX(), this.y - other.getY());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Vector invert() {
         return Vector.of(-this.x, -this.y);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double module() {
         return Math.sqrt(x * x + y * y);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public double multiply(Vector other) {
+    public double multiply(final Vector other) {
         return this.x * other.getX() + this.y * other.getY();
     }
 

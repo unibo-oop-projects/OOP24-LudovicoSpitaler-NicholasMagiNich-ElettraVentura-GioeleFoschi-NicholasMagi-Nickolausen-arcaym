@@ -11,19 +11,25 @@ import arcaym.model.game.core.components.impl.AbstractGameComponent;
 import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.events.api.InputEvent;
 
+/**
+ * Implementation of {@link AbstractGameComponent} specific for movement from input.
+ */
 public class InputMovementComponent extends AbstractGameComponent {
 
     private Vector velocity = Vector.zero();
 
-    public InputMovementComponent(ComponentsBasedGameObject gameObject) {
+    public InputMovementComponent(final ComponentsBasedGameObject gameObject) {
         super(gameObject);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void setup(EventsSubscriber<GameEvent> gameEventsSubscriber,
-            EventsSubscriber<InputEvent> inputEventsSubscriber,
-            GameSceneInfo gameScene,
-            GameState gameState) {
+    public void setup(final EventsSubscriber<GameEvent> gameEventsSubscriber,
+            final EventsSubscriber<InputEvent> inputEventsSubscriber,
+            final GameSceneInfo gameScene,
+            final GameState gameState) {
         super.setup(gameEventsSubscriber, inputEventsSubscriber, gameScene, gameState);
 
         // Register callbacks for input events
@@ -34,9 +40,12 @@ public class InputMovementComponent extends AbstractGameComponent {
         inputEventsSubscriber.registerCallback(InputEvent.STOP, () -> velocity = Vector.zero());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void update(long deltaTime, EventsScheduler<GameEvent> eventsScheduler,
-            GameSceneInfo gameScene, GameState gameState) {
+    public void update(final long deltaTime, final EventsScheduler<GameEvent> eventsScheduler,
+            final GameSceneInfo gameScene, final GameState gameState) {
         Point currentPosition = gameObject().getPosition();
         double newX = currentPosition.x() + (velocity.getX() * deltaTime);
         double newY = currentPosition.y() + (velocity.getY() * deltaTime);

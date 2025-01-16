@@ -8,6 +8,9 @@ import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.core.objects.api.GameObjectInfo;
 import arcaym.model.game.logics.api.CollisionHandler;
 
+/**
+ * Basic implementation of {@link CollisionHandler}
+ */
 public class BasicCollisionHandler implements CollisionHandler {
     GameObject subject;
 
@@ -15,12 +18,18 @@ public class BasicCollisionHandler implements CollisionHandler {
         this.subject = subject;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isColliding(GameObjectInfo object) {
         return Rectangles.intersecting(object.boundaries().drawArea(), subject.boundaries().drawArea())
                 && object.boundaries().surface().anyMatch(point -> subject.boundaries().isInside(point));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Stream<GameObjectInfo> getCollidingObjects(GameSceneInfo scene) {
         return scene.getGameObjectsInfos().stream().filter(objects -> isColliding(objects));

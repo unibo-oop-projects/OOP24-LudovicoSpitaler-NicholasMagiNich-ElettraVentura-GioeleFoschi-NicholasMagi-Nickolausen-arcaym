@@ -12,6 +12,9 @@ import arcaym.model.game.core.objects.api.GameObjectsFactory;
 import arcaym.model.game.core.objects.impl.BoundariesFactoryImpl;
 import arcaym.model.game.objects.api.GameObjectType;
 
+/**
+ * Implementation of {@link GameObjectFactory}
+ */
 public class ComponentsBasedObjectsFactory implements GameObjectsFactory {
     private BoundariesFactory boundariesFactory;
 
@@ -19,8 +22,11 @@ public class ComponentsBasedObjectsFactory implements GameObjectsFactory {
         this.boundariesFactory = new BoundariesFactoryImpl(tileSize);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public GameObject ofType(GameObjectType gameObjectType) {
+    public GameObject ofType(final GameObjectType gameObjectType) {
         var obj = new UniqueComponentsGameObject(gameObjectType, boundariesOfType(gameObjectType));
         GameComponentsFactory componentsProvider = new GameComponentsFactoryImpl(obj);
 
@@ -34,14 +40,14 @@ public class ComponentsBasedObjectsFactory implements GameObjectsFactory {
             case MOVING_Y_OBSTACLE:
                 obj.addComponent(componentsProvider.automaticYMovement());
             case COIN:
-                obj.addComponent(componentsProvider.coinCollision());
+                obj.addComponent(componentsProvider.collectableCollision());
             default:
                 break;
         }
         return obj;
     }
 
-    private Function<Point, GameObjectBoundaries> boundariesOfType(GameObjectType gameObjectType) {
+    private Function<Point, GameObjectBoundaries> boundariesOfType(final GameObjectType gameObjectType) {
         return switch (gameObjectType.category()) {
             case BLOCK -> this.boundariesFactory::squareBoundaries;
             case COLLECTABLE -> this.boundariesFactory::circularBoundaries;
