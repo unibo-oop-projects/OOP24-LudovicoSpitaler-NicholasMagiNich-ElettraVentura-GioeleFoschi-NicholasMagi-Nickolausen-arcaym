@@ -2,7 +2,7 @@ package arcaym.model.game.logics.impl;
 
 import java.util.stream.Stream;
 
-import arcaym.common.shapes.impl.Rectangles;
+import arcaym.common.geometry.impl.Rectangles;
 import arcaym.controller.game.scene.api.GameSceneInfo;
 import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.core.objects.api.GameObjectInfo;
@@ -23,8 +23,7 @@ public class BasicCollisionHandler implements CollisionHandler {
      */
     @Override
     public boolean isColliding(GameObjectInfo object) {
-        return Rectangles.intersecting(object.boundaries().drawArea(), subject.boundaries().drawArea())
-                && object.boundaries().surface().anyMatch(point -> subject.boundaries().isInside(point));
+        return Rectangles.intersecting(object.boundaries().drawArea(), subject.boundaries().drawArea());
     }
 
     /**

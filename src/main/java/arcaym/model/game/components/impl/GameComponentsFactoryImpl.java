@@ -2,8 +2,8 @@ package arcaym.model.game.components.impl;
 
 import java.util.function.Predicate;
 
-import arcaym.common.point.api.Point;
-import arcaym.common.vector.api.Vector;
+import arcaym.common.geometry.impl.Point;
+import arcaym.common.geometry.impl.Vector;
 import arcaym.controller.game.core.api.GameState;
 import arcaym.controller.game.events.api.EventsScheduler;
 import arcaym.controller.game.scene.api.GameSceneInfo;

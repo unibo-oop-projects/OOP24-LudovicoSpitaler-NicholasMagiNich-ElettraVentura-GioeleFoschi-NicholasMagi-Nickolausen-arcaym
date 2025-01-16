@@ -1,16 +1,11 @@
-package arcaym.common.shapes.impl;
+package arcaym.common.geometry.impl;
 
 import java.util.Objects;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
-
-import arcaym.common.point.api.Point;
-import arcaym.common.shapes.api.Rectangle;
 
 /**
- * Basic implementation of {@link Rectangle}.
+ * Basic implementation of a rectangle.
  */
-public record BaseRectangle(Point northEast, Point southWest) implements Rectangle {
+public record Rectangle(Point northEast, Point southWest) {
 
     /**
      * Initialize with given angles.
@@ -18,7 +13,7 @@ public record BaseRectangle(Point northEast, Point southWest) implements Rectang
      * @param northEast north east angle
      * @param southWest south west angle
      */
-    public BaseRectangle(final Point northEast, final Point southWest) {
+    public Rectangle(final Point northEast, final Point southWest) {
         Objects.requireNonNull(northEast);
         Objects.requireNonNull(southWest);
         if (northEast.x() > southWest.x() || northEast.y() > southWest.y()) {
@@ -38,15 +33,13 @@ public record BaseRectangle(Point northEast, Point southWest) implements Rectang
     /**
      * {@inheritDoc}
      */
-    @Override
     public Point northWest() {
-        return Point.of(this.southWest.x(), this.northEast.y());
+        return new Point(this.southWest.x(), this.northEast.y());
     }
 
     /**
      * {@inheritDoc}
      */
-    @Override
     public Point southEast() {
         return Point.of(this.northEast.x(), this.southWest.y());
     }
@@ -54,29 +47,15 @@ public record BaseRectangle(Point northEast, Point southWest) implements Rectang
     /**
      * {@inheritDoc}
      */
-    @Override
-    public int base() {
+    public double base() {
         return this.southWest.subtract(this.northEast).x();
     }
 
     /**
      * {@inheritDoc}
      */
-    @Override
-    public int height() {
+    public double height() {
         return this.southWest.subtract(this.northEast).y();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Stream<Point> surface() {
-        return IntStream.rangeClosed(this.northEast.x(), this.southWest.x()).boxed()
-            .flatMap(
-                x -> IntStream.rangeClosed(this.northEast.y(), this.southWest.y())
-                    .mapToObj(y -> Point.of(x, y))
-            );
     }
 
 }

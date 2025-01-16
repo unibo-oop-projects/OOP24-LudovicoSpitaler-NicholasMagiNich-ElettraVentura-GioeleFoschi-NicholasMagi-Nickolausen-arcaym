@@ -1,7 +1,7 @@
 package arcaym.model.game.components.impl;
 
-import arcaym.common.point.api.Point;
-import arcaym.common.vector.api.Vector;
+import arcaym.common.geometry.impl.Point;
+import arcaym.common.geometry.impl.Vector;
 import arcaym.controller.game.core.api.GameState;
 import arcaym.controller.game.events.api.EventsScheduler;
 import arcaym.controller.game.events.api.EventsSubscriber;
@@ -12,7 +12,8 @@ import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.events.api.InputEvent;
 
 /**
- * Implementation of {@link AbstractGameComponent} specific for movement from input.
+ * Implementation of {@link AbstractGameComponent} specific for movement from
+ * input.
  */
 public class InputMovementComponent extends AbstractGameComponent {
 
@@ -32,7 +33,6 @@ public class InputMovementComponent extends AbstractGameComponent {
             final GameState gameState) {
         super.setup(gameEventsSubscriber, inputEventsSubscriber, gameScene, gameState);
 
-        // Register callbacks for input events
         inputEventsSubscriber.registerCallback(InputEvent.UP, () -> velocity = Vector.of(0, -1));
         inputEventsSubscriber.registerCallback(InputEvent.DOWN, () -> velocity = Vector.of(0, 1));
         inputEventsSubscriber.registerCallback(InputEvent.LEFT, () -> velocity = Vector.of(-1, 0));
@@ -47,8 +47,8 @@ public class InputMovementComponent extends AbstractGameComponent {
     public void update(final long deltaTime, final EventsScheduler<GameEvent> eventsScheduler,
             final GameSceneInfo gameScene, final GameState gameState) {
         Point currentPosition = gameObject().getPosition();
-        double newX = currentPosition.x() + (velocity.getX() * deltaTime);
-        double newY = currentPosition.y() + (velocity.getY() * deltaTime);
+        double newX = currentPosition.x() + (velocity.x() * deltaTime);
+        double newY = currentPosition.y() + (velocity.y() * deltaTime);
         Point newPosition = Point.of((int) Math.round(newX), (int) Math.round(newY));
 
         gameObject().setPosition(newPosition);

@@ -2,7 +2,7 @@ package arcaym.model.game.components.impl;
 
 import java.util.function.Function;
 
-import arcaym.common.point.api.Point;
+import arcaym.common.geometry.impl.Point;
 import arcaym.model.game.components.api.GameComponentsFactory;
 import arcaym.model.game.core.components.impl.UniqueComponentsGameObject;
 import arcaym.model.game.core.objects.api.BoundariesFactory;

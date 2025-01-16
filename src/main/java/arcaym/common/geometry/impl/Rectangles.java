@@ -1,7 +1,8 @@
-package arcaym.common.shapes.impl;
+package arcaym.common.geometry.impl;
 
-import arcaym.common.shapes.api.Rectangle;
-
+/**
+ * Utility class for {@link Rectangle}.
+ */
 public class Rectangles {
 
     public static boolean intersecting(final Rectangle rect1, final Rectangle rect2) {

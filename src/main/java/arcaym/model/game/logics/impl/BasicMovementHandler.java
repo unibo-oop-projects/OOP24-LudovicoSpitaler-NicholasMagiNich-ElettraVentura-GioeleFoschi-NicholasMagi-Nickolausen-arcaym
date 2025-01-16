@@ -1,7 +1,7 @@
 package arcaym.model.game.logics.impl;
 
-import arcaym.common.point.api.Point;
-import arcaym.common.vector.api.Vector;
+import arcaym.common.geometry.impl.Point;
+import arcaym.common.geometry.impl.Vector;
 import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.logics.api.MovementHandler;
 
@@ -21,9 +21,9 @@ public class BasicMovementHandler implements MovementHandler {
     @Override
     public Point nextPosition(Vector velocity, long deltaTime) {
         Point currentPosition = object.getPosition();
-        double newX = currentPosition.x() + (velocity.getX() * deltaTime);
-        double newY = currentPosition.y() + (velocity.getY() * deltaTime);
-        return Point.of((int) Math.round(newX), (int) Math.round(newY));
+        double newX = currentPosition.x() + (velocity.x() * deltaTime);
+        double newY = currentPosition.y() + (velocity.y() * deltaTime);
+        return Point.of(newX, newY);
     }
 
     /**

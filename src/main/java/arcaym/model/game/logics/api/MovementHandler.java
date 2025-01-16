@@ -1,7 +1,7 @@
 package arcaym.model.game.logics.api;
 
-import arcaym.common.point.api.Point;
-import arcaym.common.vector.api.Vector;
+import arcaym.common.geometry.impl.Point;
+import arcaym.common.geometry.impl.Vector;
 
 /**
  * Interface for a handler of movement.
