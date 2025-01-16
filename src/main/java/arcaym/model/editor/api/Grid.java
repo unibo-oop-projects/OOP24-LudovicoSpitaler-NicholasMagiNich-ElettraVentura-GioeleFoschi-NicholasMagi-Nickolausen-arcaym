@@ -4,12 +4,31 @@ import java.util.Collection;
 
 import arcaym.common.point.api.Point;
 import arcaym.model.editor.EditorGridException;
+import arcaym.model.game.core.objects.api.GameObjectCategory;
 import arcaym.model.game.objects.api.GameObjectType;
 
 /**
  * The interface used by {@link arcaym.controller.editor.api.Editor} that manages the editor grid.
  */
 public interface Grid {
+
+    /**
+     * Adds a {@link MapConstraint} to the grid.
+     * The constraint targets a {@link GameObjectType}
+     * 
+     * @param contsraint The constraint to apply.
+     * @param target The GameObjectType to target
+     */
+    void setObjectConstraint(MapContsraint contsraint, GameObjectType target);
+
+    /**
+     * Adds a {@link MapConstraint} to the grid.
+     * The constraint targets a {@link GameObjectCategory}
+     * 
+     * @param contsraint The constraint to apply.
+     * @param target     The GameObjectCategory to target
+     */
+    void setCategoryConstraint(MapContsraint contsraint, GameObjectCategory target);
 
     /**
      * Sets the object @param type in all the positions in the collection.

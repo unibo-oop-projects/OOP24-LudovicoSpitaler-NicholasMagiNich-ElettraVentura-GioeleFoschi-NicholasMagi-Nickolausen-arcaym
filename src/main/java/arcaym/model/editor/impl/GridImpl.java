@@ -1,15 +1,18 @@
 package arcaym.model.editor.impl;
 
 import java.util.Collection;
+import java.util.EnumMap;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.stream.Stream;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import arcaym.common.point.api.Point;
 import arcaym.model.editor.EditorGridException;
+import arcaym.model.editor.api.Cell;
 import arcaym.model.editor.api.Grid;
+import arcaym.model.editor.api.MapContsraint;
 import arcaym.model.game.core.objects.api.GameObjectCategory;
 import arcaym.model.game.objects.api.GameObjectType;
 
@@ -19,13 +22,13 @@ import arcaym.model.game.objects.api.GameObjectType;
 public class GridImpl implements Grid {
 
     private static final GameObjectType DEFAUL_TYPE = GameObjectType.FLOOR; // GameObjectType.WALL;
-    private static final String PLAYER_CONSTRAINT_EXCEPTION_MESSAGE = "There can only be one player in the level";
-    private static final String GOAL_CONSTRAINT_EXCEPTION_MESSAGE = "All Goal Cells must be adjacent";
+    // private static final String PLAYER_CONSTRAINT_EXCEPTION_MESSAGE = "There can only be one player in the level";
+    // private static final String GOAL_CONSTRAINT_EXCEPTION_MESSAGE = "All Goal Cells must be adjacent";
     private static final String ILLEGAL_POSITION_EXCEPTION_MESSAGE = "The given position is out of the grid boundary";
 
-    private final Map<Point, GameObjectType> lowerLayer;
-    private final Map<Point, GameObjectType> enemyLayer;
-    private final Map<Point, GameObjectType> collectablesLayer;
+    private final Map<Point, Cell> map;
+    private final Map<GameObjectType, MapContsraint> objectConstraint;
+    private final Map<GameObjectCategory, MapContsraint> categoryConstraint;
     private final Point mapSize;
 
     /**
@@ -34,10 +37,31 @@ public class GridImpl implements Grid {
      * @param y The height of the grid.
      */
     public GridImpl(final int x, final int y) {
-        this.lowerLayer = new HashMap<>();
-        this.enemyLayer = new HashMap<>();
-        this.collectablesLayer = new HashMap<>();
+        this.map = new HashMap<>();
+        this.objectConstraint = new EnumMap<>(GameObjectType.class);
+        this.categoryConstraint = new EnumMap<>(GameObjectCategory.class);
         this.mapSize = Point.of(x, y);
+        for (int i = 0; i < mapSize.x(); i++) {
+            for (int j = 0; j < mapSize.y(); j++) {
+                map.put(Point.of(x, y), new ThreeLayerCell(DEFAUL_TYPE));
+            }
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setObjectConstraint(final MapContsraint contsraint, final GameObjectType target) {
+        objectConstraint.put(target, contsraint);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setCategoryConstraint(final MapContsraint contsraint, final GameObjectCategory target) {
+        categoryConstraint.put(target, contsraint);
     }
 
     /**
@@ -48,68 +72,38 @@ public class GridImpl implements Grid {
         if (positions.stream().anyMatch(this::outsideBoundary)) {
             throw new EditorGridException(ILLEGAL_POSITION_EXCEPTION_MESSAGE);
         }
-        switch (type.category()) {
-            case GameObjectCategory.BLOCK :
-            case GameObjectCategory.GOAL :
-                if (!type.category().equals(GameObjectCategory.GOAL) || goalConstraint(positions)) {
-                    setFromMap(positions, type, lowerLayer);
-                    removeFromMap(positions, enemyLayer);
-                    removeFromMap(positions, collectablesLayer);
-                } else {
-                    throw new EditorGridException(GOAL_CONSTRAINT_EXCEPTION_MESSAGE);
-                }
-                break;
-            case GameObjectCategory.OBSTACLE:
-            case GameObjectCategory.PLAYER:
-                if (!type.category().equals(GameObjectCategory.PLAYER) || playerConstraint(positions)) {
-                    setFromMap(positions, type, enemyLayer);
-                } else {
-                    throw new EditorGridException(PLAYER_CONSTRAINT_EXCEPTION_MESSAGE);
-                }
-                break;
-            case GameObjectCategory.COLLECTABLE:
-                setFromMap(positions, type, collectablesLayer);
-                break;
-            default:
-               break;
+        if (objectConstraint.containsKey(type)) {
+            final var mapOfType = getMapOfType(type);
+            mapOfType.addAll(positions);
+            objectConstraint.get(type).checkConstraint(mapOfType);
         }
+        if (categoryConstraint.containsKey(type.category())) {
+            final var mapOfCategory = getMapOfCategory(type.category());
+            mapOfCategory.addAll(positions);
+            categoryConstraint.get(type.category()).checkConstraint(mapOfCategory);
+        }
+        positions.forEach(pos -> map.get(pos).setValue(type));
+    }
+
+    private Set<Point> getMapOfCategory(final GameObjectCategory category) {
+        return map
+            .entrySet()
+            .stream()
+            .filter(e -> e.getValue().getValues().stream().map(GameObjectType::category).toList().contains(category))
+            .map(Entry::getKey)
+            .collect(Collectors.toSet());
+    }
+
+    private Set<Point> getMapOfType(final GameObjectType type) {
+        return map.entrySet()
+            .stream()
+            .filter(e -> e.getValue().getValues().contains(type))
+            .map(Entry::getKey)
+            .collect(Collectors.toSet());
     }
 
     private boolean outsideBoundary(final Point p) {
         return p.x() < 0 || p.x() > this.mapSize.x() || p.y() < 0 || p.y() > this.mapSize.y();
-    }
-
-    private boolean playerConstraint(final Collection<Point> positions) {
-        return !enemyLayer.entrySet().stream().anyMatch(e -> e.getValue().equals(GameObjectType.USER_PLAYER))
-            && positions.size() == 1;
-    }
-
-    private boolean goalConstraint(final Collection<Point> positions) {
-        return isCluster(positions) && isNearbyPresentGoal(positions);
-    }
-
-    private boolean isCluster(final Collection<Point> positions) {
-        return positions.stream()
-            .allMatch(p -> positions.stream().anyMatch(pos -> adjacencyCondition(p, pos))) || positions.size() == 1;
-    }
-
-    private boolean adjacencyCondition(final Point p1, final Point p2) {
-        return (p1.x() - p2.x()) * (p1.x() - p2.x()) + (p1.y() - p2.y()) * (p1.y() - p2.y()) == 1;
-    }
-
-    private boolean isNearbyPresentGoal(final Collection<Point> positions) {
-        final var currentGoal = lowerLayer
-            .entrySet()
-            .stream()
-            .filter(e -> e.getValue().category().equals(GameObjectCategory.GOAL))
-            .map(Entry::getKey).toList();
-        return currentGoal.isEmpty()
-            || positions.stream()
-                .anyMatch(p -> currentGoal.stream().anyMatch(pos -> adjacencyCondition(p, pos)));
-    }
-
-    private void setFromMap(final Collection<Point> positions, final GameObjectType type, final Map<Point, GameObjectType> map) {
-        positions.forEach(p -> map.put(p, type));
     }
 
     /**
@@ -117,32 +111,16 @@ public class GridImpl implements Grid {
      */
     @Override
     public void removeObjects(final Collection<Point> positions) {
-        removeFromMap(positions, lowerLayer);
-        removeFromMap(positions, enemyLayer);
-        removeFromMap(positions, collectablesLayer);
-    }
-
-    private void removeFromMap(final Collection<Point> positions, final Map<Point, GameObjectType> map) {
-        positions.forEach(map::remove);
+        // check constraints;
+        positions.forEach(pos -> map.put(pos, new ThreeLayerCell(DEFAUL_TYPE)));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public List<GameObjectType> getObjects(final Point pos) {
-        return Stream.concat(
-            Stream.of(lowerLayer.containsKey(pos) ? lowerLayer.get(pos) : DEFAUL_TYPE), 
-            Stream.concat(
-                getObjectInPosition(enemyLayer, pos), 
-                getObjectInPosition(collectablesLayer, pos)))
-            .toList(); 
+    public Collection<GameObjectType> getObjects(final Point pos) {
+        return map.get(pos).getValues();
     }
 
-    private Stream<GameObjectType> getObjectInPosition(final Map<Point, GameObjectType> map, final Point pos) {
-        return map.entrySet()
-            .stream()
-            .filter(e -> e.getKey().equals(pos))
-            .map(Entry::getValue);
-    }
 }
