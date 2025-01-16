@@ -1,15 +1,12 @@
 package arcaym.model.game.core.objects.api;
 
-import java.util.stream.Stream;
-
-import arcaym.common.point.api.Point;
-import arcaym.common.shapes.api.Rectangle;
-import arcaym.common.shapes.api.Shape;
+import arcaym.common.geometry.impl.Point;
+import arcaym.common.geometry.impl.Rectangle;
 
 /**
  * Interface for a {@link GameObject} boundaries.
  */
-public interface GameObjectBoundaries extends Shape {
+public interface GameObjectBoundaries {
 
     /**
      * Check if point is inside boundaries.
@@ -25,13 +22,5 @@ public interface GameObjectBoundaries extends Shape {
      * @return rectangle
      */
     Rectangle drawArea();
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    default Stream<Point> surface() {
-        return drawArea().surface().filter(this::isInside);
-    }
 
 }

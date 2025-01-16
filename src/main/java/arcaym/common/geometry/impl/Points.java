@@ -1,8 +1,6 @@
-package arcaym.common.point.impl;
+package arcaym.common.geometry.impl;
 
 import java.util.Objects;
-
-import arcaym.common.point.api.Point;
 
 /**
  * Utility class for {@link Point}.

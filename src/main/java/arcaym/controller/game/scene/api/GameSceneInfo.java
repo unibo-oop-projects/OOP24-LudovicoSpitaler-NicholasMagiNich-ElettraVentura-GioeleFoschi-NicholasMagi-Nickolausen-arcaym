@@ -3,7 +3,7 @@ package arcaym.controller.game.scene.api;
 import java.util.Collection;
 import java.util.Objects;
 
-import arcaym.common.point.api.Point;
+import arcaym.common.geometry.impl.Point;
 import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.core.objects.api.GameObjectInfo;
 import arcaym.model.game.objects.api.GameObjectType;

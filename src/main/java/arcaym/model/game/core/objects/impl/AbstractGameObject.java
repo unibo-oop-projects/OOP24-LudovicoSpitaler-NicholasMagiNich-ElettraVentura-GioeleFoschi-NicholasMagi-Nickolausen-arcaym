@@ -2,7 +2,7 @@ package arcaym.model.game.core.objects.impl;
 
 import java.util.Objects;
 
-import arcaym.common.point.api.Point;
+import arcaym.common.geometry.impl.Point;
 import arcaym.common.utils.representation.FieldRepresentation;
 import arcaym.common.utils.representation.StringRepresentation;
 import arcaym.common.utils.representation.TypeRepresentation;

@@ -1,6 +1,6 @@
 package arcaym.model.game.core.objects.api;
 
-import arcaym.common.point.api.Point;
+import arcaym.common.geometry.impl.Point;
 import arcaym.model.game.objects.api.GameObjectType;
 
 /**
