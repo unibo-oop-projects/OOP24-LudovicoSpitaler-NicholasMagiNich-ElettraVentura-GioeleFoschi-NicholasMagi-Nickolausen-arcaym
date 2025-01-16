@@ -19,7 +19,7 @@ public interface Grid {
      * @param contsraint The constraint to apply.
      * @param target The GameObjectType to target
      */
-    void setObjectConstraint(MapContsraint contsraint, GameObjectType target);
+    void setObjectConstraint(MapConstraint contsraint, GameObjectType target);
 
     /**
      * Adds a {@link MapConstraint} to the grid.
@@ -28,7 +28,7 @@ public interface Grid {
      * @param contsraint The constraint to apply.
      * @param target     The GameObjectCategory to target
      */
-    void setCategoryConstraint(MapContsraint contsraint, GameObjectCategory target);
+    void setCategoryConstraint(MapConstraint contsraint, GameObjectCategory target);
 
     /**
      * Sets the object @param type in all the positions in the collection.

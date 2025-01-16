@@ -12,7 +12,7 @@ import arcaym.common.point.api.Point;
 import arcaym.model.editor.EditorGridException;
 import arcaym.model.editor.api.Cell;
 import arcaym.model.editor.api.Grid;
-import arcaym.model.editor.api.MapContsraint;
+import arcaym.model.editor.api.MapConstraint;
 import arcaym.model.game.core.objects.api.GameObjectCategory;
 import arcaym.model.game.objects.api.GameObjectType;
 
@@ -27,8 +27,8 @@ public class GridImpl implements Grid {
     private static final String ILLEGAL_POSITION_EXCEPTION_MESSAGE = "The given position is out of the grid boundary";
 
     private final Map<Point, Cell> map;
-    private final Map<GameObjectType, MapContsraint> objectConstraint;
-    private final Map<GameObjectCategory, MapContsraint> categoryConstraint;
+    private final Map<GameObjectType, MapConstraint> objectConstraint;
+    private final Map<GameObjectCategory, MapConstraint> categoryConstraint;
     private final Point mapSize;
 
     /**
@@ -52,7 +52,7 @@ public class GridImpl implements Grid {
      * {@inheritDoc}
      */
     @Override
-    public void setObjectConstraint(final MapContsraint contsraint, final GameObjectType target) {
+    public void setObjectConstraint(final MapConstraint contsraint, final GameObjectType target) {
         objectConstraint.put(target, contsraint);
     }
 
@@ -60,7 +60,7 @@ public class GridImpl implements Grid {
      * {@inheritDoc}
      */
     @Override
-    public void setCategoryConstraint(final MapContsraint contsraint, final GameObjectCategory target) {
+    public void setCategoryConstraint(final MapConstraint contsraint, final GameObjectCategory target) {
         categoryConstraint.put(target, contsraint);
     }
 

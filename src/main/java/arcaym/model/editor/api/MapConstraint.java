@@ -11,7 +11,7 @@ import arcaym.common.point.api.Point;
  * - All the goal tiles should be adjacent.
  * - There is a maximum amount of collectable in the level.
  */
-public interface MapContsraint {
+public interface MapConstraint {
     /**
      * 
      * @param currentMapSituation
