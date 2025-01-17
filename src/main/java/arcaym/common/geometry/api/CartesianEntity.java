@@ -2,6 +2,23 @@ package arcaym.common.geometry.api;
 
 /**
  * Interface for an entity using a 2D cartesian coordinates system.
+ * 
+ * <p>
+ * Example of usage:
+ * <pre>
+ * // Implement the interface with the class itself as the generic type
+ * {@code class Point implements CartesianEntity<Point>} {
+ *      ...
+ *      {@code @Override}
+ *      Point invertX() { // now all generic methods return the class itself
+ *          ...
+ *      }
+ *      ...
+ * }
+ * </pre>
+ * </p>
+ * 
+ * @param <T> entity type
  */
 public interface CartesianEntity<T extends CartesianEntity<T>> {
 
