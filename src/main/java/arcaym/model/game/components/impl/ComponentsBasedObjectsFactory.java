@@ -1,6 +1,5 @@
 package arcaym.model.game.components.impl;
 
-import arcaym.model.game.components.api.GameComponentsFactory;
 import arcaym.model.game.core.components.impl.UniqueComponentsGameObject;
 import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.core.objects.api.GameObjectsFactory;
@@ -22,19 +21,20 @@ public class ComponentsBasedObjectsFactory implements GameObjectsFactory {
     @Override
     public GameObject ofType(final GameObjectType gameObjectType) {
         var obj = new UniqueComponentsGameObject(gameObjectType, tileSize);
-        GameComponentsFactory componentsProvider = new GameComponentsFactoryImpl(obj);
+        CollisionComponentsFactory collisionFactory = new CollisionComponentsFactory(obj);
+        MovementComponentsFactory movementFactory = new MovementComponentsFactory(obj);
 
         switch (gameObjectType) {
             case USER_PLAYER:
-                obj.addComponent(componentsProvider.fromInputMovement());
-                obj.addComponent(componentsProvider.obstacleCollision());
-                obj.addComponent(componentsProvider.reachedGoal());
+                obj.addComponent(movementFactory.fromInputMovement());
+                obj.addComponent(collisionFactory.obstacleCollision());
+                obj.addComponent(collisionFactory.reachedGoal());
             case MOVING_X_OBSTACLE:
-                obj.addComponent(componentsProvider.automaticXMovement());
+                obj.addComponent(movementFactory.automaticXMovement());
             case MOVING_Y_OBSTACLE:
-                obj.addComponent(componentsProvider.automaticYMovement());
+                obj.addComponent(movementFactory.automaticYMovement());
             case COIN:
-                obj.addComponent(componentsProvider.collectableCollision());
+                obj.addComponent(collisionFactory.collectableCollision());
             default:
                 break;
         }
