@@ -3,6 +3,7 @@ package arcaym.model.editor.impl;
 import java.util.Collection;
 
 import arcaym.common.point.api.Point;
+import arcaym.model.editor.ConstraintFailedException;
 import arcaym.model.editor.api.MapConstraint;
 import arcaym.model.editor.api.MapConstraintsFactory;
 
@@ -16,14 +17,16 @@ public class MapConstraintFactoryImpl implements MapConstraintsFactory {
      */
     @Override
     public MapConstraint adjacencyConstraint() {
-        return positions -> 
-            positions
+        return positions -> {
+            if (!positions
             .stream()
             .allMatch(p1 -> 
                 positions
                     .stream()
-                    .anyMatch(p2 -> adjacencyCondition(p1, p2) || positions.size() == 1));
-
+                    .anyMatch(p2 -> adjacencyCondition(p1, p2) || positions.size() == 1))) {
+                throw new ConstraintFailedException("All the cells placed must be nearby");
+            }
+        };
     }
 
     private boolean adjacencyCondition(final Point p1, final Point p2) {
@@ -45,13 +48,16 @@ public class MapConstraintFactoryImpl implements MapConstraintsFactory {
     public MapConstraint maxNumberOfBlocks(final int maxBlocks) {
         return new MapConstraint() {
 
-            private final int maxOfType = maxBlocks;
-
             @Override
-            public boolean checkConstraint(final Collection<Point> currentMapSituation) {
-                return currentMapSituation.size() <= this.maxOfType;
+            public void checkConstraint(final Collection<Point> currentMapSituation) throws ConstraintFailedException {
+                if (currentMapSituation.size() > maxBlocks) {
+                    throw new ConstraintFailedException("Maximum amount of object placed exceeded: Max=["
+                    + maxBlocks 
+                    + "], Placed=["
+                    + currentMapSituation.size() 
+                    + "]");
+                }
             }
-            
         };
     }
 
@@ -65,8 +71,10 @@ public class MapConstraintFactoryImpl implements MapConstraintsFactory {
             private final int minOfType = minBlocks;
 
             @Override
-            public boolean checkConstraint(final Collection<Point> currentMapSituation) {
-                return currentMapSituation.size() <= this.minOfType;
+            public void checkConstraint(final Collection<Point> currentMapSituation) throws ConstraintFailedException {
+                if (currentMapSituation.size() <= this.minOfType) {
+                    throw new ConstraintFailedException("The level does not have enough of object: ");
+                }
             }
 
         };

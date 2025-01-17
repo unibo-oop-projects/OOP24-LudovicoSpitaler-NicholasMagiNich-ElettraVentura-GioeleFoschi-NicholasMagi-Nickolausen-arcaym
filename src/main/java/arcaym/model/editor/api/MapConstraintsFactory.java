@@ -32,7 +32,10 @@ public interface MapConstraintsFactory {
 
     /**
      * Creates a {@link MapConstraint} with the following rule.
-     * - There can only be a minimum amount of blocks of a type.
+     * - There must be a minimum amount of blocks of a type.
+     * 
+     * This rule's effectiveness is at its peack when used to check, before 
+     * starting the level, if every must-have block is present
      * 
      * @param minBlocks The minimum amount of blocks that can be placed
      * @return A {@link MapConstraint} with the above rule

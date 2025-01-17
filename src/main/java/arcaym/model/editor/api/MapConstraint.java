@@ -3,6 +3,7 @@ package arcaym.model.editor.api;
 import java.util.Collection;
 
 import arcaym.common.point.api.Point;
+import arcaym.model.editor.ConstraintFailedException;
 
 /**
  * An interface modeling map constraints.
@@ -14,9 +15,9 @@ import arcaym.common.point.api.Point;
 @FunctionalInterface
 public interface MapConstraint {
     /**
-     * 
-     * @param currentMapSituation
-     * @return True if the constraint is respected 
+     * Checks that the constraint is respected.
+     * @param currentMapSituation the map of one specific object
+     * @throws ConstraintFailedException if the constraint is not respected
      */
-    boolean checkConstraint(Collection<Point> currentMapSituation); 
+    void checkConstraint(Collection<Point> currentMapSituation) throws ConstraintFailedException; 
 }
