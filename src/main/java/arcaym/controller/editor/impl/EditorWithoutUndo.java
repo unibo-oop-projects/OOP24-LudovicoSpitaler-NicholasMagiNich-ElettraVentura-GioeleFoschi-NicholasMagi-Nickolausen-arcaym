@@ -1,6 +1,7 @@
 package arcaym.controller.editor.impl;
 
 import java.util.Collection;
+import java.util.List;
 
 import arcaym.common.point.api.Point;
 import arcaym.controller.editor.api.Editor;
@@ -15,6 +16,7 @@ import arcaym.model.game.objects.api.GameObjectType;
 public class EditorWithoutUndo implements Editor {
 
     private GameObjectType selectedObject;
+    private List<GameObjectType> availableObjectList;
     private final Grid editorGrid;
 
     /**
@@ -27,6 +29,23 @@ public class EditorWithoutUndo implements Editor {
         this.selectedObject = startingObject;
         this.editorGrid = new GridImpl(x, y);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateListOfAvailableObjects(final List<GameObjectType> availableList) {
+        this.availableObjectList = List.copyOf(availableList);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<GameObjectType> getListOfAvailableObjects() {
+        return this.availableObjectList;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -80,5 +99,4 @@ public class EditorWithoutUndo implements Editor {
     public void applyChange(final Collection<Point> positions) throws EditorGridException {
         this.editorGrid.setObjects(positions, selectedObject);
     }
-
 }

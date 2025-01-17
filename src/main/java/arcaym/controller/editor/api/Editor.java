@@ -1,6 +1,7 @@
 package arcaym.controller.editor.api;
 
 import java.util.Collection;
+import java.util.List;
 
 import arcaym.common.point.api.Point;
 import arcaym.model.editor.EditorGridException;
@@ -10,6 +11,18 @@ import arcaym.model.game.objects.api.GameObjectType;
  * The interface used to manage the editor side.
  */
 public interface Editor {
+
+    /**
+     * Sets the list of available objects to place.
+     * @param availableList the list of currently unlocked objects.
+     */
+    void updateListOfAvailableObjects(List<GameObjectType> availableList);
+
+    /**
+     * Gets the list of currently available objects.
+     * @return A list of objects
+     */
+    List<GameObjectType> getListOfAvailableObjects();
 
     /**
      * Updates the selected object.
