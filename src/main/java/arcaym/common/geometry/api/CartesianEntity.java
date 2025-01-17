@@ -1,5 +1,8 @@
 package arcaym.common.geometry.api;
 
+/**
+ * Interface for an entity using a 2D cartesian coordinates system.
+ */
 public interface CartesianEntity<T extends CartesianEntity<T>> {
 
     /**

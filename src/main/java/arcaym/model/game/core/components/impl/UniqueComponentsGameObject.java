@@ -11,7 +11,6 @@ import arcaym.controller.game.events.api.EventsSubscriber;
 import arcaym.controller.game.scene.api.GameSceneInfo;
 import arcaym.model.game.core.components.api.ComponentsBasedGameObject;
 import arcaym.model.game.core.components.api.GameComponent;
-import arcaym.model.game.core.objects.api.GameObjectBoundaries;
 import arcaym.model.game.core.objects.impl.AbstractGameObject;
 import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.events.api.InputEvent;
@@ -28,10 +27,10 @@ public class UniqueComponentsGameObject extends AbstractGameObject implements Co
      * Initialize with the given object type.
      * 
      * @param type game object type
-     * @param boundaries game object boundaries
+     * @param size game object size
      */
-    public UniqueComponentsGameObject(final GameObjectType type, final GameObjectBoundaries boundaries) {
-        super(type, boundaries);
+    public UniqueComponentsGameObject(final GameObjectType type, final double size) {
+        super(type, size);
     }
 
     /**
