@@ -3,7 +3,7 @@ package arcaym.controller.editor.api;
 import java.util.Collection;
 import java.util.List;
 
-import arcaym.common.point.api.Point;
+import arcaym.common.utils.Position;
 import arcaym.model.editor.EditorGridException;
 import arcaym.model.game.objects.api.GameObjectType;
 
@@ -59,7 +59,7 @@ public interface Editor {
      * 
      * @param positions the selected positions
      */
-    void eraseArea(Collection<Point> positions) throws EditorGridException;
+    void eraseArea(Collection<Position> positions) throws EditorGridException;
 
     /**
      * Adds the last selected object from {@link #setSelectedObject(GameObjectType)} and
@@ -67,5 +67,5 @@ public interface Editor {
      * 
      * @param positions The collection of position to change
      */
-    void applyChange(Collection<Point> positions) throws EditorGridException;
+    void applyChange(Collection<Position> positions) throws EditorGridException;
 }

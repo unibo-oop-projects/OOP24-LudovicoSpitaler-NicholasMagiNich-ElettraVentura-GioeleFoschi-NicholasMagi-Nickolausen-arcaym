@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import arcaym.common.point.api.Point;
+import arcaym.common.utils.Position;
 import arcaym.model.editor.ConstraintFailedException;
 import arcaym.model.editor.EditorGridException;
 import arcaym.model.editor.api.Cell;
@@ -26,10 +26,10 @@ public class GridImpl implements Grid {
     private static final String MAP_CONSTRAINT_NOT_RESPECTED = "A map constraint was not respected: ";
     private static final String ILLEGAL_POSITION_EXCEPTION_MESSAGE = "Trying to place a block outside of the boundary";
 
-    private final Map<Point, Cell> map;
+    private final Map<Position, Cell> map;
     private final Map<GameObjectType, MapConstraint> objectConstraint;
     private final Map<GameObjectCategory, MapConstraint> categoryConstraint;
-    private final Point mapSize;
+    private final Position mapSize;
 
     /**
      * Creates a new Grid with the given dimentions.
@@ -40,10 +40,10 @@ public class GridImpl implements Grid {
         this.map = new HashMap<>();
         this.objectConstraint = new EnumMap<>(GameObjectType.class);
         this.categoryConstraint = new EnumMap<>(GameObjectCategory.class);
-        this.mapSize = Point.of(x, y);
+        this.mapSize = Position.of(x, y);
         for (int i = 0; i < mapSize.x(); i++) {
             for (int j = 0; j < mapSize.y(); j++) {
-                map.put(Point.of(x, y), new ThreeLayerCell(DEFAUL_TYPE));
+                map.put(Position.of(x, y), new ThreeLayerCell(DEFAUL_TYPE));
             }
         }
     }
@@ -68,7 +68,7 @@ public class GridImpl implements Grid {
      * {@inheritDoc}
      */
     @Override
-    public void setObjects(final Collection<Point> positions, final GameObjectType type) throws EditorGridException {
+    public void setObjects(final Collection<Position> positions, final GameObjectType type) throws EditorGridException {
         if (positions.stream().anyMatch(this::outsideBoundary)) {
             throw new EditorGridException(ILLEGAL_POSITION_EXCEPTION_MESSAGE, true);
         }
@@ -90,7 +90,7 @@ public class GridImpl implements Grid {
         positions.forEach(pos -> map.get(pos).setValue(type));
     }
 
-    private Set<Point> getSetOfCategory(final GameObjectCategory category) {
+    private Set<Position> getSetOfCategory(final GameObjectCategory category) {
         return map
             .entrySet()
             .stream()
@@ -99,7 +99,7 @@ public class GridImpl implements Grid {
             .collect(Collectors.toSet());
     }
 
-    private Set<Point> getSetOfType(final GameObjectType type) {
+    private Set<Position> getSetOfType(final GameObjectType type) {
         return map.entrySet()
             .stream()
             .filter(e -> e.getValue().getValues().contains(type))
@@ -107,7 +107,7 @@ public class GridImpl implements Grid {
             .collect(Collectors.toSet());
     }
 
-    private boolean outsideBoundary(final Point p) {
+    private boolean outsideBoundary(final Position p) {
         return p.x() < 0 || p.x() > this.mapSize.x() || p.y() < 0 || p.y() > this.mapSize.y();
     }
 
@@ -115,7 +115,7 @@ public class GridImpl implements Grid {
      * {@inheritDoc}
      */
     @Override
-    public void removeObjects(final Collection<Point> positions) throws EditorGridException {
+    public void removeObjects(final Collection<Position> positions) throws EditorGridException {
         if (positions.stream().anyMatch(this::outsideBoundary)) {
             throw new EditorGridException(ILLEGAL_POSITION_EXCEPTION_MESSAGE, false);
         }
@@ -144,7 +144,7 @@ public class GridImpl implements Grid {
      * {@inheritDoc}
      */
     @Override
-    public Collection<GameObjectType> getObjects(final Point pos) {
+    public Collection<GameObjectType> getObjects(final Position pos) {
         return map.get(pos).getValues();
     }
 

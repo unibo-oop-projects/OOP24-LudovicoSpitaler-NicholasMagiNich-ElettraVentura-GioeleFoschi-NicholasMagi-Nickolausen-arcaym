@@ -2,7 +2,7 @@ package arcaym.model.editor.impl;
 
 import java.util.Collection;
 
-import arcaym.common.point.api.Point;
+import arcaym.common.utils.Position;
 import arcaym.model.editor.ConstraintFailedException;
 import arcaym.model.editor.api.MapConstraint;
 import arcaym.model.editor.api.MapConstraintsFactory;
@@ -29,7 +29,7 @@ public class MapConstraintFactoryImpl implements MapConstraintsFactory {
         };
     }
 
-    private boolean adjacencyCondition(final Point p1, final Point p2) {
+    private boolean adjacencyCondition(final Position p1, final Position p2) {
         return (p1.x() - p2.x()) * (p1.x() - p2.x()) + (p1.y() - p2.y()) * (p1.y() - p2.y()) == 1;
     }
 
@@ -49,7 +49,7 @@ public class MapConstraintFactoryImpl implements MapConstraintsFactory {
         return new MapConstraint() {
 
             @Override
-            public void checkConstraint(final Collection<Point> currentMapSituation) throws ConstraintFailedException {
+            public void checkConstraint(final Collection<Position> currentMapSituation) throws ConstraintFailedException {
                 if (currentMapSituation.size() > maxBlocks) {
                     throw new ConstraintFailedException("Maximum amount of object placed exceeded: Max=["
                     + maxBlocks 
@@ -71,7 +71,7 @@ public class MapConstraintFactoryImpl implements MapConstraintsFactory {
             private final int minOfType = minBlocks;
 
             @Override
-            public void checkConstraint(final Collection<Point> currentMapSituation) throws ConstraintFailedException {
+            public void checkConstraint(final Collection<Position> currentMapSituation) throws ConstraintFailedException {
                 if (currentMapSituation.size() <= this.minOfType) {
                     throw new ConstraintFailedException("The level does not have enough of object: ");
                 }

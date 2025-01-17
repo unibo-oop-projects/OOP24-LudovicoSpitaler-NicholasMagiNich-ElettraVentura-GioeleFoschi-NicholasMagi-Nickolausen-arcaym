@@ -2,7 +2,7 @@ package arcaym.model.editor.api;
 
 import java.util.Collection;
 
-import arcaym.common.point.api.Point;
+import arcaym.common.utils.Position;
 import arcaym.model.editor.ConstraintFailedException;
 
 /**
@@ -19,5 +19,5 @@ public interface MapConstraint {
      * @param currentMapSituation the map of one specific object
      * @throws ConstraintFailedException if the constraint is not respected
      */
-    void checkConstraint(Collection<Point> currentMapSituation) throws ConstraintFailedException; 
+    void checkConstraint(Collection<Position> currentMapSituation) throws ConstraintFailedException; 
 }

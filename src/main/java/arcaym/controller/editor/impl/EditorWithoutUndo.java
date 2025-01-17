@@ -3,7 +3,7 @@ package arcaym.controller.editor.impl;
 import java.util.Collection;
 import java.util.List;
 
-import arcaym.common.point.api.Point;
+import arcaym.common.utils.Position;
 import arcaym.controller.editor.api.Editor;
 import arcaym.model.editor.EditorGridException;
 import arcaym.model.editor.api.Grid;
@@ -88,7 +88,7 @@ public class EditorWithoutUndo implements Editor {
      * {@inheritDoc}
      */
     @Override
-    public void eraseArea(final Collection<Point> positions) throws EditorGridException {
+    public void eraseArea(final Collection<Position> positions) throws EditorGridException {
         this.editorGrid.removeObjects(positions);
     }
 
@@ -96,7 +96,7 @@ public class EditorWithoutUndo implements Editor {
      * {@inheritDoc}
      */
     @Override
-    public void applyChange(final Collection<Point> positions) throws EditorGridException {
+    public void applyChange(final Collection<Position> positions) throws EditorGridException {
         this.editorGrid.setObjects(positions, selectedObject);
     }
 }
