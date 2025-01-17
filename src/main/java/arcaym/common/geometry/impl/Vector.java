@@ -66,7 +66,7 @@ public record Vector(double x, double y) implements CartesianEntity<Vector> {
      */
     @Override
     public Vector multiply(Vector other) {
-        return Vector.of(this.x - other.x(), this.y - other.y());
+        return Vector.of(this.x * other.x(), this.y * other.y());
     }
 
 }

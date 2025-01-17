@@ -4,8 +4,35 @@ import java.util.Objects;
 
 /**
  * Basic implementation of a rectangle.
+ * 
+ * @param northEast north east vertex
+ * @param southWest south west vertex
  */
 public record Rectangle(Point northEast, Point southWest) {
+
+    /**
+     * Create a rectangle with the given vertexes.
+     * 
+     * @param northEast north east vertex
+     * @param southWest south west vertex
+     * @return resulting rectangle
+     */
+    public static Rectangle of(final Point northEast, final Point southWest) {
+        return new Rectangle(northEast, southWest);
+    }
+
+    /**
+     * Create a square centered on a point.
+     * 
+     * @param side side size
+     * @param center center position
+     * @return resulting square
+     */
+    public static Rectangle centeredSquare(final double side, final Point center) {
+        Objects.requireNonNull(center);
+        final var offset = new Point(side / 2, side / 2);
+        return new Rectangle(center.subtract(offset), center.sum(offset));
+    }
 
     /**
      * Initialize with given angles.

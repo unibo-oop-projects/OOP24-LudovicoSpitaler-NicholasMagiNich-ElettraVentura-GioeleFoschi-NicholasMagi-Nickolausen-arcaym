@@ -23,7 +23,7 @@ public class BasicCollisionHandler implements CollisionHandler {
      */
     @Override
     public boolean isColliding(GameObjectInfo object) {
-        return Rectangles.intersecting(object.boundaries().drawArea(), subject.boundaries().drawArea());
+        return Rectangles.intersecting(object.boundaries(), subject.boundaries());
     }
 
     /**

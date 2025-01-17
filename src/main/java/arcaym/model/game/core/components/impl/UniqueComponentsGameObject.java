@@ -4,16 +4,13 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.function.Function;
 
-import arcaym.common.geometry.impl.Point;
 import arcaym.controller.game.core.api.GameState;
 import arcaym.controller.game.events.api.EventsScheduler;
 import arcaym.controller.game.events.api.EventsSubscriber;
 import arcaym.controller.game.scene.api.GameSceneInfo;
 import arcaym.model.game.core.components.api.ComponentsBasedGameObject;
 import arcaym.model.game.core.components.api.GameComponent;
-import arcaym.model.game.core.objects.api.GameObjectBoundaries;
 import arcaym.model.game.core.objects.impl.AbstractGameObject;
 import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.events.api.InputEvent;
@@ -30,12 +27,11 @@ public class UniqueComponentsGameObject extends AbstractGameObject implements Co
     /**
      * Initialize with the given object type.
      * 
-     * @param type       game object type
-     * @param boundaries game object boundaries
+     * @param type game object type
+     * @param size game object size
      */
-    public UniqueComponentsGameObject(final GameObjectType type,
-            final Function<Point, GameObjectBoundaries> boundariesFunction) {
-        super(type, boundariesFunction);
+    public UniqueComponentsGameObject(final GameObjectType type, final double size) {
+        super(type, size);
     }
 
     /**

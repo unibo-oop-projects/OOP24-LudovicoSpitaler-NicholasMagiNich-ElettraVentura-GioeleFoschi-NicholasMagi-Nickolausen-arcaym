@@ -9,16 +9,18 @@ import org.junit.jupiter.params.provider.ArgumentsProvider;
 
 import arcaym.common.geometry.api.CartesianEntity;
 import arcaym.common.geometry.impl.Point;
+import arcaym.common.geometry.impl.Vector;
 
 class CartesianEntitiesProvider implements ArgumentsProvider {
 
-    interface CartesianEntityConstructor<T extends CartesianEntity<T>> extends BiFunction<Double, Double, T> { }
+    interface CartesianEntityConstructor<T extends CartesianEntity<T>> extends BiFunction<Double, Double, T> {
+    }
 
     @Override
     public Stream<? extends Arguments> provideArguments(final ExtensionContext context) throws Exception {
         final Stream<CartesianEntityConstructor<?>> implementations = Stream.of(
-            (CartesianEntityConstructor<Point>) Point::of
-        );
+                (CartesianEntityConstructor<Point>) Point::of,
+                (CartesianEntityConstructor<Vector>) Vector::of);
         return implementations.map(Arguments::of);
     }
 
