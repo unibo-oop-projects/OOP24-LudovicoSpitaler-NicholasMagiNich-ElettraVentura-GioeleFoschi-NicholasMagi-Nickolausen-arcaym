@@ -1,11 +1,12 @@
 package arcaym.model.editor.api;
 
 /**
- * The memento interface, used to store a state, and restore it in a second moment.
+ * To delete.
  */
 public interface Memento {
+
     /**
-     * Restores the saved state.
+     * Needs a reorganization of code, to do at the end if there is still time.
      */
     void restore();
 }

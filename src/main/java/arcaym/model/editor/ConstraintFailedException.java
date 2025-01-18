@@ -25,6 +25,6 @@ public class ConstraintFailedException extends Exception {
      */
     @Override
     public String toString() {
-        return EXCEPTION_INIT_MESSAGE + message + super.toString();
+        return EXCEPTION_INIT_MESSAGE + message + " \n" + super.toString();
     }
 }

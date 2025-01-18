@@ -68,11 +68,9 @@ public class MapConstraintFactoryImpl implements MapConstraintsFactory {
     public MapConstraint minNumberOfBlocks(final int minBlocks) {
         return new MapConstraint() {
 
-            private final int minOfType = minBlocks;
-
             @Override
             public void checkConstraint(final Collection<Position> currentMapSituation) throws ConstraintFailedException {
-                if (currentMapSituation.size() <= this.minOfType) {
+                if (currentMapSituation.size() < minBlocks) {
                     throw new ConstraintFailedException("The level does not have enough of object: ");
                 }
             }
