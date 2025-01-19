@@ -1,7 +1,7 @@
 package arcaym.model.editor.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import arcaym.model.editor.api.Cell;
@@ -16,10 +16,10 @@ import arcaym.model.game.objects.api.GameObjectType;
  */
 public class ThreeLayerCell implements Cell {
 
+    private final GameObjectType defaultLayer;
     private Optional<GameObjectType> lowerLayer;
     private Optional<GameObjectType> entityLayer;
     private Optional<GameObjectType> collectableLayer;
-    private final GameObjectType defaultLayer;
 
     /**
      * 
@@ -58,7 +58,7 @@ public class ThreeLayerCell implements Cell {
      * {@inheritDoc}
      */
     @Override
-    public Collection<GameObjectType> getValues() {
+    public List<GameObjectType> getValues() {
         final var outList = new ArrayList<GameObjectType>();
         outList.add(lowerLayer.isPresent() ? lowerLayer.get() : defaultLayer);
         if (entityLayer.isPresent()) {

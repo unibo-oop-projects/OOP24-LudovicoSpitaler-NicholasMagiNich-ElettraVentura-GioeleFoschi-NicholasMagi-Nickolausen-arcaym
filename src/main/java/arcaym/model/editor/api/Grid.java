@@ -1,6 +1,7 @@
 package arcaym.model.editor.api;
 
 import java.util.Collection;
+import java.util.List;
 
 import arcaym.common.utils.Position;
 import arcaym.model.editor.EditorGridException;
@@ -49,7 +50,8 @@ public interface Grid {
      * Returns a set of {@link GameObjectType} that represent every object contained in @param pos .
      * 
      * @param pos The position of which to get the objects
-     * @return A collection of {@link GameObjectType}
+     * @return A list of {@link GameObjectType} ordered by priority of render:
+     * - block first, entity second, collectable third
      */
-    Collection<GameObjectType> getObjects(Position pos);
+    List<GameObjectType> getObjects(Position pos);
 }

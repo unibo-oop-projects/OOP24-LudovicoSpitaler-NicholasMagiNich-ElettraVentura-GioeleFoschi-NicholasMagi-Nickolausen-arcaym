@@ -1,6 +1,6 @@
 package arcaym.model.editor.api;
 
-import java.util.Collection;
+import java.util.List;
 
 import arcaym.model.game.objects.api.GameObjectType;
 
@@ -22,5 +22,5 @@ public interface Cell {
      * Gets the collection of values in the cell.
      * @return Returns the list of objects contained in that cell
      */
-    Collection<GameObjectType> getValues();
+    List<GameObjectType> getValues();
 }

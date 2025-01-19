@@ -51,11 +51,10 @@ public class MapConstraintFactoryImpl implements MapConstraintsFactory {
             @Override
             public void checkConstraint(final Collection<Position> currentMapSituation) throws ConstraintFailedException {
                 if (currentMapSituation.size() > maxBlocks) {
-                    throw new ConstraintFailedException("Maximum amount of object placed exceeded: Max=["
+                    throw new ConstraintFailedException("Maximum amount of object placed exceeded: Max = "
                     + maxBlocks 
-                    + "], Placed=["
-                    + currentMapSituation.size() 
-                    + "]");
+                    + ", Placed = "
+                    + currentMapSituation.size());
                 }
             }
         };

@@ -3,6 +3,7 @@ package arcaym.model.editor.impl;
 import java.util.Collection;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -23,7 +24,6 @@ import arcaym.model.game.objects.api.GameObjectType;
 public class GridImpl implements Grid {
 
     private static final GameObjectType DEFAUL_TYPE = GameObjectType.FLOOR; // GameObjectType.WALL;
-    private static final String MAP_CONSTRAINT_NOT_RESPECTED = "A map constraint was not respected: ";
     private static final String ILLEGAL_POSITION_EXCEPTION_MESSAGE = "Trying to place a block outside of the boundary";
 
     private final Map<Position, Cell> map;
@@ -43,7 +43,7 @@ public class GridImpl implements Grid {
         this.mapSize = Position.of(x, y);
         for (int i = 0; i < mapSize.x(); i++) {
             for (int j = 0; j < mapSize.y(); j++) {
-                map.put(Position.of(x, y), new ThreeLayerCell(DEFAUL_TYPE));
+                map.put(Position.of(i, j), new ThreeLayerCell(DEFAUL_TYPE));
             }
         }
     }
@@ -84,7 +84,8 @@ public class GridImpl implements Grid {
                 categoryConstraint.get(type.category()).checkConstraint(mapOfCategory);
             }
         } catch (ConstraintFailedException e) {
-            throw new EditorGridException(MAP_CONSTRAINT_NOT_RESPECTED + e.toString(), true, e);
+            // System.out.println(e.toString());
+            throw new EditorGridException(e.toString(), true, e);
         }
 
         positions.forEach(pos -> map.get(pos).setValue(type));
@@ -125,7 +126,7 @@ public class GridImpl implements Grid {
                 mapOfType.removeAll(positions);
                 e.getValue().checkConstraint(positions);
             } catch (ConstraintFailedException ex) {
-                throw new EditorGridException(MAP_CONSTRAINT_NOT_RESPECTED + e.toString(), false, ex);
+                throw new EditorGridException(ex.getMessage(), false, ex);
             }
         }
         for (final Entry<GameObjectCategory, MapConstraint> e : categoryConstraint.entrySet()) {
@@ -134,7 +135,7 @@ public class GridImpl implements Grid {
                 mapOfCategory.removeAll(positions);
                 e.getValue().checkConstraint(mapOfCategory);
             } catch (ConstraintFailedException ex) {
-                throw new EditorGridException(MAP_CONSTRAINT_NOT_RESPECTED + e.toString(), false, ex);
+                throw new EditorGridException(ex.getMessage(), false, ex);
             }
         }
         positions.forEach(pos -> map.put(pos, new ThreeLayerCell(DEFAUL_TYPE)));
@@ -144,7 +145,7 @@ public class GridImpl implements Grid {
      * {@inheritDoc}
      */
     @Override
-    public Collection<GameObjectType> getObjects(final Position pos) {
+    public List<GameObjectType> getObjects(final Position pos) {
         return map.get(pos).getValues();
     }
 

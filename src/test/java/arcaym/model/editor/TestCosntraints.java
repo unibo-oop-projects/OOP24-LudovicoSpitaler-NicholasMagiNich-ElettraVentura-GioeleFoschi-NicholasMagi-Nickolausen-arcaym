@@ -1,4 +1,4 @@
-package arcaym.model;
+package arcaym.model.editor;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -9,13 +9,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import arcaym.common.utils.Position;
-import arcaym.model.editor.ConstraintFailedException;
 import arcaym.model.editor.api.MapConstraint;
 import arcaym.model.editor.api.MapConstraintsFactory;
 import arcaym.model.editor.impl.MapConstraintFactoryImpl;
@@ -23,7 +19,7 @@ import arcaym.model.editor.impl.MapConstraintFactoryImpl;
 /**
  * Tests the various {@link MapConstraint} created by the {@link MapConstraintsFactory}.
  */
-@TestInstance(Lifecycle.PER_CLASS)
+
 final class TestCosntraints {
 
     static final int DEFAULT_MAX_WIDTH = 30;
@@ -31,16 +27,10 @@ final class TestCosntraints {
     static final int MAX_OBJECTS = 11;
     static final int MIN_OBJECTS = 5;
 
-    private MapConstraintsFactory factory;
-    private Random rd;
+    private final MapConstraintsFactory factory = new MapConstraintFactoryImpl();
+    private final Random rd = new Random();
 
-    @BeforeAll
-    void init() {
-        this.factory = new MapConstraintFactoryImpl();
-        this.rd = new Random();
-    }
-
-    private Set<Position> generatePositionSet() {
+    private Set<Position> generateAdjacentPositionSet() {
         final var initialPos = Position.of(rd.nextInt(DEFAULT_MAX_WIDTH), rd.nextInt(DEFAULT_MAX_HEIGHT));
         return IntStream.range(0, DEFAULT_MAX_WIDTH)
             .mapToObj(i -> i)
@@ -52,13 +42,13 @@ final class TestCosntraints {
 
     @Test
     void testAdjacencyConstraint() {
-        final Set<Position> testPos = generatePositionSet();
+        final Set<Position> testPos = generateAdjacentPositionSet();
         assertDoesNotThrow(() -> factory.adjacencyConstraint().checkConstraint(testPos));
     }
 
     @Test
     void testAdjacencyConstraintFail() {
-        final Set<Position> testPos = generatePositionSet();
+        final Set<Position> testPos = generateAdjacentPositionSet();
         testPos.add(new Position(DEFAULT_MAX_WIDTH + 2, DEFAULT_MAX_HEIGHT + 2)); // add a cell that will never be nearby
         assertThrows(ConstraintFailedException.class, () -> factory.adjacencyConstraint().checkConstraint(testPos));
     }

@@ -39,6 +39,6 @@ public class EditorGridException extends Exception {
      */
     @Override
     public String toString() {
-        return "Cannot " + (objectPlaced ? "place" : "remove") + " objects: " + message + ".\n" + super.toString();
+        return "Cannot " + (objectPlaced ? "place" : "remove") + " objects: " + message;
     }
 }
