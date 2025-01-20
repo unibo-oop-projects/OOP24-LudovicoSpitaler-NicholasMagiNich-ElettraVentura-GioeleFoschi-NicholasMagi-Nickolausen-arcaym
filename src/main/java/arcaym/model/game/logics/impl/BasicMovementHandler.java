@@ -26,12 +26,4 @@ public class BasicMovementHandler implements MovementHandler {
         return Point.of(newX, newY);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void updatePosition(final Point newPosition) {
-        this.object.setPosition(newPosition);
-    }
-
 }

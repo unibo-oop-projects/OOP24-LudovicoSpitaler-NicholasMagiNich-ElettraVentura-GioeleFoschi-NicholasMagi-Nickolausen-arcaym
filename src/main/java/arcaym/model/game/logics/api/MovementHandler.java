@@ -16,10 +16,4 @@ public interface MovementHandler {
      */
     Point nextPosition(Vector velocity, long deltaTime);
 
-    /**
-     * changes the position of the object to the position in input
-     * 
-     * @param newPosition
-     */
-    void updatePosition(Point newPosition);
 }

@@ -17,13 +17,13 @@ public class MovementComponentsFactory extends AbstractComponentsFactory {
     public MovementComponentsFactory(UniqueComponentsGameObject gameObject) {
         super(gameObject);
     }
-    
+
     interface IllegalMovementConsumer {
         void reactToLimitReached(final long deltaTime, final EventsScheduler<GameEvent> eventsScheduler,
-        final Vector vel,
-        final GameObject gameObject);
+                final Vector vel,
+                final GameObject gameObject);
     }
-    
+
     private boolean isWallCollisionActive(final GameSceneInfo gameScene) {
         return collisionHandler.getCollidingObjects(gameScene)
                 .anyMatch(obj -> obj.type() == GameObjectType.WALL);
@@ -41,7 +41,7 @@ public class MovementComponentsFactory extends AbstractComponentsFactory {
                 Point newPosition = movementHandler.nextPosition(initialVelocity, deltaTime);
 
                 if (!isWallCollisionActive(gameScene)) {
-                    movementHandler.updatePosition(newPosition);
+                    gameObject.setPosition(newPosition);
                 } else {
                     reaction.reactToLimitReached(deltaTime, eventsScheduler, vel, gameObject);
                 }
@@ -53,7 +53,6 @@ public class MovementComponentsFactory extends AbstractComponentsFactory {
     public GameComponent fromInputMovement() {
         return new InputMovementComponent(gameObject);
     }
-
 
     public GameComponent automaticXMovement() {
         if (gameObject.type() == GameObjectType.MOVING_X_OBSTACLE) {
