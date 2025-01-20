@@ -7,8 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -89,22 +87,16 @@ final class TestGrid {
                 GameObjectType.USER_PLAYER));
         // add different constraint
         this.basicGrid.setObjectConstraint(constraintFactory.adjacencyConstraint(), GameObjectType.WIN_GOAL);
-        assertDoesNotThrow(() -> this.basicGrid.setObjects(getadjacentCells(), GameObjectType.WIN_GOAL));
-        // assertThrows(EditorGridException.class, this.basicGrid.setObjects(randomCell, GameObjectType.WIN_GOAL));
-        // kinda hard to check this so for now I wont, the constraint was already tested in the TestConstraint class
+        assertDoesNotThrow(() -> this.basicGrid.setObjects(Set.of(
+            Position.of(1, 1),
+            Position.of(0, 0),
+            Position.of(1, 0)), GameObjectType.WIN_GOAL));
+        // disconnect the goal
+        assertThrows(EditorGridException.class, () -> this.basicGrid.removeObjects(Set.of(Position.of(1, 0))));
         // check that the old constraint was not overwritten
         assertThrows(EditorGridException.class,
             () -> this.basicGrid.setObjects(Set.of(Position.of(1, 1)),
                 GameObjectType.USER_PLAYER));
     }
 
-    private Set<Position> getadjacentCells() {
-        final var initialPos = Position.of(RD.nextInt(DEFAULT_GRID_WIDTH), RD.nextInt(DEFAULT_GRID_HEIGHT));
-        return IntStream.range(0, DEFAULT_GRID_WIDTH)
-            .mapToObj(i -> i)
-            .flatMap(x -> IntStream.range(0, DEFAULT_GRID_HEIGHT)
-            .mapToObj(y -> new Position(x, y)))
-            .filter(p -> Math.abs(p.x() - initialPos.x()) <= 1 && Math.abs(p.y() - initialPos.y()) <= 1)
-            .collect(Collectors.toSet());
-    }
 }

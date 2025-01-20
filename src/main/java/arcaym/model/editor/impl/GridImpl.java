@@ -124,7 +124,7 @@ public class GridImpl implements Grid {
             try {
                 final var mapOfType = getSetOfType(e.getKey());
                 mapOfType.removeAll(positions);
-                e.getValue().checkConstraint(positions);
+                e.getValue().checkConstraint(mapOfType);
             } catch (ConstraintFailedException ex) {
                 throw new EditorGridException(ex.getMessage(), false, ex);
             }
