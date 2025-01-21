@@ -36,13 +36,16 @@ public interface Grid {
      * 
      * @param positions The collection of position of the grid
      * @param type The type of object to be placed
-     * @throws 
+     * @throws EditorGridException when the positions given do not respect grid rules
      */
     void setObjects(Collection<Position> positions, GameObjectType type) throws EditorGridException;
 
     /**
      * Removes every objects from the given positions.
+     * Also performs all the checks of the present constraint to see if they are still respected
+     * 
      * @param positions
+     * @throws EditorGridException when removing the positiongiven puts the grid in a inconsistent state
      */
     void removeObjects(Collection<Position> positions) throws EditorGridException;
 
