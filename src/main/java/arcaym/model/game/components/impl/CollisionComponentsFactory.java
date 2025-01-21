@@ -15,7 +15,7 @@ import arcaym.model.game.objects.api.GameObjectType;
 
 public class CollisionComponentsFactory extends AbstractComponentsFactory {
 
-    public CollisionComponentsFactory(final UniqueComponentsGameObject gameObject){
+    public CollisionComponentsFactory(final UniqueComponentsGameObject gameObject) {
         super(gameObject);
     }
 
@@ -41,14 +41,10 @@ public class CollisionComponentsFactory extends AbstractComponentsFactory {
     }
 
     public GameComponent obstacleCollision() {
-        if (gameObject.type() == GameObjectType.USER_PLAYER) {
-            return genericCollision(info -> info.category() == GameObjectCategory.OBSTACLE,
-                    (deltaTime, eventsScheduler, collidingObject, gameScene) -> {
-                        eventsScheduler.scheduleEvent(GameEvent.GAME_OVER);
-                    });
-        } else {
-            throw new IllegalStateException("Unsupported GameObject type for obstacleCollision");
-        }
+        return genericCollision(info -> info.category() == GameObjectCategory.PLAYER,
+                (deltaTime, eventsScheduler, collidingObject, gameScene) -> {
+                    eventsScheduler.scheduleEvent(GameEvent.GAME_OVER);
+                });
     }
 
     public GameComponent collectableCollision() {
@@ -64,7 +60,7 @@ public class CollisionComponentsFactory extends AbstractComponentsFactory {
     }
 
     public GameComponent reachedGoal() {
-        return genericCollision(info -> info.category() == GameObjectCategory.GOAL,
+        return genericCollision(info -> info.category() == GameObjectCategory.PLAYER,
                 (deltaTime, eventsScheduler, collidingObject, gameScene) -> {
                     eventsScheduler.scheduleEvent(GameEvent.VICTORY);
                 });

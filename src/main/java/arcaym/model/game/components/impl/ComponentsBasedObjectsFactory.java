@@ -24,17 +24,20 @@ public class ComponentsBasedObjectsFactory implements GameObjectsFactory {
         CollisionComponentsFactory collisionFactory = new CollisionComponentsFactory(obj);
         MovementComponentsFactory movementFactory = new MovementComponentsFactory(obj);
 
-        switch (gameObjectType) {
-            case USER_PLAYER:
+        switch (gameObjectType.category()) {
+            case PLAYER:
                 obj.addComponent(movementFactory.fromInputMovement());
+            case OBSTACLE:
                 obj.addComponent(collisionFactory.obstacleCollision());
-                obj.addComponent(collisionFactory.reachedGoal());
-            case MOVING_X_OBSTACLE:
-                obj.addComponent(movementFactory.automaticXMovement());
-            case MOVING_Y_OBSTACLE:
-                obj.addComponent(movementFactory.automaticYMovement());
-            case COIN:
+                if (gameObjectType == GameObjectType.MOVING_X_OBSTACLE) {
+                    obj.addComponent(movementFactory.automaticXMovement());
+                } else if (gameObjectType == GameObjectType.MOVING_Y_OBSTACLE) {
+                    obj.addComponent(movementFactory.automaticYMovement());
+                }
+            case COLLECTABLE:
                 obj.addComponent(collisionFactory.collectableCollision());
+            case GOAL:
+                obj.addComponent(collisionFactory.reachedGoal());
             default:
                 break;
         }
