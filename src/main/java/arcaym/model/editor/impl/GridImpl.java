@@ -16,6 +16,8 @@ import arcaym.model.editor.EditorType;
 import arcaym.model.editor.api.Cell;
 import arcaym.model.editor.api.Grid;
 import arcaym.model.editor.api.MapConstraint;
+import arcaym.model.editor.saves.LevelSavedMetadata;
+import arcaym.model.editor.saves.MapSerializerImpl;
 import arcaym.model.game.core.objects.api.GameObjectCategory;
 import arcaym.model.game.objects.api.GameObjectType;
 
@@ -41,12 +43,17 @@ public class GridImpl implements Grid {
     public GridImpl(final int x, final int y, final EditorType editorType) {
         this.map = new HashMap<>();
         this.mapSize = Position.of(x, y);
-        for (int i = 0; i < mapSize.x(); i++) {
-            for (int j = 0; j < mapSize.y(); j++) {
-                map.put(Position.of(i, j), new ThreeLayerCell(DEFAUL_TYPE));
-            }
-        }
         addConstraints(editorType);
+    }
+
+    /**
+     * Creates a new grid based on {@link LevelSavedMetadata}.
+     * @param metadata The data that is needed
+     */
+    public GridImpl(final LevelSavedMetadata metadata) {
+        this.mapSize = Position.of(metadata.size().x(), metadata.size().y());
+        this.map = new MapSerializerImpl<Position, Cell>().getMapFromBinaryFile(metadata.uuid());
+        addConstraints(metadata.type());
     }
 
     private void addConstraints(final EditorType type) {
@@ -76,7 +83,12 @@ public class GridImpl implements Grid {
             throw new EditorGridException(e.toString(), true, e);
         }
 
-        positions.forEach(pos -> map.get(pos).setValue(type));
+        positions.forEach(pos -> {
+            if (!map.containsKey(pos)) {
+                map.put(pos, new ThreeLayerCell(DEFAUL_TYPE));
+            }
+            map.get(pos).setValue(type);
+        });
     }
 
     private Set<Position> getSetOfCategory(final GameObjectCategory category) {
@@ -126,7 +138,7 @@ public class GridImpl implements Grid {
                 throw new EditorGridException(ex.getMessage(), false, ex);
             }
         }
-        positions.forEach(pos -> map.put(pos, new ThreeLayerCell(DEFAUL_TYPE)));
+        positions.forEach(map::remove);
     }
 
     /**
@@ -134,6 +146,6 @@ public class GridImpl implements Grid {
      */
     @Override
     public List<GameObjectType> getObjects(final Position pos) {
-        return map.get(pos).getValues();
+        return map.containsKey(pos) ? map.get(pos).getValues() : List.of(DEFAUL_TYPE);
     }
 }
