@@ -2,12 +2,30 @@ package arcaym.model.game.components.api;
 
 import arcaym.model.game.core.components.api.GameComponent;
 
+/**
+ * Interface for a Factory of game components related to movement.
+ */
 public interface MovementComponentsFactory {
 
-    public GameComponent fromInputMovement();
+    /**
+     * Handles movement from input.
+     * 
+     * @return said behaviour as a game component
+     */
+    GameComponent fromInputMovement();
 
-    public GameComponent automaticXMovement();
+    /**
+     * Handles automatic patrolling movement on X axis.
+     * 
+     * @return said behaviour as a game component
+     */
+    GameComponent automaticXMovement();
 
-    public GameComponent automaticYMovement();
+    /**
+     * Handles automatic patrolling movement on Y axis.
+     * 
+     * @return said behaviour as a game component
+     */
+    GameComponent automaticYMovement();
 
 }

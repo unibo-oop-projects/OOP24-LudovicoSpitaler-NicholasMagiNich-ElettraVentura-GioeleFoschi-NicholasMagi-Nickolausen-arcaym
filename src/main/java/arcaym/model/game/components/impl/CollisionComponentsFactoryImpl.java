@@ -14,33 +14,44 @@ import arcaym.model.game.core.objects.api.GameObjectInfo;
 import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.objects.api.GameObjectType;
 
-public class CollisionComponentsFactoryImpl extends AbstractComponentsFactory implements CollisionComponentsFactory{
+/**
+ * Implementation of a {@link CollisionComponentFactory}.
+ */
+public class CollisionComponentsFactoryImpl extends AbstractComponentsFactory implements CollisionComponentsFactory {
 
+    /**
+     * Constructor getting gameObject as an argument.
+     * 
+     * @param gameObject
+     */
     public CollisionComponentsFactoryImpl(final UniqueComponentsGameObject gameObject) {
         super(gameObject);
     }
 
     interface CollisionConsumer {
-        void reactToCollision(final long deltaTime, final EventsScheduler<GameEvent> eventsScheduler,
-                final GameObjectInfo collidingObject, final GameSceneInfo gameScene);
+        void reactToCollision(long deltaTime, EventsScheduler<GameEvent> eventsScheduler,
+                GameObjectInfo collidingObject, GameSceneInfo gameScene);
     }
 
     private GameComponent genericCollision(final Predicate<GameObjectInfo> predicateFromObjectInfo,
             final CollisionConsumer reaction) {
-        return new AbstractGameComponent(gameObject) {
+        return new AbstractGameComponent(getGameObject()) {
 
             @Override
             public void update(final long deltaTime, final EventsScheduler<GameEvent> eventsScheduler,
                     final GameSceneInfo gameScene,
                     final GameState gameState) {
-                collisionHandler.getCollidingObjects(gameScene)
-                        .filter(infos -> predicateFromObjectInfo.test(infos))
+                getCollisionHandler().getCollidingObjects(gameScene)
+                        .filter(predicateFromObjectInfo::test)
                         .forEach(obj -> reaction.reactToCollision(deltaTime, eventsScheduler, obj, gameScene));
             }
 
         };
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GameComponent obstacleCollision() {
         return genericCollision(info -> info.category() == GameObjectCategory.PLAYER,
@@ -49,19 +60,25 @@ public class CollisionComponentsFactoryImpl extends AbstractComponentsFactory im
                 });
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GameComponent collectableCollision() {
-        if (gameObject.type().equals(GameObjectType.COIN)) {
+        if (getGameObject().type().equals(GameObjectType.COIN)) {
             return genericCollision(info -> info.category() == GameObjectCategory.PLAYER,
                     (deltaTime, eventsScheduler, collidingObject, gameScene) -> {
                         eventsScheduler.scheduleEvent(GameEvent.INCREMENT_SCORE);
-                        gameScene.scheduleDestruction(gameObject);
+                        gameScene.scheduleDestruction(getGameObject());
                     });
         } else {
             throw new IllegalStateException("Unsupported GameObject type for obstacleCollision");
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GameComponent reachedGoal() {
         return genericCollision(info -> info.category() == GameObjectCategory.PLAYER,

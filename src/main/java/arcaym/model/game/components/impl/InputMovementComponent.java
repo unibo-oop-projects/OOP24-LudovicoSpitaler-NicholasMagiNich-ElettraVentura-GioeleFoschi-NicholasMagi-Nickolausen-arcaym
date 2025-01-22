@@ -19,6 +19,10 @@ public class InputMovementComponent extends AbstractGameComponent {
 
     private Vector velocity = Vector.zero();
 
+    /**
+     * Basic constructor getting gameObject as an argument.
+     * @param gameObject
+     */
     public InputMovementComponent(final ComponentsBasedGameObject gameObject) {
         super(gameObject);
     }
@@ -46,10 +50,10 @@ public class InputMovementComponent extends AbstractGameComponent {
     @Override
     public void update(final long deltaTime, final EventsScheduler<GameEvent> eventsScheduler,
             final GameSceneInfo gameScene, final GameState gameState) {
-        Point currentPosition = gameObject().getPosition();
-        double newX = currentPosition.x() + (velocity.x() * deltaTime);
-        double newY = currentPosition.y() + (velocity.y() * deltaTime);
-        Point newPosition = Point.of((int) Math.round(newX), (int) Math.round(newY));
+        final Point currentPosition = gameObject().getPosition();
+        final double newX = currentPosition.x() + (velocity.x() * deltaTime);
+        final double newY = currentPosition.y() + (velocity.y() * deltaTime);
+        final Point newPosition = Point.of((int) Math.round(newX), (int) Math.round(newY));
 
         gameObject().setPosition(newPosition);
     }

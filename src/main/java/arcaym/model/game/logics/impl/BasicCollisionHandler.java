@@ -9,11 +9,17 @@ import arcaym.model.game.core.objects.api.GameObjectInfo;
 import arcaym.model.game.logics.api.CollisionHandler;
 
 /**
- * Basic implementation of {@link CollisionHandler}
+ * Basic implementation of {@link CollisionHandler}.
  */
 public class BasicCollisionHandler implements CollisionHandler {
-    GameObject subject;
+    private final GameObject subject;
 
+    /**
+     * Constructor with gameObject (the object who "experiences" the collision) as a
+     * argument.
+     * 
+     * @param subject
+     */
     public BasicCollisionHandler(final GameObject subject) {
         this.subject = subject;
     }
@@ -22,7 +28,7 @@ public class BasicCollisionHandler implements CollisionHandler {
      * {@inheritDoc}
      */
     @Override
-    public boolean isColliding(GameObjectInfo object) {
+    public boolean isColliding(final GameObjectInfo object) {
         return Rectangles.intersecting(object.boundaries(), subject.boundaries());
     }
 
@@ -30,8 +36,8 @@ public class BasicCollisionHandler implements CollisionHandler {
      * {@inheritDoc}
      */
     @Override
-    public Stream<GameObjectInfo> getCollidingObjects(GameSceneInfo scene) {
-        return scene.getGameObjectsInfos().stream().filter(objects -> isColliding(objects));
+    public Stream<GameObjectInfo> getCollidingObjects(final GameSceneInfo scene) {
+        return scene.getGameObjectsInfos().stream().filter(this::isColliding);
     }
 
 }

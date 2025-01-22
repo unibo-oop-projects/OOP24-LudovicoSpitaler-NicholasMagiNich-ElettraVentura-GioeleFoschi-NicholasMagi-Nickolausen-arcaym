@@ -34,7 +34,7 @@ public record Vector(double x, double y) implements CartesianEntity<Vector> {
      */
     @Override
     public Vector invertX() {
-        return Vector.of(-x, y);
+        return of(-x, y);
     }
 
     /**
@@ -42,31 +42,31 @@ public record Vector(double x, double y) implements CartesianEntity<Vector> {
      */
     @Override
     public Vector invertY() {
-        return Vector.of(x, -y);
+        return of(x, -y);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Vector sum(Vector other) {
-        return Vector.of(this.x + other.x(), this.y + other.y());
+    public Vector sum(final Vector other) {
+        return of(this.x + other.x(), this.y + other.y());
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Vector subtract(Vector other) {
-        return Vector.of(this.x - other.x(), this.y - other.y());
+    public Vector subtract(final Vector other) {
+        return of(this.x - other.x(), this.y - other.y());
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Vector multiply(Vector other) {
-        return Vector.of(this.x * other.x(), this.y * other.y());
+    public Vector multiply(final Vector other) {
+        return of(this.x * other.x(), this.y * other.y());
     }
 
 }

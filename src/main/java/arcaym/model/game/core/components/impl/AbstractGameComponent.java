@@ -41,11 +41,14 @@ public abstract class AbstractGameComponent implements GameComponent {
         return this.gameObject;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void setup(EventsSubscriber<GameEvent> gameEventsSubscriber,
-            EventsSubscriber<InputEvent> inputEventsSubscriber, GameSceneInfo gameScene, GameState gameState) {
-        return;
-        
+    public void setup(final EventsSubscriber<GameEvent> gameEventsSubscriber,
+            final EventsSubscriber<InputEvent> inputEventsSubscriber,
+            final GameSceneInfo gameScene,
+            final GameState gameState) {
     }
 
     /**

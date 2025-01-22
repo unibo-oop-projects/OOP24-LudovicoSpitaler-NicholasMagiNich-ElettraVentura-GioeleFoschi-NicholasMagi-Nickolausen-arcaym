@@ -3,12 +3,21 @@ package arcaym.common.geometry.impl;
 /**
  * Utility class for {@link Rectangle}.
  */
-public class Rectangles {
+public final class Rectangles {
 
+    private Rectangles() { } 
+
+    /**
+     * Checks if two rectangles are intesecting.
+     * 
+     * @param rect1
+     * @param rect2
+     * @return if they are intersecting or not
+     */
     public static boolean intersecting(final Rectangle rect1, final Rectangle rect2) {
-        return rect1.northWest().x() < rect2.northWest().x() + rect2.base() &&
-                rect1.northWest().x() + rect1.base() > rect2.northWest().x() &&
-                rect1.northWest().y() < rect2.northWest().y() + rect2.height() &&
-                rect1.northWest().y() + rect1.height() > rect2.northWest().y();
+        return rect1.southWest().x() < rect2.northEast().x()
+                && rect1.northEast().x() > rect2.southWest().x()
+                && rect1.southWest().y() < rect2.northEast().y()
+                && rect1.northEast().y() > rect2.southWest().y();
     }
 }

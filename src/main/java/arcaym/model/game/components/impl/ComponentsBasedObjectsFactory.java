@@ -8,11 +8,16 @@ import arcaym.model.game.core.objects.api.GameObjectsFactory;
 import arcaym.model.game.objects.api.GameObjectType;
 
 /**
- * Implementation of {@link GameObjectFactory}
+ * Implementation of {@link GameObjectFactory}.
  */
 public class ComponentsBasedObjectsFactory implements GameObjectsFactory {
     private final double tileSize;
 
+    /**
+     * Contructor receiving tileSize as an argument.
+     * 
+     * @param tileSize
+     */
     public ComponentsBasedObjectsFactory(final int tileSize) {
         this.tileSize = tileSize;
     }
@@ -22,9 +27,9 @@ public class ComponentsBasedObjectsFactory implements GameObjectsFactory {
      */
     @Override
     public GameObject ofType(final GameObjectType gameObjectType) {
-        var obj = new UniqueComponentsGameObject(gameObjectType, tileSize);
-        CollisionComponentsFactory collisionFactory = new CollisionComponentsFactoryImpl(obj);
-        MovementComponentsFactory movementFactory = new MovementComponentsFactoryImpl(obj);
+        final var obj = new UniqueComponentsGameObject(gameObjectType, tileSize);
+        final CollisionComponentsFactory collisionFactory = new CollisionComponentsFactoryImpl(obj);
+        final MovementComponentsFactory movementFactory = new MovementComponentsFactoryImpl(obj);
 
         switch (gameObjectType.category()) {
             case PLAYER:

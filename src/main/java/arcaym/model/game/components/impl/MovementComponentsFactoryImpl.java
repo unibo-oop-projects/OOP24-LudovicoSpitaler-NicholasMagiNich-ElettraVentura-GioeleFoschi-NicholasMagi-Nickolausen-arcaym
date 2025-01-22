@@ -13,52 +13,66 @@ import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.objects.api.GameObjectType;
 
+/**
+ * Implementation of a {@link MovementComponentsFactory}.
+ */
 public class MovementComponentsFactoryImpl extends AbstractComponentsFactory implements MovementComponentsFactory {
 
-    public MovementComponentsFactoryImpl(UniqueComponentsGameObject gameObject) {
+    /**
+     * Contructor with gameobject as an argument.
+     * 
+     * @param gameObject
+     */
+    public MovementComponentsFactoryImpl(final UniqueComponentsGameObject gameObject) {
         super(gameObject);
     }
 
     interface IllegalMovementConsumer {
-        void reactToLimitReached(final long deltaTime, final EventsScheduler<GameEvent> eventsScheduler,
-                final Vector vel,
-                final GameObject gameObject);
+        void reactToLimitReached(long deltaTime, EventsScheduler<GameEvent> eventsScheduler,
+                Vector vel,
+                GameObject gameObject);
     }
 
     private boolean isWallCollisionActive(final GameSceneInfo gameScene) {
-        return collisionHandler.getCollidingObjects(gameScene)
+        return getCollisionHandler().getCollidingObjects(gameScene)
                 .anyMatch(obj -> obj.type() == GameObjectType.WALL);
     }
 
     private GameComponent genericMovement(final Vector initialVelocity,
-            IllegalMovementConsumer reaction) {
-        return new AbstractGameComponent(gameObject) {
-            private Vector vel = initialVelocity;
+            final IllegalMovementConsumer reaction) {
+        return new AbstractGameComponent(getGameObject()) {
+            private final Vector vel = initialVelocity;
 
             @Override
             public void update(final long deltaTime, final EventsScheduler<GameEvent> eventsScheduler,
                     final GameSceneInfo gameScene,
                     final GameState gameState) {
-                Point newPosition = movementHandler.nextPosition(initialVelocity, deltaTime);
+                final Point newPosition = getMovementHandler().nextPosition(initialVelocity, deltaTime);
 
                 if (!isWallCollisionActive(gameScene)) {
-                    gameObject.setPosition(newPosition);
+                    getGameObject().setPosition(newPosition);
                 } else {
-                    reaction.reactToLimitReached(deltaTime, eventsScheduler, vel, gameObject);
+                    reaction.reactToLimitReached(deltaTime, eventsScheduler, vel, getGameObject());
                 }
             }
 
         };
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GameComponent fromInputMovement() {
-        return new InputMovementComponent(gameObject);
+        return new InputMovementComponent(getGameObject());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GameComponent automaticXMovement() {
-        if (gameObject.type() == GameObjectType.MOVING_X_OBSTACLE) {
+        if (getGameObject().type() == GameObjectType.MOVING_X_OBSTACLE) {
             return genericMovement(Vector.of(1, 0),
                     (deltaTime, eventsScheduler, vel, gameObject) -> vel.invert());
         } else {
@@ -66,9 +80,12 @@ public class MovementComponentsFactoryImpl extends AbstractComponentsFactory imp
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GameComponent automaticYMovement() {
-        if (gameObject.type() == GameObjectType.MOVING_Y_OBSTACLE) {
+        if (getGameObject().type() == GameObjectType.MOVING_Y_OBSTACLE) {
             return genericMovement(Vector.of(0, 1),
                     (deltaTime, eventsScheduler, vel, gameObject) -> vel.invert());
         } else {
