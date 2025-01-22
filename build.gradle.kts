@@ -44,7 +44,7 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass.set("arcaym.App")
+    mainClass.set("arcaym.AppLauncher")
 }
 
 tasks.test {
