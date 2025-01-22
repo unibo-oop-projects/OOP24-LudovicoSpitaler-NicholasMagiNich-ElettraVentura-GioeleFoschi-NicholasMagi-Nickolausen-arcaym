@@ -2,7 +2,8 @@ package arcaym.model.game.core.objects.impl;
 
 import java.util.Objects;
 
-import arcaym.common.point.api.Point;
+import arcaym.common.geometry.impl.Point;
+import arcaym.common.geometry.impl.Rectangle;
 import arcaym.common.utils.representation.FieldRepresentation;
 import arcaym.common.utils.representation.StringRepresentation;
 import arcaym.common.utils.representation.TypeRepresentation;
@@ -17,15 +18,18 @@ import arcaym.model.game.objects.api.GameObjectType;
 public abstract class AbstractGameObject implements GameObject {
 
     private final GameObjectType type;
+    private final double size;
     private Point position = Point.zero();
 
     /**
      * Initialize with the given object type.
      * 
      * @param type game object type
+     * @param size game object size
      */
-    protected AbstractGameObject(final GameObjectType type) {
+    protected AbstractGameObject(final GameObjectType type, final double size) {
         this.type = Objects.requireNonNull(type);
+        this.size = size;
     }
 
     /**
@@ -52,6 +56,15 @@ public abstract class AbstractGameObject implements GameObject {
     @Override
     public void setPosition(final Point position) {
         this.position = Objects.requireNonNull(position);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @FieldRepresentation
+    public Rectangle boundaries() {
+        return Rectangle.centeredSquare(this.size, this.position);
     }
 
     /**

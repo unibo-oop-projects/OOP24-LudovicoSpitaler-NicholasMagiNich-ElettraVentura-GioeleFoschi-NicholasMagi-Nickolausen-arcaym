@@ -1,12 +1,14 @@
 package arcaym.model.game.core.objects.api;
 
-import arcaym.common.point.api.Point;
+import java.util.Objects;
+
+import arcaym.common.geometry.impl.Point;
 import arcaym.model.game.core.engine.api.InteractiveObject;
 
 /**
  * Interface for a basic game object.
  */
-public interface GameObject extends InteractiveObject, GameObjectView {
+public interface GameObject extends InteractiveObject, GameObjectInfo {
 
     /**
      * Set object position.
@@ -21,7 +23,7 @@ public interface GameObject extends InteractiveObject, GameObjectView {
      * @param distance amount to move on each coordinate
      */
     default void move(final Point distance) {
-        this.setPosition(this.getPosition().sum(distance));
+        this.setPosition(this.getPosition().sum(Objects.requireNonNull(distance)));
     }
 
 }

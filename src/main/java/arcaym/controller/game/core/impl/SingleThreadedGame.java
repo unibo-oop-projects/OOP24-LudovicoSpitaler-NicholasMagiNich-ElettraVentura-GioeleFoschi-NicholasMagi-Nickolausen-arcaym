@@ -5,7 +5,6 @@ import java.util.logging.Logger;
 import arcaym.controller.game.core.api.Game;
 import arcaym.controller.game.core.api.GameObserver;
 import arcaym.controller.game.scene.api.GameScene;
-import arcaym.model.game.score.api.GameScore;
 
 /**
  * Implementation of {@link Game} that uses a single background thread.
@@ -21,8 +20,8 @@ public class SingleThreadedGame extends AbstractThreadSafeGame {
                                             .daemon()
                                             .unstarted(this::gameLoop);
 
-    SingleThreadedGame(final GameScene scene, final GameObserver view, final GameScore score) {
-        super(scene, view, score);
+    SingleThreadedGame(final GameScene gameScene, final GameObserver gameObserver) {
+        super(gameScene, gameObserver);
     }
 
     /**
@@ -38,8 +37,8 @@ public class SingleThreadedGame extends AbstractThreadSafeGame {
      * {@inheritDoc}
      */
     @Override
-    public void stop() {
-        this.runGameLoop = false;
+    public void scheduleStop() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     private void gameLoop() {
@@ -47,8 +46,8 @@ public class SingleThreadedGame extends AbstractThreadSafeGame {
         while (this.runGameLoop) {
             this.inputEventsManager().consumePendingEvents();
             deltaTime = this.updateDeltaTime(deltaTime);
-            for (final var gameObject : this.scene().gameObjects()) {
-                gameObject.update(deltaTime, this.gameEventsManager(), this.scene());
+            for (final var gameObject : this.scene().getGameObjects()) {
+                gameObject.update(deltaTime, this.gameEventsManager(), this.scene(), this.state());
             }
             this.scene().consumePendingActions();
             this.gameEventsManager().consumePendingEvents();

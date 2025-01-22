@@ -5,7 +5,7 @@ import java.util.Objects;
 import arcaym.common.utils.representation.FieldRepresentation;
 import arcaym.common.utils.representation.StringRepresentation;
 import arcaym.common.utils.representation.TypeRepresentation;
-import arcaym.model.game.core.components.api.ComponentsBasedObject;
+import arcaym.model.game.core.components.api.ComponentsBasedGameObject;
 import arcaym.model.game.core.components.api.GameComponent;
 import arcaym.model.game.core.objects.api.GameObject;
 
@@ -23,7 +23,7 @@ public abstract class AbstractGameComponent implements GameComponent {
      * 
      * @param gameObject game object
      */
-    protected AbstractGameComponent(final ComponentsBasedObject gameObject) {
+    protected AbstractGameComponent(final ComponentsBasedGameObject gameObject) {
         this.gameObject = Objects.requireNonNull(gameObject);
     }
 

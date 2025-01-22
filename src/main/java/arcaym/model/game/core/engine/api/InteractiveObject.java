@@ -1,8 +1,9 @@
 package arcaym.model.game.core.engine.api;
 
+import arcaym.controller.game.core.api.GameState;
 import arcaym.controller.game.events.api.EventsScheduler;
 import arcaym.controller.game.events.api.EventsSubscriber;
-import arcaym.controller.game.scene.api.GameSceneView;
+import arcaym.controller.game.scene.api.GameSceneInfo;
 import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.events.api.InputEvent;
 
@@ -14,14 +15,16 @@ public interface InteractiveObject {
     /**
      * Setup object before game.
      * 
-     * @param scene game scene
      * @param gameEventsSubscriber game events subscriber
      * @param inputEventsSubscriber input events subscriber
+     * @param gameScene game scene
+     * @param gameState game state
      */
     void setup(
-        GameSceneView scene, 
         EventsSubscriber<GameEvent> gameEventsSubscriber, 
-        EventsSubscriber<InputEvent> inputEventsSubscriber
+        EventsSubscriber<InputEvent> inputEventsSubscriber,
+        GameSceneInfo gameScene, 
+        GameState gameState
     );
 
     /**
@@ -29,8 +32,14 @@ public interface InteractiveObject {
      * 
      * @param deltaTime time since last update
      * @param eventsScheduler game events scheduler
-     * @param scene game scene
+     * @param gameScene game scene
+     * @param gameState game state
      */
-    void update(long deltaTime, EventsScheduler<GameEvent> eventsScheduler, GameSceneView scene);
+    void update(
+        long deltaTime, 
+        EventsScheduler<GameEvent> eventsScheduler, 
+        GameSceneInfo gameScene,
+        GameState gameState
+    );
 
 }

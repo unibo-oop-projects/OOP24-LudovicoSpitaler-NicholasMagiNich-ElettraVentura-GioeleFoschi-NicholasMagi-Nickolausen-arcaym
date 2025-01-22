@@ -12,3 +12,6 @@ bin/
 .project
 .settings/
 .classpath
+
+# Java PID file
+java_pid*.hprof
