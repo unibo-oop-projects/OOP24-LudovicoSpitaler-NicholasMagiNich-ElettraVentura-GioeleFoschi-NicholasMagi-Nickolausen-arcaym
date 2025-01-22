@@ -1,9 +1,6 @@
 package arcaym.view.editor.components.impl;
 
-import java.awt.Color;
 import java.awt.Container;
-
-import javax.swing.BoxLayout;
 
 import arcaym.view.editor.components.api.SideMenu;
 
@@ -17,8 +14,8 @@ public class SideMenuView extends Container implements SideMenu {
     /**
      * A constructor of the component.
      */
-    public SideMenuView() {
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        this.setBackground(Color.BLUE);
-    }
+    // public SideMenuView() {
+    //     this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+    //     this.setBackground(Color.BLUE);
+    // }
 }

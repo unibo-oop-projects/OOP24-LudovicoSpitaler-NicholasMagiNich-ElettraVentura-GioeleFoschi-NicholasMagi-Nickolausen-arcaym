@@ -1,6 +1,5 @@
 package arcaym.view.editor.components.impl;
 
-import java.awt.Color;
 import java.awt.Container;
 
 import arcaym.view.editor.components.api.EditorGrid;
@@ -15,7 +14,7 @@ public class EditorGridView extends Container implements EditorGrid {
     /**
      * The constructor for the page.
      */
-    public EditorGridView() {
-        this.setBackground(Color.RED);
-    }
+    // public EditorGridView() {
+    //     this.setBackground(Color.RED);
+    // }
 }

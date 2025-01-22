@@ -12,7 +12,7 @@ public class EditorMainView extends JPanel {
     /**
      * The constructor for the page.
      */
-    public EditorMainView() {
+    // public EditorMainView() {
 
-    }
+    // }
 }
