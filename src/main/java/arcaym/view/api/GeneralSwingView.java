@@ -1,4 +1,4 @@
-package arcaym.view.editor.components.api;
+package arcaym.view.api;
 
 /**
  * Representation of a general Swing view.

@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
 import arcaym.model.game.core.objects.api.GameObjectCategory;
-import arcaym.view.editor.components.api.GeneralSwingView;
+import arcaym.view.api.GeneralSwingView;
 import arcaym.view.editor.components.impl.EditorGridView;
 import arcaym.view.editor.components.impl.SideMenuView;
 import arcaym.view.objects.GameObjectSwingView;

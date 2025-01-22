@@ -12,9 +12,9 @@ import java.util.Map;
 import java.util.Set;
 
 import arcaym.model.game.core.objects.api.GameObjectCategory;
+import arcaym.view.api.GeneralSwingView;
 import arcaym.view.app.api.MainView;
 import arcaym.view.editor.EditorMainView;
-import arcaym.view.editor.components.api.GeneralSwingView;
 import arcaym.view.objects.GameObjectSwingView;
 
 /**
