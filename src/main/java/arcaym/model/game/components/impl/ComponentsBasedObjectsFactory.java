@@ -1,5 +1,7 @@
 package arcaym.model.game.components.impl;
 
+import arcaym.model.game.components.api.CollisionComponentsFactory;
+import arcaym.model.game.components.api.MovementComponentsFactory;
 import arcaym.model.game.core.components.impl.UniqueComponentsGameObject;
 import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.core.objects.api.GameObjectsFactory;
@@ -21,8 +23,8 @@ public class ComponentsBasedObjectsFactory implements GameObjectsFactory {
     @Override
     public GameObject ofType(final GameObjectType gameObjectType) {
         var obj = new UniqueComponentsGameObject(gameObjectType, tileSize);
-        CollisionComponentsFactory collisionFactory = new CollisionComponentsFactory(obj);
-        MovementComponentsFactory movementFactory = new MovementComponentsFactory(obj);
+        CollisionComponentsFactory collisionFactory = new CollisionComponentsFactoryImpl(obj);
+        MovementComponentsFactory movementFactory = new MovementComponentsFactoryImpl(obj);
 
         switch (gameObjectType.category()) {
             case PLAYER:

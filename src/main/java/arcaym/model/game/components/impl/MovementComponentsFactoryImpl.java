@@ -5,6 +5,7 @@ import arcaym.common.geometry.impl.Vector;
 import arcaym.controller.game.core.api.GameState;
 import arcaym.controller.game.events.api.EventsScheduler;
 import arcaym.controller.game.scene.api.GameSceneInfo;
+import arcaym.model.game.components.api.MovementComponentsFactory;
 import arcaym.model.game.core.components.api.GameComponent;
 import arcaym.model.game.core.components.impl.AbstractGameComponent;
 import arcaym.model.game.core.components.impl.UniqueComponentsGameObject;
@@ -12,9 +13,9 @@ import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.objects.api.GameObjectType;
 
-public class MovementComponentsFactory extends AbstractComponentsFactory {
+public class MovementComponentsFactoryImpl extends AbstractComponentsFactory implements MovementComponentsFactory {
 
-    public MovementComponentsFactory(UniqueComponentsGameObject gameObject) {
+    public MovementComponentsFactoryImpl(UniqueComponentsGameObject gameObject) {
         super(gameObject);
     }
 
@@ -50,10 +51,12 @@ public class MovementComponentsFactory extends AbstractComponentsFactory {
         };
     }
 
+    @Override
     public GameComponent fromInputMovement() {
         return new InputMovementComponent(gameObject);
     }
 
+    @Override
     public GameComponent automaticXMovement() {
         if (gameObject.type() == GameObjectType.MOVING_X_OBSTACLE) {
             return genericMovement(Vector.of(1, 0),
@@ -63,6 +66,7 @@ public class MovementComponentsFactory extends AbstractComponentsFactory {
         }
     }
 
+    @Override
     public GameComponent automaticYMovement() {
         if (gameObject.type() == GameObjectType.MOVING_Y_OBSTACLE) {
             return genericMovement(Vector.of(0, 1),

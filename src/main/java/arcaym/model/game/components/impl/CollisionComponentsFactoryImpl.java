@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 import arcaym.controller.game.core.api.GameState;
 import arcaym.controller.game.events.api.EventsScheduler;
 import arcaym.controller.game.scene.api.GameSceneInfo;
+import arcaym.model.game.components.api.CollisionComponentsFactory;
 import arcaym.model.game.core.components.api.GameComponent;
 import arcaym.model.game.core.components.impl.AbstractGameComponent;
 import arcaym.model.game.core.components.impl.UniqueComponentsGameObject;
@@ -13,9 +14,9 @@ import arcaym.model.game.core.objects.api.GameObjectInfo;
 import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.objects.api.GameObjectType;
 
-public class CollisionComponentsFactory extends AbstractComponentsFactory {
+public class CollisionComponentsFactoryImpl extends AbstractComponentsFactory implements CollisionComponentsFactory{
 
-    public CollisionComponentsFactory(final UniqueComponentsGameObject gameObject) {
+    public CollisionComponentsFactoryImpl(final UniqueComponentsGameObject gameObject) {
         super(gameObject);
     }
 
@@ -40,6 +41,7 @@ public class CollisionComponentsFactory extends AbstractComponentsFactory {
         };
     }
 
+    @Override
     public GameComponent obstacleCollision() {
         return genericCollision(info -> info.category() == GameObjectCategory.PLAYER,
                 (deltaTime, eventsScheduler, collidingObject, gameScene) -> {
@@ -47,6 +49,7 @@ public class CollisionComponentsFactory extends AbstractComponentsFactory {
                 });
     }
 
+    @Override
     public GameComponent collectableCollision() {
         if (gameObject.type().equals(GameObjectType.COIN)) {
             return genericCollision(info -> info.category() == GameObjectCategory.PLAYER,
@@ -59,6 +62,7 @@ public class CollisionComponentsFactory extends AbstractComponentsFactory {
         }
     }
 
+    @Override
     public GameComponent reachedGoal() {
         return genericCollision(info -> info.category() == GameObjectCategory.PLAYER,
                 (deltaTime, eventsScheduler, collidingObject, gameScene) -> {
