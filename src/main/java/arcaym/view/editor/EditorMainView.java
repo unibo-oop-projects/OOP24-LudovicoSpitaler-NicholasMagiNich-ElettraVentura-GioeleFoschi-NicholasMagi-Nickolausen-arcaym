@@ -52,7 +52,7 @@ public class EditorMainView extends JPanel implements GeneralSwingView {
 
         sideMenu.initView();
         grid.initView();
-
+        
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         splitPane.setSize(this.getSize());
         splitPane.setLeftComponent(sideMenu);
