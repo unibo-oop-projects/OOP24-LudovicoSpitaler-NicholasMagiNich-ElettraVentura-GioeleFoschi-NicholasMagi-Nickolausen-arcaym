@@ -7,24 +7,25 @@ import java.util.Objects;
 import java.util.Set;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
 import arcaym.model.game.core.objects.api.GameObjectCategory;
 import arcaym.view.api.GeneralSwingView;
-import arcaym.view.editor.components.impl.EditorGridView;
-import arcaym.view.editor.components.impl.SideMenuView;
+import arcaym.view.editor.components.EditorGridView;
+import arcaym.view.editor.components.SideMenuView;
 import arcaym.view.objects.GameObjectSwingView;
 
 /**
  * The editor complete page.
  */
-public class EditorMainView extends JPanel implements GeneralSwingView {
+public class EditorMainView implements GeneralSwingView<JPanel> {
 
-    private static final long serialVersionUID = 1L;
     private static final int COLUMNS = 5;
-    private EditorGridView grid;
-    private SideMenuView sideMenu;
+    private JPanel grid;
+    private JScrollPane sideMenu;
     private JSplitPane splitPane;
+    private JPanel out = new JPanel();
     private final Map<GameObjectCategory, Set<GameObjectSwingView>> gameObjects;
 
     /**
@@ -38,10 +39,10 @@ public class EditorMainView extends JPanel implements GeneralSwingView {
      * {@inheritDoc}
      */
     @Override
-    public void initView() {
-        grid = new EditorGridView();
-        sideMenu = new SideMenuView(gameObjects);
-        final Dimension sideMenuDimension = new Dimension(Math.floorDiv(this.getWidth(), COLUMNS), this.getHeight());
+    public JPanel build() {
+        grid = new EditorGridView().build();
+        sideMenu = new SideMenuView(gameObjects).build();
+        final Dimension sideMenuDimension = new Dimension(Math.floorDiv(out.getWidth(), COLUMNS), out.getHeight());
         sideMenu.setSize(sideMenuDimension);
         sideMenu.setPreferredSize(sideMenuDimension);
         sideMenu.setMinimumSize(sideMenuDimension);
@@ -49,20 +50,18 @@ public class EditorMainView extends JPanel implements GeneralSwingView {
         grid.setSize(gridDimension);
         grid.setPreferredSize(gridDimension);
         grid.setMinimumSize(gridDimension);
-
-        sideMenu.initView();
-        grid.initView();
         
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-        splitPane.setSize(this.getSize());
+        splitPane.setSize(out.getSize());
         splitPane.setLeftComponent(sideMenu);
         splitPane.setRightComponent(grid);
-        splitPane.setDividerLocation(Math.floorDiv(this.getWidth(), COLUMNS));
+        splitPane.setDividerLocation(Math.floorDiv(out.getWidth(), COLUMNS));
         splitPane.setOneTouchExpandable(true);
         splitPane.setContinuousLayout(true);
 
-        this.add(splitPane);
-        this.setVisible(true);
+        out.add(splitPane);
+        out.setVisible(true);
+        return out;
     }
 
     /**
@@ -74,6 +73,6 @@ public class EditorMainView extends JPanel implements GeneralSwingView {
      * @return The dimension of the grid that fills the remaining space 
      */
     private Dimension calculateGridDimension() {
-        return new Dimension(Math.floorDiv(this.getWidth(), COLUMNS) * (COLUMNS - 1), this.getHeight());
+        return new Dimension(Math.floorDiv(out.getWidth(), COLUMNS) * (COLUMNS - 1), out.getHeight());
     }
 }
