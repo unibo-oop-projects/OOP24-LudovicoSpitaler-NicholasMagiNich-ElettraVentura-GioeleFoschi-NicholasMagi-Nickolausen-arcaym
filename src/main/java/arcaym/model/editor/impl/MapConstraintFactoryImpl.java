@@ -1,7 +1,5 @@
 package arcaym.model.editor.impl;
 
-import java.util.Collection;
-
 import arcaym.common.utils.Position;
 import arcaym.model.editor.ConstraintFailedException;
 import arcaym.model.editor.api.MapConstraint;
@@ -46,16 +44,12 @@ public class MapConstraintFactoryImpl implements MapConstraintsFactory {
      */
     @Override
     public MapConstraint maxNumberOfBlocks(final int maxBlocks) {
-        return new MapConstraint() {
-
-            @Override
-            public void checkConstraint(final Collection<Position> currentMapSituation) throws ConstraintFailedException {
-                if (currentMapSituation.size() > maxBlocks) {
-                    throw new ConstraintFailedException("Maximum amount of object placed exceeded: Max = "
-                    + maxBlocks 
-                    + ", Placed = "
-                    + currentMapSituation.size());
-                }
+        return positions -> {
+            if (positions.size() > maxBlocks) {
+                throw new ConstraintFailedException("Maximum amount of object placed exceeded: Max = "
+                + maxBlocks
+                + ", Placed = "
+                + positions.size());
             }
         };
     }
@@ -65,15 +59,12 @@ public class MapConstraintFactoryImpl implements MapConstraintsFactory {
      */
     @Override
     public MapConstraint minNumberOfBlocks(final int minBlocks) {
-        return new MapConstraint() {
-
-            @Override
-            public void checkConstraint(final Collection<Position> currentMapSituation) throws ConstraintFailedException {
-                if (currentMapSituation.size() < minBlocks) {
-                    throw new ConstraintFailedException("The level does not have enough of object: ");
-                }
+        return positions -> {
+            if (positions.size() < minBlocks) {
+                throw new ConstraintFailedException(
+                    "The level does not have enough objects of the selected type"
+                );
             }
-
         };
     }
 

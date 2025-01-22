@@ -6,6 +6,7 @@ import java.util.List;
 import arcaym.common.utils.Position;
 import arcaym.controller.editor.api.Editor;
 import arcaym.model.editor.EditorGridException;
+import arcaym.model.editor.EditorType;
 import arcaym.model.editor.api.Grid;
 import arcaym.model.editor.impl.GridImpl;
 import arcaym.model.game.objects.api.GameObjectType;
@@ -24,10 +25,15 @@ public class EditorWithoutUndo implements Editor {
      * @param startingObject the object automatically selected at the start
      * @param x Width of the grid
      * @param y Height of the grid
+     * @param type The type of grid that needs to be created
      */
-    public EditorWithoutUndo(final GameObjectType startingObject, final int x, final int y) {
+    public EditorWithoutUndo(
+        final GameObjectType startingObject, 
+        final int x, 
+        final int y, 
+        final EditorType type) {
         this.selectedObject = startingObject;
-        this.editorGrid = new GridImpl(x, y);
+        this.editorGrid = new GridImpl(x, y, type);
     }
 
     /**

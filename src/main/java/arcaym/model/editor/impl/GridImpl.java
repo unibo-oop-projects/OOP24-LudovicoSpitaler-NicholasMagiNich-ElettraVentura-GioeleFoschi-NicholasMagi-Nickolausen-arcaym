@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import arcaym.common.utils.Position;
 import arcaym.model.editor.ConstraintFailedException;
 import arcaym.model.editor.EditorGridException;
+import arcaym.model.editor.EditorType;
 import arcaym.model.editor.api.Cell;
 import arcaym.model.editor.api.Grid;
 import arcaym.model.editor.api.MapConstraint;
@@ -27,41 +28,29 @@ public class GridImpl implements Grid {
     private static final String ILLEGAL_POSITION_EXCEPTION_MESSAGE = "Trying to place a block outside of the boundary";
 
     private final Map<Position, Cell> map;
-    private final Map<GameObjectType, MapConstraint> objectConstraint;
-    private final Map<GameObjectCategory, MapConstraint> categoryConstraint;
+    private final Map<GameObjectType, MapConstraint> objectConstraint = new EnumMap<>(GameObjectType.class);
+    private final Map<GameObjectCategory, MapConstraint> categoryConstraint = new EnumMap<>(GameObjectCategory.class);
     private final Position mapSize;
 
     /**
      * Creates a new Grid with the given dimentions.
      * @param x The width of the grid.
      * @param y The height of the grid.
+     * @param editorType The type of editor that needs to be created.
      */
-    public GridImpl(final int x, final int y) {
+    public GridImpl(final int x, final int y, final EditorType editorType) {
         this.map = new HashMap<>();
-        this.objectConstraint = new EnumMap<>(GameObjectType.class);
-        this.categoryConstraint = new EnumMap<>(GameObjectCategory.class);
         this.mapSize = Position.of(x, y);
         for (int i = 0; i < mapSize.x(); i++) {
             for (int j = 0; j < mapSize.y(); j++) {
                 map.put(Position.of(i, j), new ThreeLayerCell(DEFAUL_TYPE));
             }
         }
+        addConstraints(editorType);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setObjectConstraint(final MapConstraint contsraint, final GameObjectType target) {
-        objectConstraint.put(target, contsraint);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setCategoryConstraint(final MapConstraint contsraint, final GameObjectCategory target) {
-        categoryConstraint.put(target, contsraint);
+    private void addConstraints(final EditorType type) {
+        new GridConstraintProviderImpl().selectEditorType(objectConstraint::put, categoryConstraint::put, type);
     }
 
     /**
@@ -84,7 +73,6 @@ public class GridImpl implements Grid {
                 categoryConstraint.get(type.category()).checkConstraint(mapOfCategory);
             }
         } catch (ConstraintFailedException e) {
-            // System.out.println(e.toString());
             throw new EditorGridException(e.toString(), true, e);
         }
 
@@ -148,5 +136,4 @@ public class GridImpl implements Grid {
     public List<GameObjectType> getObjects(final Position pos) {
         return map.get(pos).getValues();
     }
-
 }

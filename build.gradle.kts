@@ -25,6 +25,7 @@ dependencies {
 
     // Maven dependencies are composed by a group name, a name and a version, separated by colons
     // implementation("com.google.guava:guava:33.4.0-jre")
+    implementation("com.google.code.gson:gson:2.11.0")
 
     // JUnit API and testing engine
     val jUnitVersion = "5.11.4"
