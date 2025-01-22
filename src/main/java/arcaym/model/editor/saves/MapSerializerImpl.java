@@ -9,7 +9,9 @@ import java.io.ObjectOutputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -22,7 +24,7 @@ public class MapSerializerImpl<T, U> implements MapSerializer<T, U> {
 
     private static final String EXTENSION = "bin";
     private static final Path SAVES_PATH = Paths.get(System.getProperty("user.home"), ".arcaym", "saves");
-    private static final Logger LOGGER = Logger.getLogger(MapSerializerImpl.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(MapSerializerImpl.class);
 
     /**
      * {@inheritDoc}
@@ -32,7 +34,7 @@ public class MapSerializerImpl<T, U> implements MapSerializer<T, U> {
     // either way if an error occurs the executon of save is stopped
     @SuppressFBWarnings("RV_RETURN_VALUE_IGNORED") 
     @Override
-    public void serializeMap(final Map<T, U> map, final String uuid) {
+    public boolean serializeMap(final Map<T, U> map, final String uuid) {
         final String fileName = Paths.get(SAVES_PATH.toString(), uuid + "." + EXTENSION).toString();
         final File saveFile = new File(fileName);
         try (
@@ -44,8 +46,10 @@ public class MapSerializerImpl<T, U> implements MapSerializer<T, U> {
             oos.writeObject(map);
             oos.close();
         } catch (IOException | SecurityException e) {
-            LOGGER.warning(e.toString());
+            LOGGER.error("Error writing to file", e);
+            return false;
         }
+        return true;
     }
 
     /**
@@ -62,7 +66,7 @@ public class MapSerializerImpl<T, U> implements MapSerializer<T, U> {
             final Map<T, U> returnMap = (Map<T, U>) ois.readObject();
             return returnMap;
         } catch (IOException | ClassNotFoundException e) {
-            LOGGER.warning(e.toString());
+            LOGGER.error("Error loading saved map", e);
         }
         // if error, return an empty map.
         return Map.of();

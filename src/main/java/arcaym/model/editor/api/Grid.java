@@ -38,4 +38,11 @@ public interface Grid {
      * - block first, entity second, collectable third
      */
     List<GameObjectType> getObjects(Position pos);
+
+    /**
+     * Saves the current state of the grid.
+     * @param uuid The name of the file to save.
+     * @return True if the save was succesfull
+     */
+    boolean saveState(String uuid);
 }

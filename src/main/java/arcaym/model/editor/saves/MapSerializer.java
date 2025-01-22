@@ -12,8 +12,9 @@ public interface MapSerializer<T, U> {
      * Saves into a file the given map.
      * @param map The map to serialize
      * @param uuid The name of the file that will containt the information
+     * @return Returns true if the map was succesfully saved
      */
-    void serializeMap(Map<T, U> map, String uuid);
+    boolean serializeMap(Map<T, U> map, String uuid);
 
     /**
      * Builds from a file a map.
