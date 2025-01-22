@@ -1,4 +1,6 @@
-package arcaym.model.game.core.objects.api;
+package arcaym.model.game.objects.api;
+
+import arcaym.model.game.core.objects.api.GameObjectCategory;
 
 /**
  * Game objects specific types.

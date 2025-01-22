@@ -10,10 +10,10 @@ import java.util.Set;
 
 import arcaym.common.point.api.Point;
 import arcaym.controller.game.core.api.GameObserver;
-import arcaym.model.game.core.objects.api.GameObjectType;
 import arcaym.controller.game.scene.api.GameScene;
 import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.core.objects.api.GameObjectView;
+import arcaym.model.game.objects.api.GameObjectType;
 
 /**
  * Abstract implementation of {@link GameScene}.

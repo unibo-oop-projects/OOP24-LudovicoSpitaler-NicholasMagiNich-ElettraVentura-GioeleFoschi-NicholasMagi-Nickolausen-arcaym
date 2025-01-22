@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import arcaym.model.game.core.objects.api.GameObjectType;
 import arcaym.controller.game.events.api.EventsScheduler;
 import arcaym.controller.game.events.api.EventsSubscriber;
 import arcaym.controller.game.scene.api.GameSceneView;
@@ -14,6 +13,7 @@ import arcaym.model.game.core.components.api.GameComponent;
 import arcaym.model.game.core.objects.impl.AbstractGameObject;
 import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.events.api.InputEvent;
+import arcaym.model.game.objects.api.GameObjectType;
 
 /**
  * Implementation of {@link ComponentsBasedObject} that uses a {@link Set} of components.

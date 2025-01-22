@@ -1,5 +1,7 @@
 package arcaym.model.game.core.objects.api;
 
+import arcaym.model.game.objects.api.GameObjectType;
+
 /**
  * {@link GameObjectType} major categories.
  */
