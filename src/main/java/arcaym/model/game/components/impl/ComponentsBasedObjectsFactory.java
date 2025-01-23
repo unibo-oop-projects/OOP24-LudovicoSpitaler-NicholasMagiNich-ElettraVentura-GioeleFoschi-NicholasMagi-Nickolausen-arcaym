@@ -34,6 +34,7 @@ public class ComponentsBasedObjectsFactory implements GameObjectsFactory {
         switch (gameObjectType.category()) {
             case PLAYER:
                 obj.addComponent(movementFactory.fromInputMovement());
+                break;
             case OBSTACLE:
                 obj.addComponent(collisionFactory.obstacleCollision());
                 if (gameObjectType == GameObjectType.MOVING_X_OBSTACLE) {
@@ -41,10 +42,13 @@ public class ComponentsBasedObjectsFactory implements GameObjectsFactory {
                 } else if (gameObjectType == GameObjectType.MOVING_Y_OBSTACLE) {
                     obj.addComponent(movementFactory.automaticYMovement());
                 }
+                break;
             case COLLECTABLE:
                 obj.addComponent(collisionFactory.collectableCollision());
+                break;
             case GOAL:
                 obj.addComponent(collisionFactory.reachedGoal());
+                break;
             default:
                 break;
         }
