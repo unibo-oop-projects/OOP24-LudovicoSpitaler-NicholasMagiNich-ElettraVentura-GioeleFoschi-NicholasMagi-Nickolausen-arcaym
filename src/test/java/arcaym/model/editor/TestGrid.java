@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import arcaym.common.utils.Position;
 import arcaym.model.editor.api.Grid;
 import arcaym.model.editor.impl.GridImpl;
+import arcaym.model.editor.saves.LevelMetadata;
 import arcaym.model.game.objects.api.GameObjectType;
 
 /**
@@ -33,8 +34,17 @@ final class TestGrid {
         basicGrid = new GridImpl(DEFAULT_GRID_WIDTH, DEFAULT_GRID_HEIGHT, EditorType.SANDBOX);
     }
 
+    private void setUpSandboxGrid() {
+        this.basicGrid = new GridImpl(DEFAULT_GRID_WIDTH, DEFAULT_GRID_HEIGHT, EditorType.SANDBOX);
+    }
+
+    // private void setUpNormalGrid() {
+    //     this.basicGrid = new GridImpl(DEFAULT_GRID_WIDTH, DEFAULT_GRID_HEIGHT, EditorType.NORMAL);
+    // }
+
     @Test
-    void testMapWithNoConstraints() {
+    void testSandboxMapPlaceObject() {
+        setUpSandboxGrid();
         final var pos = Position.of(RD.nextInt(DEFAULT_GRID_WIDTH), RD.nextInt(DEFAULT_GRID_HEIGHT));
         // check for the default block
         assertEquals(List.of(DEFAUL_TYPE), basicGrid.getObjects(pos));
@@ -46,33 +56,59 @@ final class TestGrid {
         assertDoesNotThrow(() -> basicGrid.setObjects(Set.of(pos), GameObjectType.SPIKE));
         assertDoesNotThrow(() -> basicGrid.setObjects(Set.of(pos), GameObjectType.COIN));
         assertEquals(List.of(
-            GameObjectType.WALL,
-            GameObjectType.SPIKE,
-            GameObjectType.COIN),
-            basicGrid.getObjects(pos));
+                GameObjectType.WALL,
+                GameObjectType.SPIKE,
+                GameObjectType.COIN),
+                basicGrid.getObjects(pos));
         // test set outside boundary
         assertThrows(EditorGridException.class,
-            () -> basicGrid.setObjects(Set.of(Position.of(-1, -1)), DEFAUL_TYPE));
+                () -> basicGrid.setObjects(Set.of(Position.of(-1, -1)), DEFAUL_TYPE));
     }
 
     @Test
-    void testRemoveObjects() {
+    void testSandboxRemoveObjects() {
+        setUpSandboxGrid();
         final var pos = Position.of(RD.nextInt(DEFAULT_GRID_WIDTH), RD.nextInt(DEFAULT_GRID_HEIGHT));
         // add objects to cell
         assertDoesNotThrow(() -> basicGrid.setObjects(Set.of(pos), GameObjectType.WALL));
         assertDoesNotThrow(() -> basicGrid.setObjects(Set.of(pos), GameObjectType.SPIKE));
         assertDoesNotThrow(() -> basicGrid.setObjects(Set.of(pos), GameObjectType.COIN));
-        assertEquals(List.of(
-                GameObjectType.WALL,
-                GameObjectType.SPIKE,
-                GameObjectType.COIN),
-                basicGrid.getObjects(pos));
         // remove objects
         assertDoesNotThrow(() -> basicGrid.removeObjects(Set.of(pos)));
         assertEquals(List.of(DEFAUL_TYPE), basicGrid.getObjects(pos));
         // test set outside boundary
         assertThrows(EditorGridException.class,
                 () -> basicGrid.removeObjects(Set.of(Position.of(-1, -1))));
+    }
+
+    @Test
+    void testSaveAndLoadGrid() {
+        setUpSandboxGrid();
+        // add some objects to the grid
+        assertDoesNotThrow(() -> basicGrid.setObjects(Set.of(Position.of(0, 0)), GameObjectType.WALL));
+        assertDoesNotThrow(() -> basicGrid.setObjects(Set.of(Position.of(0, 0)), GameObjectType.SPIKE));
+        assertDoesNotThrow(() -> basicGrid.setObjects(Set.of(Position.of(0, 0)), GameObjectType.COIN));
+        // check if the objects are saved correctly
+        assertEquals(List.of(
+            GameObjectType.WALL,
+            GameObjectType.SPIKE,
+            GameObjectType.COIN),
+            basicGrid.getObjects(Position.of(0, 0)));
+        // save the grid
+        this.basicGrid.saveState("testSave");
+        // create a new grid based on the metadata
+        this.basicGrid = new GridImpl(
+            new LevelMetadata(
+                "Test",
+                "testSave",
+                EditorType.SANDBOX,
+                Position.of(DEFAULT_GRID_WIDTH, DEFAULT_GRID_HEIGHT)));
+        // check the position is still correct
+        assertEquals(List.of(
+            GameObjectType.WALL,
+            GameObjectType.SPIKE,
+            GameObjectType.COIN),
+            basicGrid.getObjects(Position.of(0, 0)));
     }
 
     // @Test
@@ -97,5 +133,4 @@ final class TestGrid {
     //         () -> this.basicGrid.setObjects(Set.of(Position.of(1, 1)),
     //             GameObjectType.USER_PLAYER));
     // }
-
 }

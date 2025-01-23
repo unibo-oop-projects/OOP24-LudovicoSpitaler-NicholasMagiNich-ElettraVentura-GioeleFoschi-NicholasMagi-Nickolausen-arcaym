@@ -1,8 +1,10 @@
 package arcaym.model.editor.impl;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 import arcaym.model.editor.api.Cell;
 import arcaym.model.game.core.objects.api.GameObjectCategory;
@@ -14,22 +16,21 @@ import arcaym.model.game.objects.api.GameObjectType;
  * - One for entities (enemies and player)
  * - One for collectables
  */
-public class ThreeLayerCell implements Cell {
+public class ThreeLayerCell implements Cell, Serializable {
 
-    private final GameObjectType defaultLayer;
-    private Optional<GameObjectType> lowerLayer;
-    private Optional<GameObjectType> entityLayer;
-    private Optional<GameObjectType> collectableLayer;
+    private static final long serialVersionUID = 1L; 
+
+    private enum Layer { LOWERLAYER, ENTITYLAYER, COLLECTABLELAYER } 
+
+    private final Map<Layer, GameObjectType> layers;
 
     /**
      * 
      * @param defaultLayer
      */
     public ThreeLayerCell(final GameObjectType defaultLayer) {
-        this.defaultLayer = defaultLayer;
-        this.lowerLayer = Optional.empty();
-        this.entityLayer = Optional.empty();
-        this.collectableLayer = Optional.empty();
+        this.layers = new EnumMap<>(Layer.class);
+        this.layers.put(Layer.LOWERLAYER, defaultLayer);
     }
 
     /**
@@ -40,14 +41,14 @@ public class ThreeLayerCell implements Cell {
         switch (type.category()) {
             case GameObjectCategory.BLOCK:
             case GameObjectCategory.GOAL:
-                this.lowerLayer = Optional.of(type);
+                this.layers.put(Layer.LOWERLAYER, type);
                 break;
             case GameObjectCategory.PLAYER:
             case GameObjectCategory.OBSTACLE:
-                this.entityLayer = Optional.of(type);
+                this.layers.put(Layer.ENTITYLAYER, type);
                 break;
             case GameObjectCategory.COLLECTABLE:
-                this.collectableLayer = Optional.of(type);
+                this.layers.put(Layer.COLLECTABLELAYER, type);
                 break;
             default:
                 break;
@@ -60,12 +61,12 @@ public class ThreeLayerCell implements Cell {
     @Override
     public List<GameObjectType> getValues() {
         final var outList = new ArrayList<GameObjectType>();
-        outList.add(lowerLayer.isPresent() ? lowerLayer.get() : defaultLayer);
-        if (entityLayer.isPresent()) {
-            outList.add(entityLayer.get());
+        outList.add(layers.get(Layer.LOWERLAYER));
+        if (layers.containsKey(Layer.ENTITYLAYER)) {
+            outList.add(layers.get(Layer.ENTITYLAYER));
         }
-        if (collectableLayer.isPresent()) {
-            outList.add(collectableLayer.get());
+        if (layers.containsKey(Layer.COLLECTABLELAYER)) {
+            outList.add(layers.get(Layer.COLLECTABLELAYER));
         }
         return outList;
     }
