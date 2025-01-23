@@ -10,5 +10,5 @@ import arcaym.model.editor.EditorType;
  * @param size The size of the grid
  * @param uuid The id of the file save 
  */
-public record LevelSavedMetadata(String levelName, String uuid, EditorType type, Position size) {
+public record LevelMetadata(String levelName, String uuid, EditorType type, Position size) {
 }

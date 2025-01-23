@@ -10,7 +10,7 @@ import arcaym.model.editor.EditorGridException;
 import arcaym.model.editor.EditorType;
 import arcaym.model.editor.api.Grid;
 import arcaym.model.editor.impl.GridImpl;
-import arcaym.model.editor.saves.LevelSavedMetadata;
+import arcaym.model.editor.saves.LevelMetadata;
 import arcaym.model.game.objects.api.GameObjectType;
 
 /**
@@ -31,7 +31,7 @@ public class EditorWithoutUndo implements Editor {
         GameObjectType.WIN_GOAL);
     // TODO
     private final Grid editorGrid;
-    private final LevelSavedMetadata metadata;
+    private final LevelMetadata metadata;
 
     /**
      * Creates an editor controller without the ability do undo / redo.
@@ -46,7 +46,7 @@ public class EditorWithoutUndo implements Editor {
         final EditorType type,
         final String name) {
         this.editorGrid = new GridImpl(x, y, type);
-        this.metadata = new LevelSavedMetadata(
+        this.metadata = new LevelMetadata(
             name,
             UUID.randomUUID().toString(),
             type,
@@ -58,9 +58,9 @@ public class EditorWithoutUndo implements Editor {
      * @param metadata The object with internal data.
      */
     public EditorWithoutUndo(
-        final LevelSavedMetadata metadata) {
+        final LevelMetadata metadata) {
         this.editorGrid = new GridImpl(metadata);
-        this.metadata = new LevelSavedMetadata(
+        this.metadata = new LevelMetadata(
             metadata.levelName(),
             metadata.uuid(),
             metadata.type(),
@@ -143,6 +143,7 @@ public class EditorWithoutUndo implements Editor {
     @Override
     public boolean saveLevel() {
         this.editorGrid.saveState(metadata.uuid());
+        // final String json = new Gson().toJson(metadata);
         return false;
     }
 }

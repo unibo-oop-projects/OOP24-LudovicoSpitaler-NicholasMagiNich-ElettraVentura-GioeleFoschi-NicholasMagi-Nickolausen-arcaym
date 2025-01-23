@@ -19,7 +19,7 @@ import arcaym.model.editor.EditorType;
 import arcaym.model.editor.api.Cell;
 import arcaym.model.editor.api.Grid;
 import arcaym.model.editor.api.MapConstraint;
-import arcaym.model.editor.saves.LevelSavedMetadata;
+import arcaym.model.editor.saves.LevelMetadata;
 import arcaym.model.editor.saves.MapSerializerImpl;
 import arcaym.model.game.core.objects.api.GameObjectCategory;
 import arcaym.model.game.objects.api.GameObjectType;
@@ -51,10 +51,10 @@ public class GridImpl implements Grid {
     }
 
     /**
-     * Creates a new grid based on {@link LevelSavedMetadata}.
+     * Creates a new grid based on {@link LevelMetadata}.
      * @param metadata The data that is needed
      */
-    public GridImpl(final LevelSavedMetadata metadata) {
+    public GridImpl(final LevelMetadata metadata) {
         this.mapSize = Position.of(metadata.size().x(), metadata.size().y());
         this.map = new MapSerializerImpl<Position, Cell>().getMapFromBinaryFile(metadata.uuid());
         addConstraints(metadata.type());
