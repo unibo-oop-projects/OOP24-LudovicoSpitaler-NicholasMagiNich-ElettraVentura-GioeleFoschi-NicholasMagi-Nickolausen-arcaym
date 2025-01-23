@@ -9,12 +9,18 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import arcaym.common.utils.Position;
 import arcaym.model.editor.ConstraintFailedException;
 import arcaym.model.editor.EditorGridException;
+import arcaym.model.editor.EditorType;
 import arcaym.model.editor.api.Cell;
 import arcaym.model.editor.api.Grid;
 import arcaym.model.editor.api.MapConstraint;
+import arcaym.model.editor.saves.LevelMetadata;
+import arcaym.model.editor.saves.MapSerializerImpl;
 import arcaym.model.game.core.objects.api.GameObjectCategory;
 import arcaym.model.game.objects.api.GameObjectType;
 
@@ -25,43 +31,37 @@ public class GridImpl implements Grid {
 
     private static final GameObjectType DEFAUL_TYPE = GameObjectType.FLOOR; // GameObjectType.WALL;
     private static final String ILLEGAL_POSITION_EXCEPTION_MESSAGE = "Trying to place a block outside of the boundary";
+    private static final Logger LOGGER = LoggerFactory.getLogger(GridImpl.class);
 
     private final Map<Position, Cell> map;
-    private final Map<GameObjectType, MapConstraint> objectConstraint;
-    private final Map<GameObjectCategory, MapConstraint> categoryConstraint;
+    private final Map<GameObjectType, MapConstraint> objectConstraint = new EnumMap<>(GameObjectType.class);
+    private final Map<GameObjectCategory, MapConstraint> categoryConstraint = new EnumMap<>(GameObjectCategory.class);
     private final Position mapSize;
 
     /**
      * Creates a new Grid with the given dimentions.
      * @param x The width of the grid.
      * @param y The height of the grid.
+     * @param editorType The type of editor that needs to be created.
      */
-    public GridImpl(final int x, final int y) {
+    public GridImpl(final int x, final int y, final EditorType editorType) {
         this.map = new HashMap<>();
-        this.objectConstraint = new EnumMap<>(GameObjectType.class);
-        this.categoryConstraint = new EnumMap<>(GameObjectCategory.class);
         this.mapSize = Position.of(x, y);
-        for (int i = 0; i < mapSize.x(); i++) {
-            for (int j = 0; j < mapSize.y(); j++) {
-                map.put(Position.of(i, j), new ThreeLayerCell(DEFAUL_TYPE));
-            }
-        }
+        addConstraints(editorType);
     }
 
     /**
-     * {@inheritDoc}
+     * Creates a new grid based on {@link LevelMetadata}.
+     * @param metadata The data that is needed
      */
-    @Override
-    public void setObjectConstraint(final MapConstraint contsraint, final GameObjectType target) {
-        objectConstraint.put(target, contsraint);
+    public GridImpl(final LevelMetadata metadata) {
+        this.mapSize = Position.of(metadata.size().x(), metadata.size().y());
+        this.map = new MapSerializerImpl<Position, Cell>().getMapFromBinaryFile(metadata.uuid());
+        addConstraints(metadata.type());
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setCategoryConstraint(final MapConstraint contsraint, final GameObjectCategory target) {
-        categoryConstraint.put(target, contsraint);
+    private void addConstraints(final EditorType type) {
+        new GridConstraintProviderImpl().selectEditorType(objectConstraint::put, categoryConstraint::put, type);
     }
 
     /**
@@ -70,6 +70,7 @@ public class GridImpl implements Grid {
     @Override
     public void setObjects(final Collection<Position> positions, final GameObjectType type) throws EditorGridException {
         if (positions.stream().anyMatch(this::outsideBoundary)) {
+            LOGGER.warn(ILLEGAL_POSITION_EXCEPTION_MESSAGE);
             throw new EditorGridException(ILLEGAL_POSITION_EXCEPTION_MESSAGE, true);
         }
         try {
@@ -84,11 +85,16 @@ public class GridImpl implements Grid {
                 categoryConstraint.get(type.category()).checkConstraint(mapOfCategory);
             }
         } catch (ConstraintFailedException e) {
-            // System.out.println(e.toString());
+            LOGGER.warn(e.toString(), e);
             throw new EditorGridException(e.toString(), true, e);
         }
 
-        positions.forEach(pos -> map.get(pos).setValue(type));
+        positions.forEach(pos -> {
+            if (!map.containsKey(pos)) {
+                map.put(pos, new ThreeLayerCell(DEFAUL_TYPE));
+            }
+            map.get(pos).setValue(type);
+        });
     }
 
     private Set<Position> getSetOfCategory(final GameObjectCategory category) {
@@ -118,6 +124,7 @@ public class GridImpl implements Grid {
     @Override
     public void removeObjects(final Collection<Position> positions) throws EditorGridException {
         if (positions.stream().anyMatch(this::outsideBoundary)) {
+            LOGGER.warn(ILLEGAL_POSITION_EXCEPTION_MESSAGE);
             throw new EditorGridException(ILLEGAL_POSITION_EXCEPTION_MESSAGE, false);
         }
         for (final Entry<GameObjectType, MapConstraint> e : objectConstraint.entrySet()) {
@@ -126,7 +133,8 @@ public class GridImpl implements Grid {
                 mapOfType.removeAll(positions);
                 e.getValue().checkConstraint(mapOfType);
             } catch (ConstraintFailedException ex) {
-                throw new EditorGridException(ex.getMessage(), false, ex);
+                LOGGER.warn(ex.toString(), ex);
+                throw new EditorGridException(ex.toString(), false, ex);
             }
         }
         for (final Entry<GameObjectCategory, MapConstraint> e : categoryConstraint.entrySet()) {
@@ -135,10 +143,11 @@ public class GridImpl implements Grid {
                 mapOfCategory.removeAll(positions);
                 e.getValue().checkConstraint(mapOfCategory);
             } catch (ConstraintFailedException ex) {
-                throw new EditorGridException(ex.getMessage(), false, ex);
+                LOGGER.warn(ex.toString(), ex);
+                throw new EditorGridException(ex.toString(), false, ex);
             }
         }
-        positions.forEach(pos -> map.put(pos, new ThreeLayerCell(DEFAUL_TYPE)));
+        positions.forEach(map::remove);
     }
 
     /**
@@ -146,7 +155,14 @@ public class GridImpl implements Grid {
      */
     @Override
     public List<GameObjectType> getObjects(final Position pos) {
-        return map.get(pos).getValues();
+        return map.containsKey(pos) ? map.get(pos).getValues() : List.of(DEFAUL_TYPE);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean saveState(final String uuid) {
+        return new MapSerializerImpl<Position, Cell>().serializeMap(map, uuid);
+    }
 }

@@ -2,12 +2,15 @@ package arcaym.controller.editor.impl;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 import arcaym.common.utils.Position;
 import arcaym.controller.editor.api.Editor;
 import arcaym.model.editor.EditorGridException;
+import arcaym.model.editor.EditorType;
 import arcaym.model.editor.api.Grid;
 import arcaym.model.editor.impl.GridImpl;
+import arcaym.model.editor.saves.LevelMetadata;
 import arcaym.model.game.objects.api.GameObjectType;
 
 /**
@@ -15,19 +18,53 @@ import arcaym.model.game.objects.api.GameObjectType;
  */
 public class EditorWithoutUndo implements Editor {
 
-    private GameObjectType selectedObject;
-    private List<GameObjectType> availableObjectList;
+    private GameObjectType selectedObject = GameObjectType.FLOOR;
+    // temporal static list of all objects
+    private List<GameObjectType> availableObjectList = List.of(
+        GameObjectType.COIN,
+        GameObjectType.FLOOR,
+        GameObjectType.MOVING_X_OBSTACLE,
+        GameObjectType.MOVING_Y_OBSTACLE,
+        GameObjectType.SPIKE,
+        GameObjectType.USER_PLAYER,
+        GameObjectType.WALL,
+        GameObjectType.WIN_GOAL);
+    // TODO
     private final Grid editorGrid;
+    private final LevelMetadata metadata;
 
     /**
      * Creates an editor controller without the ability do undo / redo.
-     * @param startingObject the object automatically selected at the start
      * @param x Width of the grid
      * @param y Height of the grid
+     * @param type The type of grid that needs to be created
+     * @param name The name to give to the level
      */
-    public EditorWithoutUndo(final GameObjectType startingObject, final int x, final int y) {
-        this.selectedObject = startingObject;
-        this.editorGrid = new GridImpl(x, y);
+    public EditorWithoutUndo(
+        final int x, 
+        final int y, 
+        final EditorType type,
+        final String name) {
+        this.editorGrid = new GridImpl(x, y, type);
+        this.metadata = new LevelMetadata(
+            name,
+            UUID.randomUUID().toString(),
+            type,
+            Position.of(x, y));
+    }
+
+    /**
+     * Creates an editor controller starting from a metadata object.
+     * @param metadata The object with internal data.
+     */
+    public EditorWithoutUndo(
+        final LevelMetadata metadata) {
+        this.editorGrid = new GridImpl(metadata);
+        this.metadata = new LevelMetadata(
+            metadata.levelName(),
+            metadata.uuid(),
+            metadata.type(),
+            metadata.size());
     }
 
     /**
@@ -98,5 +135,15 @@ public class EditorWithoutUndo implements Editor {
     @Override
     public void applyChange(final Collection<Position> positions) throws EditorGridException {
         this.editorGrid.setObjects(positions, selectedObject);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean saveLevel() {
+        this.editorGrid.saveState(metadata.uuid());
+        // final String json = new Gson().toJson(metadata);
+        return false;
     }
 }
