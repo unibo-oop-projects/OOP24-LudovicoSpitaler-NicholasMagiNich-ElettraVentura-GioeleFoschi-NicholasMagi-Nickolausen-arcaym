@@ -1,10 +1,10 @@
 package arcaym.model.editor.impl;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import arcaym.model.editor.api.Cell;
 import arcaym.model.game.core.objects.api.GameObjectCategory;
@@ -60,14 +60,6 @@ public class ThreeLayerCell implements Cell, Serializable {
      */
     @Override
     public List<GameObjectType> getValues() {
-        final var outList = new ArrayList<GameObjectType>();
-        outList.add(layers.get(Layer.LOWERLAYER));
-        if (layers.containsKey(Layer.ENTITYLAYER)) {
-            outList.add(layers.get(Layer.ENTITYLAYER));
-        }
-        if (layers.containsKey(Layer.COLLECTABLELAYER)) {
-            outList.add(layers.get(Layer.COLLECTABLELAYER));
-        }
-        return outList;
+        return layers.entrySet().stream().map(Entry::getValue).toList();
     }
 }

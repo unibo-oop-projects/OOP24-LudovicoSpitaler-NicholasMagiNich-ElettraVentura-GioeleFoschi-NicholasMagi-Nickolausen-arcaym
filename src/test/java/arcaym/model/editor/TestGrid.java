@@ -52,7 +52,7 @@ final class TestGrid {
         assertEquals(List.of(DEFAUL_TYPE), basicGrid.getObjects(pos));
         // add another type of block
         assertDoesNotThrow(() -> basicGrid.setObjects(Set.of(pos), GameObjectType.WALL));
-        // check if the object has been added
+        // // check if the object has been added
         assertEquals(List.of(GameObjectType.WALL), basicGrid.getObjects(pos));
         // add other layers to the cell
         addLayeredObject(pos);
