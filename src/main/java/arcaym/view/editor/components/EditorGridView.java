@@ -10,12 +10,12 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
-import arcaym.view.api.GeneralSwingView;
+import arcaym.view.api.ViewComponent;
 
 /**
  * The grid view implementation in swing.
  */
-public class EditorGridView implements GeneralSwingView<JPanel> {
+public class EditorGridView implements ViewComponent<JPanel> {
 
     private final JPanel contentPanel = new JPanel();
     private final JPanel header;

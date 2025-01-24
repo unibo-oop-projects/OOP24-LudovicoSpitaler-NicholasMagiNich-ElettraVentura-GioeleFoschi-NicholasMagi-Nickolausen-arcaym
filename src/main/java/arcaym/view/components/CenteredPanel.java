@@ -1,6 +1,6 @@
 package arcaym.view.components;
 
-import java.util.Objects;
+import java.util.Optional;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -8,36 +8,31 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import arcaym.view.api.GeneralSwingView;
+import arcaym.view.api.ParentComponent;
 import arcaym.view.utils.SwingUtils;
 
-public class CenteredPanel implements GeneralSwingView<JPanel> {
-
-    private final JComponent content;
-
-    public CenteredPanel(final JComponent content) {
-        this.content = Objects.requireNonNull(content);
-    }
-
-    public CenteredPanel(final GeneralSwingView<?> content) {
-        this(content.build());
-    }
+/**
+ * Blank panel that centers it's content without stretching it.
+ */
+public class CenteredPanel implements ParentComponent<JPanel> {
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public JPanel build() {
+    public JPanel build(final Optional<JComponent> childComponent) {
         final var panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
-        panel.add(Box.createHorizontalGlue());
-        panel.add(this.content);
-        panel.add(Box.createHorizontalGlue());
+        childComponent.ifPresent(c -> {
+            panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
+            panel.add(Box.createHorizontalGlue());
+            panel.add(c);
+            panel.add(Box.createHorizontalGlue());
+        });
         return panel;
     }
 
     public static void main(String[] args) {
-        SwingUtils.testComponent(new CenteredPanel(new JLabel("Test")));
+        SwingUtils.testComponent(new CenteredPanel().build(new JLabel("Test")));
     }
 
 }

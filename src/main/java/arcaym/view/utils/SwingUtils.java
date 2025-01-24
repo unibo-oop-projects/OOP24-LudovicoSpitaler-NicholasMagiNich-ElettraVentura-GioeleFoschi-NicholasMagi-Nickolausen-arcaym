@@ -10,8 +10,6 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import arcaym.view.api.GeneralSwingView;
-
 /**
  * Utility class for swing.
  */
@@ -49,6 +47,7 @@ public final class SwingUtils {
      * 
      * @param component swing component
      * @param scaleFactor gap scale factor
+     * @return gap value
      */
     public static int getGap(final JComponent component, final float scaleFactor) {
         return Math.round(component.getFont().getSize() * scaleFactor);
@@ -58,6 +57,7 @@ public final class SwingUtils {
      * Call {@link #getGap(JComponent, float)} with a normal size factor.
      * 
      * @param component swing component
+     * @return gap value
      */
     public static int getNormalGap(final JComponent component) {
         return getGap(component, NORMAL_GAP_FACTOR);
@@ -67,6 +67,7 @@ public final class SwingUtils {
      * Call {@link #getGap(JComponent, float)} with a little size factor.
      * 
      * @param component swing component
+     * @return gap value
      */
     public static int getLittleGap(final JComponent component) {
         return getGap(component, LITTLE_GAP_FACTOR);
@@ -76,6 +77,7 @@ public final class SwingUtils {
      * Call {@link #getGap(JComponent, float)} with a big size factor.
      * 
      * @param component swing component
+     * @return gap value
      */
     public static int getBigGap(final JComponent component) {
         return getGap(component, BIG_GAP_FACTOR);
@@ -87,7 +89,7 @@ public final class SwingUtils {
      * 
      * @param component component to show
      */
-    public static void testComponent(final GeneralSwingView<?> component) {
+    public static void testComponent(final JComponent component) {
         // TODO remove
         final var gap = 100;
         final var frame = new JFrame();
@@ -96,7 +98,7 @@ public final class SwingUtils {
         frame.setContentPane(panel);
         panel.setLayout(new BorderLayout());
         panel.setBorder(BorderFactory.createEmptyBorder(gap, gap, gap, gap));
-        panel.add(component.build(), BorderLayout.CENTER);
+        panel.add(component, BorderLayout.CENTER);
         frame.pack();
         frame.setVisible(true);
     }

@@ -11,7 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
 import arcaym.model.game.core.objects.api.GameObjectCategory;
-import arcaym.view.api.GeneralSwingView;
+import arcaym.view.api.ViewComponent;
 import arcaym.view.editor.components.EditorGridView;
 import arcaym.view.editor.components.SideMenuView;
 import arcaym.view.objects.GameObjectSwingView;
@@ -19,7 +19,7 @@ import arcaym.view.objects.GameObjectSwingView;
 /**
  * The editor complete page.
  */
-public class EditorMainView implements GeneralSwingView<JPanel> {
+public class EditorMainView implements ViewComponent<JPanel> {
 
     private static final int COLUMNS = 5;
     private JPanel grid;
