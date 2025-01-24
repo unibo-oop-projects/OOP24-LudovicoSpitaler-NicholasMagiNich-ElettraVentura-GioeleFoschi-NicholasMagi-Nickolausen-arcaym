@@ -1,9 +1,11 @@
 package arcaym.model.editor;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,45 +20,60 @@ import arcaym.model.editor.saves.MetadataManagerImpl;
  */
 final class TestMetadataManager {
 
+    private static final int TEST_MULTIPLESAVES = 5;
     private static final int DEFAULT_GRID_WIDTH = 16;
     private static final int DEFAULT_GRID_HEIGHT = 9;
     private static final String SAVE_NAME = "testSave";
-    private static final String SAVE_UUID = "qwertyuiop";
+    private static final String SAVE_UUID = "testUUID";
     private static final EditorType SAVE_TYPE = EditorType.SANDBOX;
     private static final Position SAVE_DIMENTION = Position.of(DEFAULT_GRID_WIDTH, DEFAULT_GRID_HEIGHT);
 
+    private List<LevelMetadata> savedFiles;
     private MetadataManager manager;
 
     @BeforeEach
     void setup() {
         this.manager = new MetadataManagerImpl();
-        FileUtils.clearFolder(new File(FileUtils.METADATA_FOLDER));
+        this.savedFiles = new ArrayList<>();
     }
 
     private LevelMetadata createLevelMetadata(final int index) {
         return new LevelMetadata(SAVE_NAME + index, SAVE_UUID + index, SAVE_TYPE, SAVE_DIMENTION);
     }
 
+    @AfterEach
+    void clearFolderOfTests() {
+        for (final LevelMetadata levelMetadata : savedFiles) {
+            FileUtils.deleteFile(levelMetadata.uuid() + ".json", "levelsMetadata");
+        }
+    }
+
     @Test
     void testSave() {
         final LevelMetadata metadata = createLevelMetadata(0);
         if (manager.saveMetadata(metadata)) {
-            assertEquals(metadata, manager.loadData().get(0));
+            assertTrue(manager.loadData().contains(metadata));
+            this.savedFiles.add(metadata);
         } 
     }
 
     @Test
     void testMultipleSave() {
-        boolean failed = false;
-        int filesSaved = 0;
-        while (filesSaved < 10 && !failed) {
-            if (manager.saveMetadata(createLevelMetadata(filesSaved))) {
-                filesSaved++;
-            } else {
-                failed = true;
+        boolean errorOccurred = false;
+        for (int i = 0; i < TEST_MULTIPLESAVES && !errorOccurred; i++) {
+            // list needed for clearing tests
+            savedFiles.add(createLevelMetadata(i));
+            // test save
+            if (!manager.saveMetadata(savedFiles.get(i))) {
+                errorOccurred = true;
             }
         }
-        assertEquals(filesSaved, manager.loadData().size());
+        if (!errorOccurred) {
+            final var listRead = manager.loadData();
+            // check that each saved file is contained in the list loaded.
+            for (final LevelMetadata levelMetadata : savedFiles) {
+                assertTrue(listRead.contains(levelMetadata));
+            }
+        }
     }
-
 }
