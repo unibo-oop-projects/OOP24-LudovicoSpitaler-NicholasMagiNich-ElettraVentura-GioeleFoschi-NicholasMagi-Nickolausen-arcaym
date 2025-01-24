@@ -60,11 +60,32 @@ public final class FileUtils {
      * @param subFolder the folder to select (saves or levelMetadata)
      */
     public static void deleteFile(final String name, final String subFolder) {
-        // temporal edit cuz I am tired
         final File deleteme = new File(Paths.get(APP_FOLDER, subFolder, name).toString());
         final boolean deleted = deleteme.delete();
         if (!deleted) {
             LOGGER.error("Error while deleating the file");
+        }
+    }
+
+    /**
+     * Deletes all the contents of the folder and the folder itself.
+     * @param folder The path to the folder
+     */
+    public static void clearFolder(final File folder) {
+        final File[] files = folder.listFiles();
+        if (files != null) { // some JVMs return null for empty dirs
+            for (final File f : files) {
+                if (f.isDirectory()) {
+                    clearFolder(f);
+                } else {
+                    if (!f.delete()) {
+                        LOGGER.error("Error while deleating the file");
+                    }
+                }
+            }
+        }
+        if (!folder.delete()) {
+            LOGGER.error("Error while deleating folder");
         }
     }
 

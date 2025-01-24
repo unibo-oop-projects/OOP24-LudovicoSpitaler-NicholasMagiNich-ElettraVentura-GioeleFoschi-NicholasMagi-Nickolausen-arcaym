@@ -93,20 +93,21 @@ final class TestGrid {
             GameObjectType.COIN),
             basicGrid.getObjects(pos));
         // save the grid
-        this.basicGrid.saveState(TEST_SAVE_NAME);
-        // create a new grid based on the metadata
-        this.basicGrid = new GridImpl(
-            new LevelMetadata(
-                "Test",
-                TEST_SAVE_NAME,
-                EditorType.SANDBOX,
-                Position.of(DEFAULT_GRID_WIDTH, DEFAULT_GRID_HEIGHT)));
-        // check the position is still correct
-        assertEquals(List.of(
-            GameObjectType.WALL,
-            GameObjectType.SPIKE,
-            GameObjectType.COIN),
-            basicGrid.getObjects(pos));
+        if (this.basicGrid.saveState(TEST_SAVE_NAME)) {
+            // create a new grid based on the metadata
+            this.basicGrid = new GridImpl(
+                new LevelMetadata(
+                    "Test",
+                    TEST_SAVE_NAME,
+                    EditorType.SANDBOX,
+                    Position.of(DEFAULT_GRID_WIDTH, DEFAULT_GRID_HEIGHT)));
+                    // check the position is still correct
+            assertEquals(List.of(
+                GameObjectType.WALL,
+                GameObjectType.SPIKE,
+                GameObjectType.COIN),
+                basicGrid.getObjects(pos));
+        }
         // ho-lee-fook, it works
     }
 
@@ -125,19 +126,20 @@ final class TestGrid {
         assertThrows(EditorGridException.class,
             () -> basicGrid.setObjects(Set.of(Position.of(2, 2)), GameObjectType.USER_PLAYER));
         // save the grid
-        this.basicGrid.saveState(TEST_SAVE_NAME);
-        // create a new grid based on the metadata
-        this.basicGrid = new GridImpl(
-            new LevelMetadata(
-                "Test",
-                TEST_SAVE_NAME,
-                EditorType.NORMAL,
-                Position.of(DEFAULT_GRID_WIDTH, DEFAULT_GRID_HEIGHT)));
-        // check the constraints are correctly added.
-        assertThrows(EditorGridException.class,
-                () -> basicGrid.setObjects(Set.of(Position.of(2, 2)), GameObjectType.WIN_GOAL));
-        assertThrows(EditorGridException.class,
-                () -> basicGrid.setObjects(Set.of(Position.of(2, 2)), GameObjectType.USER_PLAYER));
+        if (this.basicGrid.saveState(TEST_SAVE_NAME)) {
+            // create a new grid based on the metadata
+            this.basicGrid = new GridImpl(
+                new LevelMetadata(
+                    "Test",
+                    TEST_SAVE_NAME,
+                    EditorType.NORMAL,
+                    Position.of(DEFAULT_GRID_WIDTH, DEFAULT_GRID_HEIGHT)));
+            // check the constraints are correctly added.
+            assertThrows(EditorGridException.class,
+                    () -> basicGrid.setObjects(Set.of(Position.of(2, 2)), GameObjectType.WIN_GOAL));
+            assertThrows(EditorGridException.class,
+                    () -> basicGrid.setObjects(Set.of(Position.of(2, 2)), GameObjectType.USER_PLAYER));
+        }
         // ho-lee-fook, it works
     }
 

@@ -9,9 +9,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import arcaym.common.utils.Position;
 import arcaym.model.editor.ConstraintFailedException;
 import arcaym.model.editor.EditorGridException;
@@ -31,7 +28,7 @@ public class GridImpl implements Grid {
 
     private static final GameObjectType DEFAUL_TYPE = GameObjectType.FLOOR; // GameObjectType.WALL;
     private static final String ILLEGAL_POSITION_EXCEPTION_MESSAGE = "Trying to place a block outside of the boundary";
-    private static final Logger LOGGER = LoggerFactory.getLogger(GridImpl.class);
+    // private static final Logger LOGGER = LoggerFactory.getLogger(GridImpl.class);
 
     private final Map<Position, Cell> map;
     private final Map<GameObjectType, MapConstraint> objectConstraint = new EnumMap<>(GameObjectType.class);
@@ -70,7 +67,6 @@ public class GridImpl implements Grid {
     @Override
     public void setObjects(final Collection<Position> positions, final GameObjectType type) throws EditorGridException {
         if (positions.stream().anyMatch(this::outsideBoundary)) {
-            LOGGER.warn(ILLEGAL_POSITION_EXCEPTION_MESSAGE);
             throw new EditorGridException(ILLEGAL_POSITION_EXCEPTION_MESSAGE, true);
         }
         try {
@@ -85,7 +81,6 @@ public class GridImpl implements Grid {
                 categoryConstraint.get(type.category()).checkConstraint(mapOfCategory);
             }
         } catch (ConstraintFailedException e) {
-            LOGGER.warn(e.toString(), e);
             throw new EditorGridException(e.toString(), true, e);
         }
 
@@ -124,7 +119,6 @@ public class GridImpl implements Grid {
     @Override
     public void removeObjects(final Collection<Position> positions) throws EditorGridException {
         if (positions.stream().anyMatch(this::outsideBoundary)) {
-            LOGGER.warn(ILLEGAL_POSITION_EXCEPTION_MESSAGE);
             throw new EditorGridException(ILLEGAL_POSITION_EXCEPTION_MESSAGE, false);
         }
         for (final Entry<GameObjectType, MapConstraint> e : objectConstraint.entrySet()) {
@@ -133,7 +127,6 @@ public class GridImpl implements Grid {
                 mapOfType.removeAll(positions);
                 e.getValue().checkConstraint(mapOfType);
             } catch (ConstraintFailedException ex) {
-                LOGGER.warn(ex.toString(), ex);
                 throw new EditorGridException(ex.toString(), false, ex);
             }
         }
@@ -143,7 +136,6 @@ public class GridImpl implements Grid {
                 mapOfCategory.removeAll(positions);
                 e.getValue().checkConstraint(mapOfCategory);
             } catch (ConstraintFailedException ex) {
-                LOGGER.warn(ex.toString(), ex);
                 throw new EditorGridException(ex.toString(), false, ex);
             }
         }
