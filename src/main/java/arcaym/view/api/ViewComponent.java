@@ -3,14 +3,14 @@ package arcaym.view.api;
 import javax.swing.JComponent;
 
 /**
- * Representation of a general Swing view.
+ * Representation of a general view component.
  * 
  * @param <T> type of the component
  */
-public interface GeneralSwingView<T extends JComponent> {
+public interface ViewComponent<T extends JComponent> {
 
     /**
-     * Initializes the view and all its components.
+     * Builds the component.
      * 
      * @return the initialized component 
      */

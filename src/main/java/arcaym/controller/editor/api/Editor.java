@@ -13,6 +13,11 @@ import arcaym.model.game.objects.api.GameObjectType;
 public interface Editor {
 
     /**
+     * Builds the level that u been cooking.
+     */
+    void play();
+
+    /**
      * Sets the list of available objects to place.
      * @param availableList the list of currently unlocked objects.
      */
@@ -68,4 +73,10 @@ public interface Editor {
      * @param positions The collection of position to change
      */
     void applyChange(Collection<Position> positions) throws EditorGridException;
+
+    /**
+     * Saves the current state of the level.
+     * @return True if the save was successful, false otherwise
+     */
+    boolean saveLevel();
 }
