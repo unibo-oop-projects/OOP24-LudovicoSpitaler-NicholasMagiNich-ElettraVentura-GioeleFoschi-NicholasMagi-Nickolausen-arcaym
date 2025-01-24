@@ -11,6 +11,7 @@ import arcaym.model.editor.EditorType;
 import arcaym.model.editor.api.Grid;
 import arcaym.model.editor.impl.GridImpl;
 import arcaym.model.editor.saves.LevelMetadata;
+import arcaym.model.editor.saves.MetadataManagerImpl;
 import arcaym.model.game.objects.api.GameObjectType;
 
 /**
@@ -65,6 +66,14 @@ public class EditorWithoutUndo implements Editor {
             metadata.uuid(),
             metadata.type(),
             metadata.size());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void play() {
+        // LevelBuilder.build;
     }
 
     /**
@@ -142,8 +151,7 @@ public class EditorWithoutUndo implements Editor {
      */
     @Override
     public boolean saveLevel() {
-        this.editorGrid.saveState(metadata.uuid());
-        // final String json = new Gson().toJson(metadata);
-        return false;
+        return this.editorGrid.saveState(metadata.uuid())
+            && new MetadataManagerImpl().saveMetadata(metadata);
     }
 }

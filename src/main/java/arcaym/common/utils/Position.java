@@ -1,12 +1,14 @@
 package arcaym.common.utils;
 
+import java.io.Serializable;
+
 /**
  * Basic implementation of a pair of integers.
  * 
  * @param x first value
  * @param y second value
- */
-public record Position(int x, int y) {
+ */ 
+public record Position(int x, int y) implements Serializable {
     /**
      * Create a position with the given coordinates.
      * 

@@ -10,11 +10,11 @@ public enum EditorType {
     /**
      * This type of {@link Grid} has little to no constraints.
      */
-    SANDBOX(),
+    SANDBOX,
 
     /**
      * This type of {@link Grid} has several constraint on placement of objects.
      */
-    NORMAL();
+    NORMAL;
 
 }

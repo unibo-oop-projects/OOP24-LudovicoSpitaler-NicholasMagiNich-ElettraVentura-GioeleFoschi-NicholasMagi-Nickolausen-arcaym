@@ -10,8 +10,9 @@ public interface MetadataManager {
     /**
      * Saves the data in a file for later use.
      * @param metadata The instance to save
+     * @return Returns true if the level was saved correctly, false otherwise
      */
-    void saveMetadata(LevelMetadata metadata);
+    boolean saveMetadata(LevelMetadata metadata);
 
     /**
      * Loads all the saved data.
