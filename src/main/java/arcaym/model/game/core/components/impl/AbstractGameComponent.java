@@ -5,9 +5,13 @@ import java.util.Objects;
 import arcaym.common.utils.representation.FieldRepresentation;
 import arcaym.common.utils.representation.StringRepresentation;
 import arcaym.common.utils.representation.TypeRepresentation;
+import arcaym.controller.game.core.api.GameState;
+import arcaym.controller.game.events.api.EventsSubscriber;
+import arcaym.controller.game.scene.api.GameSceneInfo;
 import arcaym.model.game.core.components.api.ComponentsBasedGameObject;
 import arcaym.model.game.core.components.api.GameComponent;
-import arcaym.model.game.core.objects.api.GameObject;
+import arcaym.model.game.events.api.GameEvent;
+import arcaym.model.game.events.api.InputEvent;
 
 /**
  * Abstract implementation of {@link GameComponent}.
@@ -16,7 +20,7 @@ import arcaym.model.game.core.objects.api.GameObject;
 @TypeRepresentation
 public abstract class AbstractGameComponent implements GameComponent {
 
-    private final GameObject gameObject;
+    private final ComponentsBasedGameObject gameObject;
 
     /**
      * Initialize with the given game object.
@@ -33,8 +37,18 @@ public abstract class AbstractGameComponent implements GameComponent {
      * @return game object
      */
     @FieldRepresentation
-    protected final GameObject gameObject() {
+    protected final ComponentsBasedGameObject gameObject() {
         return this.gameObject;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setup(final EventsSubscriber<GameEvent> gameEventsSubscriber,
+            final EventsSubscriber<InputEvent> inputEventsSubscriber,
+            final GameSceneInfo gameScene,
+            final GameState gameState) {
     }
 
     /**
