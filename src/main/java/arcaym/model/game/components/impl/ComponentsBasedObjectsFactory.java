@@ -28,26 +28,26 @@ public class ComponentsBasedObjectsFactory implements GameObjectsFactory {
     @Override
     public GameObject ofType(final GameObjectType gameObjectType) {
         final var obj = new UniqueComponentsGameObject(gameObjectType, tileSize);
-        final CollisionComponentsFactory collisionFactory = new CollisionComponentsFactoryImpl(obj);
-        final MovementComponentsFactory movementFactory = new MovementComponentsFactoryImpl(obj);
+        final CollisionComponentsFactory collisionFactory = new CollisionComponentsFactoryImpl();
+        final MovementComponentsFactory movementFactory = new MovementComponentsFactoryImpl();
 
         switch (gameObjectType.category()) {
             case PLAYER:
-                obj.addComponent(movementFactory.fromInputMovement());
+                obj.addComponent(movementFactory.fromInputMovement(obj));
                 break;
             case OBSTACLE:
-                obj.addComponent(collisionFactory.obstacleCollision());
+                obj.addComponent(collisionFactory.obstacleCollision(obj));
                 if (gameObjectType == GameObjectType.MOVING_X_OBSTACLE) {
-                    obj.addComponent(movementFactory.automaticXMovement());
+                    obj.addComponent(movementFactory.automaticXMovement(obj));
                 } else if (gameObjectType == GameObjectType.MOVING_Y_OBSTACLE) {
-                    obj.addComponent(movementFactory.automaticYMovement());
+                    obj.addComponent(movementFactory.automaticYMovement(obj));
                 }
                 break;
             case COLLECTABLE:
-                obj.addComponent(collisionFactory.collectableCollision());
+                obj.addComponent(collisionFactory.collectableCollision(obj));
                 break;
             case GOAL:
-                obj.addComponent(collisionFactory.reachedGoal());
+                obj.addComponent(collisionFactory.reachedGoal(obj));
                 break;
             default:
                 break;

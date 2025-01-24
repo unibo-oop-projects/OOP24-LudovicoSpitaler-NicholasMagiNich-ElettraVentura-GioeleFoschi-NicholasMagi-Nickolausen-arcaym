@@ -1,7 +1,9 @@
 package arcaym.model.game.components.impl;
 
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
+import arcaym.common.geometry.impl.Rectangles;
 import arcaym.controller.game.core.api.GameState;
 import arcaym.controller.game.events.api.EventsScheduler;
 import arcaym.controller.game.scene.api.GameSceneInfo;
@@ -17,31 +19,31 @@ import arcaym.model.game.objects.api.GameObjectType;
 /**
  * Implementation of a {@link CollisionComponentFactory}.
  */
-public class CollisionComponentsFactoryImpl extends AbstractComponentsFactory implements CollisionComponentsFactory {
+public class CollisionComponentsFactoryImpl implements CollisionComponentsFactory {
 
     /**
-     * Constructor getting gameObject as an argument.
-     * 
-     * @param gameObject
+     * An interface for a consumer that handles a collision.
      */
-    public CollisionComponentsFactoryImpl(final UniqueComponentsGameObject gameObject) {
-        super(gameObject);
-    }
-
     interface CollisionConsumer {
         void reactToCollision(long deltaTime, EventsScheduler<GameEvent> eventsScheduler,
                 GameObjectInfo collidingObject, GameSceneInfo gameScene);
     }
 
+    private Stream<GameObjectInfo> getCollidingObjects(final GameSceneInfo scene,
+            final UniqueComponentsGameObject gameObject) {
+        return scene.getGameObjectsInfos().stream()
+                .filter(obj -> Rectangles.intersecting(obj.boundaries(), gameObject.boundaries()));
+    }
+
     private GameComponent genericCollision(final Predicate<GameObjectInfo> predicateFromObjectInfo,
-            final CollisionConsumer reaction) {
-        return new AbstractGameComponent(getGameObject()) {
+            final CollisionConsumer reaction, final UniqueComponentsGameObject gameObject) {
+        return new AbstractGameComponent(gameObject) {
 
             @Override
             public void update(final long deltaTime, final EventsScheduler<GameEvent> eventsScheduler,
                     final GameSceneInfo gameScene,
                     final GameState gameState) {
-                getCollisionHandler().getCollidingObjects(gameScene)
+                getCollidingObjects(gameScene, gameObject)
                         .filter(predicateFromObjectInfo::test)
                         .forEach(obj -> reaction.reactToCollision(deltaTime, eventsScheduler, obj, gameScene));
             }
@@ -53,24 +55,24 @@ public class CollisionComponentsFactoryImpl extends AbstractComponentsFactory im
      * {@inheritDoc}
      */
     @Override
-    public GameComponent obstacleCollision() {
+    public GameComponent obstacleCollision(final UniqueComponentsGameObject gameObject) {
         return genericCollision(info -> info.category() == GameObjectCategory.PLAYER,
                 (deltaTime, eventsScheduler, collidingObject, gameScene) -> {
                     eventsScheduler.scheduleEvent(GameEvent.GAME_OVER);
-                });
+                }, gameObject);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public GameComponent collectableCollision() {
-        if (getGameObject().type().equals(GameObjectType.COIN)) {
+    public GameComponent collectableCollision(final UniqueComponentsGameObject gameObject) {
+        if (gameObject.type().equals(GameObjectType.COIN)) {
             return genericCollision(info -> info.category() == GameObjectCategory.PLAYER,
                     (deltaTime, eventsScheduler, collidingObject, gameScene) -> {
                         eventsScheduler.scheduleEvent(GameEvent.INCREMENT_SCORE);
-                        gameScene.scheduleDestruction(getGameObject());
-                    });
+                        gameScene.scheduleDestruction(gameObject);
+                    }, gameObject);
         } else {
             throw new IllegalStateException("Unsupported GameObject type for obstacleCollision");
         }
@@ -80,10 +82,10 @@ public class CollisionComponentsFactoryImpl extends AbstractComponentsFactory im
      * {@inheritDoc}
      */
     @Override
-    public GameComponent reachedGoal() {
+    public GameComponent reachedGoal(final UniqueComponentsGameObject gameObject) {
         return genericCollision(info -> info.category() == GameObjectCategory.PLAYER,
                 (deltaTime, eventsScheduler, collidingObject, gameScene) -> {
                     eventsScheduler.scheduleEvent(GameEvent.VICTORY);
-                });
+                }, gameObject);
     }
 }
