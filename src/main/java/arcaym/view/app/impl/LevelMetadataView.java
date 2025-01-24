@@ -1,10 +1,8 @@
 package arcaym.view.app.impl;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -12,15 +10,13 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.util.Objects;
 
-import arcaym.common.utils.Position;
-import arcaym.model.editor.EditorType;
 import arcaym.model.editor.saves.LevelMetadata;
-import arcaym.view.api.GeneralSwingView;
+import arcaym.view.api.ViewComponent;
 
 /**
  * View of a {@link LevelMetadata}.
  */
-public class LevelMetadataView implements GeneralSwingView<JButton> {
+public class LevelMetadataView implements ViewComponent<JButton> {
 
     private static final float NORMAL_GAP_FACTOR = 1f;
     private static final float LITTLE_GAP_FACTOR = 0.5f;
@@ -29,6 +25,11 @@ public class LevelMetadataView implements GeneralSwingView<JButton> {
 
     private final LevelMetadata metadata;
 
+    /**
+     * Initialize view with metadata.
+     * 
+     * @param metadata level metadata
+     */
     public LevelMetadataView(final LevelMetadata metadata) {
         this.metadata = Objects.requireNonNull(metadata);
     }
@@ -62,22 +63,6 @@ public class LevelMetadataView implements GeneralSwingView<JButton> {
         button.add(Box.createHorizontalStrut(normalGap), BorderLayout.CENTER);
         button.add(infoPanel, BorderLayout.EAST);
         return button;
-    }
-
-    public static void main(String[] args) {
-        final var frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-        
-        final var panel = new JPanel();
-        frame.setContentPane(panel);
-        panel.setLayout(new BorderLayout());
-        panel.setBorder(BorderFactory.createEmptyBorder(100, 100, 100, 100));
-        panel.add(new LevelMetadataView(
-            new LevelMetadata("TestLevel", "1234", EditorType.NORMAL, new Position(100, 40))
-        ).build(), BorderLayout.CENTER);
-
-        frame.pack();
     }
 
 }

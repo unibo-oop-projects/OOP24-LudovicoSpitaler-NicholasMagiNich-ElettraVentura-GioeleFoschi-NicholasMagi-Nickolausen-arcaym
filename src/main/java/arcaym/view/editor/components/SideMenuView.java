@@ -15,13 +15,13 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
 import arcaym.model.game.core.objects.api.GameObjectCategory;
-import arcaym.view.api.GeneralSwingView;
+import arcaym.view.api.ViewComponent;
 import arcaym.view.objects.GameObjectSwingView;
 
 /**
  * An implementation of the side menu component in swing.
  */
-public class SideMenuView implements GeneralSwingView<JScrollPane> {
+public class SideMenuView implements ViewComponent<JScrollPane> {
 
     private final JScrollPane mainPanel = new JScrollPane();
     private JPanel content;
