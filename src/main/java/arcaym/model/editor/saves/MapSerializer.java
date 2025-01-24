@@ -21,5 +21,5 @@ public interface MapSerializer<T, U> {
      * @param uuid The name of the file to read
      * @return The created map
      */
-    Map<T, U> getMapFromBinaryFile(String uuid);
+    Map<T, U> loadMapFromBinaryFile(String uuid);
 }

@@ -29,11 +29,7 @@ public class MapSerializerImpl<T, U> implements MapSerializer<T, U> {
     @Override
     public boolean serializeMap(final Map<T, U> map, final String uuid) {
         final String fileName = Paths.get(FileUtils.SAVES_FOLDER, uuid.concat(EXTENSION)).toString();
-        try {
-            FileUtils.createSavesDirectory();
-        } catch (IOException e) {
-            LOGGER.error("Error MKDIR", e);
-        }
+        FileUtils.createSavesDirectory();
         try (
             FileOutputStream fos = new FileOutputStream(fileName);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -51,7 +47,7 @@ public class MapSerializerImpl<T, U> implements MapSerializer<T, U> {
      * {@inheritDoc}
      */
     @Override
-    public Map<T, U> getMapFromBinaryFile(final String uuid) {
+    public Map<T, U> loadMapFromBinaryFile(final String uuid) {
         final String fileName = Paths.get(FileUtils.SAVES_FOLDER, uuid.concat(EXTENSION)).toString();
         try (
             FileInputStream fin = new FileInputStream(fileName);

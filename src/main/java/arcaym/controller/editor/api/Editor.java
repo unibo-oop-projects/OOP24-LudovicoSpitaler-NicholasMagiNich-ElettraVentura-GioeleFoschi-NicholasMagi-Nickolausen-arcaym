@@ -13,6 +13,11 @@ import arcaym.model.game.objects.api.GameObjectType;
 public interface Editor {
 
     /**
+     * Builds the level that u been cooking.
+     */
+    void play();
+
+    /**
      * Sets the list of available objects to place.
      * @param availableList the list of currently unlocked objects.
      */

@@ -30,7 +30,7 @@ public final class FileUtils {
      * Creates the directory .arcaym/saves in the user home.
      * @throws IOException if the directory cannot be created
      */
-    public static void createSavesDirectory() throws IOException {
+    public static void createSavesDirectory() {
         createDirectory(SAVES_FOLDER);
     }
 
@@ -38,19 +38,20 @@ public final class FileUtils {
      * Creates the directory .arcaym/levelsMetadata in the user home.
      * @throws IOException if the directory cannot be created
      */
-    public static void createMetadataDirectory() throws IOException {
+    public static void createMetadataDirectory() {
         createDirectory(METADATA_FOLDER);
     }
 
-    private static void createDirectory(final String path) throws IOException {
+    private static boolean createDirectory(final String path) {
         final File directory = new File(path);
         if (!directory.exists()) {
             final boolean folderCreated = directory.mkdirs();
             if (!folderCreated && !directory.exists()) {
                 LOGGER.error("Error while creating directory");
-                throw new IOException("Error while creating directory: " + directory);
+                return false;
             }
         }
+        return true;
     }
 
     /**

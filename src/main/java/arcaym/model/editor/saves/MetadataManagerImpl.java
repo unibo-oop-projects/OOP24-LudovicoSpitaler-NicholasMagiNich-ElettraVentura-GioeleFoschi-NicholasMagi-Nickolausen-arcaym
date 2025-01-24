@@ -29,15 +29,18 @@ public class MetadataManagerImpl implements MetadataManager {
      * {@inheritDoc}
      */
     @Override
-    public void saveMetadata(final LevelMetadata metadata) {
+    public boolean saveMetadata(final LevelMetadata metadata) {
+        FileUtils.createMetadataDirectory();
         try {
-            FileUtils.createMetadataDirectory();
-            Files.writeString(Path.of(FileUtils.METADATA_FOLDER, metadata.uuid().concat(EXTENTION)),
+            Files.writeString(
+                Path.of(FileUtils.METADATA_FOLDER, metadata.uuid().concat(EXTENTION)),
                 new Gson().toJson(metadata),
                 StandardCharsets.UTF_8);
         } catch (IOException e) {
-            LOGGER.error("An error occurred while writing file.", e);
+            LOGGER.error("An error occurred while writing metadata file.", e);
+            return false;
         }
+        return true;
     }
 
     /**

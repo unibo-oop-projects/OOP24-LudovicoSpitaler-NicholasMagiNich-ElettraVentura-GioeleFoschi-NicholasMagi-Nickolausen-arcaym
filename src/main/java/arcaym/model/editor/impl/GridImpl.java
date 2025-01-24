@@ -56,7 +56,7 @@ public class GridImpl implements Grid {
      */
     public GridImpl(final LevelMetadata metadata) {
         this.mapSize = Position.of(metadata.size().x(), metadata.size().y());
-        this.map = new MapSerializerImpl<Position, Cell>().getMapFromBinaryFile(metadata.uuid());
+        this.map = new MapSerializerImpl<Position, Cell>().loadMapFromBinaryFile(metadata.uuid());
         addConstraints(metadata.type());
     }
 
