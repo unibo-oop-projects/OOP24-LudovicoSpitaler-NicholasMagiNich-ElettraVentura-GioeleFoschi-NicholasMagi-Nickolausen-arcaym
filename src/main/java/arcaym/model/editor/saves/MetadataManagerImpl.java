@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
-import arcaym.common.utils.file.DirectoryManager;
+import arcaym.common.utils.file.FileUtils;
 
 /**
  * An implementation of MetadataManager that saves {@link LevelMetadata} objects into json files.
@@ -31,8 +31,8 @@ public class MetadataManagerImpl implements MetadataManager {
     @Override
     public void saveMetadata(final LevelMetadata metadata) {
         try {
-            DirectoryManager.createMetadataDirectory();
-            Files.writeString(Path.of(DirectoryManager.METADATA_FOLDER, metadata.uuid().concat(EXTENTION)),
+            FileUtils.createMetadataDirectory();
+            Files.writeString(Path.of(FileUtils.METADATA_FOLDER, metadata.uuid().concat(EXTENTION)),
                 new Gson().toJson(metadata),
                 StandardCharsets.UTF_8);
         } catch (IOException e) {
@@ -45,7 +45,7 @@ public class MetadataManagerImpl implements MetadataManager {
      */
     @Override
     public List<LevelMetadata> loadData() {
-        try (Stream<Path> paths = Files.walk(Paths.get(DirectoryManager.METADATA_FOLDER))) {
+        try (Stream<Path> paths = Files.walk(Paths.get(FileUtils.METADATA_FOLDER))) {
             return paths.
                 filter(Files::isRegularFile)
                 .map(this::readFromPath)

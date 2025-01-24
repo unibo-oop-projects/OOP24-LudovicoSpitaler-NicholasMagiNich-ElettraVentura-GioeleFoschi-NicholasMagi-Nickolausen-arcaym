@@ -10,10 +10,10 @@ import org.slf4j.LoggerFactory;
 /**
  * Class used to create the application folders in the user home. 
  */
-public final class DirectoryManager {
+public final class FileUtils {
 
     private static final String APP_FOLDER = Paths.get(System.getProperty("user.home"), ".arcaym").toString();
-    private static final Logger LOGGER = LoggerFactory.getLogger(DirectoryManager.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileUtils.class);
     /**
      * The path to the grid saves.
      */
@@ -23,7 +23,7 @@ public final class DirectoryManager {
      */
     public static final String METADATA_FOLDER = Paths.get(APP_FOLDER, "levelsMetadata").toString();
 
-    private DirectoryManager() {
+    private FileUtils() {
     }
 
     /**
@@ -51,5 +51,20 @@ public final class DirectoryManager {
                 throw new IOException("Error while creating directory: " + directory);
             }
         }
-    } 
+    }
+
+    /**
+     * Deletes a file from a path.
+     * @param name the path of the file
+     * @param subFolder the folder to select (saves or levelMetadata)
+     */
+    public static void deleteFile(final String name, final String subFolder) {
+        // temporal edit cuz I am tired
+        final File deleteme = new File(Paths.get(APP_FOLDER, subFolder, name).toString());
+        final boolean deleted = deleteme.delete();
+        if (!deleted) {
+            LOGGER.error("Error while deleating the file");
+        }
+    }
+
 }

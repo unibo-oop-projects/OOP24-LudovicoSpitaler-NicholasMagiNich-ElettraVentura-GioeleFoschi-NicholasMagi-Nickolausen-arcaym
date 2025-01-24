@@ -11,7 +11,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import arcaym.common.utils.file.DirectoryManager;
+import arcaym.common.utils.file.FileUtils;
 
 /**
  * An implementation of the {@link MapSerializer} Interface used to save data in a specific folder.
@@ -28,9 +28,9 @@ public class MapSerializerImpl<T, U> implements MapSerializer<T, U> {
      */
     @Override
     public boolean serializeMap(final Map<T, U> map, final String uuid) {
-        final String fileName = Paths.get(DirectoryManager.SAVES_FOLDER, uuid.concat(EXTENSION)).toString();
+        final String fileName = Paths.get(FileUtils.SAVES_FOLDER, uuid.concat(EXTENSION)).toString();
         try {
-            DirectoryManager.createSavesDirectory();
+            FileUtils.createSavesDirectory();
         } catch (IOException e) {
             LOGGER.error("Error MKDIR", e);
         }
@@ -52,7 +52,7 @@ public class MapSerializerImpl<T, U> implements MapSerializer<T, U> {
      */
     @Override
     public Map<T, U> getMapFromBinaryFile(final String uuid) {
-        final String fileName = Paths.get(DirectoryManager.SAVES_FOLDER, uuid.concat(EXTENSION)).toString();
+        final String fileName = Paths.get(FileUtils.SAVES_FOLDER, uuid.concat(EXTENSION)).toString();
         try (
             FileInputStream fin = new FileInputStream(fileName);
             ObjectInputStream ois = new ObjectInputStream(fin)) {
