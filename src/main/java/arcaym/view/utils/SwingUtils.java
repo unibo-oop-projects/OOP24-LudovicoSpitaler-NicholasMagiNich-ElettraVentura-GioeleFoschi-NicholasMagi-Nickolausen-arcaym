@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.net.URL;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
@@ -81,6 +82,16 @@ public final class SwingUtils {
      */
     public static int getBigGap(final JComponent component) {
         return getGap(component, BIG_GAP_FACTOR);
+    }
+
+    /**
+     * Get URL to project resource.
+     * 
+     * @param path relative path to resource
+     * @return resource URL
+     */
+    public static URL getResource(final String path) {
+        return Thread.currentThread().getContextClassLoader().getResource(path);
     }
 
     /**
