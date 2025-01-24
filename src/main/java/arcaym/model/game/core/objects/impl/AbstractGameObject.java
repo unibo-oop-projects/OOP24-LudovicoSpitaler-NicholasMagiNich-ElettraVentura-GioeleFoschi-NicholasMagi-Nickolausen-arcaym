@@ -12,7 +12,8 @@ import arcaym.model.game.objects.api.GameObjectType;
 
 /**
  * Abstract implementation of {@link GameObject}.
- * It provides access to basic fields while leaving the object interaction with the game.
+ * It provides access to basic fields while leaving the object interaction with
+ * the game.
  */
 @TypeRepresentation
 public abstract class AbstractGameObject implements GameObject {

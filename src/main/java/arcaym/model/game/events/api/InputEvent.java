@@ -23,6 +23,11 @@ public enum InputEvent implements Event {
     /**
      * Down input.
      */
-    DOWN
+    DOWN,
+
+    /**
+     * Stop input.
+     */
+    STOP
 
 }
