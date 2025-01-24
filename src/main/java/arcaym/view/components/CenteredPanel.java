@@ -5,10 +5,10 @@ import java.util.Objects;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import arcaym.view.api.GeneralSwingView;
-import arcaym.view.app.levels.LevelsList;
 import arcaym.view.utils.SwingUtils;
 
 public class CenteredPanel implements GeneralSwingView<JPanel> {
@@ -37,7 +37,7 @@ public class CenteredPanel implements GeneralSwingView<JPanel> {
     }
 
     public static void main(String[] args) {
-        SwingUtils.testComponent(new CenteredPanel(new LevelsList()));
+        SwingUtils.testComponent(new CenteredPanel(new JLabel("Test")));
     }
 
 }
