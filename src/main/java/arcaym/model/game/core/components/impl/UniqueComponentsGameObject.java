@@ -17,8 +17,9 @@ import arcaym.model.game.events.api.InputEvent;
 import arcaym.model.game.objects.api.GameObjectType;
 
 /**
- * Implementation of {@link ComponentsBasedGameObject} that uses a {@link Set} of components.
-*/
+ * Implementation of {@link ComponentsBasedGameObject} that uses a {@link Set}
+ * of components.
+ */
 public class UniqueComponentsGameObject extends AbstractGameObject implements ComponentsBasedGameObject {
 
     private final Set<GameComponent> components = new HashSet<>();
@@ -38,11 +39,10 @@ public class UniqueComponentsGameObject extends AbstractGameObject implements Co
      */
     @Override
     public void setup(
-        final EventsSubscriber<GameEvent> gameEventsSubscriber,
-        final EventsSubscriber<InputEvent> inputEventsSubscriber,
-        final GameSceneInfo gameScene,
-        final GameState gameState
-    ) {
+            final EventsSubscriber<GameEvent> gameEventsSubscriber,
+            final EventsSubscriber<InputEvent> inputEventsSubscriber,
+            final GameSceneInfo gameScene,
+            final GameState gameState) {
         this.components.forEach(c -> c.setup(gameEventsSubscriber, inputEventsSubscriber, gameScene, gameState));
     }
 
@@ -51,11 +51,10 @@ public class UniqueComponentsGameObject extends AbstractGameObject implements Co
      */
     @Override
     public void update(
-        final long deltaTime, 
-        final EventsScheduler<GameEvent> eventsScheduler, 
-        final GameSceneInfo scene,
-        final GameState state
-    ) {
+            final long deltaTime,
+            final EventsScheduler<GameEvent> eventsScheduler,
+            final GameSceneInfo scene,
+            final GameState state) {
         this.components.forEach(c -> c.update(deltaTime, eventsScheduler, scene, state));
     }
 
