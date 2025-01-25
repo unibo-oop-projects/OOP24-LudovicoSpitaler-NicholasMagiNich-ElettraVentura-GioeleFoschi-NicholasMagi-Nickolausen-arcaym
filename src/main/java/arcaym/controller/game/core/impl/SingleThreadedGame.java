@@ -38,7 +38,7 @@ public class SingleThreadedGame extends AbstractThreadSafeGame {
      */
     @Override
     public void scheduleStop() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        this.runGameLoop = false;
     }
 
     private void gameLoop() {
