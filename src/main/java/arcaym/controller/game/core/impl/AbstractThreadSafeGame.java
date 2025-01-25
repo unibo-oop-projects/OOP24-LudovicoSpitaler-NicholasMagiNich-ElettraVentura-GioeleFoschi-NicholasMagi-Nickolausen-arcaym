@@ -21,6 +21,7 @@ public abstract class AbstractThreadSafeGame implements Game {
     private final EventsManager<InputEvent> inputEventsManager = new ThreadSafeEventsManager<>();
     private final GameState gameState = new DefaultGameState(this.gameEventsManager);
     private final GameScene gameScene;
+    private final GameView gameView;
 
     /**
      * Initialize with the given scene and game view.
@@ -30,7 +31,8 @@ public abstract class AbstractThreadSafeGame implements Game {
      */
     protected AbstractThreadSafeGame(final GameScene gameScene, final GameView gameView) {
         this.gameScene = Objects.requireNonNull(gameScene);
-        Objects.requireNonNull(gameView).registerEventsCallbacks(this.gameEventsManager);
+        this.gameView = Objects.requireNonNull(gameView);
+        gameView.registerEventsCallbacks(this.gameEventsManager);
         gameScene.consumePendingActions();
         gameScene.getGameObjects().forEach(
             o -> o.setup(this.gameEventsManager, this.inputEventsManager, gameScene, this.gameState)
@@ -65,6 +67,15 @@ public abstract class AbstractThreadSafeGame implements Game {
      */
     protected final GameScene scene() {
         return this.gameScene;
+    }
+
+    /**
+     * Get the game view.
+     * 
+     * @return game view
+     */
+    protected final GameView view() {
+        return this.gameView;
     }
 
     /**

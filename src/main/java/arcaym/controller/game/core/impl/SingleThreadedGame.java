@@ -46,9 +46,11 @@ public class SingleThreadedGame extends AbstractThreadSafeGame {
         while (this.runGameLoop) {
             this.inputEventsManager().consumePendingEvents();
             deltaTime = this.updateDeltaTime(deltaTime);
+            // no stream beacause delta time is not final
             for (final var gameObject : this.scene().getGameObjects()) {
                 gameObject.update(deltaTime, this.gameEventsManager(), this.scene(), this.state());
             }
+            this.scene().getGameObjects().forEach(this.view()::updateObject);
             this.scene().consumePendingActions();
             this.gameEventsManager().consumePendingEvents();
         }
