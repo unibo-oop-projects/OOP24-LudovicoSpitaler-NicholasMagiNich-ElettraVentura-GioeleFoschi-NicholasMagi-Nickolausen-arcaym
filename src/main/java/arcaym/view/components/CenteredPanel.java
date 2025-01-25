@@ -5,11 +5,9 @@ import java.util.Optional;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import arcaym.view.api.ParentComponent;
-import arcaym.view.utils.SwingUtils;
 
 /**
  * Blank panel that centers it's content without stretching it.
@@ -29,10 +27,6 @@ public class CenteredPanel implements ParentComponent<JPanel> {
             panel.add(Box.createHorizontalGlue());
         });
         return panel;
-    }
-
-    public static void main(String[] args) {
-        SwingUtils.testComponent(new CenteredPanel().build(new JLabel("Test")));
     }
 
 }

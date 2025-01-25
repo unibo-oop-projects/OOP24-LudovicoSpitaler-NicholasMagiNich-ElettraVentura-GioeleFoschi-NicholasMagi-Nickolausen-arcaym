@@ -8,6 +8,9 @@ import javax.swing.JLabel;
 import arcaym.view.api.ViewComponent;
 import arcaym.view.utils.SwingUtils;
 
+/**
+ * View for an image.
+ */
 public class ImageLabel implements ViewComponent<JLabel> {
 
     private static final double DEFAULT_SCALE = 1.0;
@@ -15,11 +18,22 @@ public class ImageLabel implements ViewComponent<JLabel> {
     private final String path;
     private final double scale;
 
+    /**
+     * Initialize view for image with given scale.
+     * 
+     * @param path resource path
+     * @param scale image scale
+     */
     public ImageLabel(final String path, final double scale) {
         this.path = path;
         this.scale = scale;
     }
 
+    /**
+     * Initialize view for image.
+     * 
+     * @param path resource path
+     */
     public ImageLabel(final String path) {
         this(path, DEFAULT_SCALE);
     }
