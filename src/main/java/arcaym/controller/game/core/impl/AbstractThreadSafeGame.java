@@ -3,13 +3,13 @@ package arcaym.controller.game.core.impl;
 import java.util.Objects;
 
 import arcaym.controller.game.core.api.Game;
-import arcaym.controller.game.core.api.GameObserver;
 import arcaym.controller.game.core.api.GameState;
 import arcaym.controller.game.events.api.EventsManager;
 import arcaym.controller.game.events.impl.ThreadSafeEventsManager;
 import arcaym.controller.game.scene.api.GameScene;
 import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.events.api.InputEvent;
+import arcaym.view.game.api.GameView;
 
 /**
  * Abstract implementation of {@link Game}.
@@ -23,14 +23,14 @@ public abstract class AbstractThreadSafeGame implements Game {
     private final GameScene gameScene;
 
     /**
-     * Initialize with the given scene and game observer.
+     * Initialize with the given scene and game view.
      * 
      * @param gameScene game scene manager
-     * @param gameObserver game observer
+     * @param gameView game view
      */
-    protected AbstractThreadSafeGame(final GameScene gameScene, final GameObserver gameObserver) {
+    protected AbstractThreadSafeGame(final GameScene gameScene, final GameView gameView) {
         this.gameScene = Objects.requireNonNull(gameScene);
-        Objects.requireNonNull(gameObserver).registerEventsCallbacks(this.gameEventsManager);
+        Objects.requireNonNull(gameView).registerEventsCallbacks(this.gameEventsManager);
         gameScene.consumePendingActions();
         gameScene.getGameObjects().forEach(
             o -> o.setup(this.gameEventsManager, this.inputEventsManager, gameScene, this.gameState)
