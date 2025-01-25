@@ -12,7 +12,7 @@ import javax.swing.JSplitPane;
 
 import arcaym.model.game.core.objects.api.GameObjectCategory;
 import arcaym.view.api.ViewComponent;
-import arcaym.view.editor.components.EditorGridView;
+import arcaym.view.editor.components.GridAreaView;
 import arcaym.view.editor.components.SideMenuView;
 import arcaym.view.objects.GameObjectSwingView;
 
@@ -40,7 +40,7 @@ public class EditorMainView implements ViewComponent<JPanel> {
      */
     @Override
     public JPanel build() {
-        grid = new EditorGridView().build();
+        grid = new GridAreaView().build();
         sideMenu = new SideMenuView(gameObjects).build();
         final Dimension sideMenuDimension = new Dimension(Math.floorDiv(out.getWidth(), COLUMNS), out.getHeight());
         sideMenu.setSize(sideMenuDimension);

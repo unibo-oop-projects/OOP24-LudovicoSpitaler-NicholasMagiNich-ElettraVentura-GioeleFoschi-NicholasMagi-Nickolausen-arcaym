@@ -15,7 +15,7 @@ import arcaym.view.api.ViewComponent;
 /**
  * The grid view implementation in swing.
  */
-public class EditorGridView implements ViewComponent<JPanel> {
+public class GridAreaView implements ViewComponent<JPanel> {
 
     private final JPanel contentPanel = new JPanel();
     private final JPanel header;
@@ -30,7 +30,7 @@ public class EditorGridView implements ViewComponent<JPanel> {
     /**
      * The constructor for the page.
      */
-    public EditorGridView() {
+    public GridAreaView() {
         this.header = new JPanel();
         this.body = new JPanel();
         this.footer = new JPanel();
