@@ -15,3 +15,6 @@ bin/
 
 # Java PID file
 java_pid*.hprof
+
+# VS Code Configuration Folder
+.vscode/ 
