@@ -3,9 +3,10 @@ package arcaym.view.utils;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import arcaym.common.geometry.impl.Point;
 import java.awt.Toolkit;
+import java.net.URL;
 
-import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -15,10 +16,25 @@ import javax.swing.JPanel;
  */
 public final class SwingUtils {
 
+    private static final float WINDOW_SIZE_FACTOR = 0.8f;
+    private static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
+    private static final Dimension DEFAULT_SIZE = new Dimension(1920, 1080);
+
     /**
-     * Default screen size.
+     * Window size.
      */
-    public static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
+    public static final Dimension WINDOW_SIZE = new Dimension(
+        Math.round(SCREEN_SIZE.width * WINDOW_SIZE_FACTOR),
+        Math.round(SCREEN_SIZE.height * WINDOW_SIZE_FACTOR)
+    );
+
+    /**
+     * Window scaling relative to the default size.
+     */
+    public static final Point WINDOW_SCALING = Point.of(
+        WINDOW_SIZE.getWidth() / DEFAULT_SIZE.getWidth(),
+        WINDOW_SIZE.getHeight() / DEFAULT_SIZE.getHeight()
+    );
 
     /**
      * {@link Color} that represents transparency.
@@ -84,23 +100,34 @@ public final class SwingUtils {
     }
 
     /**
+     * Get URL to project resource.
+     * 
+     * @param path relative path to resource
+     * @return resource URL
+     */
+    public static URL getResource(final String path) {
+        return Thread.currentThread().getContextClassLoader().getResource(path);
+    }
+
+    /**
      * Show a component in a test window.
      * NEEDS TO BE REMOVED.
      * 
      * @param component component to show
+     * @return created frame
      */
-    public static void testComponent(final JComponent component) {
+    public static JFrame testComponent(final JComponent component) {
         // TODO remove
-        final var gap = 100;
         final var frame = new JFrame();
+        frame.setSize(WINDOW_SIZE);
+        frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         final var panel = new JPanel();
         frame.setContentPane(panel);
         panel.setLayout(new BorderLayout());
-        panel.setBorder(BorderFactory.createEmptyBorder(gap, gap, gap, gap));
         panel.add(component, BorderLayout.CENTER);
-        frame.pack();
         frame.setVisible(true);
+        return frame;
     }
 
 }
