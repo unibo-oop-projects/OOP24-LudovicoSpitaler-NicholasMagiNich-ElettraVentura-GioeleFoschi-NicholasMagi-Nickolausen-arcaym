@@ -38,8 +38,8 @@ public abstract class AbstractThreadSafeGame implements Game {
             o -> o.setup(this.gameEventsManager, this.inputEventsManager, gameScene, this.gameState)
         );
 
-        this.gameEventsManager.registerCallback(GameEvent.GAME_OVER, this::scheduleStop);
-        this.gameEventsManager.registerCallback(GameEvent.VICTORY, this::scheduleStop);
+        this.gameEventsManager.registerCallback(GameEvent.GAME_OVER, e -> this.scheduleStop());
+        this.gameEventsManager.registerCallback(GameEvent.VICTORY, e -> this.scheduleStop());
     }
 
     /**

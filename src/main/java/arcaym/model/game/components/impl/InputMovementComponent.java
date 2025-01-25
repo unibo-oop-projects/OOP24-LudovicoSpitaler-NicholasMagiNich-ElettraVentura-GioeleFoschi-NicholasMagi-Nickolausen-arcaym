@@ -1,5 +1,8 @@
 package arcaym.model.game.components.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import arcaym.common.geometry.impl.Point;
 import arcaym.common.geometry.impl.Vector;
 import arcaym.controller.game.core.api.GameState;
@@ -16,6 +19,8 @@ import arcaym.model.game.events.api.InputEvent;
  * input.
  */
 public class InputMovementComponent extends AbstractGameComponent {
+    private final Map<InputEvent, Vector> directions = new HashMap<>();
+    private final Map<InputEvent, Boolean> activeInputs = new HashMap<>();
 
     private Vector velocity = Vector.zero();
 
@@ -26,6 +31,14 @@ public class InputMovementComponent extends AbstractGameComponent {
      */
     public InputMovementComponent(final ComponentsBasedGameObject gameObject) {
         super(gameObject);
+        directions.put(InputEvent.UP, Vector.of(0, -1));
+        directions.put(InputEvent.DOWN, Vector.of(0, 1));
+        directions.put(InputEvent.LEFT, Vector.of(-1, 0));
+        directions.put(InputEvent.RIGHT, Vector.of(1, 0));
+
+        for (InputEvent event : InputEvent.values()) {
+            activeInputs.put(event, false);
+        }
     }
 
     /**
@@ -38,12 +51,9 @@ public class InputMovementComponent extends AbstractGameComponent {
             final GameState gameState) {
         super.setup(gameEventsSubscriber, inputEventsSubscriber, gameScene, gameState);
 
-        // TO FIX
-
-        inputEventsSubscriber.registerCallback(InputEvent.UP, () -> velocity = Vector.of(0, -1));
-        inputEventsSubscriber.registerCallback(InputEvent.DOWN, () -> velocity = Vector.of(0, 1));
-        inputEventsSubscriber.registerCallback(InputEvent.LEFT, () -> velocity = Vector.of(-1, 0));
-        inputEventsSubscriber.registerCallback(InputEvent.RIGHT, () -> velocity = Vector.of(1, 0));
+        for (InputEvent event : InputEvent.values()) {
+            inputEventsSubscriber.registerCallback(event, e -> activeInputs.put(event, e.isActive()));
+        }
     }
 
     /**
@@ -52,10 +62,17 @@ public class InputMovementComponent extends AbstractGameComponent {
     @Override
     public void update(final long deltaTime, final EventsScheduler<GameEvent> eventsScheduler,
             final GameSceneInfo gameScene, final GameState gameState) {
+
+        velocity = Vector.zero();
+        activeInputs.entrySet().forEach(entry->{
+            if (entry.getValue()) {
+                velocity = velocity.sum(directions.get(entry.getKey()));
+            }
+        });
         final Point currentPosition = gameObject().getPosition();
         final double newX = currentPosition.x() + (velocity.x() * deltaTime);
         final double newY = currentPosition.y() + (velocity.y() * deltaTime);
-        final Point newPosition = Point.of((int) Math.round(newX), (int) Math.round(newY));
+        final Point newPosition = Point.of(Math.round(newX), Math.round(newY));
 
         gameObject().setPosition(newPosition);
     }
