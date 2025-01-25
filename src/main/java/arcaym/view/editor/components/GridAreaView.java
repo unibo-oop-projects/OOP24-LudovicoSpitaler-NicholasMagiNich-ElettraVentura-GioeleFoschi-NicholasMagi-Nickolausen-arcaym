@@ -61,7 +61,7 @@ public class GridAreaView implements ViewComponent<JPanel> {
         contentPanel.add(body, bodyConstraints);
 
         final Dimension footerDimension = calculateComponentDimension(FOOTER_ROWS);
-        setAllDimension(footer,footerDimension);
+        setAllDimension(footer, footerDimension);
         final GridBagConstraints footerConstraints = new GridBagConstraints();
         footerConstraints.gridx = 0;
         footerConstraints.gridy = bodyConstraints.gridy + bodyConstraints.gridheight;
@@ -87,7 +87,7 @@ public class GridAreaView implements ViewComponent<JPanel> {
         final JButton start = new JButton("START");
         final JButton save = new JButton("SAVE");
         final JButton undo = new JButton("Undo");
-        
+
         header.add(undo);
         header.add(save);
         header.add(new JSeparator(JSeparator.VERTICAL));

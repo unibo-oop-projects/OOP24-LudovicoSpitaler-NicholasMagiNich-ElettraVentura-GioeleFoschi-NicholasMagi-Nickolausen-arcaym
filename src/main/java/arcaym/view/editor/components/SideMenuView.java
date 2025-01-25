@@ -29,6 +29,7 @@ public class SideMenuView implements ViewComponent<JScrollPane> {
 
     /**
      * A constructor of the component.
+     * @param gameObjects the map of unlocked items
      */
     public SideMenuView(final Map<GameObjectCategory, Set<GameObjectSwingView>> gameObjects) {
         this.gameObjects = Collections.unmodifiableMap(gameObjects);

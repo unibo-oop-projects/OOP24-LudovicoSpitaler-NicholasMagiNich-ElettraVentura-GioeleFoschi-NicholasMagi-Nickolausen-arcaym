@@ -18,7 +18,7 @@ import arcaym.view.utils.SwingUtils;
  * Scroll list with a {@link LevelCard} for each saved level.
  */
 public class LevelsList implements ViewComponent<JScrollPane> {
-    
+
     private final List<LevelMetadata> levels = new MetadataManagerImpl().loadData();
 
     /**
