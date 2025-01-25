@@ -10,10 +10,18 @@ import arcaym.view.utils.SwingUtils;
 
 public class ImageLabel implements ViewComponent<JLabel> {
 
+    private static final double DEFAULT_SCALE = 1.0;
+
     private final String path;
+    private final double scale;
+
+    public ImageLabel(final String path, final double scale) {
+        this.path = path;
+        this.scale = scale;
+    }
 
     public ImageLabel(final String path) {
-        this.path = path;
+        this(path, DEFAULT_SCALE);
     }
 
     /**
@@ -25,8 +33,8 @@ public class ImageLabel implements ViewComponent<JLabel> {
         final var label = new JLabel(imageIcon);
         final var image = imageIcon.getImage();
         imageIcon.setImage(image.getScaledInstance(
-            Double.valueOf(image.getWidth(label) * SwingUtils.WINDOW_SCALING.x()).intValue(),
-            Double.valueOf(image.getHeight(label) * SwingUtils.WINDOW_SCALING.y()).intValue(),
+            Double.valueOf(image.getWidth(label) * SwingUtils.WINDOW_SCALING.x() * this.scale).intValue(),
+            Double.valueOf(image.getHeight(label) * SwingUtils.WINDOW_SCALING.y() * this.scale).intValue(),
             Image.SCALE_DEFAULT
         ));
         return label;
