@@ -40,7 +40,12 @@ public class LevelsList implements ViewComponent<JScrollPane> {
         return new JScrollPane(mainPanel);
     }
 
-    public static void main(String[] args) {
+    /**
+     * TODO remove.
+     * 
+     * @param args hfoawhioufhiowhaiohfiow
+     */
+    public static void main(final String[] args) {
         SwingUtils.testComponent(new LevelsList().build());
     }
 

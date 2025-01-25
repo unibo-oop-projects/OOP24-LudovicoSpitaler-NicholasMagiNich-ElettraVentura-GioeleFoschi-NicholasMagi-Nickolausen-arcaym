@@ -28,4 +28,5 @@ public class CenteredPanel implements ParentComponent<JPanel> {
         });
         return panel;
     }
+
 }

@@ -68,9 +68,15 @@ public class LevelCard implements ViewComponent<JButton> {
         return button;
     }
 
-    public static void main(String[] args) {
+    /**
+     * TODO remove.
+     * 
+     * @param args oifjhaiopfjhiopjweaofww
+     */
+    public static void main(final String[] args) {
+        final var pos = new Position(100, 40);
         SwingUtils.testComponent(new LevelCard(
-            new LevelMetadata("TestLevel", "1234", EditorType.NORMAL, new Position(100, 40))
+            new LevelMetadata("TestLevel", "1234", EditorType.NORMAL, pos)
         ).build());
     }
 
