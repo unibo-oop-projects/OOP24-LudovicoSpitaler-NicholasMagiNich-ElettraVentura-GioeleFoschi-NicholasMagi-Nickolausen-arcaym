@@ -21,6 +21,7 @@ public class InputMovementComponent extends AbstractGameComponent {
 
     /**
      * Basic constructor getting gameObject as an argument.
+     * 
      * @param gameObject
      */
     public InputMovementComponent(final ComponentsBasedGameObject gameObject) {
@@ -37,11 +38,12 @@ public class InputMovementComponent extends AbstractGameComponent {
             final GameState gameState) {
         super.setup(gameEventsSubscriber, inputEventsSubscriber, gameScene, gameState);
 
+        // TO FIX
+
         inputEventsSubscriber.registerCallback(InputEvent.UP, () -> velocity = Vector.of(0, -1));
         inputEventsSubscriber.registerCallback(InputEvent.DOWN, () -> velocity = Vector.of(0, 1));
         inputEventsSubscriber.registerCallback(InputEvent.LEFT, () -> velocity = Vector.of(-1, 0));
         inputEventsSubscriber.registerCallback(InputEvent.RIGHT, () -> velocity = Vector.of(1, 0));
-        inputEventsSubscriber.registerCallback(InputEvent.STOP, () -> velocity = Vector.zero());
     }
 
     /**

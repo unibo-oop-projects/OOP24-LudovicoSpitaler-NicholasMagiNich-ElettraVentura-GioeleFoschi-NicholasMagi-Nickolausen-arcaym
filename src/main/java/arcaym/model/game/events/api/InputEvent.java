@@ -8,26 +8,35 @@ public enum InputEvent implements Event {
     /**
      * Left input.
      */
-    LEFT,
+    LEFT(false),
 
     /**
      * Right input.
      */
-    RIGHT,
+    RIGHT(false),
 
     /**
      * Up input.
      */
-    UP,
+    UP(false),
 
     /**
      * Down input.
      */
-    DOWN,
+    DOWN(false);
+
+    private final boolean isActive;
+
+    InputEvent(final boolean isActive) {
+        this.isActive = isActive;
+    }
 
     /**
-     * Stop input.
+     * 
+     * @return if input event is active or not.
      */
-    STOP
+    public boolean isActive() {
+        return this.isActive;
+    }
 
 }
