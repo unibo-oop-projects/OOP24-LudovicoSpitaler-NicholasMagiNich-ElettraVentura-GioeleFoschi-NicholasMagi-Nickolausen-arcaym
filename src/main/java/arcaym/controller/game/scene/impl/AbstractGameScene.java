@@ -23,16 +23,6 @@ public abstract class AbstractGameScene implements GameScene {
     private final Set<GameObject> gameObjects = new HashSet<>();
     private final List<CreationInfo> creationEvents = new ArrayList<>();
     private final List<GameObject> destroyEvents = new ArrayList<>();
-    private final GameView gameView;
-
-    /**
-     * Initialize with the given view.
-     * 
-     * @param gameView game view
-     */
-    protected AbstractGameScene(final GameView gameView) {
-        this.gameView = Objects.requireNonNull(gameView);
-    }
 
     /**
      * Create a new instance of a game object.
@@ -78,20 +68,20 @@ public abstract class AbstractGameScene implements GameScene {
      * {@inheritDoc}
      */
     @Override
-    public void consumePendingActions() {
-        creationEvents.forEach(this::createObject);
-        destroyEvents.forEach(this::destroyObject);
+    public void consumePendingActions(final GameView gameView) {
+        creationEvents.forEach(c -> this.createObject(c, gameView));
+        destroyEvents.forEach(d -> this.destroyObject(d, gameView));
     }
 
-    private void createObject(final CreationInfo creation) {
+    private void createObject(final CreationInfo creation, final GameView gameView) {
         final var gameObject = this.createObject(creation.type());
         gameObject.setPosition(creation.position());
-        this.gameView.createObject(gameObject);
+        gameView.createObject(gameObject);
     }
 
-    private void destroyObject(final GameObject gameObject) {
+    private void destroyObject(final GameObject gameObject, final GameView gameView) {
         this.gameObjects.remove(gameObject);
-        this.gameView.destroyObject(gameObject);
+        gameView.destroyObject(gameObject);
     }
 
 }

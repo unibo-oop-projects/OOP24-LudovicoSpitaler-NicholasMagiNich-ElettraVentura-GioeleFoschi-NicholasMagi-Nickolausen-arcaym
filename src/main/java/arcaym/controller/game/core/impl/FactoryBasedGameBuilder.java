@@ -7,7 +7,6 @@ import arcaym.controller.game.core.api.GameBuilder;
 import arcaym.controller.game.scene.api.GameScene;
 import arcaym.controller.game.scene.impl.FactoryBasedGameScene;
 import arcaym.model.game.core.objects.api.GameObjectsFactory;
-import arcaym.view.game.api.GameView;
 
 /**
  * Implementation of {@link GameBuilder} that uses a {@link GameObjectsFactory}.
@@ -29,16 +28,16 @@ public class FactoryBasedGameBuilder extends AbstractGameBuilder {
      * {@inheritDoc}
      */
     @Override
-    public GameScene buildScene(final GameView gameView) {
-        return new FactoryBasedGameScene(gameView, this.gameObjectsFactory);
+    public GameScene buildScene() {
+        return new FactoryBasedGameScene(this.gameObjectsFactory);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected Game buildGame(final GameScene gameScene, final GameView gameView) {
-        return new SingleThreadedGame(gameScene, gameView);
+    protected Game buildGame(final GameScene gameScene) {
+        return new SingleThreadedGame(gameScene);
     }
 
 }
