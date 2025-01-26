@@ -3,6 +3,7 @@ package arcaym.model.game.score.impl;
 import arcaym.common.utils.representation.FieldRepresentation;
 import arcaym.common.utils.representation.StringRepresentation;
 import arcaym.common.utils.representation.TypeRepresentation;
+import arcaym.controller.game.core.api.GameStateInfo;
 import arcaym.controller.game.events.api.EventsSubscriber;
 import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.score.api.GameScore;
@@ -39,7 +40,10 @@ public abstract class AbstractGameScore implements GameScore {
      * {@inheritDoc}
      */
     @Override
-    public void registerEventsCallbacks(final EventsSubscriber<GameEvent> eventsSubscriber) {
+    public void registerEventsCallbacks(
+        final EventsSubscriber<GameEvent> eventsSubscriber,
+        final GameStateInfo gameState
+    ) {
         eventsSubscriber.registerCallback(GameEvent.INCREMENT_SCORE, e -> this.increment());
         eventsSubscriber.registerCallback(GameEvent.DECREMENT_SCORE, e -> this.decrement());
     }
