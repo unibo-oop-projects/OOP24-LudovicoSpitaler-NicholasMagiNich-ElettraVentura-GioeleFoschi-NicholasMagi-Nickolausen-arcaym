@@ -1,20 +1,17 @@
 package arcaym.view.editor;
 
 import java.awt.Dimension;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
-import arcaym.model.game.core.objects.api.GameObjectCategory;
+import arcaym.controller.shop.impl.ShopControllerImpl;
+import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.view.api.ViewComponent;
 import arcaym.view.editor.components.EditorGridView;
 import arcaym.view.editor.components.SideMenuView;
-import arcaym.view.objects.GameObjectSwingView;
 
 /**
  * The editor complete page.
@@ -26,13 +23,13 @@ public class EditorMainView implements ViewComponent<JPanel> {
     private JScrollPane sideMenu;
     private JSplitPane splitPane;
     private JPanel out = new JPanel();
-    private final Map<GameObjectCategory, Set<GameObjectSwingView>> gameObjects;
+    private final Set<GameObjectType> gameObjects;
 
     /**
      * The constructor for the page.
      */
-    public EditorMainView(final Map<GameObjectCategory, Set<GameObjectSwingView>> gameObjects) {
-        this.gameObjects = Collections.unmodifiableMap(Objects.requireNonNull(gameObjects));
+    public EditorMainView() {
+        this.gameObjects = new ShopControllerImpl().getAllGameObjects();
     }
 
     /**

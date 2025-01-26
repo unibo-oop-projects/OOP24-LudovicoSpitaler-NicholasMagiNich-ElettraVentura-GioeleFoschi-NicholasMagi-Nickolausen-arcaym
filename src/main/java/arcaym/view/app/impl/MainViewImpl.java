@@ -26,34 +26,6 @@ public class MainViewImpl implements MainView {
     private JPanel editor;
     private JPanel game;
 
-    private Map<GameObjectCategory, Set<GameObjectSwingView>> createGameObjects() {
-        final var obstaclesSet = Set.of(
-            new GameObjectSwingView(GameObjectCategory.OBSTACLE, "static_obstacle.png")
-        );
-        final var goalSet = Set.of(
-            new GameObjectSwingView(GameObjectCategory.GOAL, "coin.png")
-        );
-        final var playerSet = Set.of(
-            new GameObjectSwingView(GameObjectCategory.PLAYER, "coin.png")
-        );
-        final var collectableSet = Set.of(
-            new GameObjectSwingView(GameObjectCategory.COLLECTABLE, "coin.png")
-        );
-        
-        final var blockSet = new HashSet<GameObjectSwingView>();
-        for (int i = 0; i < 30; i++) {
-            blockSet.add(new GameObjectSwingView(GameObjectCategory.BLOCK, "coin.png"));
-        }
-
-        return Map.of(
-            GameObjectCategory.OBSTACLE, obstaclesSet,
-            GameObjectCategory.GOAL, goalSet,
-            GameObjectCategory.PLAYER, playerSet,
-            GameObjectCategory.COLLECTABLE, collectableSet,
-            GameObjectCategory.BLOCK, blockSet
-        );
-    }
-
     /**
      * {@inheritDoc}
      */

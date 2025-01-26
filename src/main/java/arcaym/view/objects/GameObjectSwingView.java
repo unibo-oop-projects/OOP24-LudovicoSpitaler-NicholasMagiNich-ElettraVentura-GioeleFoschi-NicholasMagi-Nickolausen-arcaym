@@ -1,20 +1,11 @@
 package arcaym.view.objects;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Logger;
-import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import arcaym.model.game.core.objects.api.GameObjectCategory;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.view.api.ViewComponent;
 import arcaym.view.components.ImageLabel;
-import arcaym.view.utils.SwingUtils;
 
 /**
  * Generic class to represent all the views of the objects implemented via Swing. 
@@ -43,6 +34,9 @@ public class GameObjectSwingView implements ViewComponent<JPanel> {
         return this.type.category();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public JPanel build() {
         final JPanel out = new JPanel();
