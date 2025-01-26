@@ -2,21 +2,26 @@ package arcaym.view.objects;
 
 import java.io.File;
 import java.io.IOException;
-
+import java.util.logging.Logger;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import arcaym.model.game.core.objects.api.GameObjectCategory;
+import arcaym.model.game.objects.api.GameObjectType;
+import arcaym.view.api.ViewComponent;
+import arcaym.view.components.ImageLabel;
+import arcaym.view.utils.SwingUtils;
 
 /**
  * Generic class to represent all the views of the objects implemented via Swing. 
  */
-public class GameObjectSwingView extends JButton {
+public class GameObjectSwingView implements ViewComponent<JPanel> {
 
-    private static final String RESOURCES_PATH = "src/main/resources/";
-    private final GameObjectCategory category;
+    private final GameObjectType type;
     private final String spritePath;
 
     /**
@@ -25,27 +30,9 @@ public class GameObjectSwingView extends JButton {
      * @param category the category (OBSTACLE, WALL, PLAYER...)
      * @param spritePath the path of the corresponding image.
      */
-    public GameObjectSwingView(final GameObjectCategory category, final String spritePath) {
-        this.category = category;
+    public GameObjectSwingView(final GameObjectType type, final String spritePath) {
+        this.type = type;
         this.spritePath = spritePath;
-        try {
-            this.loadSprite();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Loads the corresponding image of the object created.
-     * 
-     * @throws IOException if the loading was not possible
-     */
-    private void loadSprite() throws IOException {
-        BufferedImage icon = ImageIO.read(new File(RESOURCES_PATH + spritePath));
-        this.setIcon(new ImageIcon(icon));
-        this.setOpaque(false);
-        this.setContentAreaFilled(false);
-        this.setBorderPainted(false);
     }
 
     /**
@@ -53,6 +40,13 @@ public class GameObjectSwingView extends JButton {
      * @return the category the game object belongs to
      */
     public GameObjectCategory getCategory() {
-        return this.category;
+        return this.type.category();
+    }
+
+    @Override
+    public JPanel build() {
+        final JPanel out = new JPanel();
+        out.add(new ImageLabel(spritePath).build());
+        return out;
     }
 }
