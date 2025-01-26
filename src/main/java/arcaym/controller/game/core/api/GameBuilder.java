@@ -21,9 +21,8 @@ public interface GameBuilder {
     /**
      * Build game with added objects.
      * 
-     * @param gameObserver game observer
      * @return resulting game
      */
-    Game build(GameObserver gameObserver);
+    Game build();
 
 }

@@ -2,12 +2,10 @@ package arcaym.controller.game.core.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Objects;
 
 import arcaym.common.geometry.impl.Point;
 import arcaym.controller.game.core.api.Game;
 import arcaym.controller.game.core.api.GameBuilder;
-import arcaym.controller.game.core.api.GameObserver;
 import arcaym.controller.game.scene.api.GameScene;
 import arcaym.controller.game.scene.api.GameSceneInfo.CreationInfo;
 import arcaym.model.game.objects.api.GameObjectType;
@@ -24,19 +22,17 @@ public abstract class AbstractGameBuilder implements GameBuilder {
     /**
      * Build game scene to use for pending creations.
      * 
-     * @param gameObserver game observer
      * @return resulting scene
      */
-    protected abstract GameScene buildScene(GameObserver gameObserver);
+    protected abstract GameScene buildScene();
 
     /**
-     * Create game with scene and observer.
+     * Create game with scene.
      * 
      * @param gameScene game scene
-     * @param gameObserver game observer
      * @return resulting game
      */
-    protected abstract Game buildGame(GameScene gameScene, GameObserver gameObserver);
+    protected abstract Game buildGame(GameScene gameScene);
 
     /**
      * {@inheritDoc}
@@ -54,12 +50,11 @@ public abstract class AbstractGameBuilder implements GameBuilder {
      * {@inheritDoc}
      */
     @Override
-    public Game build(final GameObserver gameObserver) {
-        Objects.requireNonNull(gameObserver);
+    public Game build() {
         this.consumed = true;
-        final var scene = this.buildScene(gameObserver);
+        final var scene = this.buildScene();
         this.creationEvents.forEach(scene::scheduleCreation);
-        return this.buildGame(scene, gameObserver);
+        return this.buildGame(scene);
     }
 
 }

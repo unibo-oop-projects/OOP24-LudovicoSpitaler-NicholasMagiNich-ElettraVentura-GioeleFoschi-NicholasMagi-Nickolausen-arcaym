@@ -37,11 +37,11 @@ public class InputMovementComponent extends AbstractGameComponent {
             final GameState gameState) {
         super.setup(gameEventsSubscriber, inputEventsSubscriber, gameScene, gameState);
 
-        inputEventsSubscriber.registerCallback(InputEvent.UP, () -> velocity = Vector.of(0, -1));
-        inputEventsSubscriber.registerCallback(InputEvent.DOWN, () -> velocity = Vector.of(0, 1));
-        inputEventsSubscriber.registerCallback(InputEvent.LEFT, () -> velocity = Vector.of(-1, 0));
-        inputEventsSubscriber.registerCallback(InputEvent.RIGHT, () -> velocity = Vector.of(1, 0));
-        inputEventsSubscriber.registerCallback(InputEvent.STOP, () -> velocity = Vector.zero());
+        inputEventsSubscriber.registerCallback(InputEvent.UP, e -> velocity = Vector.of(0, -1));
+        inputEventsSubscriber.registerCallback(InputEvent.DOWN, e -> velocity = Vector.of(0, 1));
+        inputEventsSubscriber.registerCallback(InputEvent.LEFT, e -> velocity = Vector.of(-1, 0));
+        inputEventsSubscriber.registerCallback(InputEvent.RIGHT, e -> velocity = Vector.of(1, 0));
+        inputEventsSubscriber.registerCallback(InputEvent.STOP, e -> velocity = Vector.zero());
     }
 
     /**

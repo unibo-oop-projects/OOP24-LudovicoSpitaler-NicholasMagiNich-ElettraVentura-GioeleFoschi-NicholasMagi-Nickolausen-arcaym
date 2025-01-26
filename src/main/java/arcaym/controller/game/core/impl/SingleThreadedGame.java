@@ -3,8 +3,8 @@ package arcaym.controller.game.core.impl;
 import java.util.logging.Logger;
 
 import arcaym.controller.game.core.api.Game;
-import arcaym.controller.game.core.api.GameObserver;
 import arcaym.controller.game.scene.api.GameScene;
+import arcaym.view.game.api.GameView;
 
 /**
  * Implementation of {@link Game} that uses a single background thread.
@@ -15,22 +15,27 @@ public class SingleThreadedGame extends AbstractThreadSafeGame {
     private static final long GAME_LOOP_PERIOD_MS = 10;
     private static final Logger LOGGER = Logger.getLogger(SingleThreadedGame.class.getName());
     private volatile boolean runGameLoop;
-    private final Thread gameLoopThread = Thread.ofPlatform()
-                                            .name(GAME_LOOP_THREAD_NAME)
-                                            .daemon()
-                                            .unstarted(this::gameLoop);
 
-    SingleThreadedGame(final GameScene gameScene, final GameObserver gameObserver) {
-        super(gameScene, gameObserver);
+    /**
+     * Initialize with the given scene.
+     * 
+     * @param gameScene game scene
+     */
+    public SingleThreadedGame(final GameScene gameScene) {
+        super(gameScene);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void start() {
+    public void start(final GameView gameView) {
+        super.start(gameView);
         this.runGameLoop = true;
-        this.gameLoopThread.start();
+        Thread.ofPlatform()
+                .name(GAME_LOOP_THREAD_NAME)
+                .daemon()
+                .start(() -> this.gameLoop(gameView));
     }
 
     /**
@@ -41,15 +46,17 @@ public class SingleThreadedGame extends AbstractThreadSafeGame {
         this.runGameLoop = false;
     }
 
-    private void gameLoop() {
+    private void gameLoop(final GameView gameView) {
         long deltaTime = this.updateDeltaTime(0);
         while (this.runGameLoop) {
             this.inputEventsManager().consumePendingEvents();
             deltaTime = this.updateDeltaTime(deltaTime);
+            // no stream beacause delta time is not final
             for (final var gameObject : this.scene().getGameObjects()) {
                 gameObject.update(deltaTime, this.gameEventsManager(), this.scene(), this.state());
             }
-            this.scene().consumePendingActions();
+            this.scene().getGameObjects().forEach(gameView::updateObject);
+            this.scene().consumePendingActions(gameView);
             this.gameEventsManager().consumePendingEvents();
         }
     }

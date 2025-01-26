@@ -2,6 +2,7 @@ package arcaym.controller.game.core.api;
 
 import arcaym.controller.game.events.api.EventsScheduler;
 import arcaym.model.game.events.api.InputEvent;
+import arcaym.view.game.api.GameView;
 
 /**
  * Interface for the main game.
@@ -9,9 +10,11 @@ import arcaym.model.game.events.api.InputEvent;
 public interface Game extends EventsScheduler<InputEvent> {
 
     /**
-     * Start game.
+     * Start game with given view.
+     * 
+     * @param gameView game view
      */
-    void start();
+    void start(GameView gameView);
 
     /**
      * Schedule ending of the game.

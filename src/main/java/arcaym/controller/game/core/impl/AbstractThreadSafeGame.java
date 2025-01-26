@@ -3,13 +3,13 @@ package arcaym.controller.game.core.impl;
 import java.util.Objects;
 
 import arcaym.controller.game.core.api.Game;
-import arcaym.controller.game.core.api.GameObserver;
 import arcaym.controller.game.core.api.GameState;
 import arcaym.controller.game.events.api.EventsManager;
 import arcaym.controller.game.events.impl.ThreadSafeEventsManager;
 import arcaym.controller.game.scene.api.GameScene;
 import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.events.api.InputEvent;
+import arcaym.view.game.api.GameView;
 
 /**
  * Abstract implementation of {@link Game}.
@@ -19,25 +19,16 @@ public abstract class AbstractThreadSafeGame implements Game {
 
     private final EventsManager<GameEvent> gameEventsManager = new ThreadSafeEventsManager<>();
     private final EventsManager<InputEvent> inputEventsManager = new ThreadSafeEventsManager<>();
-    private final GameState gameState = new DefaultGameState(this.gameEventsManager);
+    private final GameState gameState = new DefaultGameState();
     private final GameScene gameScene;
 
     /**
-     * Initialize with the given scene and game observer.
+     * Initialize with the given scene.
      * 
-     * @param gameScene game scene manager
-     * @param gameObserver game observer
+     * @param gameScene game scene
      */
-    protected AbstractThreadSafeGame(final GameScene gameScene, final GameObserver gameObserver) {
+    protected AbstractThreadSafeGame(final GameScene gameScene) {
         this.gameScene = Objects.requireNonNull(gameScene);
-        Objects.requireNonNull(gameObserver).registerEventsCallbacks(this.gameEventsManager);
-        gameScene.consumePendingActions();
-        gameScene.getGameObjects().forEach(
-            o -> o.setup(this.gameEventsManager, this.inputEventsManager, gameScene, this.gameState)
-        );
-
-        this.gameEventsManager.registerCallback(GameEvent.GAME_OVER, this::scheduleStop);
-        this.gameEventsManager.registerCallback(GameEvent.VICTORY, this::scheduleStop);
     }
 
     /**
@@ -81,6 +72,21 @@ public abstract class AbstractThreadSafeGame implements Game {
     @Override
     public void scheduleEvent(final InputEvent event) {
         this.inputEventsManager.scheduleEvent(event);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void start(final GameView gameView) {
+        Objects.requireNonNull(gameView).registerEventsCallbacks(this.gameEventsManager, this.gameState);
+        this.gameScene.consumePendingActions(gameView);
+        this.gameScene.getGameObjects().forEach(
+            o -> o.setup(this.gameEventsManager, this.inputEventsManager, gameScene, this.gameState)
+        );
+        this.gameState.setupCallbacks(this.gameEventsManager);
+        this.gameEventsManager.registerCallback(GameEvent.GAME_OVER, e -> this.scheduleStop());
+        this.gameEventsManager.registerCallback(GameEvent.VICTORY, e -> this.scheduleStop());
     }
 
 }

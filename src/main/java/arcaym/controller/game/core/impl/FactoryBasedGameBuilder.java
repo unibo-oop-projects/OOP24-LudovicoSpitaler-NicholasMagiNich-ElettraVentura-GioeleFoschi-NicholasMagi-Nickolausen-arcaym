@@ -4,7 +4,6 @@ import java.util.Objects;
 
 import arcaym.controller.game.core.api.Game;
 import arcaym.controller.game.core.api.GameBuilder;
-import arcaym.controller.game.core.api.GameObserver;
 import arcaym.controller.game.scene.api.GameScene;
 import arcaym.controller.game.scene.impl.FactoryBasedGameScene;
 import arcaym.model.game.core.objects.api.GameObjectsFactory;
@@ -29,16 +28,16 @@ public class FactoryBasedGameBuilder extends AbstractGameBuilder {
      * {@inheritDoc}
      */
     @Override
-    public GameScene buildScene(final GameObserver gameObserver) {
-        return new FactoryBasedGameScene(gameObserver, this.gameObjectsFactory);
+    public GameScene buildScene() {
+        return new FactoryBasedGameScene(this.gameObjectsFactory);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected Game buildGame(final GameScene gameScene, final GameObserver gameObserver) {
-        return new SingleThreadedGame(gameScene, gameObserver);
+    protected Game buildGame(final GameScene gameScene) {
+        return new SingleThreadedGame(gameScene);
     }
 
 }

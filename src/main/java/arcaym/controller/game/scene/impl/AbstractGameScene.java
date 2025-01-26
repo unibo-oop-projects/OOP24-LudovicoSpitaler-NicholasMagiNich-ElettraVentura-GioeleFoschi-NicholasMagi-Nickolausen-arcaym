@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import arcaym.controller.game.core.api.GameObserver;
 import arcaym.controller.game.scene.api.GameScene;
 import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.core.objects.api.GameObjectInfo;
 import arcaym.model.game.objects.api.GameObjectType;
+import arcaym.view.game.api.GameView;
 
 /**
  * Abstract implementation of {@link GameScene}.
@@ -23,16 +23,6 @@ public abstract class AbstractGameScene implements GameScene {
     private final Set<GameObject> gameObjects = new HashSet<>();
     private final List<CreationInfo> creationEvents = new ArrayList<>();
     private final List<GameObject> destroyEvents = new ArrayList<>();
-    private final GameObserver gameObserver;
-
-    /**
-     * Initialize with the given game observer.
-     * 
-     * @param gameObserver game observer
-     */
-    protected AbstractGameScene(final GameObserver gameObserver) {
-        this.gameObserver = Objects.requireNonNull(gameObserver);
-    }
 
     /**
      * Create a new instance of a game object.
@@ -78,20 +68,20 @@ public abstract class AbstractGameScene implements GameScene {
      * {@inheritDoc}
      */
     @Override
-    public void consumePendingActions() {
-        creationEvents.forEach(this::createObject);
-        destroyEvents.forEach(this::destroyObject);
+    public void consumePendingActions(final GameView gameView) {
+        creationEvents.forEach(c -> this.createObject(c, gameView));
+        destroyEvents.forEach(d -> this.destroyObject(d, gameView));
     }
 
-    private void createObject(final CreationInfo creation) {
+    private void createObject(final CreationInfo creation, final GameView gameView) {
         final var gameObject = this.createObject(creation.type());
         gameObject.setPosition(creation.position());
-        this.gameObserver.createObject(gameObject);
+        gameView.createObject(gameObject);
     }
 
-    private void destroyObject(final GameObject gameObject) {
+    private void destroyObject(final GameObject gameObject, final GameView gameView) {
         this.gameObjects.remove(gameObject);
-        this.gameObserver.destroyObject(gameObject);
+        gameView.destroyObject(gameObject);
     }
 
 }

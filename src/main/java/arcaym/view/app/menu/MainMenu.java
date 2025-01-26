@@ -8,6 +8,9 @@ import arcaym.view.api.ViewComponent;
 import arcaym.view.components.ImageLabel;
 import arcaym.view.utils.SwingUtils;
 
+/**
+ * View for the main menu.
+ */
 public class MainMenu implements ViewComponent<JPanel> {
 
     private static final String TITLE_IMAGE = "title.png";
@@ -22,7 +25,11 @@ public class MainMenu implements ViewComponent<JPanel> {
         return mainPanel;
     }
 
-    public static void main(String[] args) {
+    /**
+     * TODO remove.
+     * @param args foiaeuighiouweahiuogfea
+     */
+    public static void main(final String[] args) {
         SwingUtils.testComponent(new MainMenu().build());
     }
 
