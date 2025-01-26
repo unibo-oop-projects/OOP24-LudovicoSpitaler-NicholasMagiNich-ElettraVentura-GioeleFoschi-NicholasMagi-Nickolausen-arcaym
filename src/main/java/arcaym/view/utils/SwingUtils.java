@@ -19,12 +19,12 @@ public final class SwingUtils {
     private static final float WINDOW_SIZE_FACTOR = 0.8f;
     private static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
     private static final Dimension DEFAULT_SIZE = new Dimension(1920, 1080);
-
+    
     /**
      * Window size.
      */
     public static final Dimension WINDOW_SIZE = scaleDimension(SCREEN_SIZE, WINDOW_SIZE_FACTOR);
-
+    
     /**
      * Window scaling relative to the default size.
      */
@@ -76,7 +76,7 @@ public final class SwingUtils {
      * @return gap value
      */
     public static int getGap(final JComponent component, final float scaleFactor) {
-        return Math.round(component.getFont().getSize() * scaleFactor);
+        return Math.round(component.getFontMetrics(component.getFont()).getHeight() * scaleFactor);
     }
 
     /**

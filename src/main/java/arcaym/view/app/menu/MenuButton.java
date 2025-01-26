@@ -12,7 +12,7 @@ import arcaym.view.utils.SwingUtils;
  */
 public class MenuButton implements ViewComponent<JButton> {
 
-    private static final float FONT_SCALE = 4.0f;
+    private static final float FONT_SCALE = 2.0f;
 
     private final String text;
 

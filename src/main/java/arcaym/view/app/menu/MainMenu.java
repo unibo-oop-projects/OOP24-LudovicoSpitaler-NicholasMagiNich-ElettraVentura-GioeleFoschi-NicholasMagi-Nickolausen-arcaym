@@ -5,6 +5,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import arcaym.view.api.ViewComponent;
+import arcaym.view.app.menu.levels.LevelsList;
 import arcaym.view.components.CenteredPanel;
 import arcaym.view.components.ImageLabel;
 import arcaym.view.utils.SwingUtils;
@@ -22,13 +23,18 @@ public class MainMenu implements ViewComponent<JPanel> {
     @Override
     public JPanel build() {
         final var mainPanel = new JPanel();
+        final var loadLevelsButton = new MenuButton("Load levels").build();
+        final var openShopButton = new MenuButton("Open shop").build();
+        final var gap = SwingUtils.getNormalGap(mainPanel);
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
         mainPanel.add(new CenteredPanel().build(new ImageLabel(TITLE_IMAGE)));
         mainPanel.add(Box.createVerticalGlue());
-        mainPanel.add(new CenteredPanel().build(new MenuButton("Load levels")));
-        mainPanel.add(Box.createVerticalStrut(SwingUtils.getNormalGap(mainPanel)));
-        mainPanel.add(new CenteredPanel().build(new MenuButton("Open shop")));
-        mainPanel.add(Box.createVerticalGlue());
+        mainPanel.add(new CenteredPanel().build(loadLevelsButton));
+        mainPanel.add(Box.createVerticalStrut(gap));
+        mainPanel.add(new CenteredPanel().build(openShopButton));
+        mainPanel.add(Box.createVerticalStrut(gap));
+        mainPanel.add(new CenteredPanel().build(new LevelsList()));
+        mainPanel.add(Box.createVerticalStrut(gap));
         return new CenteredPanel().build(mainPanel);
     }
 
