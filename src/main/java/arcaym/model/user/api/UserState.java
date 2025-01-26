@@ -30,15 +30,15 @@ public interface UserState {
     void addNewGameObject(GameObjectType gameObject);
 
     /**
-     * Increment the user score.
-     * @param amount the amount to add to the score
+     * Increments the user score.
+     * @param amount the amount to add to the score. If the amount is negative, nothing happens
      */
     void incrementScore(int amount);
 
     /**
-     * Decrement the user score.
+     * Decrements the user score.
      * @param amount the amount to subtract to the score. If the subtraction
-     * makes the score drop below 0, then it goes to 0; 
+     * makes the score drop below 0, then it goes to 0
      */    
     void decrementScore(int amount);
 }

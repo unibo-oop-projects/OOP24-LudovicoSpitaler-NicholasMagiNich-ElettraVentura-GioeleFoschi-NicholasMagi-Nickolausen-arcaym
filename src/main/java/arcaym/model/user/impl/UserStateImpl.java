@@ -4,14 +4,18 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.Set;
 
+import arcaym.controller.game.core.api.GameStateInfo;
+import arcaym.controller.game.events.api.EventsObserver;
+import arcaym.controller.game.events.api.EventsSubscriber;
+import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.model.user.api.UserState;
 
-public class UserStateImpl implements UserState, Serializable {
+public class UserStateImpl implements UserState, Serializable, EventsObserver<GameEvent> {
 
     private static final long serialVersionUID = 1L;
     private int currentScore;
-    private Set<GameObjectType> unlockedObjects;
+    private Set<GameObjectType> itemsOwned;
 
     /**
      * {@inheritDoc}
@@ -26,7 +30,7 @@ public class UserStateImpl implements UserState, Serializable {
      */
     @Override
     public Set<GameObjectType> getPurchasedGameObjects() {
-        return Collections.unmodifiableSet(unlockedObjects);
+        return Collections.unmodifiableSet(itemsOwned);
     }
 
     /**
@@ -34,7 +38,7 @@ public class UserStateImpl implements UserState, Serializable {
      */
     @Override
     public void addNewGameObject(GameObjectType gameObject) {
-        this.unlockedObjects.add(gameObject);
+        this.itemsOwned.add(gameObject);
     }
 
     /**
@@ -42,7 +46,7 @@ public class UserStateImpl implements UserState, Serializable {
      */
     @Override
     public void incrementScore(int amount) {
-        this.currentScore += amount;
+        this.currentScore += Integer.max(amount, 0);
     }
 
     /**
@@ -51,5 +55,13 @@ public class UserStateImpl implements UserState, Serializable {
     @Override
     public void decrementScore(int amount) {
         this.currentScore -= (this.currentScore - amount < 0) ? this.currentScore : amount;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void registerEventsCallbacks(EventsSubscriber<GameEvent> eventsSubscriber, GameStateInfo gameState) {
+        eventsSubscriber.registerCallback(GameEvent.VICTORY, e -> incrementScore(gameState.score().getValue()));
     }
 }
