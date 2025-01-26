@@ -16,7 +16,6 @@ public class ShopImpl implements Shop {
 
     private final Map<GameObjectType, Integer> lockedObjects;
     private final UserState userState;
-
     /**
      * Default constructor.
      */

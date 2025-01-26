@@ -8,7 +8,6 @@ import arcaym.model.game.objects.api.GameObjectType;
  * Interface modelling the operations made by the shop.
  */
 public interface Shop {
-
     /**
      * Attempts to make a transaction.
      * 

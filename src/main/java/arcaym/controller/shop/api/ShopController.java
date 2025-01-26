@@ -8,7 +8,6 @@ import arcaym.model.game.objects.api.GameObjectType;
  * Interface for shop controller.
  */
 public interface ShopController {
-
     /**
      * Request transaction to the shop model.
      * @param toBuy
