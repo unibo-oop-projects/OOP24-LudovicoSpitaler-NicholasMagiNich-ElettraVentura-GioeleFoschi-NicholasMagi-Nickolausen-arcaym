@@ -23,10 +23,7 @@ public final class SwingUtils {
     /**
      * Window size.
      */
-    public static final Dimension WINDOW_SIZE = new Dimension(
-        Math.round(SCREEN_SIZE.width * WINDOW_SIZE_FACTOR),
-        Math.round(SCREEN_SIZE.height * WINDOW_SIZE_FACTOR)
-    );
+    public static final Dimension WINDOW_SIZE = scaleDimension(SCREEN_SIZE, WINDOW_SIZE_FACTOR);
 
     /**
      * Window scaling relative to the default size.
@@ -46,6 +43,19 @@ public final class SwingUtils {
     private static final float BIG_GAP_FACTOR = 2f;
 
     private SwingUtils() { }
+
+    /**
+     * Scale dimension by factor.
+     * @param dimension source
+     * @param scaleFactor scale factor
+     * @return resulting dimension
+     */
+    public static Dimension scaleDimension(final Dimension dimension, final float scaleFactor) {
+        return new Dimension(
+            Math.round(dimension.width * scaleFactor),
+            Math.round(dimension.height * scaleFactor)
+        );
+    }
 
     /**
      * Change font size of a component.
