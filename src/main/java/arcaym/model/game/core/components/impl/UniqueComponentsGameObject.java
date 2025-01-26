@@ -13,7 +13,7 @@ import arcaym.model.game.core.components.api.ComponentsBasedGameObject;
 import arcaym.model.game.core.components.api.GameComponent;
 import arcaym.model.game.core.objects.impl.AbstractGameObject;
 import arcaym.model.game.events.api.GameEvent;
-import arcaym.model.game.events.api.InputEvent;
+import arcaym.model.game.events.impl.InputEvent;
 import arcaym.model.game.objects.api.GameObjectType;
 
 /**

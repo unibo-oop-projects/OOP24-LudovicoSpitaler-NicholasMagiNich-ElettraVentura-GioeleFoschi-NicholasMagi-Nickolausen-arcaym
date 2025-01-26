@@ -11,7 +11,7 @@ import arcaym.controller.game.scene.api.GameSceneInfo;
 import arcaym.model.game.core.components.api.ComponentsBasedGameObject;
 import arcaym.model.game.core.components.api.GameComponent;
 import arcaym.model.game.events.api.GameEvent;
-import arcaym.model.game.events.api.InputEvent;
+import arcaym.model.game.events.impl.InputEvent;
 
 /**
  * Abstract implementation of {@link GameComponent}.
