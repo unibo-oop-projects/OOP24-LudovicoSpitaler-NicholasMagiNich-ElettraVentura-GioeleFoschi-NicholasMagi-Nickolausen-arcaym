@@ -21,25 +21,14 @@ public abstract class AbstractThreadSafeGame implements Game {
     private final EventsManager<InputEvent> inputEventsManager = new ThreadSafeEventsManager<>();
     private final GameState gameState = new DefaultGameState(this.gameEventsManager);
     private final GameScene gameScene;
-    private final GameView gameView;
 
     /**
-     * Initialize with the given scene and game view.
+     * Initialize with the given scene.
      * 
-     * @param gameScene game scene manager
-     * @param gameView game view
+     * @param gameScene game scene
      */
-    protected AbstractThreadSafeGame(final GameScene gameScene, final GameView gameView) {
+    protected AbstractThreadSafeGame(final GameScene gameScene) {
         this.gameScene = Objects.requireNonNull(gameScene);
-        this.gameView = Objects.requireNonNull(gameView);
-        gameView.registerEventsCallbacks(this.gameEventsManager);
-        gameScene.consumePendingActions();
-        gameScene.getGameObjects().forEach(
-            o -> o.setup(this.gameEventsManager, this.inputEventsManager, gameScene, this.gameState)
-        );
-
-        this.gameEventsManager.registerCallback(GameEvent.GAME_OVER, e -> this.scheduleStop());
-        this.gameEventsManager.registerCallback(GameEvent.VICTORY, e -> this.scheduleStop());
     }
 
     /**
@@ -70,12 +59,17 @@ public abstract class AbstractThreadSafeGame implements Game {
     }
 
     /**
-     * Get the game view.
-     * 
-     * @return game view
+     * {@inheritDoc}
      */
-    protected final GameView view() {
-        return this.gameView;
+    @Override
+    public void start(final GameView gameView) {
+        gameView.registerEventsCallbacks(this.gameEventsManager);
+        this.gameScene.consumePendingActions(gameView);
+        this.gameScene.getGameObjects().forEach(
+            o -> o.setup(this.gameEventsManager, this.inputEventsManager, gameScene, this.gameState)
+        );
+        this.gameEventsManager.registerCallback(GameEvent.GAME_OVER, e -> this.scheduleStop());
+        this.gameEventsManager.registerCallback(GameEvent.VICTORY, e -> this.scheduleStop());
     }
 
     /**
