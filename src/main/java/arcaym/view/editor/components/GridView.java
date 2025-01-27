@@ -35,10 +35,11 @@ public class GridView implements ViewComponent<JPanel> {
     /**
      * The constructor of the component.
      * @param sendObjects the function that needs to process the list of objects
+     * @param cellDimension the minimum dimension of the cell
      */
-    public GridView(final Consumer<Collection<Position>> sendObjects, final int cellDimention) {
+    public GridView(final Consumer<Collection<Position>> sendObjects, final int cellDimension) {
         this.reciver = sendObjects;
-        this.cellDimension = cellDimention;
+        this.cellDimension = cellDimension;
     }
 
     /**
@@ -51,11 +52,11 @@ public class GridView implements ViewComponent<JPanel> {
 
     private JPanel buildGrid() {
         final var grid = new JPanel(new GridLayout(ROWS, COLUMNS));
-        
+
         final MouseListener m = new MouseListener() {
-            
-            final List<Position> positionInvolved = new ArrayList<>();
-            private boolean isClicking = false;
+
+            private final List<Position> positionInvolved = new ArrayList<>();
+            private boolean isClicking;
 
             @Override
             public void mouseClicked(final MouseEvent e) {
@@ -63,7 +64,6 @@ public class GridView implements ViewComponent<JPanel> {
 
             @Override
             public void mousePressed(final MouseEvent e) {
-                System.out.println("hey");
                 isClicking = true;
                 final var panel = (JPanel) e.getSource();
                 if (cells.containsKey(panel)) {
@@ -73,7 +73,6 @@ public class GridView implements ViewComponent<JPanel> {
 
             @Override
             public void mouseReleased(final MouseEvent e) {
-                System.out.println("released");
                 isClicking = false;
                 reciver.accept(positionInvolved);
                 positionInvolved.clear();
@@ -82,11 +81,8 @@ public class GridView implements ViewComponent<JPanel> {
             @Override
             public void mouseEntered(final MouseEvent e) {
                 final var panel = (JPanel) e.getSource();
-                if (cells.containsKey(panel)) {
-                    if (!positionInvolved.contains(cells.get(panel)) && isClicking) {
-                        System.out.println("entered new Panel");
-                        positionInvolved.add(cells.get(panel));
-                    }
+                if (cells.containsKey(panel) && !positionInvolved.contains(cells.get(panel)) && isClicking) {
+                    positionInvolved.add(cells.get(panel));
                 }
             }
 
@@ -97,12 +93,11 @@ public class GridView implements ViewComponent<JPanel> {
 
         for (int i = 0; i < COLUMNS; i++) {
             for (int j = 0; j < ROWS; j++) {
-                var pos = Position.of(i, j);
                 final JPanel jp = new JPanel();
-                jp.setSize(new Dimension(cellDimension,cellDimension));
+                jp.setSize(new Dimension(cellDimension, cellDimension));
                 jp.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
                 jp.setBackground(Color.BLUE);
-                cells.put(jp, pos);
+                cells.put(jp, Position.of(i, j));
                 jp.addMouseListener(m);
                 grid.add(jp);
             }
@@ -114,12 +109,12 @@ public class GridView implements ViewComponent<JPanel> {
      * Changes the grid cells view based on the given map.
      * @param positions Contains the list of objets to place in the cell in a specific position
      */
-    public void setPositionFromMap(final Map<Position, List<GameObjectType>> positions){
+    public void setPositionFromMap(final Map<Position, List<GameObjectType>> positions) {
         // temporal method, to update with images
         positions.entrySet().forEach(e -> {
             var color = Color.BLUE;
             if (e.getValue().size() == 1) {
-                if (e.getValue().getFirst().equals(GameObjectType.FLOOR)){
+                if (e.getValue().getFirst().equals(GameObjectType.FLOOR)) {
                     color = Color.LIGHT_GRAY;
                 }
             } else {
@@ -128,34 +123,4 @@ public class GridView implements ViewComponent<JPanel> {
             cells.inverse().get(e.getKey()).setBackground(color);
         });
     }
-
-    /**
-     * Test main.
-     * param args args
-     */
-    // public static void main(final String[] args) {
-    //     class InternalTest {
-    //         private int i = 0;
-    //         private final GridView grid;
-
-    //         public InternalTest(){
-    //             this.grid = new GridView(this::compute, 1);
-    //         }
-
-    //         public void draw(final Map<Position, List<GameObjectType>> map){
-    //             this.grid.setPositionFromMap(map);
-    //         }
-
-    //         public void compute(final Collection<Position> positions){
-    //             if (i % 2 == 0){
-    //                 this.draw(positions.stream().collect(Collectors.toMap(p -> p, p -> List.of(GameObjectType.WALL))));
-    //             } else {
-    //                 this.draw(positions.stream().collect(Collectors.toMap(p -> p, p -> List.of(GameObjectType.WALL, GameObjectType.COIN))));
-    //             }
-    //             i++;
-    //         }
-    //     }
-    //     final var test = new InternalTest();
-    //     SwingUtils.testComponent(test.grid.build());
-    // }
 }
