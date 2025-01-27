@@ -1,6 +1,4 @@
-package arcaym.controller.game.core.api;
-
-import java.util.Collection;
+package arcaym.view.game.api;
 
 import arcaym.controller.game.events.api.EventsObserver;
 import arcaym.controller.game.events.api.EventsScheduler;
@@ -9,9 +7,9 @@ import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.events.api.InputEvent;
 
 /**
- * Interface for a game observer.
+ * Interface for a game view.
  */
-public interface GameObserver extends EventsObserver<GameEvent> {
+public interface GameView extends EventsObserver<GameEvent> {
 
     /**
      * Set input events scheduler to use.
@@ -28,11 +26,11 @@ public interface GameObserver extends EventsObserver<GameEvent> {
     void createObject(GameObjectInfo gameObject);
 
     /**
-     * Render all the given objects.
+     * Update an existing game object.
      * 
-     * @param gameObjects game objects
+     * @param gameObject game object
      */
-    void updateObjects(Collection<GameObjectInfo> gameObjects);
+    void updateObject(GameObjectInfo gameObject);
 
     /**
      * Destroy a game object.

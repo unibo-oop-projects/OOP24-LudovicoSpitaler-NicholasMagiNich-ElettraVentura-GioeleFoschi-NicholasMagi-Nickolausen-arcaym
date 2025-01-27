@@ -3,13 +3,13 @@ package arcaym.controller.game.core.impl;
 import java.util.Objects;
 
 import arcaym.controller.game.core.api.Game;
-import arcaym.controller.game.core.api.GameObserver;
 import arcaym.controller.game.core.api.GameState;
 import arcaym.controller.game.events.api.EventsManager;
 import arcaym.controller.game.events.impl.ThreadSafeEventsManager;
 import arcaym.controller.game.scene.api.GameScene;
 import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.events.api.InputEvent;
+import arcaym.view.game.api.GameView;
 
 /**
  * Abstract implementation of {@link Game}.
@@ -21,16 +21,18 @@ public abstract class AbstractThreadSafeGame implements Game {
     private final EventsManager<InputEvent> inputEventsManager = new ThreadSafeEventsManager<>();
     private final GameState gameState = new DefaultGameState(this.gameEventsManager);
     private final GameScene gameScene;
+    private final GameView gameView;
 
     /**
-     * Initialize with the given scene and game observer.
+     * Initialize with the given scene and game view.
      * 
      * @param gameScene game scene manager
-     * @param gameObserver game observer
+     * @param gameView game view
      */
-    protected AbstractThreadSafeGame(final GameScene gameScene, final GameObserver gameObserver) {
+    protected AbstractThreadSafeGame(final GameScene gameScene, final GameView gameView) {
         this.gameScene = Objects.requireNonNull(gameScene);
-        Objects.requireNonNull(gameObserver).registerEventsCallbacks(this.gameEventsManager);
+        this.gameView = Objects.requireNonNull(gameView);
+        gameView.registerEventsCallbacks(this.gameEventsManager);
         gameScene.consumePendingActions();
         gameScene.getGameObjects().forEach(
             o -> o.setup(this.gameEventsManager, this.inputEventsManager, gameScene, this.gameState)
@@ -65,6 +67,15 @@ public abstract class AbstractThreadSafeGame implements Game {
      */
     protected final GameScene scene() {
         return this.gameScene;
+    }
+
+    /**
+     * Get the game view.
+     * 
+     * @return game view
+     */
+    protected final GameView view() {
+        return this.gameView;
     }
 
     /**
