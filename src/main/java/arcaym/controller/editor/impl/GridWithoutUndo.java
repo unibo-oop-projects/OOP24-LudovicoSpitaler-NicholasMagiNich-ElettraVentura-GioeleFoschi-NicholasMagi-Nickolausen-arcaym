@@ -1,11 +1,10 @@
 package arcaym.controller.editor.impl;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
 
 import arcaym.common.utils.Position;
-import arcaym.controller.editor.api.Editor;
+import arcaym.controller.editor.api.GridController;
 import arcaym.model.editor.EditorGridException;
 import arcaym.model.editor.EditorType;
 import arcaym.model.editor.api.Grid;
@@ -17,20 +16,9 @@ import arcaym.model.game.objects.api.GameObjectType;
 /**
  * An editor implementation with no undo feature.
  */
-public class EditorWithoutUndo implements Editor {
+public class GridWithoutUndo implements GridController {
 
     private GameObjectType selectedObject = GameObjectType.FLOOR;
-    // temporal static list of all objects
-    private List<GameObjectType> availableObjectList = List.of(
-        GameObjectType.COIN,
-        GameObjectType.FLOOR,
-        GameObjectType.MOVING_X_OBSTACLE,
-        GameObjectType.MOVING_Y_OBSTACLE,
-        GameObjectType.SPIKE,
-        GameObjectType.USER_PLAYER,
-        GameObjectType.WALL,
-        GameObjectType.WIN_GOAL);
-    // TODO
     private final Grid editorGrid;
     private final LevelMetadata metadata;
 
@@ -41,7 +29,7 @@ public class EditorWithoutUndo implements Editor {
      * @param type The type of grid that needs to be created
      * @param name The name to give to the level
      */
-    public EditorWithoutUndo(
+    public GridWithoutUndo(
         final int x, 
         final int y, 
         final EditorType type,
@@ -58,7 +46,7 @@ public class EditorWithoutUndo implements Editor {
      * Creates an editor controller starting from a metadata object.
      * @param metadata The object with internal data.
      */
-    public EditorWithoutUndo(
+    public GridWithoutUndo(
         final LevelMetadata metadata) {
         this.editorGrid = new GridImpl(metadata);
         this.metadata = new LevelMetadata(
@@ -74,22 +62,6 @@ public class EditorWithoutUndo implements Editor {
     @Override
     public void play() {
         // LevelBuilder.build;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void updateListOfAvailableObjects(final List<GameObjectType> availableList) {
-        this.availableObjectList = List.copyOf(availableList);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<GameObjectType> getListOfAvailableObjects() {
-        return this.availableObjectList;
     }
 
     /**
