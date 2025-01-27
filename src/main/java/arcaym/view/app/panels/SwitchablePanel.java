@@ -1,4 +1,4 @@
-package arcaym.view.app.panels.impl;
+package arcaym.view.app.panels;
 
 import java.util.Objects;
 import java.util.function.Consumer;
