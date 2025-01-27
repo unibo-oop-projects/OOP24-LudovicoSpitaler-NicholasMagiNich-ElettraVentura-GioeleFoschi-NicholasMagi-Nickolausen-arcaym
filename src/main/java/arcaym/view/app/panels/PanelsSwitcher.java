@@ -1,4 +1,4 @@
-package arcaym.view.app.panels.impl;
+package arcaym.view.app.panels;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
