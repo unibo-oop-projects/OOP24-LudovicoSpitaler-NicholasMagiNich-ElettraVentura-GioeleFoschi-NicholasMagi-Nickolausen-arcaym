@@ -5,7 +5,7 @@ import java.util.function.Supplier;
 
 import javax.swing.JPanel;
 
-import arcaym.view.app.panels.impl.SwitchablePanel;
+import arcaym.view.app.panels.SwitchablePanel;
 import arcaym.view.components.CenteredPanel;
 
 public class LevelsPanel extends SwitchablePanel {

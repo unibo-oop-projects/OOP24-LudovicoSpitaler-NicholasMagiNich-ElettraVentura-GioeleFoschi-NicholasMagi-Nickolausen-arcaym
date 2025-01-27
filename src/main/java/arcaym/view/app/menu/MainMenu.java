@@ -8,8 +8,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import arcaym.view.app.menu.levels.LevelsPanel;
-import arcaym.view.app.panels.impl.PanelsSwitcher;
-import arcaym.view.app.panels.impl.SwitchablePanel;
+import arcaym.view.app.panels.PanelsSwitcher;
+import arcaym.view.app.panels.SwitchablePanel;
 import arcaym.view.components.CenteredPanel;
 import arcaym.view.components.ImageLabel;
 import arcaym.view.utils.SwingUtils;
