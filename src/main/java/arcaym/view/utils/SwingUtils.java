@@ -3,13 +3,14 @@ package arcaym.view.utils;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import arcaym.common.geometry.impl.Point;
 import java.awt.Toolkit;
 import java.net.URL;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import arcaym.common.geometry.impl.Point;
 
 /**
  * Utility class for swing.
