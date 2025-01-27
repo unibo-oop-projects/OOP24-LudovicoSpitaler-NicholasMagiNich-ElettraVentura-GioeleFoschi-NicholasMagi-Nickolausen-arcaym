@@ -19,7 +19,7 @@ import arcaym.model.game.objects.api.GameObjectType;
 /**
  * An editor implementation with no undo feature.
  */
-public class EditorWithoutUndo implements GridController {
+public class GridWithoutUndo implements GridController {
 
     private GameObjectType selectedObject = GameObjectType.FLOOR;
     private final GridModel grid;
@@ -33,7 +33,7 @@ public class EditorWithoutUndo implements GridController {
      * @param type The type of grid that needs to be created
      * @param name The name to give to the level
      */
-    public EditorWithoutUndo(
+    public GridWithoutUndo(
         final int x, 
         final int y, 
         final EditorType type,
@@ -50,7 +50,7 @@ public class EditorWithoutUndo implements GridController {
      * Creates an editor controller starting from a metadata object.
      * @param metadata The object with internal data.
      */
-    public EditorWithoutUndo(
+    public GridWithoutUndo(
         final LevelMetadata metadata) {
         this.grid = new GridModelImpl(metadata);
         this.metadata = new LevelMetadata(
