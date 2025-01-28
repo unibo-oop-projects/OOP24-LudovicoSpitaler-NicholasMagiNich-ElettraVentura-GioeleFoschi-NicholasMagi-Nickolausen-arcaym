@@ -35,7 +35,7 @@ public interface GridModel {
      * 
      * @return True if an redo can be performed
      */
-    void canRedo();
+    boolean canRedo();
 
     /**
      * Places the object type in the positions given, if the placements does not break any constraints.
