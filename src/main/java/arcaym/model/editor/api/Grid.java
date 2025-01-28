@@ -8,7 +8,7 @@ import arcaym.model.editor.EditorGridException;
 import arcaym.model.game.objects.api.GameObjectType;
 
 /**
- * The interface used by {@link arcaym.controller.editor.api.Editor} that manages the editor grid.
+ * The interface used by {@link arcaym.controller.editor.api.GridController} that manages the editor grid.
  */
 public interface Grid {
 
