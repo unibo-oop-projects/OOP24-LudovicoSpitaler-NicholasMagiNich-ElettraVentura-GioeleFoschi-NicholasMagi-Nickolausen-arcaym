@@ -1,4 +1,4 @@
-package arcaym.view.app.levels;
+package arcaym.view.app.menu.levels;
 
 import java.util.List;
 import java.util.stream.Stream;

@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import arcaym.controller.game.core.api.GameObserver;
 import arcaym.controller.game.scene.api.GameScene;
 import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.core.objects.api.GameObjectInfo;
 import arcaym.model.game.objects.api.GameObjectType;
+import arcaym.view.game.api.GameView;
 
 /**
  * Abstract implementation of {@link GameScene}.
@@ -23,15 +23,15 @@ public abstract class AbstractGameScene implements GameScene {
     private final Set<GameObject> gameObjects = new HashSet<>();
     private final List<CreationInfo> creationEvents = new ArrayList<>();
     private final List<GameObject> destroyEvents = new ArrayList<>();
-    private final GameObserver gameObserver;
+    private final GameView gameView;
 
     /**
-     * Initialize with the given game observer.
+     * Initialize with the given view.
      * 
-     * @param gameObserver game observer
+     * @param gameView game view
      */
-    protected AbstractGameScene(final GameObserver gameObserver) {
-        this.gameObserver = Objects.requireNonNull(gameObserver);
+    protected AbstractGameScene(final GameView gameView) {
+        this.gameView = Objects.requireNonNull(gameView);
     }
 
     /**
@@ -86,12 +86,12 @@ public abstract class AbstractGameScene implements GameScene {
     private void createObject(final CreationInfo creation) {
         final var gameObject = this.createObject(creation.type());
         gameObject.setPosition(creation.position());
-        this.gameObserver.createObject(gameObject);
+        this.gameView.createObject(gameObject);
     }
 
     private void destroyObject(final GameObject gameObject) {
         this.gameObjects.remove(gameObject);
-        this.gameObserver.destroyObject(gameObject);
+        this.gameView.destroyObject(gameObject);
     }
 
 }

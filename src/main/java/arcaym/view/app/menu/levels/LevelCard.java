@@ -1,4 +1,4 @@
-package arcaym.view.app.levels;
+package arcaym.view.app.menu.levels;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -9,8 +9,6 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.util.Objects;
 
-import arcaym.common.utils.Position;
-import arcaym.model.editor.EditorType;
 import arcaym.model.editor.saves.LevelMetadata;
 import arcaym.view.api.ViewComponent;
 import arcaym.view.utils.SwingUtils;
@@ -19,8 +17,6 @@ import arcaym.view.utils.SwingUtils;
  * View for a {@link LevelMetadata}.
  */
 public class LevelCard implements ViewComponent<JButton> {
-
-    private static final float TITLE_FONT_SIZE_FACTOR = 4;
 
     private final LevelMetadata metadata;
 
@@ -43,8 +39,7 @@ public class LevelCard implements ViewComponent<JButton> {
         final var littleGap = SwingUtils.getLittleGap(button);
 
         final var nameLabel = new JLabel(this.metadata.levelName());
-        SwingUtils.changeFontSize(nameLabel, TITLE_FONT_SIZE_FACTOR);
-
+        SwingUtils.changeFontSize(nameLabel, 4);
         final var infoPanel = new JPanel();
         infoPanel.setBackground(SwingUtils.TRANSPARENT_COLOR);
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.PAGE_AXIS));
@@ -66,18 +61,6 @@ public class LevelCard implements ViewComponent<JButton> {
         });
 
         return button;
-    }
-
-    /**
-     * TODO remove.
-     * 
-     * @param args oifjhaiopfjhiopjweaofww
-     */
-    public static void main(final String[] args) {
-        final var pos = new Position(100, 40);
-        SwingUtils.testComponent(new LevelCard(
-            new LevelMetadata("TestLevel", "1234", EditorType.NORMAL, pos)
-        ).build());
     }
 
 }

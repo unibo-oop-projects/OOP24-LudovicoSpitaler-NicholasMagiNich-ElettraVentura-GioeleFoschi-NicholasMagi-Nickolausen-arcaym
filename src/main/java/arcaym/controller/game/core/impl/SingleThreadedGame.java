@@ -3,8 +3,8 @@ package arcaym.controller.game.core.impl;
 import java.util.logging.Logger;
 
 import arcaym.controller.game.core.api.Game;
-import arcaym.controller.game.core.api.GameObserver;
 import arcaym.controller.game.scene.api.GameScene;
+import arcaym.view.game.api.GameView;
 
 /**
  * Implementation of {@link Game} that uses a single background thread.
@@ -20,8 +20,8 @@ public class SingleThreadedGame extends AbstractThreadSafeGame {
                                             .daemon()
                                             .unstarted(this::gameLoop);
 
-    SingleThreadedGame(final GameScene gameScene, final GameObserver gameObserver) {
-        super(gameScene, gameObserver);
+    SingleThreadedGame(final GameScene gameScene, final GameView gameView) {
+        super(gameScene, gameView);
     }
 
     /**
@@ -46,9 +46,11 @@ public class SingleThreadedGame extends AbstractThreadSafeGame {
         while (this.runGameLoop) {
             this.inputEventsManager().consumePendingEvents();
             deltaTime = this.updateDeltaTime(deltaTime);
+            // no stream beacause delta time is not final
             for (final var gameObject : this.scene().getGameObjects()) {
                 gameObject.update(deltaTime, this.gameEventsManager(), this.scene(), this.state());
             }
+            this.scene().getGameObjects().forEach(this.view()::updateObject);
             this.scene().consumePendingActions();
             this.gameEventsManager().consumePendingEvents();
         }
