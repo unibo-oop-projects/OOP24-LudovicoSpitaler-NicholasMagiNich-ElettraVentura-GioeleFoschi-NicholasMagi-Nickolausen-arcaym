@@ -13,9 +13,9 @@ import org.junit.jupiter.api.Test;
 
 import arcaym.common.utils.Position;
 import arcaym.common.utils.file.FileUtils;
+import arcaym.controller.editor.saves.LevelMetadata;
 import arcaym.model.editor.api.Grid;
 import arcaym.model.editor.impl.GridImpl;
-import arcaym.model.editor.saves.LevelMetadata;
 import arcaym.model.game.objects.api.GameObjectType;
 
 /**

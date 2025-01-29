@@ -1,6 +1,5 @@
 package arcaym.view.objects;
-
-import javax.swing.JPanel;
+import javax.swing.JButton;
 
 import arcaym.model.game.core.objects.api.GameObjectCategory;
 import arcaym.model.game.objects.api.GameObjectType;
@@ -12,18 +11,16 @@ import arcaym.view.components.ImageLabel;
  */
 public class GameObjectSwingView implements ViewComponent<JPanel> {
 
-    private final GameObjectType type;
-    private final String spritePath;
+    private static final long serialVersionUID = 1L;
+    private final GameObjectCategory category;
 
     /**
      * Default constructor.
      * 
      * @param category the category (OBSTACLE, WALL, PLAYER...)
-     * @param spritePath the path of the corresponding image.
      */
-    public GameObjectSwingView(final GameObjectType type, final String spritePath) {
-        this.type = type;
-        this.spritePath = spritePath;
+    public GameObjectSwingView(final GameObjectCategory category) {
+        this.category = category;
     }
 
     /**

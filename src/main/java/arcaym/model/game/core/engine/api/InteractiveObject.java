@@ -5,7 +5,7 @@ import arcaym.controller.game.events.api.EventsScheduler;
 import arcaym.controller.game.events.api.EventsSubscriber;
 import arcaym.controller.game.scene.api.GameSceneInfo;
 import arcaym.model.game.events.api.GameEvent;
-import arcaym.model.game.events.api.InputEvent;
+import arcaym.model.game.events.impl.InputEvent;
 
 /**
  * Interface for an object that reacts to game updates.

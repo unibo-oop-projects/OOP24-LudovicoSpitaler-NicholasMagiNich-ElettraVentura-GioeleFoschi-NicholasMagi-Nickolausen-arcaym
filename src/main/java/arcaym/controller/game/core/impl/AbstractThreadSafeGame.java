@@ -8,7 +8,7 @@ import arcaym.controller.game.events.api.EventsManager;
 import arcaym.controller.game.events.impl.ThreadSafeEventsManager;
 import arcaym.controller.game.scene.api.GameScene;
 import arcaym.model.game.events.api.GameEvent;
-import arcaym.model.game.events.api.InputEvent;
+import arcaym.model.game.events.impl.InputEvent;
 import arcaym.view.game.api.GameView;
 
 /**

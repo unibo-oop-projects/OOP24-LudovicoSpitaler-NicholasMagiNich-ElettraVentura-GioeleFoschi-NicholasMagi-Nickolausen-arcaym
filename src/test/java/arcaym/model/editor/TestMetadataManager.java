@@ -11,9 +11,9 @@ import org.junit.jupiter.api.Test;
 
 import arcaym.common.utils.Position;
 import arcaym.common.utils.file.FileUtils;
-import arcaym.model.editor.saves.LevelMetadata;
-import arcaym.model.editor.saves.MetadataManager;
-import arcaym.model.editor.saves.MetadataManagerImpl;
+import arcaym.controller.editor.saves.LevelMetadata;
+import arcaym.controller.editor.saves.MetadataManager;
+import arcaym.controller.editor.saves.MetadataManagerImpl;
 
 /**
  * Class used to test the save feature of the levels metadata.
@@ -26,7 +26,7 @@ final class TestMetadataManager {
     private static final String SAVE_NAME = "testSave";
     private static final String SAVE_UUID = "testUUID";
     private static final EditorType SAVE_TYPE = EditorType.SANDBOX;
-    private static final Position SAVE_DIMENTION = Position.of(DEFAULT_GRID_WIDTH, DEFAULT_GRID_HEIGHT);
+    private static final Position SAVE_DIMENSION = Position.of(DEFAULT_GRID_WIDTH, DEFAULT_GRID_HEIGHT);
 
     private List<LevelMetadata> savedFiles;
     private MetadataManager manager;
@@ -38,7 +38,7 @@ final class TestMetadataManager {
     }
 
     private LevelMetadata createLevelMetadata(final int index) {
-        return new LevelMetadata(SAVE_NAME + index, SAVE_UUID + index, SAVE_TYPE, SAVE_DIMENTION);
+        return new LevelMetadata(SAVE_NAME + index, SAVE_UUID + index, SAVE_TYPE, SAVE_DIMENSION);
     }
 
     @AfterEach

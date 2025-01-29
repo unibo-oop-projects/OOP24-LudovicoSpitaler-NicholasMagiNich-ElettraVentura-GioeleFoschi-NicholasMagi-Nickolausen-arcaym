@@ -2,37 +2,29 @@ package arcaym.controller.editor.impl;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 import arcaym.common.utils.Position;
-import arcaym.controller.editor.api.Editor;
+import arcaym.controller.editor.api.GridController;
+import arcaym.controller.editor.saves.LevelMetadata;
+import arcaym.controller.editor.saves.MetadataManagerImpl;
 import arcaym.model.editor.EditorGridException;
 import arcaym.model.editor.EditorType;
-import arcaym.model.editor.api.Grid;
-import arcaym.model.editor.impl.GridImpl;
-import arcaym.model.editor.saves.LevelMetadata;
-import arcaym.model.editor.saves.MetadataManagerImpl;
+import arcaym.model.editor.api.GridModel;
+import arcaym.model.editor.impl.GridModelImpl;
 import arcaym.model.game.objects.api.GameObjectType;
 
 /**
  * An editor implementation with no undo feature.
  */
-public class EditorWithoutUndo implements Editor {
+public class EditorWithoutUndo implements GridController {
 
     private GameObjectType selectedObject = GameObjectType.FLOOR;
-    // temporal static list of all objects
-    private List<GameObjectType> availableObjectList = List.of(
-        GameObjectType.COIN,
-        GameObjectType.FLOOR,
-        GameObjectType.MOVING_X_OBSTACLE,
-        GameObjectType.MOVING_Y_OBSTACLE,
-        GameObjectType.SPIKE,
-        GameObjectType.USER_PLAYER,
-        GameObjectType.WALL,
-        GameObjectType.WIN_GOAL);
-    // TODO
-    private final Grid editorGrid;
+    private final GridModel grid;
     private final LevelMetadata metadata;
+    private Consumer<Map<Position, List<GameObjectType>>> view;
 
     /**
      * Creates an editor controller without the ability do undo / redo.
@@ -46,7 +38,7 @@ public class EditorWithoutUndo implements Editor {
         final int y, 
         final EditorType type,
         final String name) {
-        this.editorGrid = new GridImpl(x, y, type);
+        this.grid = new GridModelImpl(type, x, y);
         this.metadata = new LevelMetadata(
             name,
             UUID.randomUUID().toString(),
@@ -60,7 +52,7 @@ public class EditorWithoutUndo implements Editor {
      */
     public EditorWithoutUndo(
         final LevelMetadata metadata) {
-        this.editorGrid = new GridImpl(metadata);
+        this.grid = new GridModelImpl(metadata);
         this.metadata = new LevelMetadata(
             metadata.levelName(),
             metadata.uuid(),
@@ -74,22 +66,6 @@ public class EditorWithoutUndo implements Editor {
     @Override
     public void play() {
         // LevelBuilder.build;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void updateListOfAvailableObjects(final List<GameObjectType> availableList) {
-        this.availableObjectList = List.copyOf(availableList);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<GameObjectType> getListOfAvailableObjects() {
-        return this.availableObjectList;
     }
 
     /**
@@ -135,7 +111,7 @@ public class EditorWithoutUndo implements Editor {
      */
     @Override
     public void eraseArea(final Collection<Position> positions) throws EditorGridException {
-        this.editorGrid.removeObjects(positions);
+        this.grid.removeObjects(positions);
     }
 
     /**
@@ -143,7 +119,7 @@ public class EditorWithoutUndo implements Editor {
      */
     @Override
     public void applyChange(final Collection<Position> positions) throws EditorGridException {
-        this.editorGrid.setObjects(positions, selectedObject);
+        this.grid.placeObjects(positions, selectedObject);
     }
 
     /**
@@ -151,7 +127,28 @@ public class EditorWithoutUndo implements Editor {
      */
     @Override
     public boolean saveLevel() {
-        return this.editorGrid.saveState(metadata.uuid())
+        return this.grid.saveState(metadata.uuid())
             && new MetadataManagerImpl().saveMetadata(metadata);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setView(final Consumer<Map<Position, List<GameObjectType>>> listener) {
+        this.view = listener;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateView(final Map<Position, List<GameObjectType>> map) {
+        if (view == null) { 
+            // Objects.isNull(view) <= gives spotbugs error false positive: 
+            // field view not initialized in constructor and dereferenced in method.
+            throw new IllegalStateException("View listener not initialized");
+        }
+        this.view.accept(map);
     }
 }

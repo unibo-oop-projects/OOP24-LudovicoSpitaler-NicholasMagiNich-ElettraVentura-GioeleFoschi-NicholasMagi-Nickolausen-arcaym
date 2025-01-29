@@ -2,17 +2,12 @@ package arcaym.view.app.impl;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
-import arcaym.model.game.core.objects.api.GameObjectCategory;
 import arcaym.view.app.api.MainView;
 import arcaym.view.editor.EditorMainView;
-import arcaym.view.objects.GameObjectSwingView;
 
 /**
  * Implementation of the main window of the application.
@@ -21,7 +16,7 @@ public class MainViewImpl implements MainView {
 
     private static final Dimension MINIMUM_SCREEN_SIZE = new Dimension(1024, 768);
     private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    private final String WINDOW_TITLE = "Architect of Mayhem";
+    private static final String WINDOW_TITLE = "Architect of Mayhem";
     private final JFrame mainFrame = new JFrame();
     private JPanel editor;
     private JPanel game;
@@ -30,7 +25,7 @@ public class MainViewImpl implements MainView {
      * {@inheritDoc}
      */
     @Override
-    public void switchToEditor() {
+    public final void switchToEditor() {
         initEditor();
         mainFrame.remove(game);
         mainFrame.add(editor);
@@ -51,7 +46,7 @@ public class MainViewImpl implements MainView {
     }
 
     private void initEditor() {
-        editor = new EditorMainView(createGameObjects()).build();
+        editor = new EditorMainView().build();
         editor.setMinimumSize(MINIMUM_SCREEN_SIZE);
         editor.setSize(screenSize);
         editor.setPreferredSize(screenSize);
@@ -75,7 +70,7 @@ public class MainViewImpl implements MainView {
     }
 
     /**
-     * {@inheritDoc}
+     * Constructor of the main view.
      */
     public MainViewImpl() {
         // Sets the location of the JFrame in the center of the screen

@@ -1,11 +1,6 @@
 package arcaym.view.editor.components;
 
-// import java.awt.Color;
 import java.awt.GridLayout;
-import java.util.Collections;
-// import java.util.HashMap;
-// import java.util.Map;
-// import java.util.Set;
 import java.util.Map;
 import java.util.Set;
 
@@ -23,15 +18,13 @@ import arcaym.view.objects.GameObjectSwingView;
  */
 public class SideMenuView implements ViewComponent<JScrollPane> {
 
-    private final JScrollPane mainPanel = new JScrollPane();
-    private JPanel content;
     private final Map<GameObjectCategory, Set<GameObjectSwingView>> gameObjects;
 
     /**
      * A constructor of the component.
      */
-    public SideMenuView(final Map<GameObjectCategory, Set<GameObjectSwingView>> gameObjects) {
-        this.gameObjects = Collections.unmodifiableMap(gameObjects);
+    public SideMenuView() {
+        this.gameObjects = Map.of();
     }
 
     /**
@@ -39,7 +32,8 @@ public class SideMenuView implements ViewComponent<JScrollPane> {
     */
     @Override
     public JScrollPane build() {
-        content = new JPanel();
+        final JScrollPane mainPanel = new JScrollPane();
+        final JPanel content = new JPanel();
         content.setMinimumSize(mainPanel.getSize());
         content.setLayout(new GridLayout(0, 1));
         gameObjects.forEach((category, objects) -> {

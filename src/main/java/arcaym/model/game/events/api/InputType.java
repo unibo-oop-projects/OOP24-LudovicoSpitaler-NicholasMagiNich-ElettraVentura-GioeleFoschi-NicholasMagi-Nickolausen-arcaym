@@ -3,7 +3,7 @@ package arcaym.model.game.events.api;
 /**
  * User input events.
  */
-public enum InputEvent implements Event {
+public enum InputType {
 
     /**
      * Left input.
@@ -23,11 +23,6 @@ public enum InputEvent implements Event {
     /**
      * Down input.
      */
-    DOWN,
-
-    /**
-     * Stop input.
-     */
-    STOP
+    DOWN;
 
 }
