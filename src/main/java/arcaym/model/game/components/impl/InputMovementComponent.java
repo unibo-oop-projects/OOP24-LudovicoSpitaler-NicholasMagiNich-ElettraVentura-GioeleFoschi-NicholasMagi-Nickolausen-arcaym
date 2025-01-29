@@ -20,9 +20,7 @@ import arcaym.model.game.events.impl.InputEvent;
  * input.
  */
 public class InputMovementComponent extends AbstractGameComponent {
-    private Map<Vector, Boolean> activeDirections = new HashMap<>();
-
-    private Vector velocity = Vector.zero();
+    private final Map<Vector, Boolean> activeDirections = new HashMap<>();
 
     /**
      * Basic constructor getting gameObject as an argument.
@@ -66,7 +64,7 @@ public class InputMovementComponent extends AbstractGameComponent {
     @Override
     public void update(final long deltaTime, final EventsScheduler<GameEvent> eventsScheduler,
             final GameSceneInfo gameScene, final GameState gameState) {
-        velocity = Vector.zero();
+        Vector velocity = Vector.zero();
         for (var entry : activeDirections.entrySet()) {
             if (entry.getValue()) {
                 velocity = velocity.sum(entry.getKey());
