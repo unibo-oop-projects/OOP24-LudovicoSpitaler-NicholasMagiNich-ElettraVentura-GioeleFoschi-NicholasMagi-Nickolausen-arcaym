@@ -8,12 +8,12 @@ import java.util.function.Consumer;
 
 import arcaym.common.utils.Position;
 import arcaym.controller.editor.api.GridController;
+import arcaym.controller.editor.saves.LevelMetadata;
+import arcaym.controller.editor.saves.MetadataManagerImpl;
 import arcaym.model.editor.EditorGridException;
 import arcaym.model.editor.EditorType;
 import arcaym.model.editor.api.GridModel;
 import arcaym.model.editor.impl.GridModelImpl;
-import arcaym.model.editor.saves.LevelMetadata;
-import arcaym.model.editor.saves.MetadataManagerImpl;
 import arcaym.model.game.objects.api.GameObjectType;
 
 /**

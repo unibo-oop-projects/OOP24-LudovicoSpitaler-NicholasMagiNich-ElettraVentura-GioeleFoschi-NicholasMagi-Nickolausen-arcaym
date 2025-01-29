@@ -15,8 +15,8 @@ import arcaym.model.game.objects.api.GameObjectType;
  */
 public class ComponentsBasedObjectsFactory implements GameObjectsFactory {
     private final double tileSize;
-    final CollisionComponentsFactory collisionFactory = new CollisionComponentsFactoryImpl();
-    final MovementComponentsFactory movementFactory = new MovementComponentsFactoryImpl();
+    private final CollisionComponentsFactory collisionFactory = new CollisionComponentsFactoryImpl();
+    private final MovementComponentsFactory movementFactory = new MovementComponentsFactoryImpl();
 
     /**
      * Contructor receiving tileSize as an argument.
@@ -53,13 +53,13 @@ public class ComponentsBasedObjectsFactory implements GameObjectsFactory {
             case FLOOR:
                 break;
             case MOVING_X_OBSTACLE:
-                movingXobstacleComponents(obj).forEach(comp -> obj.addComponent(comp));
+                movingXobstacleComponents(obj).forEach(obj::addComponent);
                 break;
             case MOVING_Y_OBSTACLE:
-                movingYobstacleComponents(obj).forEach(comp -> obj.addComponent(comp));
+                movingYobstacleComponents(obj).forEach(obj::addComponent);
                 break;
             case SPIKE:
-                obstacleComponents(obj).forEach(comp -> obj.addComponent(comp));
+                obstacleComponents(obj).forEach(obj::addComponent);
                 break;
             case USER_PLAYER:
                 obj.addComponent(movementFactory.fromInputMovement(obj));

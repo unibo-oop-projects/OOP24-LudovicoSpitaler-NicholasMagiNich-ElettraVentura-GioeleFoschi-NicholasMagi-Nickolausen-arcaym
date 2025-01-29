@@ -38,12 +38,4 @@ public class MainMenu implements ViewComponent<JPanel> {
         return new CenteredPanel().build(mainPanel);
     }
 
-    /**
-     * TODO remove.
-     * @param args foiaeuighiouweahiuogfea
-     */
-    public static void main(final String[] args) {
-        SwingUtils.testComponent(new MainMenu().build());
-    }
-
 }

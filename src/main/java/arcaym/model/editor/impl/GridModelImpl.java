@@ -8,11 +8,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import arcaym.common.utils.Position;
+import arcaym.controller.editor.saves.LevelMetadata;
 import arcaym.model.editor.EditorGridException;
 import arcaym.model.editor.EditorType;
 import arcaym.model.editor.api.Grid;
 import arcaym.model.editor.api.GridModel;
-import arcaym.model.editor.saves.LevelMetadata;
 import arcaym.model.game.objects.api.GameObjectType;
 /**
  * An implementation of the grid model.
