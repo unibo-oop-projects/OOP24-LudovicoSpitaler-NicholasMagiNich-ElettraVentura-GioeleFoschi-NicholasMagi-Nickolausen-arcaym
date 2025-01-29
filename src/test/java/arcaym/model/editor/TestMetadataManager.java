@@ -11,9 +11,9 @@ import org.junit.jupiter.api.Test;
 
 import arcaym.common.utils.Position;
 import arcaym.common.utils.file.FileUtils;
-import arcaym.model.editor.saves.LevelMetadata;
-import arcaym.model.editor.saves.MetadataManager;
-import arcaym.model.editor.saves.MetadataManagerImpl;
+import arcaym.controller.editor.saves.LevelMetadata;
+import arcaym.controller.editor.saves.MetadataManager;
+import arcaym.controller.editor.saves.MetadataManagerImpl;
 
 /**
  * Class used to test the save feature of the levels metadata.

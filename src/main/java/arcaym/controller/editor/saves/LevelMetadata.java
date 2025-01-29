@@ -1,4 +1,4 @@
-package arcaym.model.editor.saves;
+package arcaym.controller.editor.saves;
 
 import arcaym.common.utils.Position;
 import arcaym.model.editor.EditorType;
