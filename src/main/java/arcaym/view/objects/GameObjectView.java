@@ -15,17 +15,14 @@ public class GameObjectView implements ViewComponent<JPanel>, Serializable {
 
     private static final long serialVersionUID = 1L;
     private final GameObjectType type;
-    private final String assetPath;
 
     /**
      * Default constructor.
      * 
      * @param type the category (OBSTACLE, WALL, PLAYER...)
-     * @param assetPath the path of the image
      */
-    public GameObjectView(final String assetPath, final GameObjectType type) {
+    public GameObjectView(final GameObjectType type) {
         this.type = type;
-        this.assetPath = assetPath;
     }
 
     /**
@@ -42,7 +39,20 @@ public class GameObjectView implements ViewComponent<JPanel>, Serializable {
     @Override
     public JPanel build() {
         final JPanel out = new JPanel();
-        out.add(new ImageLabel(this.assetPath).build());
+        out.add(new ImageLabel(getImagePath()).build());
         return out;
+    }
+
+    private String getImagePath() {
+        return switch (this.type) {
+            case USER_PLAYER -> "coin.png";
+            case WIN_GOAL -> "coin.png";
+            case COIN -> "coin.png";
+            case FLOOR -> "coin.png";
+            case MOVING_X_OBSTACLE -> "static_obstacle.png";
+            case MOVING_Y_OBSTACLE -> "static_obstacle.png";
+            case SPIKE -> "static_obstacle.png";
+            case WALL -> "wall.png";
+        };
     }
 }
