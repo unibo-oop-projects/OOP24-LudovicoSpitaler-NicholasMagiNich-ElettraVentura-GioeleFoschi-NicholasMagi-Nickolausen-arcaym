@@ -11,6 +11,9 @@ import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.model.user.api.UserState;
 
+/**
+ * Implementation of {@link UserState}.
+ */
 public class UserStateImpl implements UserState, Serializable, EventsObserver<GameEvent> {
 
     private static final long serialVersionUID = 1L;
@@ -37,7 +40,7 @@ public class UserStateImpl implements UserState, Serializable, EventsObserver<Ga
      * {@inheritDoc}
      */
     @Override
-    public void addNewGameObject(GameObjectType gameObject) {
+    public void addNewGameObject(final GameObjectType gameObject) {
         this.itemsOwned.add(gameObject);
     }
 
@@ -45,7 +48,7 @@ public class UserStateImpl implements UserState, Serializable, EventsObserver<Ga
      * {@inheritDoc}
      */
     @Override
-    public void incrementScore(int amount) {
+    public void incrementScore(final int amount) {
         this.currentScore += Integer.max(amount, 0);
     }
 
@@ -53,7 +56,7 @@ public class UserStateImpl implements UserState, Serializable, EventsObserver<Ga
      * {@inheritDoc}
      */
     @Override
-    public void decrementScore(int amount) {
+    public void decrementScore(final int amount) {
         this.currentScore -= (this.currentScore - amount < 0) ? this.currentScore : amount;
     }
 
@@ -61,7 +64,7 @@ public class UserStateImpl implements UserState, Serializable, EventsObserver<Ga
      * {@inheritDoc}
      */
     @Override
-    public void registerEventsCallbacks(EventsSubscriber<GameEvent> eventsSubscriber, GameStateInfo gameState) {
+    public void registerEventsCallbacks(final EventsSubscriber<GameEvent> eventsSubscriber, final GameStateInfo gameState) {
         eventsSubscriber.registerCallback(GameEvent.VICTORY, e -> incrementScore(gameState.score().getValue()));
     }
 }

@@ -19,7 +19,7 @@ public class ShopControllerImpl implements ShopController {
 
     private final Shop shopModel;
     private final UserState userModel;
-    
+
     /**
      * Default constructor.
      */

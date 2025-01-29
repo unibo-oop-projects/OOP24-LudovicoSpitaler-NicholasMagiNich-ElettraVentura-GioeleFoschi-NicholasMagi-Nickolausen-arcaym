@@ -39,6 +39,6 @@ public interface UserState {
      * Decrements the user score.
      * @param amount the amount to subtract to the score. If the subtraction
      * makes the score drop below 0, then it goes to 0
-     */    
+     */
     void decrementScore(int amount);
 }

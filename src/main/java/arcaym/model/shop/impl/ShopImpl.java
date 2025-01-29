@@ -1,7 +1,7 @@
 package arcaym.model.shop.impl;
 
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 import arcaym.model.game.objects.api.GameObjectType;
@@ -16,12 +16,12 @@ public class ShopImpl implements Shop {
 
     private final Map<GameObjectType, Integer> lockedObjects;
     private final UserState userState;
-    
+
     /**
      * Default constructor.
      */
     public ShopImpl() {
-        this.lockedObjects = new HashMap<>();
+        this.lockedObjects = new EnumMap<>(GameObjectType.class);
         this.userState = new UserStateImpl();
     }
 
