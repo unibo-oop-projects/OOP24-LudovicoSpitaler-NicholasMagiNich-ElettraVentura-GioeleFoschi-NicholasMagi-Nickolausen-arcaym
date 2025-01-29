@@ -1,6 +1,6 @@
 package arcaym.model.game.core.engine.api;
 
-import arcaym.controller.game.core.api.GameState;
+import arcaym.controller.game.core.api.GameStateInfo;
 import arcaym.controller.game.events.api.EventsScheduler;
 import arcaym.controller.game.events.api.EventsSubscriber;
 import arcaym.controller.game.scene.api.GameSceneInfo;
@@ -24,7 +24,7 @@ public interface InteractiveObject {
         EventsSubscriber<GameEvent> gameEventsSubscriber, 
         EventsSubscriber<InputEvent> inputEventsSubscriber,
         GameSceneInfo gameScene, 
-        GameState gameState
+        GameStateInfo gameState
     );
 
     /**
@@ -39,7 +39,7 @@ public interface InteractiveObject {
         long deltaTime, 
         EventsScheduler<GameEvent> eventsScheduler, 
         GameSceneInfo gameScene,
-        GameState gameState
+        GameStateInfo gameState
     );
 
 }
