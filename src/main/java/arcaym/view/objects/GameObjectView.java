@@ -29,7 +29,7 @@ public class GameObjectView implements ViewComponent<JPanel>, Serializable {
      * 
      * @return the category the game object belongs to
      */
-    public GameObjectCategory getType() {
+    public GameObjectCategory getCategory() {
         return this.type.category();
     }
 
