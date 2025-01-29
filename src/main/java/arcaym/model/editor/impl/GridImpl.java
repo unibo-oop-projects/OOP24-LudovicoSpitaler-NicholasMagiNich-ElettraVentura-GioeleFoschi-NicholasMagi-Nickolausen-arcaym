@@ -10,13 +10,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import arcaym.common.utils.Position;
+import arcaym.controller.editor.saves.LevelMetadata;
 import arcaym.model.editor.ConstraintFailedException;
 import arcaym.model.editor.EditorGridException;
 import arcaym.model.editor.EditorType;
 import arcaym.model.editor.api.Cell;
 import arcaym.model.editor.api.Grid;
 import arcaym.model.editor.api.MapConstraint;
-import arcaym.model.editor.saves.LevelMetadata;
 import arcaym.model.editor.saves.MapSerializerImpl;
 import arcaym.model.game.core.objects.api.GameObjectCategory;
 import arcaym.model.game.objects.api.GameObjectType;

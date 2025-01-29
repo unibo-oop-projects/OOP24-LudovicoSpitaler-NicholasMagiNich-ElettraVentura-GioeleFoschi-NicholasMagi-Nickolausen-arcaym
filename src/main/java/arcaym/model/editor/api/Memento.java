@@ -1,12 +1,7 @@
 package arcaym.model.editor.api;
 
 /**
- * To delete.
+ * Class used to capture and restore the state of an object.
  */
 public interface Memento {
-
-    /**
-     * Needs a reorganization of code, to do at the end if there is still time.
-     */
-    void restore();
 }

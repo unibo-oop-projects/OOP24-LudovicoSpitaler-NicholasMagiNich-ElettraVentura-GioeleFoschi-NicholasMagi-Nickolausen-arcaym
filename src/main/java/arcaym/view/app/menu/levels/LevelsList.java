@@ -9,8 +9,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import arcaym.model.editor.saves.LevelMetadata;
-import arcaym.model.editor.saves.MetadataManagerImpl;
+import arcaym.controller.editor.saves.LevelMetadata;
+import arcaym.controller.editor.saves.MetadataManagerImpl;
 import arcaym.view.api.ViewComponent;
 import arcaym.view.utils.SwingUtils;
 

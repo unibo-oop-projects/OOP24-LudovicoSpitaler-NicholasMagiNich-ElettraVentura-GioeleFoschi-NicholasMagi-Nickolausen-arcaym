@@ -61,7 +61,7 @@ public class EditorGridView implements ViewComponent<JPanel> {
         contentPanel.add(body, bodyConstraints);
 
         final Dimension footerDimension = calculateComponentDimension(FOOTER_ROWS);
-        setAllDimension(footer,footerDimension);
+        setAllDimension(footer, footerDimension);
         final GridBagConstraints footerConstraints = new GridBagConstraints();
         footerConstraints.gridx = 0;
         footerConstraints.gridy = bodyConstraints.gridy + bodyConstraints.gridheight;
@@ -72,7 +72,7 @@ public class EditorGridView implements ViewComponent<JPanel> {
     }
 
     private Dimension calculateComponentDimension(final int fraction) {
-        return new Dimension(contentPanel.getWidth(), (contentPanel.getHeight() / ROWS) * fraction);
+        return new Dimension(contentPanel.getWidth(), contentPanel.getHeight() / ROWS * fraction);
     }
 
     private void setAllDimension(final Component component, final Dimension size) {
@@ -87,7 +87,7 @@ public class EditorGridView implements ViewComponent<JPanel> {
         final JButton start = new JButton("START");
         final JButton save = new JButton("SAVE");
         final JButton undo = new JButton("Undo");
-        
+
         header.add(undo);
         header.add(save);
         header.add(new JSeparator(JSeparator.VERTICAL));

@@ -25,11 +25,12 @@ public class EditorMainView implements ViewComponent<JPanel> {
     private JPanel grid;
     private JScrollPane sideMenu;
     private JSplitPane splitPane;
-    private JPanel out = new JPanel();
+    private final JPanel out = new JPanel();
     private final Map<GameObjectCategory, Set<GameObjectSwingView>> gameObjects;
 
     /**
      * The constructor for the page.
+     * @param gameObjects A map containing the division in category of all the unlocked objects
      */
     public EditorMainView(final Map<GameObjectCategory, Set<GameObjectSwingView>> gameObjects) {
         this.gameObjects = Collections.unmodifiableMap(Objects.requireNonNull(gameObjects));
@@ -50,7 +51,7 @@ public class EditorMainView implements ViewComponent<JPanel> {
         grid.setSize(gridDimension);
         grid.setPreferredSize(gridDimension);
         grid.setMinimumSize(gridDimension);
-        
+
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         splitPane.setSize(out.getSize());
         splitPane.setLeftComponent(sideMenu);

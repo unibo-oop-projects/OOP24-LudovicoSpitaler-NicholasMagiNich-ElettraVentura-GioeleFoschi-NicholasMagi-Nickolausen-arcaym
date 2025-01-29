@@ -1,5 +1,7 @@
 package arcaym.controller.game.events.api;
 
+import java.util.function.Consumer;
+
 import arcaym.model.game.events.api.Event;
 
 /**
@@ -15,6 +17,6 @@ public interface EventsSubscriber<T extends Event> {
      * @param event event
      * @param callback event callback
      */
-    void registerCallback(T event, Runnable callback);
+    void registerCallback(T event, Consumer<T> callback);
 
 }

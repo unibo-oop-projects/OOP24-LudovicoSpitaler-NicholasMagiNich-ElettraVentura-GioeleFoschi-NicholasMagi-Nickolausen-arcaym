@@ -2,14 +2,14 @@ package arcaym.view.app.impl;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 import arcaym.model.game.core.objects.api.GameObjectCategory;
+import arcaym.view.app.SpritePaths;
 import arcaym.view.app.api.MainView;
 import arcaym.view.editor.EditorMainView;
 import arcaym.view.objects.GameObjectSwingView;
@@ -21,36 +21,36 @@ public class MainViewImpl implements MainView {
 
     private static final Dimension MINIMUM_SCREEN_SIZE = new Dimension(1024, 768);
     private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    private final String WINDOW_TITLE = "Architect of Mayhem";
+    private static final String WINDOW_TITLE = "Architect of Mayhem";
     private final JFrame mainFrame = new JFrame();
     private JPanel editor;
     private JPanel game;
 
     private Map<GameObjectCategory, Set<GameObjectSwingView>> createGameObjects() {
         final var obstaclesSet = Set.of(
-            new GameObjectSwingView(GameObjectCategory.OBSTACLE, "static_obstacle.png")
+            new GameObjectSwingView(GameObjectCategory.OBSTACLE, SpritePaths.STATIC_OBSTACLE)
         );
         final var goalSet = Set.of(
-            new GameObjectSwingView(GameObjectCategory.GOAL, "coin.png")
+            new GameObjectSwingView(GameObjectCategory.GOAL, SpritePaths.COIN)
         );
         final var playerSet = Set.of(
-            new GameObjectSwingView(GameObjectCategory.PLAYER, "coin.png")
+            new GameObjectSwingView(GameObjectCategory.PLAYER, SpritePaths.COIN)
         );
         final var collectableSet = Set.of(
-            new GameObjectSwingView(GameObjectCategory.COLLECTABLE, "coin.png")
+            new GameObjectSwingView(GameObjectCategory.COLLECTABLE, SpritePaths.COIN)
         );
-        
-        final var blockSet = new HashSet<GameObjectSwingView>();
-        for (int i = 0; i < 30; i++) {
-            blockSet.add(new GameObjectSwingView(GameObjectCategory.BLOCK, "coin.png"));
-        }
+
+        // final var blockSet = new HashSet<GameObjectSwingView>();
+        // for (int i = 0; i < 5; i++) {
+        //     blockSet.add(new GameObjectSwingView(GameObjectCategory.BLOCK, SpritePaths.COIN));
+        // }
 
         return Map.of(
             GameObjectCategory.OBSTACLE, obstaclesSet,
             GameObjectCategory.GOAL, goalSet,
             GameObjectCategory.PLAYER, playerSet,
-            GameObjectCategory.COLLECTABLE, collectableSet,
-            GameObjectCategory.BLOCK, blockSet
+            GameObjectCategory.COLLECTABLE, collectableSet
+            // GameObjectCategory.BLOCK, blockSet
         );
     }
 
@@ -103,7 +103,7 @@ public class MainViewImpl implements MainView {
     }
 
     /**
-     * {@inheritDoc}
+     * Constructor of the main view.
      */
     public MainViewImpl() {
         // Sets the location of the JFrame in the center of the screen

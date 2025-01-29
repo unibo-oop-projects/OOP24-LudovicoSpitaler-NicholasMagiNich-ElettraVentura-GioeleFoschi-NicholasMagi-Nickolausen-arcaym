@@ -1,4 +1,4 @@
-package arcaym.model.editor.saves;
+package arcaym.controller.editor.saves;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
