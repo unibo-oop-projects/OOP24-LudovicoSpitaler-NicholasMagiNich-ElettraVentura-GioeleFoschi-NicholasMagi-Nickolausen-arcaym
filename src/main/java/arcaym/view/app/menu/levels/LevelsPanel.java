@@ -1,16 +1,14 @@
 package arcaym.view.app.menu.levels;
 
-import java.util.function.Consumer;
-import java.util.function.Supplier;
-
 import javax.swing.JPanel;
 
 import arcaym.view.app.panels.SwitchablePanel;
+import arcaym.view.app.panels.Switcher;
 import arcaym.view.components.CenteredPanel;
 
 public class LevelsPanel extends SwitchablePanel {
 
-    public LevelsPanel(final Consumer<Supplier<SwitchablePanel>> switcher) {
+    public LevelsPanel(final Switcher switcher) {
         super(switcher);
     }
 
