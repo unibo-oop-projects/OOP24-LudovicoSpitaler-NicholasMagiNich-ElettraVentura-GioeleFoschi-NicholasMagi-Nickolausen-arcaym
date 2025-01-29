@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 import arcaym.view.app.api.MainView;
 import arcaym.view.editor.EditorMainView;
+import arcaym.view.shop.api.ShopView;
 
 /**
  * Implementation of the main window of the application.
@@ -63,6 +64,7 @@ public class MainViewImpl implements MainView {
 
     /**
      * Debug only!
+     * 
      * @param args
      */
     public static void main(final String... args) {
@@ -78,9 +80,10 @@ public class MainViewImpl implements MainView {
         mainFrame.setMinimumSize(MINIMUM_SCREEN_SIZE);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        this.initEditor();
-        this.initGame();
-        this.switchToEditor();
+        // this.initEditor();
+        // this.initGame();
+        // this.switchToEditor();
+        mainFrame.add(new ShopView().build());
         mainFrame.pack();
         mainFrame.setVisible(true);
     }

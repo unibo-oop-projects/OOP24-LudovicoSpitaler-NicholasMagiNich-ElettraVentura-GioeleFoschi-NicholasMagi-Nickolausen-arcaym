@@ -4,12 +4,14 @@ import java.util.Objects;
 
 import arcaym.controller.game.core.api.Game;
 import arcaym.controller.game.core.api.GameState;
+import arcaym.controller.game.core.api.GameStateInfo;
 import arcaym.controller.game.events.api.EventsManager;
 import arcaym.controller.game.events.impl.ThreadSafeEventsManager;
 import arcaym.controller.game.scene.api.GameScene;
 import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.events.impl.InputEvent;
 import arcaym.view.game.api.GameView;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Abstract implementation of {@link Game}.
@@ -62,7 +64,14 @@ public abstract class AbstractThreadSafeGame implements Game {
      * {@inheritDoc}
      */
     @Override
-    public final GameState state() {
+    @SuppressFBWarnings(
+        value = {
+            "EI_EXPOSE_REP"
+        },
+        justification = "GameStateInfo is a read-only view on the game state "
+        + "with only read-only views as its fields"
+    )
+    public GameStateInfo state() {
         return this.gameState;
     }
 
