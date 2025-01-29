@@ -14,6 +14,7 @@ import java.util.function.Consumer;
 import javax.swing.BorderFactory;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
@@ -21,37 +22,43 @@ import com.google.common.collect.HashBiMap;
 import arcaym.common.utils.Position;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.view.api.ViewComponent;
+import arcaym.view.components.CenteredPanel;
+import arcaym.view.utils.SwingUtils;
 /**
  * An implementation of the grid view.
  */
-public class GridView implements ViewComponent<JPanel> {
+public class GridView implements ViewComponent<JScrollPane> {
 
-    private static final int COLUMNS = 50;
-    private static final int ROWS = 28;
+    private static final int CELL_SCALE = 50;
 
+    private final int COLUMNS;
+    private final int ROWS;
     private final Consumer<Collection<Position>> reciver;
     private final BiMap<JLayeredPane, Position> cells = HashBiMap.create();
     private final int cellDimension;
 
     /**
      * The constructor of the component.
-     * @param sendObjects the function that needs to process the list of objects
-     * @param cellDimension the minimum dimension of the cell
+     * 
+     * @param sendObjects The function that needs to process the list of objects
+     * @param size The size of the map
      */
-    public GridView(final Consumer<Collection<Position>> sendObjects, final int cellDimension) {
+    public GridView(final Consumer<Collection<Position>> sendObjects, final Position size) {
         this.reciver = sendObjects;
-        this.cellDimension = cellDimension;
+        this.cellDimension = SwingUtils.WINDOW_SIZE.width / CELL_SCALE;
+        this.COLUMNS = size.x();
+        this.ROWS = size.y();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public JPanel build() {
+    public JScrollPane build() {
         return buildGrid();
     }
 
-    private JPanel buildGrid() {
+    private JScrollPane buildGrid() {
         final var grid = new JPanel(new GridLayout(ROWS, COLUMNS));
 
         final MouseListener m = new MouseListener() {
@@ -103,7 +110,9 @@ public class GridView implements ViewComponent<JPanel> {
                 grid.add(jp);
             }
         }
-        return grid;
+
+        final var scrollPanel = new JScrollPane(new CenteredPanel().build(grid));
+        return scrollPanel;
     }
 
     /**
@@ -122,7 +131,7 @@ public class GridView implements ViewComponent<JPanel> {
             //     color = Color.PINK;
             // }
             // cells.inverse().get(e.getKey()).setBackground(color);
-            // cells.inverse().get(e.getKey()).add(, COLUMNS);
+            // cells.inverse().get(e.getKey()).add(new GameObjectView(null, null), COLUMNS);
         });
     }
 }
