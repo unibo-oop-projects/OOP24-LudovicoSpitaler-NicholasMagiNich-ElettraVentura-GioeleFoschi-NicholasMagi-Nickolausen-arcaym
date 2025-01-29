@@ -11,14 +11,14 @@ import javax.swing.SwingConstants;
 
 import arcaym.model.game.core.objects.api.GameObjectCategory;
 import arcaym.view.api.ViewComponent;
-import arcaym.view.objects.GameObjectSwingView;
+import arcaym.view.objects.GameObjectView;
 
 /**
  * An implementation of the side menu component in swing.
  */
 public class SideMenuView implements ViewComponent<JScrollPane> {
 
-    private final Map<GameObjectCategory, Set<GameObjectSwingView>> gameObjects;
+    private final Map<GameObjectCategory, Set<GameObjectView>> gameObjects;
 
     /**
      * A constructor of the component.

@@ -4,7 +4,7 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import arcaym.common.geometry.impl.Rectangles;
-import arcaym.controller.game.core.api.GameState;
+import arcaym.controller.game.core.api.GameStateInfo;
 import arcaym.controller.game.events.api.EventsScheduler;
 import arcaym.controller.game.scene.api.GameSceneInfo;
 import arcaym.model.game.components.api.CollisionComponentsFactory;
@@ -42,7 +42,7 @@ public class CollisionComponentsFactoryImpl implements CollisionComponentsFactor
             @Override
             public void update(final long deltaTime, final EventsScheduler<GameEvent> eventsScheduler,
                     final GameSceneInfo gameScene,
-                    final GameState gameState) {
+                    final GameStateInfo gameState) {
                 getCollidingObjects(gameScene, gameObject)
                         .filter(predicateFromObjectInfo::test)
                         .forEach(obj -> reaction.reactToCollision(deltaTime, eventsScheduler, obj, gameScene));

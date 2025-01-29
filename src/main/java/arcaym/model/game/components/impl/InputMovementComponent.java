@@ -5,7 +5,7 @@ import java.util.Map;
 
 import arcaym.common.geometry.impl.Point;
 import arcaym.common.geometry.impl.Vector;
-import arcaym.controller.game.core.api.GameState;
+import arcaym.controller.game.core.api.GameStateInfo;
 import arcaym.controller.game.events.api.EventsScheduler;
 import arcaym.controller.game.events.api.EventsSubscriber;
 import arcaym.controller.game.scene.api.GameSceneInfo;
@@ -42,7 +42,7 @@ public class InputMovementComponent extends AbstractGameComponent {
     public void setup(final EventsSubscriber<GameEvent> gameEventsSubscriber,
             final EventsSubscriber<InputEvent> inputEventsSubscriber,
             final GameSceneInfo gameScene,
-            final GameState gameState) {
+            final GameStateInfo gameState) {
         super.setup(gameEventsSubscriber, inputEventsSubscriber, gameScene, gameState);
 
         inputEventsSubscriber.registerCallback(new InputEvent(InputType.UP, false),
@@ -63,7 +63,7 @@ public class InputMovementComponent extends AbstractGameComponent {
      */
     @Override
     public void update(final long deltaTime, final EventsScheduler<GameEvent> eventsScheduler,
-            final GameSceneInfo gameScene, final GameState gameState) {
+            final GameSceneInfo gameScene, final GameStateInfo gameState) {
         Vector velocity = Vector.zero();
         for (final var entry : activeDirections.entrySet()) {
             if (entry.getValue()) {

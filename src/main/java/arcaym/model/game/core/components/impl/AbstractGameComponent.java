@@ -5,7 +5,7 @@ import java.util.Objects;
 import arcaym.common.utils.representation.FieldRepresentation;
 import arcaym.common.utils.representation.StringRepresentation;
 import arcaym.common.utils.representation.TypeRepresentation;
-import arcaym.controller.game.core.api.GameState;
+import arcaym.controller.game.core.api.GameStateInfo;
 import arcaym.controller.game.events.api.EventsSubscriber;
 import arcaym.controller.game.scene.api.GameSceneInfo;
 import arcaym.model.game.core.components.api.ComponentsBasedGameObject;
@@ -48,7 +48,7 @@ public abstract class AbstractGameComponent implements GameComponent {
     public void setup(final EventsSubscriber<GameEvent> gameEventsSubscriber,
             final EventsSubscriber<InputEvent> inputEventsSubscriber,
             final GameSceneInfo gameScene,
-            final GameState gameState) {
+            final GameStateInfo gameState) {
     }
 
     /**
