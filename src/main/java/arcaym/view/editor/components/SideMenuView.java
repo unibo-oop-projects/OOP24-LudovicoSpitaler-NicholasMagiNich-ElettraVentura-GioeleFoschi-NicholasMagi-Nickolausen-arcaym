@@ -38,7 +38,6 @@ public class SideMenuView implements ViewComponent<JScrollPane> {
         content.setLayout(new GridLayout(0, 1));
         gameObjects.forEach((category, objects) -> {
             content.add(new JLabel(category.toString(), SwingConstants.CENTER));
-            objects.forEach(content::add);
         });
         mainPanel.setViewportView(content);
         mainPanel.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);

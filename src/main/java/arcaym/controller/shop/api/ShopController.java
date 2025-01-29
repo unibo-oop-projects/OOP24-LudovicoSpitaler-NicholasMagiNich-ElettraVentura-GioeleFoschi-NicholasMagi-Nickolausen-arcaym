@@ -1,0 +1,37 @@
+package arcaym.controller.shop.api;
+
+import java.util.Map;
+import java.util.Set;
+
+import arcaym.model.game.objects.api.GameObjectType;
+
+/**
+ * Interface for shop controller.
+ */
+public interface ShopController {
+
+    /**
+     * Request transaction to the shop model.
+     * @param toBuy
+     * @return {@code True} if the transaction ends with success. {@code False} otherwise
+     */
+    boolean requestTransaction(GameObjectType toBuy);
+
+    /**
+     * 
+     * @return all the game objects purchased by the user.
+     */
+    Set<GameObjectType> getUnlockedGameObjects();
+
+    /**
+     * 
+     * @return all the game objects to be purchased.
+     */
+    Map<GameObjectType, Integer> getLockedGameObjects();
+
+    /**
+     * 
+     * @return the union of the results of {@link #getLockedGameObjects()} and {@link #getUnlockedGameObjects()} 
+     */
+    Set<GameObjectType> getAllGameObjects();
+}

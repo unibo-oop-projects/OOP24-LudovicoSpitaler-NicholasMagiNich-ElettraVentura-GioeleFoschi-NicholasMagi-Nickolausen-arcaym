@@ -1,30 +1,48 @@
 package arcaym.view.objects;
-import javax.swing.JButton;
+import java.io.Serializable;
+
+import javax.swing.JPanel;
 
 import arcaym.model.game.core.objects.api.GameObjectCategory;
+import arcaym.model.game.objects.api.GameObjectType;
+import arcaym.view.api.ViewComponent;
+import arcaym.view.components.ImageLabel;
 
 /**
  * Generic class to represent all the views of the objects implemented via Swing. 
  */
-public class GameObjectSwingView extends JButton {
+public class GameObjectSwingView implements ViewComponent<JPanel>, Serializable {
 
     private static final long serialVersionUID = 1L;
-    private final GameObjectCategory category;
+    private final GameObjectType type;
+    private final String assetPath;
 
     /**
      * Default constructor.
      * 
-     * @param category the category (OBSTACLE, WALL, PLAYER...)
+     * @param type the category (OBSTACLE, WALL, PLAYER...)
+     * @param assetPath the path of the image
      */
-    public GameObjectSwingView(final GameObjectCategory category) {
-        this.category = category;
+    public GameObjectSwingView(final String assetPath, final GameObjectType type) {
+        this.type = type;
+        this.assetPath = assetPath;
     }
 
     /**
      * 
      * @return the category the game object belongs to
      */
-    public GameObjectCategory getCategory() {
-        return this.category;
+    public GameObjectCategory getType() {
+        return this.type.category();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public JPanel build() {
+        final JPanel out = new JPanel();
+        out.add(new ImageLabel(this.assetPath).build());
+        return out;
     }
 }
