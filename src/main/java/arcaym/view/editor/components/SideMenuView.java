@@ -18,13 +18,10 @@ import arcaym.view.objects.GameObjectSwingView;
  */
 public class SideMenuView implements ViewComponent<JScrollPane> {
 
-    private final JScrollPane mainPanel = new JScrollPane();
-    private JPanel content;
     private final Map<GameObjectCategory, Set<GameObjectSwingView>> gameObjects;
 
     /**
      * A constructor of the component.
-     * @param gameObjects map of objects divided in categories
      */
     public SideMenuView() {
         this.gameObjects = Map.of();
@@ -35,7 +32,8 @@ public class SideMenuView implements ViewComponent<JScrollPane> {
     */
     @Override
     public JScrollPane build() {
-        content = new JPanel();
+        final JScrollPane mainPanel = new JScrollPane();
+        final JPanel content = new JPanel();
         content.setMinimumSize(mainPanel.getSize());
         content.setLayout(new GridLayout(0, 1));
         gameObjects.forEach((category, objects) -> {
