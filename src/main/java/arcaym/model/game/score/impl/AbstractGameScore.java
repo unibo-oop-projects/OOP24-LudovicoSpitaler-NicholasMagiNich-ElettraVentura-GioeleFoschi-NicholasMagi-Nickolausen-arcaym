@@ -40,8 +40,8 @@ public abstract class AbstractGameScore implements GameScore {
      */
     @Override
     public void registerEventsCallbacks(final EventsSubscriber<GameEvent> eventsSubscriber) {
-        eventsSubscriber.registerCallback(GameEvent.INCREMENT_SCORE, this::increment);
-        eventsSubscriber.registerCallback(GameEvent.DECREMENT_SCORE, this::decrement);
+        eventsSubscriber.registerCallback(GameEvent.INCREMENT_SCORE, e -> this.increment());
+        eventsSubscriber.registerCallback(GameEvent.DECREMENT_SCORE, e -> this.decrement());
     }
 
     /**
