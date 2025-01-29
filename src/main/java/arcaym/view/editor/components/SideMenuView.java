@@ -1,7 +1,6 @@
 package arcaym.view.editor.components;
 
 import java.awt.GridLayout;
-import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
@@ -27,8 +26,8 @@ public class SideMenuView implements ViewComponent<JScrollPane> {
      * A constructor of the component.
      * @param gameObjects map of objects divided in categories
      */
-    public SideMenuView(final Map<GameObjectCategory, Set<GameObjectSwingView>> gameObjects) {
-        this.gameObjects = Collections.unmodifiableMap(gameObjects);
+    public SideMenuView() {
+        this.gameObjects = Map.of();
     }
 
     /**

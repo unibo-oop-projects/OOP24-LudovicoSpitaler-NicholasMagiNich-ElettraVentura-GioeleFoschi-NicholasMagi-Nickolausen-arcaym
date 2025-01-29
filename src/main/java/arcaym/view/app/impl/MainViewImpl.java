@@ -2,17 +2,12 @@ package arcaym.view.app.impl;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.util.Map;
-import java.util.Set;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import arcaym.model.game.core.objects.api.GameObjectCategory;
-import arcaym.view.app.SpritePaths;
 import arcaym.view.app.api.MainView;
 import arcaym.view.editor.EditorMainView;
-import arcaym.view.objects.GameObjectSwingView;
 
 /**
  * Implementation of the main window of the application.
@@ -26,39 +21,11 @@ public class MainViewImpl implements MainView {
     private JPanel editor;
     private JPanel game;
 
-    private Map<GameObjectCategory, Set<GameObjectSwingView>> createGameObjects() {
-        final var obstaclesSet = Set.of(
-            new GameObjectSwingView(GameObjectCategory.OBSTACLE, SpritePaths.STATIC_OBSTACLE)
-        );
-        final var goalSet = Set.of(
-            new GameObjectSwingView(GameObjectCategory.GOAL, SpritePaths.COIN)
-        );
-        final var playerSet = Set.of(
-            new GameObjectSwingView(GameObjectCategory.PLAYER, SpritePaths.COIN)
-        );
-        final var collectableSet = Set.of(
-            new GameObjectSwingView(GameObjectCategory.COLLECTABLE, SpritePaths.COIN)
-        );
-
-        // final var blockSet = new HashSet<GameObjectSwingView>();
-        // for (int i = 0; i < 5; i++) {
-        //     blockSet.add(new GameObjectSwingView(GameObjectCategory.BLOCK, SpritePaths.COIN));
-        // }
-
-        return Map.of(
-            GameObjectCategory.OBSTACLE, obstaclesSet,
-            GameObjectCategory.GOAL, goalSet,
-            GameObjectCategory.PLAYER, playerSet,
-            GameObjectCategory.COLLECTABLE, collectableSet
-            // GameObjectCategory.BLOCK, blockSet
-        );
-    }
-
     /**
      * {@inheritDoc}
      */
     @Override
-    public void switchToEditor() {
+    public final void switchToEditor() {
         initEditor();
         mainFrame.remove(game);
         mainFrame.add(editor);
@@ -79,7 +46,7 @@ public class MainViewImpl implements MainView {
     }
 
     private void initEditor() {
-        editor = new EditorMainView(createGameObjects()).build();
+        editor = new EditorMainView().build();
         editor.setMinimumSize(MINIMUM_SCREEN_SIZE);
         editor.setSize(screenSize);
         editor.setPreferredSize(screenSize);

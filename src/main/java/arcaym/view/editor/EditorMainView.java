@@ -1,20 +1,14 @@
 package arcaym.view.editor;
 
 import java.awt.Dimension;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
-import arcaym.model.game.core.objects.api.GameObjectCategory;
 import arcaym.view.api.ViewComponent;
 import arcaym.view.editor.components.EditorGridView;
 import arcaym.view.editor.components.SideMenuView;
-import arcaym.view.objects.GameObjectSwingView;
 
 /**
  * The editor complete page.
@@ -22,27 +16,15 @@ import arcaym.view.objects.GameObjectSwingView;
 public class EditorMainView implements ViewComponent<JPanel> {
 
     private static final int COLUMNS = 5;
-    private JPanel grid;
-    private JScrollPane sideMenu;
-    private JSplitPane splitPane;
     private final JPanel out = new JPanel();
-    private final Map<GameObjectCategory, Set<GameObjectSwingView>> gameObjects;
-
-    /**
-     * The constructor for the page.
-     * @param gameObjects A map containing the division in category of all the unlocked objects
-     */
-    public EditorMainView(final Map<GameObjectCategory, Set<GameObjectSwingView>> gameObjects) {
-        this.gameObjects = Collections.unmodifiableMap(Objects.requireNonNull(gameObjects));
-    }
 
     /**
      * {@inheritDoc}
      */
     @Override
     public JPanel build() {
-        grid = new EditorGridView().build();
-        sideMenu = new SideMenuView(gameObjects).build();
+        final JPanel grid = new EditorGridView().build();
+        final JScrollPane sideMenu = new SideMenuView().build();
         final Dimension sideMenuDimension = new Dimension(Math.floorDiv(out.getWidth(), COLUMNS), out.getHeight());
         sideMenu.setSize(sideMenuDimension);
         sideMenu.setPreferredSize(sideMenuDimension);
@@ -52,7 +34,7 @@ public class EditorMainView implements ViewComponent<JPanel> {
         grid.setPreferredSize(gridDimension);
         grid.setMinimumSize(gridDimension);
 
-        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+        final JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         splitPane.setSize(out.getSize());
         splitPane.setLeftComponent(sideMenu);
         splitPane.setRightComponent(grid);
