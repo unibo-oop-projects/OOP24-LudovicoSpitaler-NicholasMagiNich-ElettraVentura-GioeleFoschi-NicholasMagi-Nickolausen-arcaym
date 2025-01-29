@@ -1,5 +1,8 @@
 package arcaym.model.game.components.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import arcaym.common.geometry.impl.Point;
 import arcaym.common.geometry.impl.Vector;
 import arcaym.controller.game.core.api.GameState;
@@ -9,22 +12,29 @@ import arcaym.controller.game.scene.api.GameSceneInfo;
 import arcaym.model.game.core.components.api.ComponentsBasedGameObject;
 import arcaym.model.game.core.components.impl.AbstractGameComponent;
 import arcaym.model.game.events.api.GameEvent;
-import arcaym.model.game.events.api.InputEvent;
+import arcaym.model.game.events.api.InputType;
+import arcaym.model.game.events.impl.InputEvent;
 
 /**
  * Implementation of {@link AbstractGameComponent} specific for movement from
  * input.
  */
 public class InputMovementComponent extends AbstractGameComponent {
+    private Map<Vector, Boolean> activeDirections = new HashMap<>();
 
     private Vector velocity = Vector.zero();
 
     /**
      * Basic constructor getting gameObject as an argument.
+     * 
      * @param gameObject
      */
     public InputMovementComponent(final ComponentsBasedGameObject gameObject) {
         super(gameObject);
+        activeDirections.put(Vector.of(0, -1), false);
+        activeDirections.put(Vector.of(0, 1), false);
+        activeDirections.put(Vector.of(-1, 0), false);
+        activeDirections.put(Vector.of(1, 0), false);
     }
 
     /**
@@ -37,11 +47,17 @@ public class InputMovementComponent extends AbstractGameComponent {
             final GameState gameState) {
         super.setup(gameEventsSubscriber, inputEventsSubscriber, gameScene, gameState);
 
-        inputEventsSubscriber.registerCallback(InputEvent.UP, () -> velocity = Vector.of(0, -1));
-        inputEventsSubscriber.registerCallback(InputEvent.DOWN, () -> velocity = Vector.of(0, 1));
-        inputEventsSubscriber.registerCallback(InputEvent.LEFT, () -> velocity = Vector.of(-1, 0));
-        inputEventsSubscriber.registerCallback(InputEvent.RIGHT, () -> velocity = Vector.of(1, 0));
-        inputEventsSubscriber.registerCallback(InputEvent.STOP, () -> velocity = Vector.zero());
+        inputEventsSubscriber.registerCallback(new InputEvent(InputType.UP, false),
+                event -> activeDirections.put(Vector.of(0, -1), !event.drop()));
+
+        inputEventsSubscriber.registerCallback(new InputEvent(InputType.DOWN, false),
+                event -> activeDirections.put(Vector.of(0, 1), !event.drop()));
+
+        inputEventsSubscriber.registerCallback(new InputEvent(InputType.LEFT, false),
+                event -> activeDirections.put(Vector.of(-1, 0), !event.drop()));
+
+        inputEventsSubscriber.registerCallback(new InputEvent(InputType.RIGHT, false),
+                event -> activeDirections.put(Vector.of(1, 0), !event.drop()));
     }
 
     /**
@@ -50,6 +66,13 @@ public class InputMovementComponent extends AbstractGameComponent {
     @Override
     public void update(final long deltaTime, final EventsScheduler<GameEvent> eventsScheduler,
             final GameSceneInfo gameScene, final GameState gameState) {
+        velocity = Vector.zero();
+        for (var entry : activeDirections.entrySet()) {
+            if (entry.getValue()) {
+                velocity = velocity.sum(entry.getKey());
+            }
+        }
+
         final Point currentPosition = gameObject().getPosition();
         final double newX = currentPosition.x() + (velocity.x() * deltaTime);
         final double newY = currentPosition.y() + (velocity.y() * deltaTime);

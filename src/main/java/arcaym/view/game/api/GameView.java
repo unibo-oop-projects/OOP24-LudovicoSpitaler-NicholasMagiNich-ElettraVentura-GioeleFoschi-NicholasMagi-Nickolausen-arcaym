@@ -4,7 +4,7 @@ import arcaym.controller.game.events.api.EventsObserver;
 import arcaym.controller.game.events.api.EventsScheduler;
 import arcaym.model.game.core.objects.api.GameObjectInfo;
 import arcaym.model.game.events.api.GameEvent;
-import arcaym.model.game.events.api.InputEvent;
+import arcaym.model.game.events.impl.InputEvent;
 
 /**
  * Interface for a game view.

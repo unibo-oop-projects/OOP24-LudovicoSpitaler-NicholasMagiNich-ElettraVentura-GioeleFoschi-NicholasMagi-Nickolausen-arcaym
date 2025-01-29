@@ -84,7 +84,7 @@ class TestEventsManager {
     @ParameterizedTest
     @ArgumentsSource(EventsManagersProvider.class)
     void testSingleEvent(final EventsManager<NoPriorityEvent> eventsManager) {
-        eventsManager.registerCallback(NoPriorityEvent.INCREMENT, this.counter::increment);
+        eventsManager.registerCallback(NoPriorityEvent.INCREMENT, e -> this.counter.increment());
         assertCounterValue(0);
         eventsManager.consumePendingEvents();
         assertCounterValue(0);
@@ -100,9 +100,19 @@ class TestEventsManager {
 
     @ParameterizedTest
     @ArgumentsSource(EventsManagersProvider.class)
+    void testEventValue(final EventsManager<NoPriorityEvent> eventsManager) {
+        eventsManager.registerCallback(NoPriorityEvent.INCREMENT, e -> assertEquals(NoPriorityEvent.INCREMENT, e));
+        eventsManager.registerCallback(NoPriorityEvent.DECREMENT, e -> assertEquals(NoPriorityEvent.DECREMENT, e));
+        eventsManager.scheduleEvent(NoPriorityEvent.DECREMENT);
+        eventsManager.scheduleEvent(NoPriorityEvent.INCREMENT);
+        eventsManager.consumePendingEvents();
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(EventsManagersProvider.class)
     void testMultipleEvents(final EventsManager<NoPriorityEvent> eventsManager) {
-        eventsManager.registerCallback(NoPriorityEvent.INCREMENT, this.counter::increment);
-        eventsManager.registerCallback(NoPriorityEvent.DECREMENT, this.counter::decrement);
+        eventsManager.registerCallback(NoPriorityEvent.INCREMENT, e -> this.counter.increment());
+        eventsManager.registerCallback(NoPriorityEvent.DECREMENT, e -> this.counter.decrement());
 
         eventsManager.scheduleEvent(NoPriorityEvent.INCREMENT);
         eventsManager.scheduleEvent(NoPriorityEvent.DECREMENT);
@@ -122,9 +132,9 @@ class TestEventsManager {
     @ParameterizedTest
     @ArgumentsSource(EventsManagersProvider.class)
     void testPriorityEvents(final EventsManager<PriorityEvent> eventsManager) {
-        eventsManager.registerCallback(PriorityEvent.LOCK, this.counter::lock);
-        eventsManager.registerCallback(PriorityEvent.INCREMENT, this.counter::increment);
-        eventsManager.registerCallback(PriorityEvent.DECREMENT, this.counter::decrement);
+        eventsManager.registerCallback(PriorityEvent.LOCK, e -> this.counter.lock());
+        eventsManager.registerCallback(PriorityEvent.INCREMENT, e -> this.counter.increment());
+        eventsManager.registerCallback(PriorityEvent.DECREMENT, e -> this.counter.decrement());
 
         eventsManager.scheduleEvent(PriorityEvent.INCREMENT);
         eventsManager.scheduleEvent(PriorityEvent.DECREMENT);
@@ -155,9 +165,9 @@ class TestEventsManager {
     @ParameterizedTest
     @ArgumentsSource(EventsManagersProvider.class)
     void testMixedEvents(final EventsManager<Event> eventsManager) {
-        eventsManager.registerCallback(PriorityEvent.LOCK, counter::lock);
-        eventsManager.registerCallback(NoPriorityEvent.INCREMENT, this.counter::increment);
-        eventsManager.registerCallback(NoPriorityEvent.DECREMENT, this.counter::decrement);
+        eventsManager.registerCallback(PriorityEvent.LOCK, e -> this.counter.lock());
+        eventsManager.registerCallback(NoPriorityEvent.INCREMENT, e -> this.counter.increment());
+        eventsManager.registerCallback(NoPriorityEvent.DECREMENT, e -> this.counter.decrement());
 
         eventsManager.scheduleEvent(NoPriorityEvent.INCREMENT);
         eventsManager.scheduleEvent(NoPriorityEvent.DECREMENT);
