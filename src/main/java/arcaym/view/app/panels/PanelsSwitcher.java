@@ -2,9 +2,10 @@ package arcaym.view.app.panels;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Stack;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -21,7 +22,7 @@ public class PanelsSwitcher implements ViewComponent<JPanel> {
 
     private static final String BACK_BUTTON_TEXT = "BACK";
 
-    private final Stack<Supplier<SwitchablePanel>> panelsHistory = new Stack<>();
+    private final Deque<Supplier<SwitchablePanel>> panelsHistory = new LinkedList<>();
     private Optional<SwitchablePanel> currentPanel = Optional.empty();
     private final Function<Switcher, Supplier<SwitchablePanel>> rootProvider;
 
@@ -61,8 +62,8 @@ public class PanelsSwitcher implements ViewComponent<JPanel> {
 
     private void goToPrevious(final JPanel mainPanel, final JPanel topRow) {
         if (this.canGoBack()) {
-            this.panelsHistory.pop();
-            this.setCurrentPanel(this.panelsHistory.peek(), mainPanel, topRow);
+            this.panelsHistory.removeLast();
+            this.setCurrentPanel(this.panelsHistory.peekLast(), mainPanel, topRow);
         }
     }
 
@@ -71,7 +72,7 @@ public class PanelsSwitcher implements ViewComponent<JPanel> {
         final JPanel mainPanel, 
         final JPanel topRow
     ) {
-        this.panelsHistory.add(panelSupplier);
+        this.panelsHistory.addLast(panelSupplier);
         this.setCurrentPanel(panelSupplier, mainPanel, topRow);
     }
 
