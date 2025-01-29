@@ -2,10 +2,10 @@ package arcaym.view.app.panels;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Stack;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -15,16 +15,24 @@ import javax.swing.JPanel;
 import arcaym.view.api.ViewComponent;
 import arcaym.view.utils.SwingUtils;
 
+/**
+ * View of a panel with content-switching capabilities.
+ */
 public class PanelsSwitcher implements ViewComponent<JPanel> {
 
     private static final String BACK_BUTTON_TEXT = "BACK";
 
-    private final Stack<Supplier<SwitchablePanel>> panelsHistory = new Stack<>();
+    private final Deque<Supplier<SwitchablePanel>> panelsHistory = new LinkedList<>();
     private Optional<SwitchablePanel> currentPanel = Optional.empty();
-    private final Function<Consumer<Supplier<SwitchablePanel>>, Supplier<SwitchablePanel>> rootProvider;
+    private final Function<Switcher, Supplier<SwitchablePanel>> rootProvider;
 
+    /**
+     * Initialize with given root panel.
+     * 
+     * @param rootProvider root provider
+     */
     public PanelsSwitcher(
-        final Function<Consumer<Supplier<SwitchablePanel>>, Supplier<SwitchablePanel>> rootProvider
+        final Function<Switcher, Supplier<SwitchablePanel>> rootProvider
     ) {
         this.rootProvider = Objects.requireNonNull(rootProvider);
     }
@@ -54,8 +62,8 @@ public class PanelsSwitcher implements ViewComponent<JPanel> {
 
     private void goToPrevious(final JPanel mainPanel, final JPanel topRow) {
         if (this.canGoBack()) {
-            this.panelsHistory.pop();
-            this.setCurrentPanel(this.panelsHistory.peek(), mainPanel, topRow);
+            this.panelsHistory.removeLast();
+            this.setCurrentPanel(this.panelsHistory.peekLast(), mainPanel, topRow);
         }
     }
 
@@ -64,7 +72,7 @@ public class PanelsSwitcher implements ViewComponent<JPanel> {
         final JPanel mainPanel, 
         final JPanel topRow
     ) {
-        this.panelsHistory.add(panelSupplier);
+        this.panelsHistory.addLast(panelSupplier);
         this.setCurrentPanel(panelSupplier, mainPanel, topRow);
     }
 
@@ -73,7 +81,7 @@ public class PanelsSwitcher implements ViewComponent<JPanel> {
         final JPanel mainPanel, 
         final JPanel topRow
     ) {
-        this.currentPanel.ifPresent(SwitchablePanel::onClose);
+        this.currentPanel.ifPresent(SwitchablePanel::close);
         this.currentPanel = Optional.of(panelSupplier.get());
         mainPanel.removeAll();
         if (this.canGoBack()) {

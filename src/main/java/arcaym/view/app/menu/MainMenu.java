@@ -1,8 +1,5 @@
 package arcaym.view.app.menu;
 
-import java.util.function.Consumer;
-import java.util.function.Supplier;
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
@@ -10,6 +7,7 @@ import javax.swing.JPanel;
 import arcaym.view.app.menu.levels.LevelsPanel;
 import arcaym.view.app.panels.PanelsSwitcher;
 import arcaym.view.app.panels.SwitchablePanel;
+import arcaym.view.app.panels.Switcher;
 import arcaym.view.components.CenteredPanel;
 import arcaym.view.components.ImageLabel;
 import arcaym.view.utils.SwingUtils;
@@ -23,7 +21,7 @@ public class MainMenu extends SwitchablePanel {
     private static final String LEVELS_BUTTON_TEXT = "LOAD LEVELS";
     private static final String SHOP_BUTTON_TEXT = "OPEN SHOP";
 
-    public MainMenu(final Consumer<Supplier<SwitchablePanel>> switcher) {
+    public MainMenu(final Switcher switcher) {
         super(switcher);
     }
 
@@ -35,7 +33,7 @@ public class MainMenu extends SwitchablePanel {
         final var mainPanel = new JPanel();
         final var levelsButton = new MenuButton(LEVELS_BUTTON_TEXT).build();
         final var shopButton = new MenuButton(SHOP_BUTTON_TEXT).build();
-        levelsButton.addActionListener(e -> this.switcher().accept(() -> new LevelsPanel(this.switcher())));
+        levelsButton.addActionListener(e -> this.switcher().switchTo(() -> new LevelsPanel(this.switcher())));
         final var gap = SwingUtils.getNormalGap(mainPanel);
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
         mainPanel.add(new CenteredPanel().build(new ImageLabel(TITLE_IMAGE)));

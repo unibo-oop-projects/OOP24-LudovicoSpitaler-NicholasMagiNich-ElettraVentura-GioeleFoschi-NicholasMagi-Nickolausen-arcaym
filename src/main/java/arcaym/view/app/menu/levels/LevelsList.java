@@ -9,8 +9,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import arcaym.model.editor.saves.LevelMetadata;
-import arcaym.model.editor.saves.MetadataManagerImpl;
+import arcaym.controller.editor.saves.LevelMetadata;
+import arcaym.controller.editor.saves.MetadataManagerImpl;
 import arcaym.view.api.ViewComponent;
 import arcaym.view.utils.SwingUtils;
 
@@ -18,7 +18,7 @@ import arcaym.view.utils.SwingUtils;
  * Scroll list with a {@link LevelCard} for each saved level.
  */
 public class LevelsList implements ViewComponent<JScrollPane> {
-    
+
     private final List<LevelMetadata> levels = new MetadataManagerImpl().loadData();
 
     /**
@@ -38,15 +38,6 @@ public class LevelsList implements ViewComponent<JScrollPane> {
             .forEach(mainPanel::add);
         mainPanel.setBorder(BorderFactory.createEmptyBorder(gap, gap, gap, gap));
         return new JScrollPane(mainPanel);
-    }
-
-    /**
-     * TODO remove.
-     * 
-     * @param args hfoawhioufhiowhaiohfiow
-     */
-    public static void main(final String[] args) {
-        SwingUtils.testComponent(new LevelsList().build());
     }
 
 }

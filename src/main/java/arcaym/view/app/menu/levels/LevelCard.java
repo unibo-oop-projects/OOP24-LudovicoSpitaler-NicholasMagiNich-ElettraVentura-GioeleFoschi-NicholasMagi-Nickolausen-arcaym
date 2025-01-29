@@ -1,15 +1,15 @@
 package arcaym.view.app.menu.levels;
 
+import java.awt.BorderLayout;
+import java.util.Objects;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import java.awt.BorderLayout;
-import java.util.Objects;
-
-import arcaym.model.editor.saves.LevelMetadata;
+import arcaym.controller.editor.saves.LevelMetadata;
 import arcaym.view.api.ViewComponent;
 import arcaym.view.utils.SwingUtils;
 
