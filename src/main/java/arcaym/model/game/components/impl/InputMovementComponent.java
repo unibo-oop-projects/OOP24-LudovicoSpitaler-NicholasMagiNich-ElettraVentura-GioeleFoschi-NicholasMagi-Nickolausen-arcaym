@@ -65,7 +65,7 @@ public class InputMovementComponent extends AbstractGameComponent {
     public void update(final long deltaTime, final EventsScheduler<GameEvent> eventsScheduler,
             final GameSceneInfo gameScene, final GameState gameState) {
         Vector velocity = Vector.zero();
-        for (var entry : activeDirections.entrySet()) {
+        for (final var entry : activeDirections.entrySet()) {
             if (entry.getValue()) {
                 velocity = velocity.sum(entry.getKey());
             }
