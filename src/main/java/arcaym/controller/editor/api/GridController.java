@@ -2,6 +2,8 @@ package arcaym.controller.editor.api;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 
 import arcaym.common.utils.Position;
 import arcaym.model.editor.EditorGridException;
@@ -10,24 +12,24 @@ import arcaym.model.game.objects.api.GameObjectType;
 /**
  * The interface used to manage the editor side.
  */
-public interface Editor {
+public interface GridController {
+
+    /**
+     * This is to set the method to call when the view needs to be updated.
+     * @param listener The fucntion to call
+     */
+    void setView(Consumer<Map<Position, List<GameObjectType>>> listener);
+
+    /**
+     * Signals the view that it needs to update, based on recent model changes.
+     * @param map How the view has to change: Position p -> render the objects in the list
+     */
+    void updateView(Map<Position, List<GameObjectType>> map);
 
     /**
      * Builds the level that u been cooking.
      */
     void play();
-
-    /**
-     * Sets the list of available objects to place.
-     * @param availableList the list of currently unlocked objects.
-     */
-    void updateListOfAvailableObjects(List<GameObjectType> availableList);
-
-    /**
-     * Gets the list of currently available objects.
-     * @return A list of objects
-     */
-    List<GameObjectType> getListOfAvailableObjects();
 
     /**
      * Updates the selected object.
@@ -47,14 +49,13 @@ public interface Editor {
     void redo();
 
     /**
-     * Weather the editor is in the correct state for an undo.
+     * Tells if the editor is in the correct state for an undo.
      * @return True if an undo can be performed
      */
     boolean canUndo();
 
     /**
-     * Weather the editor is in the correct state for an redo.
-     * 
+     * Tells if the editor is in the correct state for an redo.
      * @return True if an redo can be performed
      */
     boolean canRedo();
