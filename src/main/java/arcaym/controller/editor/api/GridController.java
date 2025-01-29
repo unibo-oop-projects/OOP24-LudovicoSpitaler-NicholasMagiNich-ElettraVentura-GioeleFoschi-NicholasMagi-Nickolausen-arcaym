@@ -1,6 +1,9 @@
 package arcaym.controller.editor.api;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 
 import arcaym.common.utils.Position;
 import arcaym.model.editor.EditorGridException;
@@ -66,4 +69,16 @@ public interface GridController {
      * @return True if the save was successful, false otherwise
      */
     boolean saveLevel();
+
+    /**
+     * This is to set the method to call when the view needs to be updated.
+     * @param listener The fucntion to call
+     */
+    void setView(Consumer<Map<Position, List<GameObjectType>>> listener);
+
+    /**
+     * Signals the view that it needs to update, based on recent model changes.
+     * @param map How the view has to change: Position p -> render the objects in the list
+     */
+    void updateView(Map<Position, List<GameObjectType>> map);
 }

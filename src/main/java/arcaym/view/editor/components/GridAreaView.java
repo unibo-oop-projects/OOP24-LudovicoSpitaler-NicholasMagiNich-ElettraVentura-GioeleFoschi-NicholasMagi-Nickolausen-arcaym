@@ -87,7 +87,7 @@ public class GridAreaView implements ViewComponent<JPanel> {
         final JButton start = new JButton("START");
         final JButton save = new JButton("SAVE");
         final JButton undo = new JButton("Undo");
-        
+
         header.add(undo);
         header.add(save);
         header.add(new JSeparator(JSeparator.VERTICAL));
