@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import javax.swing.BorderFactory;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import com.google.common.collect.BiMap;
@@ -29,7 +30,7 @@ public class GridView implements ViewComponent<JPanel> {
     private static final int ROWS = 28;
 
     private final Consumer<Collection<Position>> reciver;
-    private final BiMap<JPanel, Position> cells = HashBiMap.create();
+    private final BiMap<JLayeredPane, Position> cells = HashBiMap.create();
     private final int cellDimension;
 
     /**
@@ -65,7 +66,7 @@ public class GridView implements ViewComponent<JPanel> {
             @Override
             public void mousePressed(final MouseEvent e) {
                 isClicking = true;
-                final var panel = (JPanel) e.getSource();
+                final var panel = (JLayeredPane) e.getSource();
                 if (cells.containsKey(panel)) {
                     positionInvolved.add(cells.get(panel));
                 }
@@ -80,7 +81,7 @@ public class GridView implements ViewComponent<JPanel> {
 
             @Override
             public void mouseEntered(final MouseEvent e) {
-                final var panel = (JPanel) e.getSource();
+                final var panel = (JLayeredPane) e.getSource();
                 if (cells.containsKey(panel) && !positionInvolved.contains(cells.get(panel)) && isClicking) {
                     positionInvolved.add(cells.get(panel));
                 }
@@ -93,7 +94,7 @@ public class GridView implements ViewComponent<JPanel> {
 
         for (int i = 0; i < COLUMNS; i++) {
             for (int j = 0; j < ROWS; j++) {
-                final JPanel jp = new JPanel();
+                final JLayeredPane jp = new JLayeredPane();
                 jp.setSize(new Dimension(cellDimension, cellDimension));
                 jp.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
                 jp.setBackground(Color.BLUE);
@@ -112,15 +113,16 @@ public class GridView implements ViewComponent<JPanel> {
     public void setPositionFromMap(final Map<Position, List<GameObjectType>> positions) {
         // temporal method, to update with images
         positions.entrySet().forEach(e -> {
-            var color = Color.BLUE;
-            if (e.getValue().size() == 1) {
-                if (e.getValue().getFirst().equals(GameObjectType.FLOOR)) {
-                    color = Color.LIGHT_GRAY;
-                }
-            } else {
-                color = Color.PINK;
-            }
-            cells.inverse().get(e.getKey()).setBackground(color);
+            // var color = Color.BLUE;
+            // if (e.getValue().size() == 1) {
+            //     if (e.getValue().getFirst().equals(GameObjectType.FLOOR)) {
+            //         color = Color.LIGHT_GRAY;
+            //     }
+            // } else {
+            //     color = Color.PINK;
+            // }
+            // cells.inverse().get(e.getKey()).setBackground(color);
+            // cells.inverse().get(e.getKey()).add(, COLUMNS);
         });
     }
 }

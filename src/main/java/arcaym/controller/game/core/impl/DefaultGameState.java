@@ -18,8 +18,12 @@ public class DefaultGameState implements GameState {
 
     private final GameScore gameScore = new UnitGameScore(GAME_SCORE_UNIT);
 
-    DefaultGameState(final EventsSubscriber<GameEvent> eventsSubscriber) {
-        this.gameScore.registerEventsCallbacks(Objects.requireNonNull(eventsSubscriber));
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setupCallbacks(final EventsSubscriber<GameEvent> eventsSubscriber) {
+        this.gameScore.registerEventsCallbacks(Objects.requireNonNull(eventsSubscriber), this);
     }
 
     /**

@@ -1,17 +1,18 @@
 package arcaym.controller.game.core.api;
 
-import arcaym.model.game.score.api.GameScoreInfo;
+import arcaym.controller.game.events.api.EventsSubscriber;
+import arcaym.model.game.events.api.GameEvent;
 
 /**
  * Interface for a {@link Game} state.
  */
-public interface GameState {
+public interface GameState extends GameStateInfo {
 
     /**
-     * Get game score.
+     * Setup all game events callbacks.
      * 
-     * @return game score
+     * @param eventsSubscriber game events subscriber
      */
-    GameScoreInfo score();
+    void setupCallbacks(EventsSubscriber<GameEvent> eventsSubscriber);
 
 }
