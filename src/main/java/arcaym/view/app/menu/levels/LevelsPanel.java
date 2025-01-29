@@ -6,8 +6,16 @@ import arcaym.view.app.panels.SwitchablePanel;
 import arcaym.view.app.panels.Switcher;
 import arcaym.view.components.CenteredPanel;
 
+/**
+ * View for a levels panel.
+ */
 public class LevelsPanel extends SwitchablePanel {
 
+    /**
+     * Initialize with given switcher.
+     * 
+     * @param switcher switcher function
+     */
     public LevelsPanel(final Switcher switcher) {
         super(switcher);
     }
@@ -19,5 +27,5 @@ public class LevelsPanel extends SwitchablePanel {
     public JPanel build() {
         return new CenteredPanel().build(new LevelsList());
     }
-    
+
 }

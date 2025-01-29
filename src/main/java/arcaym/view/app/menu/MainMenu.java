@@ -21,6 +21,11 @@ public class MainMenu extends SwitchablePanel {
     private static final String LEVELS_BUTTON_TEXT = "LOAD LEVELS";
     private static final String SHOP_BUTTON_TEXT = "OPEN SHOP";
 
+    /**
+     * Initialize with given switcher.
+     * 
+     * @param switcher switcher function
+     */
     public MainMenu(final Switcher switcher) {
         super(switcher);
     }

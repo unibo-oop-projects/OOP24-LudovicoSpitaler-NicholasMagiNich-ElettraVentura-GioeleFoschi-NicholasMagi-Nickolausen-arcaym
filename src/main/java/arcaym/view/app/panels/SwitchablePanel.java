@@ -14,9 +14,9 @@ public abstract class SwitchablePanel implements ViewComponent<JPanel> {
     private final Switcher switcher;
 
     /**
-     * Initialize switchable panel with a switcher.
+     * Initialize with given switcher.
      * 
-     * @param switcher
+     * @param switcher switcher function
      */
     public SwitchablePanel(final Switcher switcher) {
         this.switcher = Objects.requireNonNull(switcher);
