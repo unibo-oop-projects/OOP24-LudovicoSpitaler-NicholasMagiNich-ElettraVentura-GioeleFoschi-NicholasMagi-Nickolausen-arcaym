@@ -16,7 +16,11 @@ import arcaym.view.utils.SwingUtils;
  */
 public class ImageLabel implements ViewComponent<JLabel> {
 
-    private static final double DEFAULT_SCALE = 1.0;
+    /**
+     * Default image scaling value.
+     */
+    public static final double DEFAULT_SCALE = 1.0;
+
     private static final Map<String, ImageIcon> IMAGES_CACHE = new HashMap<>();
 
     private final String path;
