@@ -36,6 +36,7 @@ public class ShopView implements ViewComponent<JPanel> {
     private final Map<JButton, ProductInfo> productsMap = new HashMap<>();
     private Optional<ProductInfo> selected = Optional.empty();
     private JButton buyButton;
+    private int counterTHISISAMOCKTODELETE = 10;
 
     private final Map<GameObjectType, Integer> mockController = new EnumMap<>(GameObjectType.class); // mock
 
@@ -57,7 +58,8 @@ public class ShopView implements ViewComponent<JPanel> {
         SwingUtils.changeFontSize(title, SCALE);
         contentPanel.add(new CenteredPanel().build(window, title));
 
-        //final JLabel userCredit = new JLabel("Credit: " + "");
+        final JLabel userCredit = new JLabel("Credit: " + String.valueOf(counterTHISISAMOCKTODELETE));
+        contentPanel.add(new CenteredPanel().build(window, userCredit));
 
         final JScrollPane scrollPanel = new JScrollPane();
         final JPanel itemsPanel = new JPanel();
@@ -83,6 +85,9 @@ public class ShopView implements ViewComponent<JPanel> {
             public void actionPerformed(final ActionEvent arg) {
                 if (selected.isPresent()) {
                     // controllerBUY();
+                    counterTHISISAMOCKTODELETE--;
+                    userCredit.setText("Credit: " + String.valueOf(counterTHISISAMOCKTODELETE));
+                    //
                     buyButton.setEnabled(false);
                     selected = Optional.empty();
                     setAvailableButtons();
@@ -150,7 +155,8 @@ public class ShopView implements ViewComponent<JPanel> {
         } else {
             for (final var object : mockController.entrySet().stream()
                     .filter(type -> type.getKey().category().equals(category)).toList()) {
-                final JPanel item = new DisplayProductView(new ProductInfo(object.getKey(), object.getValue())).build(window);
+                final JPanel item = new DisplayProductView(new ProductInfo(object.getKey(), object.getValue()))
+                        .build(window);
                 item.setLayout(new BoxLayout(item, BoxLayout.PAGE_AXIS));
                 final JButton price = new JButton(String.valueOf(object.getValue()));
                 productsMap.put(price, new ProductInfo(object.getKey(), object.getValue()));
