@@ -5,8 +5,8 @@ import javax.swing.JLabel;
 import arcaym.model.game.core.objects.api.GameObjectCategory;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.view.components.ImageLabel;
-import arcaym.view.core.api.WindowInfo;
 import arcaym.view.core.api.ViewComponent;
+import arcaym.view.core.api.WindowInfo;
 
 /**
  * Generic class to represent all the views of the objects implemented via Swing. 
