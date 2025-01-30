@@ -2,8 +2,7 @@ package arcaym.controller.shop.impl;
 
 import java.util.Map;
 
-import arcaym.controller.editor.api.GameObjectsProvider;
-import arcaym.controller.editor.impl.GameObjectsProviderImpl;
+import arcaym.controller.app.api.GameObjectsProvider;
 import arcaym.controller.shop.api.ShopController;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.model.shop.api.Shop;
@@ -11,7 +10,7 @@ import arcaym.model.shop.impl.ShopImpl;
 import arcaym.model.user.api.UserStateInfo;
 
 /**
- * Default implementation of the shop controller.
+ * Default implementation of {@link ShopController}.
  */
 public class ShopControllerImpl implements ShopController {
 
@@ -22,11 +21,12 @@ public class ShopControllerImpl implements ShopController {
     /**
      * Default constructor.
      * 
-     * @param userView the score of 
+     * @param userView needed to read the score of the user
+     * @param provider 
      */
-    public ShopControllerImpl(final UserStateInfo userView) {
+    public ShopControllerImpl(final UserStateInfo userView, final GameObjectsProvider provider) {
         this.shopModel = new ShopImpl();
-        this.provider = new GameObjectsProviderImpl();
+        this.provider = provider;
         this.userView = userView;
     }
 

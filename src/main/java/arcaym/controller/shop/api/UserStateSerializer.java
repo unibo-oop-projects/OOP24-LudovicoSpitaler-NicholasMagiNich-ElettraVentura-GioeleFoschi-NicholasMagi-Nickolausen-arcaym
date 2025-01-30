@@ -18,7 +18,7 @@ public interface UserStateSerializer {
 
     /**
      * De-serializes the user state.
-     * @return the UserState previously saved.
+     * @return the UserState previously saved. {@link Optional#empty()} if an error occurred while loading the UserState.
      */
     Optional<UserState> load();
 }

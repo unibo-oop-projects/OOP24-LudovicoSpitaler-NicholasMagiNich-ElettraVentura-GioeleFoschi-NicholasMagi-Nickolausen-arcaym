@@ -1,4 +1,4 @@
-package arcaym.controller.editor.impl;
+package arcaym.controller.app.impl;
 
 import java.util.Map;
 import java.util.Collections;
@@ -6,7 +6,8 @@ import java.util.Set;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-import arcaym.controller.editor.api.GameObjectsProvider;
+import arcaym.controller.app.api.GameObjectsProvider;
+import arcaym.controller.shop.impl.UserStateSerializerImpl;
 import arcaym.model.game.objects.api.GameObjectType;
 
 /**
@@ -28,7 +29,10 @@ public class GameObjectsProviderImpl implements GameObjectsProvider {
      * Default constructor.
      */
     public GameObjectsProviderImpl() {
-        this.unlockedGameObjects = Set.of();
+        this.unlockedGameObjects = new UserStateSerializerImpl()
+            .load()
+            .get()
+            .getPurchasedGameObjects();
     }
 
     /**
@@ -48,14 +52,4 @@ public class GameObjectsProviderImpl implements GameObjectsProvider {
             .filter(e -> !getUnlockedGameObjects().contains(e.getKey()))
             .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void unlockObject(final GameObjectType toUnlock) {
-        unlockedGameObjects.add(toUnlock);
-        // TODO(WRITE TO FILE)
-    }
-
 }

@@ -1,4 +1,4 @@
-package arcaym.controller.editor.api;
+package arcaym.controller.app.api;
 
 import java.util.Map;
 import java.util.Set;
@@ -21,11 +21,4 @@ public interface GameObjectsProvider {
      * @return all the game objects to be purchased.
      */
     Map<GameObjectType, Integer> getLockedGameObjects();
-
-    /**
-     * Unlocks a new gameobject.
-     * 
-     * @param toUnlock object to unlock
-     */
-    void unlockObject(GameObjectType toUnlock);
 }
