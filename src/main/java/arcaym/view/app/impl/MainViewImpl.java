@@ -50,6 +50,7 @@ public class MainViewImpl implements MainView {
         // editor.setSize(screenSize);
         // editor.setPreferredSize(screenSize);
         // mainFrame.add(editor);
+        editor = new JPanel();
     }
 
     private void initGame() {

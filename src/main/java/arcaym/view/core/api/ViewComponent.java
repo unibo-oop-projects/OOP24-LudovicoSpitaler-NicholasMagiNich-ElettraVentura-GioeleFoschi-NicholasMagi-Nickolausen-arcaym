@@ -12,8 +12,8 @@ public interface ViewComponent<T extends JComponent> {
     /**
      * Builds the component.
      * 
-     * @param screenInfo screen info
+     * @param window window info
      * @return the initialized component 
      */
-    T build(ScreenInfo screenInfo);
+    T build(WindowInfo window);
 }
