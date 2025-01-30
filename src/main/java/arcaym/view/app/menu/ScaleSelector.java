@@ -6,8 +6,6 @@ import java.util.Objects;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import arcaym.view.core.impl.ScaledWindowInfo;
-
 /**
  * View of a {@link JOptionPane} to select the windo scale.
  */
@@ -43,17 +41,6 @@ public class ScaleSelector {
             frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
         }
         return SCALES[result];
-    }
-
-    public static void main(String[] args) {
-        final var frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        final var scale = new ScaleSelector().show(frame);
-        final var window = new ScaledWindowInfo(scale);
-        frame.setSize(window.size());
-        frame.setLocationRelativeTo(null);
-        frame.setResizable(false);
-        frame.setVisible(true);
     }
 
 }
