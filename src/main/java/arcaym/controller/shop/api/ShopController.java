@@ -1,7 +1,6 @@
 package arcaym.controller.shop.api;
 
 import java.util.Map;
-import java.util.Set;
 
 import arcaym.model.game.objects.api.GameObjectType;
 
@@ -19,19 +18,21 @@ public interface ShopController {
 
     /**
      * 
-     * @return all the game objects purchased by the user.
-     */
-    Set<GameObjectType> getUnlockedGameObjects();
-
-    /**
-     * 
      * @return all the game objects to be purchased.
      */
     Map<GameObjectType, Integer> getLockedGameObjects();
 
     /**
-     * 
-     * @return the union of the results of {@link #getLockedGameObjects()} and {@link #getUnlockedGameObjects()} 
+     *
+     * @see Shop#canBuy(GameObjectType)
+     * @param item
+     * @return Same as {@link Shop#canBuy(GameObjectType)}
      */
-    Set<GameObjectType> getAllGameObjects();
+    boolean canBuy(GameObjectType item);
+
+    /**
+     * 
+     * @return the amount of credit the user can spend.
+     */
+    int getCredit();
 }

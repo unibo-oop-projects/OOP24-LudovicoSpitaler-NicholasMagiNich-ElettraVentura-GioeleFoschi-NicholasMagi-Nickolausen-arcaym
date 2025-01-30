@@ -1,31 +1,33 @@
 package arcaym.controller.shop.impl;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
+import arcaym.controller.app.api.GameObjectsProvider;
 import arcaym.controller.shop.api.ShopController;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.model.shop.api.Shop;
 import arcaym.model.shop.impl.ShopImpl;
-import arcaym.model.user.api.UserState;
-import arcaym.model.user.impl.UserStateImpl;
+import arcaym.model.user.api.UserStateInfo;
 
 /**
- * Default implementation of the shop controller.
+ * Default implementation of {@link ShopController}.
  */
 public class ShopControllerImpl implements ShopController {
 
     private final Shop shopModel;
-    private final UserState userModel;
+    private final GameObjectsProvider provider;
+    private final UserStateInfo userView;
 
     /**
      * Default constructor.
+     * 
+     * @param userView needed to read the score of the user
+     * @param provider 
      */
-    public ShopControllerImpl() {
+    public ShopControllerImpl(final UserStateInfo userView, final GameObjectsProvider provider) {
         this.shopModel = new ShopImpl();
-        this.userModel = new UserStateImpl();
+        this.provider = provider;
+        this.userView = userView;
     }
 
     /**
@@ -40,25 +42,23 @@ public class ShopControllerImpl implements ShopController {
      * {@inheritDoc}
      */
     @Override
-    public Set<GameObjectType> getUnlockedGameObjects() {
-        return userModel.getPurchasedGameObjects();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Map<GameObjectType, Integer> getLockedGameObjects() {
-        return shopModel.getLockedGameObjects();
+        return provider.getLockedGameObjects();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Set<GameObjectType> getAllGameObjects() {
-        return Stream.concat(getUnlockedGameObjects().stream(), getLockedGameObjects().keySet().stream())
-            .collect(Collectors.toSet());
+    public int getCredit() {
+        return this.userView.getCredit();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean canBuy(final GameObjectType item) {
+        return shopModel.canBuy(item);
+    }
 }

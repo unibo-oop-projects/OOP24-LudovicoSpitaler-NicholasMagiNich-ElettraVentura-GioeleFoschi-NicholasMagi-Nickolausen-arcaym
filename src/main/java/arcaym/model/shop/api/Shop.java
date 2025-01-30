@@ -13,7 +13,8 @@ public interface Shop {
      * Attempts to make a transaction.
      * 
      * @param toBuy item to be bought
-     * @return {@code True} if the transaction ends with success. {@code False} otherwise
+     * @return {@code True} if the transaction ends with success. {@code False}
+     *         otherwise
      */
     boolean makeTransaction(GameObjectType toBuy);
 
@@ -22,4 +23,11 @@ public interface Shop {
      * @return the set of the objects to be purchased
      */
     Map<GameObjectType, Integer> getLockedGameObjects();
+
+    /**
+     * 
+     * @param item
+     * @return {@code True} if the user can buy the item, {@code False} otherwise.
+     */
+    boolean canBuy(GameObjectType item);
 }

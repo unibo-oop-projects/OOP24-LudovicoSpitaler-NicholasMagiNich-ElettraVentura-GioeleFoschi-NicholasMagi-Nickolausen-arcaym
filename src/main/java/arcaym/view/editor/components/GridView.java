@@ -9,61 +9,52 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Consumer;
 
 import javax.swing.BorderFactory;
-import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
-import arcaym.common.utils.Optionals;
 import arcaym.common.utils.Position;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.view.core.api.ViewComponent;
 import arcaym.view.core.api.WindowInfo;
-import arcaym.view.objects.GameObjectView;
 
 /**
  * An implementation of the grid view.
  */
-public class GridView implements ViewComponent<JScrollPane> {
+public class GridView implements ViewComponent<JPanel> {
 
-    private static final int CELL_SCALE = 50;
+    private static final int COLUMNS = 50;
+    private static final int ROWS = 28;
 
-    private final int columns;
-    private final int rows;
     private final Consumer<Collection<Position>> reciver;
-    private final BiMap<JLayeredPane, Position> cells = HashBiMap.create();
-    private Optional<WindowInfo> window;
+    private final BiMap<JPanel, Position> cells = HashBiMap.create();
+    private final int cellDimension;
 
     /**
      * The constructor of the component.
-     * 
-     * @param sendObjects The function that needs to process the list of objects
-     * @param size        The size of the map
+     * @param sendObjects the function that needs to process the list of objects
+     * @param cellDimension the minimum dimension of the cell
      */
-    public GridView(final Consumer<Collection<Position>> sendObjects, final Position size) {
+    public GridView(final Consumer<Collection<Position>> sendObjects, final int cellDimension) {
         this.reciver = sendObjects;
-        this.columns = size.x();
-        this.rows = size.y();
-        this.window = Optional.empty();
+        this.cellDimension = cellDimension;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public JScrollPane build(final WindowInfo window) {
-        this.window = Optional.of(window);
-        final int cellDimension = window.size().width / CELL_SCALE;
-        // Create the grid and set its minimum size so every cell is a square.
-        final var grid = new JPanel(new GridLayout(rows, columns));
-        grid.setPreferredSize(new Dimension(columns * cellDimension, rows * cellDimension));
-        // Create the mouse listener used for a "drawing-like" experience.
+    public JPanel build(final WindowInfo window) {
+        return buildGrid();
+    }
+
+    private JPanel buildGrid() {
+        final var grid = new JPanel(new GridLayout(ROWS, COLUMNS));
+
         final MouseListener m = new MouseListener() {
 
             private final List<Position> positionInvolved = new ArrayList<>();
@@ -76,7 +67,7 @@ public class GridView implements ViewComponent<JScrollPane> {
             @Override
             public void mousePressed(final MouseEvent e) {
                 isClicking = true;
-                final var panel = (JLayeredPane) e.getSource();
+                final var panel = (JPanel) e.getSource();
                 if (cells.containsKey(panel)) {
                     positionInvolved.add(cells.get(panel));
                 }
@@ -91,7 +82,7 @@ public class GridView implements ViewComponent<JScrollPane> {
 
             @Override
             public void mouseEntered(final MouseEvent e) {
-                final var panel = (JLayeredPane) e.getSource();
+                final var panel = (JPanel) e.getSource();
                 if (cells.containsKey(panel) && !positionInvolved.contains(cells.get(panel)) && isClicking) {
                     positionInvolved.add(cells.get(panel));
                 }
@@ -101,19 +92,19 @@ public class GridView implements ViewComponent<JScrollPane> {
             public void mouseExited(final MouseEvent e) {
             }
         };
-        // Set each in each cell a layered pane, so that it can contain multiple images
-        for (int i = 0; i < columns; i++) {
-            for (int j = 0; j < rows; j++) {
-                final JLayeredPane jp = new JLayeredPane();
-                jp.setBounds(0, 0, cellDimension, cellDimension);
-                jp.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+
+        for (int i = 0; i < COLUMNS; i++) {
+            for (int j = 0; j < ROWS; j++) {
+                final JPanel jp = new JPanel();
+                jp.setSize(new Dimension(cellDimension, cellDimension));
+                jp.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+                jp.setBackground(Color.BLUE);
                 cells.put(jp, Position.of(i, j));
                 jp.addMouseListener(m);
                 grid.add(jp);
             }
         }
-        // if the grid is too big, add scrollbars.
-        return new JScrollPane(grid);
+        return grid;
     }
 
     /**
@@ -123,21 +114,16 @@ public class GridView implements ViewComponent<JScrollPane> {
      *                  specific position
      */
     public void setPositionFromMap(final Map<Position, List<GameObjectType>> positions) {
-        final var window = Optionals.orIllegalState(this.window, "The method build has not been called yet");
-        final int cellDimension = window.size().width / CELL_SCALE;
         positions.entrySet().forEach(e -> {
-            final var panel = cells.inverse().get(e.getKey());
-            // Clear the content of the cell
-            panel.removeAll();
-            // Set all the images in the cell
-            e.getValue().forEach(object -> {
-                final var objView = new GameObjectView(object).build(window);
-                objView.setBounds(0, 0, cellDimension, cellDimension);
-                panel.add(objView, (Object) e.getValue().indexOf(object));
-            });
-            // Re-Draw the single cell
-            panel.revalidate();
-            panel.repaint();
+            var color = Color.BLUE;
+            if (e.getValue().size() == 1) {
+                if (e.getValue().getFirst().equals(GameObjectType.FLOOR)) {
+                    color = Color.LIGHT_GRAY;
+                }
+            } else {
+                color = Color.PINK;
+            }
+            cells.inverse().get(e.getKey()).setBackground(color);
         });
     }
 }

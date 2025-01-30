@@ -2,6 +2,7 @@ package arcaym.model.user.impl;
 
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.Set;
 
 import arcaym.controller.game.core.api.GameStateInfo;
@@ -17,15 +18,15 @@ import arcaym.model.user.api.UserState;
 public class UserStateImpl implements UserState, Serializable, EventsObserver<GameEvent> {
 
     private static final long serialVersionUID = 1L;
-    private int currentScore;
-    private Set<GameObjectType> itemsOwned;
+    private int currentCredit;
+    private final Set<GameObjectType> itemsOwned = EnumSet.noneOf(GameObjectType.class);
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public int getScore() {
-        return this.currentScore;
+    public int getCredit() {
+        return this.currentCredit;
     }
 
     /**
@@ -49,7 +50,7 @@ public class UserStateImpl implements UserState, Serializable, EventsObserver<Ga
      */
     @Override
     public void incrementScore(final int amount) {
-        this.currentScore += Integer.max(amount, 0);
+        this.currentCredit += Integer.max(amount, 0);
     }
 
     /**
@@ -57,7 +58,7 @@ public class UserStateImpl implements UserState, Serializable, EventsObserver<Ga
      */
     @Override
     public void decrementScore(final int amount) {
-        this.currentScore -= (this.currentScore - amount < 0) ? this.currentScore : amount;
+        this.currentCredit -= (this.currentCredit - amount < 0) ? this.currentCredit : amount;
     }
 
     /**
