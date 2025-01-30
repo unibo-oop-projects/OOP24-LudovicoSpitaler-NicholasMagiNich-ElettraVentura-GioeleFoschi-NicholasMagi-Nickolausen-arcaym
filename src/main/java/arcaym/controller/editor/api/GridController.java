@@ -14,17 +14,6 @@ import arcaym.model.game.objects.api.GameObjectType;
  */
 public interface GridController {
 
-    /**
-     * This is to set the method to call when the view needs to be updated.
-     * @param listener The fucntion to call
-     */
-    void setView(Consumer<Map<Position, List<GameObjectType>>> listener);
-
-    /**
-     * Signals the view that it needs to update, based on recent model changes.
-     * @param map How the view has to change: Position p -> render the objects in the list
-     */
-    void updateView(Map<Position, List<GameObjectType>> map);
 
     /**
      * Builds the level that u been cooking.
