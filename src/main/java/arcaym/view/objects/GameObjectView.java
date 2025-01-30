@@ -1,7 +1,6 @@
 package arcaym.view.objects;
-import java.io.Serializable;
 
-import javax.swing.JPanel;
+import javax.swing.JLabel;
 
 import arcaym.model.game.core.objects.api.GameObjectCategory;
 import arcaym.model.game.objects.api.GameObjectType;
@@ -12,9 +11,8 @@ import arcaym.view.core.api.ViewComponent;
 /**
  * Generic class to represent all the views of the objects implemented via Swing. 
  */
-public class GameObjectView implements ViewComponent<JPanel>, Serializable {
+public class GameObjectView implements ViewComponent<JLabel> {
 
-    private static final long serialVersionUID = 1L;
     private final GameObjectType type;
 
     /**
@@ -38,10 +36,8 @@ public class GameObjectView implements ViewComponent<JPanel>, Serializable {
      * {@inheritDoc}
      */
     @Override
-    public JPanel build(final WindowInfo window) {
-        final JPanel out = new JPanel();
-        out.add(new ImageLabel(getImagePath()).build(window));
-        return out;
+    public JLabel build(final WindowInfo window) {
+        return new ImageLabel(getImagePath()).build(window);
     }
 
     private String getImagePath() {
@@ -49,13 +45,14 @@ public class GameObjectView implements ViewComponent<JPanel>, Serializable {
             case 
                 USER_PLAYER, 
                 WIN_GOAL,
-                COIN,
-                FLOOR -> "coin.png";
+                COIN -> "coin.png";
             case 
                 MOVING_X_OBSTACLE,
                 MOVING_Y_OBSTACLE,
                 SPIKE -> "static_obstacle.png";
-            case WALL -> "wall.png";
+            case
+                WALL, 
+                FLOOR -> "wall.png";
         };
     }
 }
