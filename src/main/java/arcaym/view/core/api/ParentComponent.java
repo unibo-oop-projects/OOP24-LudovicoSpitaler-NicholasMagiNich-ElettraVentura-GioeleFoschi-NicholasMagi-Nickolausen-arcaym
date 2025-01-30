@@ -1,4 +1,4 @@
-package arcaym.view.api;
+package arcaym.view.core.api;
 
 import java.util.Optional;
 
@@ -17,7 +17,7 @@ public interface ParentComponent<T extends JComponent> extends ViewComponent<T> 
      * @param childComponent child component
      * @return resulting component
      */
-    T build(Optional<JComponent> childComponent);
+    T build(ScreenInfo screenInfo, Optional<JComponent> childComponent);
 
     /**
      * Builds the component without a child.
@@ -25,8 +25,8 @@ public interface ParentComponent<T extends JComponent> extends ViewComponent<T> 
      * @return resulting component
      */
     @Override
-    default T build() {
-        return this.build(Optional.empty());
+    default T build(final ScreenInfo screenInfo) {
+        return this.build(screenInfo, Optional.empty());
     }
 
     /**
@@ -35,8 +35,8 @@ public interface ParentComponent<T extends JComponent> extends ViewComponent<T> 
      * @param childComponent child component
      * @return resulting component
      */
-    default T build(final JComponent childComponent) {
-        return this.build(Optional.ofNullable(childComponent));
+    default T build(final ScreenInfo screenInfo, final JComponent childComponent) {
+        return this.build(screenInfo, Optional.ofNullable(childComponent));
     }
 
     /**
@@ -45,8 +45,11 @@ public interface ParentComponent<T extends JComponent> extends ViewComponent<T> 
      * @param childComponent child component
      * @return resulting component
      */
-    default T build(final ViewComponent<?> childComponent) {
-        return this.build(Optional.ofNullable(childComponent).map(ViewComponent::build));
+    default T build(final ScreenInfo screenInfo, final ViewComponent<?> childComponent) {
+        return this.build(
+            screenInfo, 
+            Optional.ofNullable(childComponent).map(c -> c.build(screenInfo))
+        );
     }
 
 }

@@ -4,7 +4,8 @@ import java.util.Objects;
 
 import javax.swing.JButton;
 
-import arcaym.view.api.ViewComponent;
+import arcaym.view.core.api.ScreenInfo;
+import arcaym.view.core.api.ViewComponent;
 import arcaym.view.utils.SwingUtils;
 
 /**
@@ -29,7 +30,7 @@ public class MenuButton implements ViewComponent<JButton> {
      * {@inheritDoc}
      */
     @Override
-    public JButton build() {
+    public JButton build(final ScreenInfo screenInfo) {
         final var button = new JButton(this.text);
         SwingUtils.changeFontSize(button, FONT_SCALE);
         return button;

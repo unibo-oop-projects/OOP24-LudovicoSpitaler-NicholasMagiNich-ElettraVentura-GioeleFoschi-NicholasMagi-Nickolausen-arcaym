@@ -1,10 +1,9 @@
 package arcaym.view.utils;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
-import arcaym.common.geometry.impl.Point;
-import java.awt.Toolkit;
+import arcaym.view.core.impl.ScaledWindowScreenInfo;
+
 import java.net.URL;
 
 import javax.swing.JComponent;
@@ -17,26 +16,6 @@ import javax.swing.JPanel;
 public final class SwingUtils {
 
     private static final float WINDOW_SIZE_FACTOR = 0.8f;
-    private static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
-    private static final Dimension DEFAULT_SIZE = new Dimension(1920, 1080);
-
-    /**
-     * Window size.
-     */
-    public static final Dimension WINDOW_SIZE = scaleDimension(SCREEN_SIZE, WINDOW_SIZE_FACTOR);
-
-    /**
-     * Window scaling relative to the default size.
-     */
-    public static final Point WINDOW_SCALING = Point.of(
-        WINDOW_SIZE.getWidth() / DEFAULT_SIZE.getWidth(),
-        WINDOW_SIZE.getHeight() / DEFAULT_SIZE.getHeight()
-    );
-
-    /**
-     * {@link Color} that represents transparency.
-     */
-    public static final Color TRANSPARENT_COLOR = new Color(0, 0, 0, 0);
 
     private static final float NORMAL_GAP_FACTOR = 1f;
     private static final float LITTLE_GAP_FACTOR = 0.5f;
@@ -129,7 +108,8 @@ public final class SwingUtils {
     public static JFrame testComponent(final JComponent component) {
         // TODO remove
         final var frame = new JFrame();
-        frame.setSize(WINDOW_SIZE);
+        final var screenInfo = new ScaledWindowScreenInfo(WINDOW_SIZE_FACTOR);
+        frame.setSize(screenInfo.windowSize());
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         final var panel = new JPanel();
