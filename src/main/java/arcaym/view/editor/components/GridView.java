@@ -26,6 +26,7 @@ import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.view.core.api.ViewComponent;
 import arcaym.view.core.api.WindowInfo;
 import arcaym.view.objects.GameObjectView;
+
 /**
  * An implementation of the grid view.
  */
@@ -43,7 +44,7 @@ public class GridView implements ViewComponent<JScrollPane> {
      * The constructor of the component.
      * 
      * @param sendObjects The function that needs to process the list of objects
-     * @param size The size of the map
+     * @param size        The size of the map
      */
     public GridView(final Consumer<Collection<Position>> sendObjects, final Position size) {
         this.reciver = sendObjects;
@@ -117,7 +118,9 @@ public class GridView implements ViewComponent<JScrollPane> {
 
     /**
      * Changes the grid cells view based on the given map.
-     * @param positions Contains the list of objets to place in the cell in a specific position
+     * 
+     * @param positions Contains the list of objets to place in the cell in a
+     *                  specific position
      */
     public void setPositionFromMap(final Map<Position, List<GameObjectType>> positions) {
         final var window = Optionals.orIllegalState(this.window, "The method build has not been called yet");

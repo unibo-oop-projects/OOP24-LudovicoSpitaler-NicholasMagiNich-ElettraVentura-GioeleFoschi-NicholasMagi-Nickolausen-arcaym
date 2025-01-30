@@ -1,4 +1,4 @@
-package arcaym.view.shop.api;
+package arcaym.view.shop;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -21,15 +21,22 @@ import arcaym.view.core.api.ViewComponent;
 import arcaym.view.core.api.WindowInfo;
 import arcaym.view.utils.SwingUtils;
 
+/**
+ * View of shop.
+ */
 public class ShopView implements ViewComponent<JPanel> {
     private static final Integer SCALE = 3;
     private static final String SHOP_TITLE = "SHOP";
     private final ShopController controller = new ShopControllerImpl();
     private final Map<JButton, ProductInfo> productsMap = new HashMap<>();
     private Optional<ProductInfo> selected = Optional.empty();
+    private JButton buyButton;
 
     Map<GameObjectType, Integer> mockController = new HashMap<>(); // mock
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public JPanel build(final WindowInfo window) {
         mockController.put(GameObjectType.COIN, 100);
@@ -60,6 +67,9 @@ public class ShopView implements ViewComponent<JPanel> {
 
         contentPanel.add(Box.createVerticalStrut(gap));
 
+        this.buyButton = new JButton("BUY");
+        buyButton.setEnabled(false);
+
         ActionListener selectPriceAl = new ActionListener() {
 
             @Override
@@ -69,13 +79,13 @@ public class ShopView implements ViewComponent<JPanel> {
                         || (selected.isPresent() && !selected.get().equals(productsMap.get(pressedButton)))) {
                     selected = Optional.of(productsMap.get(pressedButton));
                 }
+                if (true) { // controller.canbuy?
+                    buyButton.setEnabled(true);
+                }
                 pressedButton.setBackground(Color.BLUE);
             }
 
         };
-
-        JButton buyButton = new JButton("BUY");
-        buyButton.setEnabled(false);
 
         ActionListener purchaseAl = new ActionListener() {
 
@@ -84,6 +94,8 @@ public class ShopView implements ViewComponent<JPanel> {
                 if (selected.isPresent()) {
                     // controllerBUY();
                     buyButton.setEnabled(false);
+                    selected = Optional.empty();
+                    setAvailableButtons();
                 }
             }
 
@@ -108,21 +120,18 @@ public class ShopView implements ViewComponent<JPanel> {
             JPanel categoryPanel = createCategoryCard(window, category);
             itemsPanel.add(categoryPanel);
         }
+        setAvailableButtons();
     }
 
     private JPanel createCategoryCard(WindowInfo window, GameObjectCategory category) {
         JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.PAGE_AXIS));
 
-        card.add(Box.createVerticalStrut(SwingUtils.getLittleGap(card)));
-
         JLabel titleLabel = new JLabel("NEW " + category.name() + "S");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
         JPanel title = new CenteredPanel().build(window, titleLabel);
         title.setBackground(Color.WHITE);
         card.add(title);
-
-        card.add(Box.createVerticalStrut(SwingUtils.getLittleGap(card)));
 
         JPanel showItemsPanel = new JPanel();
         showItemsPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -152,13 +161,51 @@ public class ShopView implements ViewComponent<JPanel> {
             for (var object : mockController.entrySet().stream()
                     .filter(type -> type.getKey().category().equals(category)).toList()) {
                 JPanel item = new DisplayProductView(new ProductInfo(object.getKey(), object.getValue())).build(window);
-                item.setPreferredSize(SwingUtils.scaleDimension(item.getPreferredSize(), SCALE));
+                item.setLayout(new BoxLayout(item, BoxLayout.PAGE_AXIS));
+                JButton price = new JButton(String.valueOf(object.getValue()));
+                productsMap.put(price, new ProductInfo(object.getKey(), object.getValue()));
+                price.addActionListener(new ActionListener() {
+
+                    @Override
+                    public void actionPerformed(ActionEvent arg) {
+                        JButton pressedButton = (JButton) arg.getSource();
+                        if (selected.isEmpty()
+                                || (selected.isPresent() && !selected.get().equals(productsMap.get(pressedButton)))) {
+                            setAvailableButtons();
+                            selected = Optional.of(productsMap.get(pressedButton));
+                            pressedButton.setBackground(Color.PINK);
+                        } else if (selected.isPresent() && selected.get().equals(productsMap.get(pressedButton))) {
+                            selected = Optional.empty();
+                            pressedButton.setBackground(Color.WHITE);
+                        }
+                        regulateBuyOption();
+                    }
+
+                });
+                item.add(new CenteredPanel().build(window, price));
                 showItemsPanel.add(item);
             }
         }
 
         card.add(showItemsPanel);
         return card;
+    }
+
+    protected void regulateBuyOption() {
+        if (selected.isPresent()) {
+            buyButton.setEnabled(true);
+        } else {
+            buyButton.setEnabled(false);
+        }
+    }
+
+    protected void setAvailableButtons() {
+        productsMap.entrySet().forEach(product -> {
+            product.getKey().setEnabled(true);
+            product.getKey().setBackground(Color.WHITE);
+        });
+        // .setEnabled(controller.requestTransaction(product.getValue().type()) ? true :
+        // false));
     }
 
     public static void main(String[] args) {
