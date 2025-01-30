@@ -14,7 +14,7 @@ public class ScaleSelector {
     private static final String TITLE = "Scale selector";
     private static final String MESSAGE = "What scale would you like to use?";
     private static final Float[] SCALES = {
-        1.0f,
+        0.9f,
         .75f,
         .50f
     };
