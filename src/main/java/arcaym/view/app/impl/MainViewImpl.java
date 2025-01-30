@@ -7,7 +7,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import arcaym.view.app.api.MainView;
-import arcaym.view.shop.ShopView;
 
 /**
  * Implementation of the main window of the application.
