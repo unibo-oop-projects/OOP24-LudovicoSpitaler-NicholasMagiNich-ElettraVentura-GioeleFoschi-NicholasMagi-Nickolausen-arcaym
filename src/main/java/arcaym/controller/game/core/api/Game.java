@@ -26,6 +26,6 @@ public interface Game extends EventsScheduler<InputEvent> {
      * 
      * @return game state
      */
-    GameState state();
+    GameStateInfo state();
 
 }

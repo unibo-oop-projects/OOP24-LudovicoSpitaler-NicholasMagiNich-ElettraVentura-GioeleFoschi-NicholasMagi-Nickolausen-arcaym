@@ -12,7 +12,8 @@ import java.util.function.Supplier;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import arcaym.view.api.ViewComponent;
+import arcaym.view.core.api.WindowInfo;
+import arcaym.view.core.api.ViewComponent;
 import arcaym.view.utils.SwingUtils;
 
 /**
@@ -41,15 +42,16 @@ public class PanelsSwitcher implements ViewComponent<JPanel> {
      * {@inheritDoc}
      */
     @Override
-    public JPanel build() {
+    public JPanel build(final WindowInfo window) {
         final var mainPanel = new JPanel(new BorderLayout());
         final var gap = SwingUtils.getNormalGap(mainPanel);
         final var topRow = new JPanel(new FlowLayout(FlowLayout.LEADING, gap, gap));
         final var backButton = new JButton(BACK_BUTTON_TEXT);
         topRow.add(backButton);
-        backButton.addActionListener(e -> this.goToPrevious(mainPanel, topRow));
+        backButton.addActionListener(e -> this.goToPrevious(window, mainPanel, topRow));
         this.addPanel(
-            this.rootProvider.apply(s -> this.addPanel(s, mainPanel, topRow)),
+            window,
+            this.rootProvider.apply(s -> this.addPanel(window, s, mainPanel, topRow)),
             mainPanel, 
             topRow
         );
@@ -60,23 +62,25 @@ public class PanelsSwitcher implements ViewComponent<JPanel> {
         return this.panelsHistory.size() > 1;
     }
 
-    private void goToPrevious(final JPanel mainPanel, final JPanel topRow) {
+    private void goToPrevious(final WindowInfo screenInfo, final JPanel mainPanel, final JPanel topRow) {
         if (this.canGoBack()) {
             this.panelsHistory.removeLast();
-            this.setCurrentPanel(this.panelsHistory.peekLast(), mainPanel, topRow);
+            this.setCurrentPanel(screenInfo, this.panelsHistory.peekLast(), mainPanel, topRow);
         }
     }
 
     private void addPanel(
+        final WindowInfo window,
         final Supplier<SwitchablePanel> panelSupplier,
         final JPanel mainPanel, 
         final JPanel topRow
     ) {
         this.panelsHistory.addLast(panelSupplier);
-        this.setCurrentPanel(panelSupplier, mainPanel, topRow);
+        this.setCurrentPanel(window, panelSupplier, mainPanel, topRow);
     }
 
     private void setCurrentPanel(
+        final WindowInfo window,
         final Supplier<SwitchablePanel> panelSupplier,
         final JPanel mainPanel, 
         final JPanel topRow
@@ -87,7 +91,7 @@ public class PanelsSwitcher implements ViewComponent<JPanel> {
         if (this.canGoBack()) {
             mainPanel.add(topRow, BorderLayout.NORTH);
         }
-        this.currentPanel.ifPresent(p -> mainPanel.add(p.build(), BorderLayout.CENTER));
+        this.currentPanel.ifPresent(p -> mainPanel.add(p.build(window), BorderLayout.CENTER));
         mainPanel.revalidate();
         mainPanel.repaint();
     }

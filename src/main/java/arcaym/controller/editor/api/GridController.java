@@ -15,18 +15,6 @@ import arcaym.model.game.objects.api.GameObjectType;
 public interface GridController {
 
     /**
-     * This is to set the method to call when the view needs to be updated.
-     * @param listener The fucntion to call
-     */
-    void setView(Consumer<Map<Position, List<GameObjectType>>> listener);
-
-    /**
-     * Signals the view that it needs to update, based on recent model changes.
-     * @param map How the view has to change: Position p -> render the objects in the list
-     */
-    void updateView(Map<Position, List<GameObjectType>> map);
-
-    /**
      * Builds the level that u been cooking.
      */
     void play();
@@ -49,13 +37,14 @@ public interface GridController {
     void redo();
 
     /**
-     * Tells if the editor is in the correct state for an undo.
+     * Weather the editor is in the correct state for an undo.
      * @return True if an undo can be performed
      */
     boolean canUndo();
 
     /**
-     * Tells if the editor is in the correct state for an redo.
+     * Weather the editor is in the correct state for an redo.
+     * 
      * @return True if an redo can be performed
      */
     boolean canRedo();
@@ -80,4 +69,16 @@ public interface GridController {
      * @return True if the save was successful, false otherwise
      */
     boolean saveLevel();
+
+    /**
+     * This is to set the method to call when the view needs to be updated.
+     * @param listener The fucntion to call
+     */
+    void setView(Consumer<Map<Position, List<GameObjectType>>> listener);
+
+    /**
+     * Signals the view that it needs to update, based on recent model changes.
+     * @param map How the view has to change: Position p -> render the objects in the list
+     */
+    void updateView(Map<Position, List<GameObjectType>> map);
 }

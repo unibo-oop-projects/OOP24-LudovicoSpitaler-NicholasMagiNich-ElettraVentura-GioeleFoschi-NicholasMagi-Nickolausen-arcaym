@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 import arcaym.common.geometry.impl.Point;
 import arcaym.common.geometry.impl.Rectangles;
 import arcaym.common.geometry.impl.Vector;
-import arcaym.controller.game.core.api.GameState;
+import arcaym.controller.game.core.api.GameStateInfo;
 import arcaym.controller.game.events.api.EventsScheduler;
 import arcaym.controller.game.scene.api.GameSceneInfo;
 import arcaym.model.game.components.api.MovementComponentsFactory;
@@ -57,7 +57,7 @@ public class MovementComponentsFactoryImpl implements MovementComponentsFactory 
             @Override
             public void update(final long deltaTime, final EventsScheduler<GameEvent> eventsScheduler,
                     final GameSceneInfo gameScene,
-                    final GameState gameState) {
+                    final GameStateInfo gameState) {
                 final Point newPosition = nextPosition(initialVelocity, deltaTime, gameObject);
 
                 if (!isWallCollisionActive(gameScene, gameObject)) {

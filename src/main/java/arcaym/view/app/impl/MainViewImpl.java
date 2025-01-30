@@ -7,7 +7,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import arcaym.view.app.api.MainView;
-import arcaym.view.editor.EditorMainView;
 
 /**
  * Implementation of the main window of the application.
@@ -46,11 +45,12 @@ public class MainViewImpl implements MainView {
     }
 
     private void initEditor() {
-        editor = new EditorMainView().build();
-        editor.setMinimumSize(MINIMUM_SCREEN_SIZE);
-        editor.setSize(screenSize);
-        editor.setPreferredSize(screenSize);
-        mainFrame.add(editor);
+        // editor = new EditorMainView().build();
+        // editor.setMinimumSize(MINIMUM_SCREEN_SIZE);
+        // editor.setSize(screenSize);
+        // editor.setPreferredSize(screenSize);
+        // mainFrame.add(editor);
+        editor = new JPanel();
     }
 
     private void initGame() {

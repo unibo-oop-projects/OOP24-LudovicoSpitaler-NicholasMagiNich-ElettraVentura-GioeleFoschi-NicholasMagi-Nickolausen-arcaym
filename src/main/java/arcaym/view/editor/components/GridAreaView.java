@@ -10,12 +10,13 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
-import arcaym.view.api.ViewComponent;
+import arcaym.view.core.api.WindowInfo;
+import arcaym.view.core.api.ViewComponent;
 
 /**
  * The grid view implementation in swing.
  */
-public class EditorGridView implements ViewComponent<JPanel> {
+public class GridAreaView implements ViewComponent<JPanel> {
 
     private final JPanel header;
     private final JPanel body;
@@ -29,7 +30,7 @@ public class EditorGridView implements ViewComponent<JPanel> {
     /**
      * The constructor for the page.
      */
-    public EditorGridView() {
+    public GridAreaView() {
         this.header = new JPanel();
         this.body = new JPanel();
         this.footer = new JPanel();
@@ -39,7 +40,7 @@ public class EditorGridView implements ViewComponent<JPanel> {
      * {@inheritDoc}
     */
     @Override
-    public JPanel build() {
+    public JPanel build(final WindowInfo window) {
         final JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new GridBagLayout());
         final Dimension headerDimension = calculateComponentDimension(contentPanel.getSize(), HEADER_ROWS);
