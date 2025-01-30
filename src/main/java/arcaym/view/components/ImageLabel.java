@@ -56,12 +56,15 @@ public class ImageLabel implements ViewComponent<JLabel> {
         }
         final var imageIcon = IMAGES_CACHE.get(this.path);
         final var label = new JLabel(imageIcon);
+        label.setOpaque(false);
         final var image = imageIcon.getImage();
-        imageIcon.setImage(image.getScaledInstance(
-            Double.valueOf(image.getWidth(label) * window.ratio().x() * this.scale).intValue(),
-            Double.valueOf(image.getHeight(label) * window.ratio().y() * this.scale).intValue(),
-            Image.SCALE_DEFAULT
-        ));
+        if (this.scale != DEFAULT_SCALE) {
+            imageIcon.setImage(image.getScaledInstance(
+                Double.valueOf(image.getWidth(label) * window.ratio().x() * this.scale).intValue(),
+                Double.valueOf(image.getHeight(label) * window.ratio().y() * this.scale).intValue(),
+                Image.SCALE_FAST
+            ));
+        }
         return label;
     }
 

@@ -18,7 +18,7 @@ import javax.swing.JPanel;
  */
 public final class SwingUtils {
 
-    private static final float WINDOW_SIZE_FACTOR = 0.8f;
+    private static final float WINDOW_SIZE_FACTOR = 1f;
 
     private static final float NORMAL_GAP_FACTOR = 1f;
     private static final float LITTLE_GAP_FACTOR = 0.5f;
@@ -109,14 +109,14 @@ public final class SwingUtils {
      */
     public static JFrame testComponent(final Function<WindowInfo, JComponent> componentCreator) {
         final var frame = new JFrame();
-        final var screenInfo = new ScaledWindowInfo(WINDOW_SIZE_FACTOR);
-        frame.setSize(screenInfo.size());
+        final var window = new ScaledWindowInfo(WINDOW_SIZE_FACTOR);
+        frame.setSize(window.size());
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         final var panel = new JPanel();
         frame.setContentPane(panel);
         panel.setLayout(new BorderLayout());
-        panel.add(componentCreator.apply(screenInfo), BorderLayout.CENTER);
+        panel.add(componentCreator.apply(window), BorderLayout.CENTER);
         frame.setVisible(true);
         return frame;
     }
