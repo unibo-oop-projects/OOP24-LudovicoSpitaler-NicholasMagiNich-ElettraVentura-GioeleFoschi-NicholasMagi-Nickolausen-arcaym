@@ -13,9 +13,6 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import arcaym.view.core.api.WindowInfo;
-import arcaym.view.core.impl.ScaledWindowInfo;
-
 /**
  * Utility class for swing.
  */
