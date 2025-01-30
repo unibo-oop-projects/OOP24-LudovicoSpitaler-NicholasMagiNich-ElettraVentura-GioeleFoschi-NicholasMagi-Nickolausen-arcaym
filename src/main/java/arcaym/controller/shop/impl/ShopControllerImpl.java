@@ -6,9 +6,9 @@ import arcaym.controller.editor.api.GameObjectsProvider;
 import arcaym.controller.editor.impl.GameObjectsProviderImpl;
 import arcaym.controller.shop.api.ShopController;
 import arcaym.model.game.objects.api.GameObjectType;
-import arcaym.model.game.score.api.GameScoreInfo;
 import arcaym.model.shop.api.Shop;
 import arcaym.model.shop.impl.ShopImpl;
+import arcaym.model.user.api.UserStateInfo;
 
 /**
  * Default implementation of the shop controller.
@@ -17,15 +17,17 @@ public class ShopControllerImpl implements ShopController {
 
     private final Shop shopModel;
     private final GameObjectsProvider provider;
-    private final GameScoreInfo gameScore;
+    private final UserStateInfo userView;
 
     /**
      * Default constructor.
+     * 
+     * @param userView the score of 
      */
-    public ShopControllerImpl(final GameScoreInfo gameScore) {
+    public ShopControllerImpl(final UserStateInfo userView) {
         this.shopModel = new ShopImpl();
         this.provider = new GameObjectsProviderImpl();
-        this.gameScore = gameScore;
+        this.userView = userView;
     }
 
     /**
@@ -48,7 +50,15 @@ public class ShopControllerImpl implements ShopController {
      * {@inheritDoc}
      */
     @Override
-    public GameScoreInfo getCredit() {
-        return this.gameScore;
+    public int getCredit() {
+        return this.userView.getCredit();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean canBuy(final GameObjectType item) {
+        return shopModel.canBuy(item);
     }
 }

@@ -8,13 +8,7 @@ import arcaym.model.game.objects.api.GameObjectType;
  * Interface modelling the user state and its relative operations.
  * This class serves primarily as collector of useful information.
  */
-public interface UserState {
-
-    /**
-     * 
-     * @return the current user score
-     */
-    int getScore();
+public interface UserState extends UserStateInfo {
 
     /**
      * 

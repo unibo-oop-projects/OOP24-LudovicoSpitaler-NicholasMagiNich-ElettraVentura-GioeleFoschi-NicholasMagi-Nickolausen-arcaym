@@ -2,9 +2,7 @@ package arcaym.controller.shop.api;
 
 import java.util.Map;
 
-import arcaym.controller.game.core.api.GameStateInfo;
 import arcaym.model.game.objects.api.GameObjectType;
-import arcaym.model.game.score.api.GameScoreInfo;
 
 /**
  * Interface for shop controller.
@@ -25,8 +23,16 @@ public interface ShopController {
     Map<GameObjectType, Integer> getLockedGameObjects();
 
     /**
+     *
+     * @see Shop#canBuy(GameObjectType)
+     * @param item
+     * @return Same as {@link Shop#canBuy(GameObjectType)}
+     */
+    boolean canBuy(GameObjectType item);
+
+    /**
      * 
      * @return the amount of credit the user can spend.
      */
-    GameScoreInfo getCredit();
+    int getCredit();
 }

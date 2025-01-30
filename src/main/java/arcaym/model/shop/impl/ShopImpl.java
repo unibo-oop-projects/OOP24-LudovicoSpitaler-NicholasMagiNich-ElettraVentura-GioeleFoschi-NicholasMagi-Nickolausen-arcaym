@@ -16,6 +16,7 @@ public class ShopImpl implements Shop {
 
     private final Map<GameObjectType, Integer> lockedObjects;
     private final UserState userState;
+
     /**
      * Default constructor.
      */
@@ -30,7 +31,7 @@ public class ShopImpl implements Shop {
     @Override
     public boolean makeTransaction(final GameObjectType toBuy) {
         final int price = lockedObjects.get(toBuy);
-        if (userState.getScore() - price >= 0) {
+        if (canBuy(toBuy)) {
             userState.decrementScore(price);
             userState.addNewGameObject(toBuy);
             this.lockedObjects.remove(toBuy);
@@ -45,5 +46,14 @@ public class ShopImpl implements Shop {
     @Override
     public Map<GameObjectType, Integer> getLockedGameObjects() {
         return Collections.unmodifiableMap(lockedObjects);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean canBuy(final GameObjectType item) {
+        final int price = lockedObjects.get(item);
+        return userState.getCredit() - price >= 0;
     }
 }
