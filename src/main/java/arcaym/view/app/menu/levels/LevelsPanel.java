@@ -14,6 +14,7 @@ import arcaym.controller.editor.saves.MetadataManagerImpl;
 import arcaym.view.app.panels.SwitchablePanel;
 import arcaym.view.app.panels.Switcher;
 import arcaym.view.components.CenteredPanel;
+import arcaym.view.core.api.WindowInfo;
 import arcaym.view.utils.SwingUtils;
 
 /**
@@ -36,19 +37,19 @@ public class LevelsPanel extends SwitchablePanel {
      * {@inheritDoc}
      */
     @Override
-    public JPanel build() {
+    public JPanel build(final WindowInfo window) {
         final var mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
         final var gap = SwingUtils.getNormalGap(mainPanel);
         levels.stream()
             .sorted((l1, l2) -> l1.levelName().compareTo(l2.levelName()))
             .map(LevelCard::new)
-            .map(LevelCard::build)
+            .map(l -> l.build(window))
             .flatMap(c -> Stream.of(Box.createVerticalStrut(gap), c))
             .skip(1)
             .forEach(mainPanel::add);
         mainPanel.setBorder(BorderFactory.createEmptyBorder(gap, gap, gap, gap));
-        return new CenteredPanel().build(new JScrollPane(mainPanel));
+        return new CenteredPanel().build(window, new JScrollPane(mainPanel));
     }
 
 }

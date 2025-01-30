@@ -10,6 +10,7 @@ import arcaym.view.app.panels.SwitchablePanel;
 import arcaym.view.app.panels.Switcher;
 import arcaym.view.components.CenteredPanel;
 import arcaym.view.components.ImageLabel;
+import arcaym.view.core.api.WindowInfo;
 import arcaym.view.utils.SwingUtils;
 
 /**
@@ -34,20 +35,20 @@ public class MainMenu extends SwitchablePanel {
      * {@inheritDoc}
      */
     @Override
-    public JPanel build() {
+    public JPanel build(final WindowInfo window) {
         final var mainPanel = new JPanel();
-        final var levelsButton = new MenuButton(LEVELS_BUTTON_TEXT).build();
-        final var shopButton = new MenuButton(SHOP_BUTTON_TEXT).build();
+        final var levelsButton = new MenuButton(LEVELS_BUTTON_TEXT).build(window);
+        final var shopButton = new MenuButton(SHOP_BUTTON_TEXT).build(window);
         levelsButton.addActionListener(e -> this.switcher().switchTo(() -> new LevelsPanel(this.switcher())));
         final var gap = SwingUtils.getNormalGap(mainPanel);
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
-        mainPanel.add(new CenteredPanel().build(new ImageLabel(TITLE_IMAGE)));
+        mainPanel.add(new CenteredPanel().build(window, new ImageLabel(TITLE_IMAGE)));
         mainPanel.add(Box.createVerticalGlue());
-        mainPanel.add(new CenteredPanel().build(levelsButton));
+        mainPanel.add(new CenteredPanel().build(window, levelsButton));
         mainPanel.add(Box.createVerticalStrut(gap));
-        mainPanel.add(new CenteredPanel().build(shopButton));
+        mainPanel.add(new CenteredPanel().build(window, shopButton));
         mainPanel.add(Box.createVerticalGlue());
-        return new CenteredPanel().build(mainPanel);
+        return new CenteredPanel().build(window, mainPanel);
     }
 
     /**
@@ -57,7 +58,7 @@ public class MainMenu extends SwitchablePanel {
     public static void main(final String[] args) {
         SwingUtils.testComponent(new PanelsSwitcher(
             switcher -> () -> new MainMenu(switcher)
-        ).build());
+        )::build);
     }
 
 }
