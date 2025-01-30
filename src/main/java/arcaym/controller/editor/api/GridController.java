@@ -14,7 +14,6 @@ import arcaym.model.game.objects.api.GameObjectType;
  */
 public interface GridController {
 
-
     /**
      * Builds the level that u been cooking.
      */
@@ -38,13 +37,14 @@ public interface GridController {
     void redo();
 
     /**
-     * Tells if the editor is in the correct state for an undo.
+     * Weather the editor is in the correct state for an undo.
      * @return True if an undo can be performed
      */
     boolean canUndo();
 
     /**
-     * Tells if the editor is in the correct state for an redo.
+     * Weather the editor is in the correct state for an redo.
+     * 
      * @return True if an redo can be performed
      */
     boolean canRedo();
