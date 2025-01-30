@@ -45,13 +45,14 @@ public class GameObjectView implements ViewComponent<JLabel> {
             case 
                 USER_PLAYER, 
                 WIN_GOAL,
-                COIN,
-                FLOOR -> "coin.png";
+                COIN -> "coin.png";
             case 
                 MOVING_X_OBSTACLE,
                 MOVING_Y_OBSTACLE,
                 SPIKE -> "static_obstacle.png";
-            case WALL -> "wall.png";
+            case
+                WALL, 
+                FLOOR -> "wall.png";
         };
     }
 }
