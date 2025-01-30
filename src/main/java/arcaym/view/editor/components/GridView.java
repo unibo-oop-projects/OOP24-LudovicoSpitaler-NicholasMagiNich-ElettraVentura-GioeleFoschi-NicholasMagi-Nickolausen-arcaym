@@ -137,38 +137,4 @@ public class GridView implements ViewComponent<JScrollPane> {
             panel.repaint();
         });
     }
-
-    // public static void main(final String[] args) {
-
-    //     class InternalTest {
-    //         private int i = 0;
-    //         private final GridView grid;
-
-    //         public InternalTest(int col, int row){
-    //             this.grid = new GridView(this::compute,Position.of(col, row));
-    //         }
-
-    //         public void draw(final Map<Position, List<GameObjectType>> map){
-    //             this.grid.setPositionFromMap(map);
-    //         }
-
-    //         public void compute(final Collection<Position> positions){
-    //             if (i % 2 == 0){
-    //                 this.draw(positions.stream().collect(Collectors.toMap(p -> p, p ->
-    //                 List.of(GameObjectType.WALL))));
-    //             } else {
-    //                 this.draw(positions.stream().collect(Collectors.toMap(p -> p, p ->
-    //                 List.of(GameObjectType.FLOOR, GameObjectType.COIN))));
-    //             }
-    //             i++;
-    //         }
-    //     }
-    //     final var test = new InternalTest(55, 28);
-    //     SwingUtils.testComponent(test.grid::build);
-    //     test.draw(IntStream.range(0, 55)
-    //         .mapToObj(i -> i)
-    //         .flatMap(x -> IntStream.range(0, 28)
-    //         .mapToObj(y -> Position.of(x, y)))
-    //         .collect(Collectors.toMap(p -> p, p -> List.of(GameObjectType.WALL))));
-    // }
 }
