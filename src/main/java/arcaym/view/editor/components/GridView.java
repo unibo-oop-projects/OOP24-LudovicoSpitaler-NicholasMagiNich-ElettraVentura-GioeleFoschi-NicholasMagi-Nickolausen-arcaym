@@ -10,6 +10,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLayeredPane;
@@ -22,7 +24,7 @@ import com.google.common.collect.HashBiMap;
 import arcaym.common.utils.Position;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.view.api.ViewComponent;
-import arcaym.view.components.CenteredPanel;
+import arcaym.view.objects.GameObjectView;
 import arcaym.view.utils.SwingUtils;
 /**
  * An implementation of the grid view.
@@ -31,8 +33,8 @@ public class GridView implements ViewComponent<JScrollPane> {
 
     private static final int CELL_SCALE = 50;
 
-    private final int COLUMNS;
-    private final int ROWS;
+    private final int columns;
+    private final int rows;
     private final Consumer<Collection<Position>> reciver;
     private final BiMap<JLayeredPane, Position> cells = HashBiMap.create();
     private final int cellDimension;
@@ -46,8 +48,8 @@ public class GridView implements ViewComponent<JScrollPane> {
     public GridView(final Consumer<Collection<Position>> sendObjects, final Position size) {
         this.reciver = sendObjects;
         this.cellDimension = SwingUtils.WINDOW_SIZE.width / CELL_SCALE;
-        this.COLUMNS = size.x();
-        this.ROWS = size.y();
+        this.columns = size.x();
+        this.rows = size.y();
     }
 
     /**
@@ -59,8 +61,10 @@ public class GridView implements ViewComponent<JScrollPane> {
     }
 
     private JScrollPane buildGrid() {
-        final var grid = new JPanel(new GridLayout(ROWS, COLUMNS));
-
+        // Create the grid and set its minimum size so every cell is a square.
+        final var grid = new JPanel(new GridLayout(rows, columns));
+        grid.setPreferredSize(new Dimension(columns * cellDimension, rows * cellDimension));
+        // Create the mouse listener used for a "drawing-like" experience.
         final MouseListener m = new MouseListener() {
 
             private final List<Position> positionInvolved = new ArrayList<>();
@@ -98,21 +102,19 @@ public class GridView implements ViewComponent<JScrollPane> {
             public void mouseExited(final MouseEvent e) {
             }
         };
-
-        for (int i = 0; i < COLUMNS; i++) {
-            for (int j = 0; j < ROWS; j++) {
+        // Set each in each cell a layered pane, so that it can contain multiple images
+        for (int i = 0; i < columns; i++) {
+            for (int j = 0; j < rows; j++) {
                 final JLayeredPane jp = new JLayeredPane();
-                jp.setSize(new Dimension(cellDimension, cellDimension));
-                jp.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
-                jp.setBackground(Color.BLUE);
+                jp.setBounds(0, 0, cellDimension, cellDimension);
+                jp.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
                 cells.put(jp, Position.of(i, j));
                 jp.addMouseListener(m);
                 grid.add(jp);
             }
         }
-
-        final var scrollPanel = new JScrollPane(new CenteredPanel().build(grid));
-        return scrollPanel;
+        // if the grid is too big, add scrollbars.
+        return new JScrollPane(grid);
     }
 
     /**
@@ -120,18 +122,53 @@ public class GridView implements ViewComponent<JScrollPane> {
      * @param positions Contains the list of objets to place in the cell in a specific position
      */
     public void setPositionFromMap(final Map<Position, List<GameObjectType>> positions) {
-        // temporal method, to update with images
         positions.entrySet().forEach(e -> {
-            // var color = Color.BLUE;
-            // if (e.getValue().size() == 1) {
-            //     if (e.getValue().getFirst().equals(GameObjectType.FLOOR)) {
-            //         color = Color.LIGHT_GRAY;
-            //     }
-            // } else {
-            //     color = Color.PINK;
-            // }
-            // cells.inverse().get(e.getKey()).setBackground(color);
-            // cells.inverse().get(e.getKey()).add(new GameObjectView(null, null), COLUMNS);
+            final var panel = cells.inverse().get(e.getKey());
+            // Clear the content of the cell
+            panel.removeAll();
+            // Set all the images in the cell
+            e.getValue().forEach(object -> {
+                final var objView = new GameObjectView(object).build();
+                objView.setBounds(0, 0, cellDimension, cellDimension);
+                panel.add(objView, (Object) e.getValue().indexOf(object));
+            });
+            // Re-Draw the single cell
+            panel.revalidate();
+            panel.repaint();
         });
+    }
+
+    public static void main(final String[] args) {
+
+        class InternalTest {
+            private int i = 0;
+            private final GridView grid;
+
+            public InternalTest(int col, int row){
+                this.grid = new GridView(this::compute,Position.of(col, row));
+            }
+
+            public void draw(final Map<Position, List<GameObjectType>> map){
+                this.grid.setPositionFromMap(map);
+            }
+
+            public void compute(final Collection<Position> positions){
+                if (i % 2 == 0){
+                    this.draw(positions.stream().collect(Collectors.toMap(p -> p, p ->
+                    List.of(GameObjectType.WALL))));
+                } else {
+                    this.draw(positions.stream().collect(Collectors.toMap(p -> p, p ->
+                    List.of(GameObjectType.FLOOR, GameObjectType.COIN))));
+                }
+                i++;
+            }
+        }
+        final var test = new InternalTest(55, 28);
+        SwingUtils.testComponent(test.grid.build());
+        test.draw(IntStream.range(0, 55)
+            .mapToObj(i -> i)
+            .flatMap(x -> IntStream.range(0, 28)
+            .mapToObj(y -> Position.of(x, y)))
+            .collect(Collectors.toMap(p -> p, p -> List.of(GameObjectType.WALL))));
     }
 }
