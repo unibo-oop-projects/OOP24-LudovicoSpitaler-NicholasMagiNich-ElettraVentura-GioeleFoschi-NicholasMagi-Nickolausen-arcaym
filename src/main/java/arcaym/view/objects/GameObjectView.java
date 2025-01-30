@@ -5,8 +5,9 @@ import javax.swing.JPanel;
 
 import arcaym.model.game.core.objects.api.GameObjectCategory;
 import arcaym.model.game.objects.api.GameObjectType;
-import arcaym.view.api.ViewComponent;
 import arcaym.view.components.ImageLabel;
+import arcaym.view.core.api.ViewComponent;
+import arcaym.view.core.api.WindowInfo;
 
 /**
  * Generic class to represent all the views of the objects implemented via Swing. 
@@ -37,21 +38,23 @@ public class GameObjectView implements ViewComponent<JPanel>, Serializable {
      * {@inheritDoc}
      */
     @Override
-    public JPanel build() {
+    public JPanel build(final WindowInfo window) {
         final JPanel out = new JPanel();
-        out.add(new ImageLabel(getImagePath()).build());
+        out.add(new ImageLabel(getImagePath()).build(window));
         return out;
     }
 
     private String getImagePath() {
         return switch (this.type) {
-            case USER_PLAYER -> "coin.png";
-            case WIN_GOAL -> "coin.png";
-            case COIN -> "coin.png";
-            case FLOOR -> "coin.png";
-            case MOVING_X_OBSTACLE -> "static_obstacle.png";
-            case MOVING_Y_OBSTACLE -> "static_obstacle.png";
-            case SPIKE -> "static_obstacle.png";
+            case 
+                USER_PLAYER, 
+                WIN_GOAL,
+                COIN,
+                FLOOR -> "coin.png";
+            case 
+                MOVING_X_OBSTACLE,
+                MOVING_Y_OBSTACLE,
+                SPIKE -> "static_obstacle.png";
             case WALL -> "wall.png";
         };
     }

@@ -4,7 +4,7 @@ import java.util.Objects;
 
 import javax.swing.JPanel;
 
-import arcaym.view.api.ViewComponent;
+import arcaym.view.core.api.ViewComponent;
 
 /**
  * Abstract implementation of a {@link PanelsSwitcher} panel.

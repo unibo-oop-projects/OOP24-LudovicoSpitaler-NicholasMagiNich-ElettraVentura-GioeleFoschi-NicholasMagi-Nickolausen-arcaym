@@ -9,9 +9,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLayeredPane;
@@ -21,11 +20,12 @@ import javax.swing.JScrollPane;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
+import arcaym.common.utils.Optionals;
 import arcaym.common.utils.Position;
 import arcaym.model.game.objects.api.GameObjectType;
-import arcaym.view.api.ViewComponent;
+import arcaym.view.core.api.ViewComponent;
+import arcaym.view.core.api.WindowInfo;
 import arcaym.view.objects.GameObjectView;
-import arcaym.view.utils.SwingUtils;
 /**
  * An implementation of the grid view.
  */
@@ -37,7 +37,7 @@ public class GridView implements ViewComponent<JScrollPane> {
     private final int rows;
     private final Consumer<Collection<Position>> reciver;
     private final BiMap<JLayeredPane, Position> cells = HashBiMap.create();
-    private final int cellDimension;
+    private Optional<WindowInfo> window;
 
     /**
      * The constructor of the component.
@@ -47,20 +47,18 @@ public class GridView implements ViewComponent<JScrollPane> {
      */
     public GridView(final Consumer<Collection<Position>> sendObjects, final Position size) {
         this.reciver = sendObjects;
-        this.cellDimension = SwingUtils.WINDOW_SIZE.width / CELL_SCALE;
         this.columns = size.x();
         this.rows = size.y();
+        this.window = Optional.empty();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public JScrollPane build() {
-        return buildGrid();
-    }
-
-    private JScrollPane buildGrid() {
+    public JScrollPane build(final WindowInfo window) {
+        this.window = Optional.of(window);
+        final int cellDimension = window.size().width / CELL_SCALE;
         // Create the grid and set its minimum size so every cell is a square.
         final var grid = new JPanel(new GridLayout(rows, columns));
         grid.setPreferredSize(new Dimension(columns * cellDimension, rows * cellDimension));
@@ -122,13 +120,15 @@ public class GridView implements ViewComponent<JScrollPane> {
      * @param positions Contains the list of objets to place in the cell in a specific position
      */
     public void setPositionFromMap(final Map<Position, List<GameObjectType>> positions) {
+        final var window = Optionals.orIllegalState(this.window, "The method build has not been called yet");
+        final int cellDimension = window.size().width / CELL_SCALE;
         positions.entrySet().forEach(e -> {
             final var panel = cells.inverse().get(e.getKey());
             // Clear the content of the cell
             panel.removeAll();
             // Set all the images in the cell
             e.getValue().forEach(object -> {
-                final var objView = new GameObjectView(object).build();
+                final var objView = new GameObjectView(object).build(window);
                 objView.setBounds(0, 0, cellDimension, cellDimension);
                 panel.add(objView, (Object) e.getValue().indexOf(object));
             });
@@ -138,37 +138,37 @@ public class GridView implements ViewComponent<JScrollPane> {
         });
     }
 
-    public static void main(final String[] args) {
+    // public static void main(final String[] args) {
 
-        class InternalTest {
-            private int i = 0;
-            private final GridView grid;
+    //     class InternalTest {
+    //         private int i = 0;
+    //         private final GridView grid;
 
-            public InternalTest(int col, int row){
-                this.grid = new GridView(this::compute,Position.of(col, row));
-            }
+    //         public InternalTest(int col, int row){
+    //             this.grid = new GridView(this::compute,Position.of(col, row));
+    //         }
 
-            public void draw(final Map<Position, List<GameObjectType>> map){
-                this.grid.setPositionFromMap(map);
-            }
+    //         public void draw(final Map<Position, List<GameObjectType>> map){
+    //             this.grid.setPositionFromMap(map);
+    //         }
 
-            public void compute(final Collection<Position> positions){
-                if (i % 2 == 0){
-                    this.draw(positions.stream().collect(Collectors.toMap(p -> p, p ->
-                    List.of(GameObjectType.WALL))));
-                } else {
-                    this.draw(positions.stream().collect(Collectors.toMap(p -> p, p ->
-                    List.of(GameObjectType.FLOOR, GameObjectType.COIN))));
-                }
-                i++;
-            }
-        }
-        final var test = new InternalTest(55, 28);
-        SwingUtils.testComponent(test.grid.build());
-        test.draw(IntStream.range(0, 55)
-            .mapToObj(i -> i)
-            .flatMap(x -> IntStream.range(0, 28)
-            .mapToObj(y -> Position.of(x, y)))
-            .collect(Collectors.toMap(p -> p, p -> List.of(GameObjectType.WALL))));
-    }
+    //         public void compute(final Collection<Position> positions){
+    //             if (i % 2 == 0){
+    //                 this.draw(positions.stream().collect(Collectors.toMap(p -> p, p ->
+    //                 List.of(GameObjectType.WALL))));
+    //             } else {
+    //                 this.draw(positions.stream().collect(Collectors.toMap(p -> p, p ->
+    //                 List.of(GameObjectType.FLOOR, GameObjectType.COIN))));
+    //             }
+    //             i++;
+    //         }
+    //     }
+    //     final var test = new InternalTest(55, 28);
+    //     SwingUtils.testComponent(test.grid::build);
+    //     test.draw(IntStream.range(0, 55)
+    //         .mapToObj(i -> i)
+    //         .flatMap(x -> IntStream.range(0, 28)
+    //         .mapToObj(y -> Position.of(x, y)))
+    //         .collect(Collectors.toMap(p -> p, p -> List.of(GameObjectType.WALL))));
+    // }
 }
