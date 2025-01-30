@@ -5,7 +5,8 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import arcaym.view.api.ViewComponent;
+import arcaym.view.core.api.ScreenInfo;
+import arcaym.view.core.api.ViewComponent;
 import arcaym.view.utils.SwingUtils;
 
 /**
@@ -42,13 +43,13 @@ public class ImageLabel implements ViewComponent<JLabel> {
      * {@inheritDoc}
      */
     @Override
-    public JLabel build() {
+    public JLabel build(final ScreenInfo screenInfo) {
         final var imageIcon = new ImageIcon(SwingUtils.getResource(this.path));
         final var label = new JLabel(imageIcon);
         final var image = imageIcon.getImage();
         imageIcon.setImage(image.getScaledInstance(
-            Double.valueOf(image.getWidth(label) * SwingUtils.WINDOW_SCALING.x() * this.scale).intValue(),
-            Double.valueOf(image.getHeight(label) * SwingUtils.WINDOW_SCALING.y() * this.scale).intValue(),
+            Double.valueOf(image.getWidth(label) * screenInfo.windowRatio().x() * this.scale).intValue(),
+            Double.valueOf(image.getHeight(label) * screenInfo.windowRatio().y() * this.scale).intValue(),
             Image.SCALE_DEFAULT
         ));
         return label;

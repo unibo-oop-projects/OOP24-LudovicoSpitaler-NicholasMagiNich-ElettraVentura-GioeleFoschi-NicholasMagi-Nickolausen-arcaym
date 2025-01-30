@@ -6,8 +6,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
-import arcaym.view.api.ViewComponent;
 import arcaym.view.editor.components.GridAreaView;
+import arcaym.view.core.api.ScreenInfo;
+import arcaym.view.core.api.ViewComponent;
 import arcaym.view.editor.components.SideMenuView;
 
 /**
@@ -21,10 +22,10 @@ public class EditorMainView implements ViewComponent<JPanel> {
      * {@inheritDoc}
      */
     @Override
-    public JPanel build() {
+    public JPanel build(final ScreenInfo screenInfo) {
         final JPanel out = new JPanel();
-        final JPanel grid = new GridAreaView().build();
-        final JScrollPane sideMenu = new SideMenuView().build();
+        final JPanel grid = new GridAreaView().build(screenInfo);
+        final JScrollPane sideMenu = new SideMenuView().build(screenInfo);
         final Dimension sideMenuDimension = new Dimension(Math.floorDiv(out.getWidth(), COLUMNS), out.getHeight());
         sideMenu.setSize(sideMenuDimension);
         sideMenu.setPreferredSize(sideMenuDimension);

@@ -10,7 +10,8 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
 import arcaym.model.game.core.objects.api.GameObjectCategory;
-import arcaym.view.api.ViewComponent;
+import arcaym.view.core.api.ScreenInfo;
+import arcaym.view.core.api.ViewComponent;
 import arcaym.view.objects.GameObjectView;
 
 /**
@@ -31,7 +32,7 @@ public class SideMenuView implements ViewComponent<JScrollPane> {
      * {@inheritDoc}
     */
     @Override
-    public JScrollPane build() {
+    public JScrollPane build(final ScreenInfo screenInfo) {
         final JScrollPane mainPanel = new JScrollPane();
         final JPanel content = new JPanel();
         content.setMinimumSize(mainPanel.getSize());
