@@ -45,13 +45,15 @@ public class GameObjectView implements ViewComponent<JPanel>, Serializable {
 
     private String getImagePath() {
         return switch (this.type) {
-            case USER_PLAYER -> "coin.png";
-            case WIN_GOAL -> "coin.png";
-            case COIN -> "coin.png";
-            case FLOOR -> "coin.png";
-            case MOVING_X_OBSTACLE -> "static_obstacle.png";
-            case MOVING_Y_OBSTACLE -> "static_obstacle.png";
-            case SPIKE -> "static_obstacle.png";
+            case 
+                USER_PLAYER, 
+                WIN_GOAL,
+                COIN,
+                FLOOR -> "coin.png";
+            case 
+                MOVING_X_OBSTACLE,
+                MOVING_Y_OBSTACLE,
+                SPIKE -> "static_obstacle.png";
             case WALL -> "wall.png";
         };
     }
