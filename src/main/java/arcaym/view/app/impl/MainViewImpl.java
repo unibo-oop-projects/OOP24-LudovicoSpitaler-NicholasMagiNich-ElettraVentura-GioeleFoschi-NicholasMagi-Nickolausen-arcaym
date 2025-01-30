@@ -7,7 +7,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import arcaym.view.app.api.MainView;
-import arcaym.view.editor.EditorMainView;
 import arcaym.view.shop.api.ShopView;
 
 /**
@@ -47,11 +46,12 @@ public class MainViewImpl implements MainView {
     }
 
     private void initEditor() {
-        editor = new EditorMainView().build();
-        editor.setMinimumSize(MINIMUM_SCREEN_SIZE);
-        editor.setSize(screenSize);
-        editor.setPreferredSize(screenSize);
-        mainFrame.add(editor);
+        // editor = new EditorMainView().build();
+        // editor.setMinimumSize(MINIMUM_SCREEN_SIZE);
+        // editor.setSize(screenSize);
+        // editor.setPreferredSize(screenSize);
+        // mainFrame.add(editor);
+        editor = new JPanel();
     }
 
     private void initGame() {
@@ -83,7 +83,6 @@ public class MainViewImpl implements MainView {
         // this.initEditor();
         // this.initGame();
         // this.switchToEditor();
-        mainFrame.add(new ShopView().build());
         mainFrame.pack();
         mainFrame.setVisible(true);
     }

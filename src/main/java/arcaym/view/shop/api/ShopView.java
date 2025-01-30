@@ -1,113 +1,167 @@
 package arcaym.view.shop.api;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.util.stream.Stream;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import javax.swing.*;
 
 import arcaym.controller.shop.api.ShopController;
 import arcaym.controller.shop.impl.ShopControllerImpl;
 import arcaym.model.game.core.objects.api.GameObjectCategory;
-import arcaym.view.api.ViewComponent;
+import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.view.components.CenteredPanel;
+import arcaym.view.core.api.ViewComponent;
+import arcaym.view.core.api.WindowInfo;
 import arcaym.view.utils.SwingUtils;
 
 public class ShopView implements ViewComponent<JPanel> {
-    private static final Integer SCALE = 5;
+    private static final Integer SCALE = 3;
     private static final String SHOP_TITLE = "SHOP";
     private final ShopController controller = new ShopControllerImpl();
+    private final Map<JButton, ProductInfo> productsMap = new HashMap<>();
+    private Optional<ProductInfo> selected = Optional.empty();
+
+    Map<GameObjectType, Integer> mockController = new HashMap<>(); // mock
 
     @Override
-    public JPanel build() {
+    public JPanel build(final WindowInfo window) {
+        mockController.put(GameObjectType.COIN, 100);
+        mockController.put(GameObjectType.MOVING_X_OBSTACLE, 50);
+        mockController.put(GameObjectType.MOVING_Y_OBSTACLE, 50);
+        mockController.put(GameObjectType.FLOOR, 50);
+
         final JPanel contentPanel = new JPanel();
         var gap = SwingUtils.getBigGap(contentPanel);
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.PAGE_AXIS));
 
         JLabel title = new JLabel(SHOP_TITLE);
         title.setFont(new Font("Arial", Font.BOLD, 50));
-        contentPanel.add(new CenteredPanel().build(title));
+        contentPanel.add(new CenteredPanel().build(window, title));
 
         JScrollPane scrollPanel = new JScrollPane();
         JPanel itemsPanel = new JPanel();
         itemsPanel.setMinimumSize(scrollPanel.getSize());
-        itemsPanel.setLayout(new GridLayout(1, 0));
+        itemsPanel.setLayout(new GridLayout(0, 1));
         scrollPanel.setViewportView(itemsPanel);
-        fillItems(itemsPanel);
+        fillItems(window, itemsPanel);
 
         contentPanel.add(Box.createVerticalStrut(gap));
 
-        scrollPanel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        scrollPanel.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPanel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPanel.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         contentPanel.add(scrollPanel);
 
         contentPanel.add(Box.createVerticalStrut(gap));
 
+        ActionListener selectPriceAl = new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent arg) {
+                JButton pressedButton = (JButton) arg.getSource();
+                if (selected.isEmpty()
+                        || (selected.isPresent() && !selected.get().equals(productsMap.get(pressedButton)))) {
+                    selected = Optional.of(productsMap.get(pressedButton));
+                }
+                pressedButton.setBackground(Color.BLUE);
+            }
+
+        };
+
         JButton buyButton = new JButton("BUY");
+        buyButton.setEnabled(false);
+
+        ActionListener purchaseAl = new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent arg) {
+                if (selected.isPresent()) {
+                    // controllerBUY();
+                    buyButton.setEnabled(false);
+                }
+            }
+
+        };
+
+        buyButton.addActionListener(purchaseAl);
         SwingUtils.changeFontSize(buyButton, SCALE);
-        contentPanel.add(new CenteredPanel().build(buyButton));
+        contentPanel.add(new CenteredPanel().build(window, buyButton));
 
         contentPanel.add(Box.createVerticalStrut(gap));
 
         JButton backToMenuButton = new JButton("Back to menu");
-        contentPanel.add(new CenteredPanel().build(backToMenuButton));
+        contentPanel.add(new CenteredPanel().build(window, backToMenuButton));
         contentPanel.add(Box.createVerticalStrut(gap));
 
         contentPanel.setVisible(true);
         return contentPanel;
     }
 
-    private void fillItems(JPanel itemsPanel) {
+    private void fillItems(WindowInfo window, JPanel itemsPanel) {
         for (var category : GameObjectCategory.values()) {
-            JPanel categoryPanel = createCategoryCard(category);
+            JPanel categoryPanel = createCategoryCard(window, category);
             itemsPanel.add(categoryPanel);
         }
     }
 
-    private JPanel createCategoryCard(GameObjectCategory category) {
+    private JPanel createCategoryCard(WindowInfo window, GameObjectCategory category) {
         JPanel card = new JPanel();
-        card.setBackground(Color.WHITE);
-        card.setLayout(new BoxLayout(card, BoxLayout.LINE_AXIS));
-        card.add(Box.createHorizontalStrut(SwingUtils.getLittleGap(card)));
-        var titleCard = new JLabel(category.name());
-        titleCard.setFont(new Font("Arial", Font.BOLD, 20));
-        card.add(titleCard);
-        card.add(Box.createVerticalStrut(SwingUtils.getBigGap(card)));
-        JPanel types = new JPanel();
-        types.setLayout(new GridLayout(1,0));
-        // controller.getLockedGameObjects().keySet().stream().filter(obj->obj.category().equals(category)).forEach(obj->card.add(new
-        // JButton(obj.name())));
-        Stream.iterate(0, i -> i + 1).limit(5).forEach(obj -> {
-            types.add(Box.createHorizontalStrut(SwingUtils.getLittleGap(card)));
-            createPurchaseOption(obj, types);
-            types.add(Box.createHorizontalStrut(SwingUtils.getLittleGap(card)));
-        });
-        card.add(types);
+        card.setLayout(new BoxLayout(card, BoxLayout.PAGE_AXIS));
+
+        card.add(Box.createVerticalStrut(SwingUtils.getLittleGap(card)));
+
+        JLabel titleLabel = new JLabel("NEW " + category.name() + "S");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        JPanel title = new CenteredPanel().build(window, titleLabel);
+        title.setBackground(Color.WHITE);
+        card.add(title);
+
+        card.add(Box.createVerticalStrut(SwingUtils.getLittleGap(card)));
+
+        JPanel showItemsPanel = new JPanel();
+        showItemsPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+        // final int maxItems = (int)
+        // controller.getLockedGameObjects().keySet().stream()
+        // .filter(type -> type.category() == category).count();
+        // if (maxItems == 0) {
+        // showItemsPanel.setBackground(Color.GRAY);
+        // showItemsPanel.add(new JLabel("No Items Available."));
+        // } else {
+        // for (var object : controller.getLockedGameObjects().entrySet()) {
+        // JPanel item = new DisplayProductView(object.getKey(),
+        // object.getValue()).build(window);
+        // item.setPreferredSize(SwingUtils.scaleDimension(item.getPreferredSize(),
+        // SCALE));
+        // showItemsPanel.add(item);
+        // }
+        // }
+
+        final int maxItems = (int) mockController.keySet().stream()
+                .filter(type -> type.category().equals(category)).count();
+        if (maxItems == 0) {
+            showItemsPanel.setBackground(Color.GRAY);
+            showItemsPanel.add(new JLabel("No Items Available."));
+        } else {
+            for (var object : mockController.entrySet().stream()
+                    .filter(type -> type.getKey().category().equals(category)).toList()) {
+                JPanel item = new DisplayProductView(new ProductInfo(object.getKey(), object.getValue())).build(window);
+                item.setPreferredSize(SwingUtils.scaleDimension(item.getPreferredSize(), SCALE));
+                showItemsPanel.add(item);
+            }
+        }
+
+        card.add(showItemsPanel);
         return card;
     }
 
-    private void createPurchaseOption(Integer obj, JPanel types) {
-        JPanel type = new JPanel();
-        type.setLayout(new BoxLayout(type, BoxLayout.PAGE_AXIS));
-        
-        type.add(Box.createVerticalStrut(SwingUtils.getBigGap(type)));
-        type.add(new CenteredPanel().build(new JLabel("Type Name")));
-        type.add(Box.createVerticalStrut(SwingUtils.getBigGap(type)));
-        JButton selectType = new JButton(":)");
-        SwingUtils.changeFontSize(selectType, SCALE+SCALE);
-        type.add(new CenteredPanel().build(selectType));
-        
-        type.add(Box.createVerticalStrut(SwingUtils.getBigGap(type)));
-        type.add(new CenteredPanel().build(new JLabel("100$")));
-        types.add(type);
+    public static void main(String[] args) {
+        SwingUtils.testComponent(new ShopView()::build);
     }
-
 }
