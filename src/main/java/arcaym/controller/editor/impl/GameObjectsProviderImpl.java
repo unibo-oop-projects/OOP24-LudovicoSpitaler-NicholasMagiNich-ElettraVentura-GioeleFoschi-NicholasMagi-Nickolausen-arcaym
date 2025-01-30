@@ -2,7 +2,6 @@ package arcaym.controller.editor.impl;
 
 import java.util.Map;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
@@ -16,7 +15,7 @@ import arcaym.model.game.objects.api.GameObjectType;
 public class GameObjectsProviderImpl implements GameObjectsProvider {
 
     private final Set<GameObjectType> unlockedGameObjects;
-    private static final Map<GameObjectType, Integer> prices = Map.of(
+    private static final Map<GameObjectType, Integer> PRICES = Map.of(
         GameObjectType.USER_PLAYER, 0,
         GameObjectType.WALL, 0,
         GameObjectType.SPIKE, 0,
@@ -25,26 +24,38 @@ public class GameObjectsProviderImpl implements GameObjectsProvider {
         GameObjectType.MOVING_Y_OBSTACLE, 10
     ); 
 
+    /**
+     * Default constructor.
+     */
     public GameObjectsProviderImpl() {
-        this.unlockedGameObjects = new HashSet<>();
+        this.unlockedGameObjects = Set.of();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Set<GameObjectType> getUnlockedGameObjects() {
         return Collections.unmodifiableSet(unlockedGameObjects);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Map<GameObjectType, Integer> getLockedGameObjects() {
-        return prices.entrySet().stream()
+        return PRICES.entrySet().stream()
             .filter(e -> !getUnlockedGameObjects().contains(e.getKey()))
             .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void unlockObject(final GameObjectType toUnlock) {
         unlockedGameObjects.add(toUnlock);
-        /* TODO: WRITE TO FILE */
+        // TODO(WRITE TO FILE)
     }
 
 }

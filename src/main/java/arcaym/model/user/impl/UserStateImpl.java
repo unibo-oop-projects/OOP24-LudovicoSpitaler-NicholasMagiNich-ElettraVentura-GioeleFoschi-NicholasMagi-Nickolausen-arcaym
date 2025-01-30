@@ -2,6 +2,7 @@ package arcaym.model.user.impl;
 
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.Set;
 
 import arcaym.controller.game.core.api.GameStateInfo;
@@ -18,7 +19,7 @@ public class UserStateImpl implements UserState, Serializable, EventsObserver<Ga
 
     private static final long serialVersionUID = 1L;
     private int currentScore;
-    private Set<GameObjectType> itemsOwned;
+    private final Set<GameObjectType> itemsOwned = EnumSet.noneOf(GameObjectType.class);
 
     /**
      * {@inheritDoc}

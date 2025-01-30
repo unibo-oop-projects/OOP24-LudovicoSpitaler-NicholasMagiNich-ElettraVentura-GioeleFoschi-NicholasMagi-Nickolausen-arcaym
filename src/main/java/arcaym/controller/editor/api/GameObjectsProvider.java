@@ -5,6 +5,9 @@ import java.util.Set;
 
 import arcaym.model.game.objects.api.GameObjectType;
 
+/**
+ * Provides all the game objects across the application.
+ */
 public interface GameObjectsProvider {
 
     /**
@@ -21,6 +24,8 @@ public interface GameObjectsProvider {
 
     /**
      * Unlocks a new gameobject.
+     * 
+     * @param toUnlock object to unlock
      */
     void unlockObject(GameObjectType toUnlock);
 }
