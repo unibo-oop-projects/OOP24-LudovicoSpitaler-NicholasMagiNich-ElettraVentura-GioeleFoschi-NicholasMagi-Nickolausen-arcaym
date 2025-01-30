@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import arcaym.controller.editor.saves.LevelMetadata;
-import arcaym.view.core.api.ScreenInfo;
+import arcaym.view.core.api.WindowInfo;
 import arcaym.view.core.api.ViewComponent;
 import arcaym.view.utils.SwingUtils;
 
@@ -34,7 +34,7 @@ public class LevelCard implements ViewComponent<JButton> {
      * {@inheritDoc}
      */
     @Override
-    public JButton build(final ScreenInfo screenInfo) {
+    public JButton build(final WindowInfo window) {
         final var button = new JButton();
         final var normalGap = SwingUtils.getNormalGap(button);
         final var littleGap = SwingUtils.getLittleGap(button);

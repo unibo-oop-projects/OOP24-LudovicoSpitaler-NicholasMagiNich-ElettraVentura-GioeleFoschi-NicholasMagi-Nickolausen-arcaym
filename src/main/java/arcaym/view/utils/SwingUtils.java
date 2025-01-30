@@ -2,15 +2,16 @@ package arcaym.view.utils;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Toolkit;
+
+import arcaym.view.core.api.WindowInfo;
+import arcaym.view.core.impl.ScaledWindowInfo;
+
 import java.net.URL;
+import java.util.function.Function;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import arcaym.common.geometry.impl.Point;
-import arcaym.view.core.impl.ScaledWindowScreenInfo;
 
 /**
  * Utility class for swing.
@@ -102,22 +103,20 @@ public final class SwingUtils {
 
     /**
      * Show a component in a test window.
-     * NEEDS TO BE REMOVED.
      * 
-     * @param component component to show
+     * @param componentCreator creation function for the component to show
      * @return created frame
      */
-    public static JFrame testComponent(final JComponent component) {
-        // TODO remove
+    public static JFrame testComponent(final Function<WindowInfo, JComponent> componentCreator) {
         final var frame = new JFrame();
-        final var screenInfo = new ScaledWindowScreenInfo(WINDOW_SIZE_FACTOR);
-        frame.setSize(screenInfo.windowSize());
+        final var screenInfo = new ScaledWindowInfo(WINDOW_SIZE_FACTOR);
+        frame.setSize(screenInfo.size());
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         final var panel = new JPanel();
         frame.setContentPane(panel);
         panel.setLayout(new BorderLayout());
-        panel.add(component, BorderLayout.CENTER);
+        panel.add(componentCreator.apply(screenInfo), BorderLayout.CENTER);
         frame.setVisible(true);
         return frame;
     }
