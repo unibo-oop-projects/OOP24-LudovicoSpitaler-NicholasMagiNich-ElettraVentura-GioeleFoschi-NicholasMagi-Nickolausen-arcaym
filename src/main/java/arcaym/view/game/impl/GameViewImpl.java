@@ -2,8 +2,6 @@ package arcaym.view.game.impl;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
@@ -19,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
+import arcaym.common.utils.Optionals;
 import arcaym.controller.game.core.api.Game;
 import arcaym.controller.game.core.api.GameStateInfo;
 import arcaym.controller.game.events.api.EventsScheduler;
@@ -42,28 +41,18 @@ public class GameViewImpl implements GameView, ViewComponent<JPanel> {
     private static final int KEY_DOWN = KeyEvent.VK_S;
     private static final int KEY_LEFT = KeyEvent.VK_A;
     private static final int KEY_RIGHT = KeyEvent.VK_D;
-    private Map<InputEvent, String> keyMap = new HashMap<>();
-    private final Game game = null; //
+    private final Game game;
     private Optional<Runnable> redrawPanelOperation = Optional.empty();
     private Optional<Runnable> scoreUpdaterOperation = Optional.empty();
-    private Consumer<JPanel> setKeyBindings;
-    private Map<GameObjectInfo, GameObjectView> gameMap = new HashMap<>();
+    private Optional<Consumer<JPanel>> setKeyBindings = Optional.empty();
+    private final Map<GameObjectInfo, GameObjectView> gameMap = new HashMap<>();
 
-    // public GameViewImpl(final Game game) {
-    public GameViewImpl() {
-        // this.game = game;
-        keyMap.put(new InputEvent(InputType.UP, false), "UP");
-        keyMap.put(new InputEvent(InputType.UP, true), "released UP");
-
-        keyMap.put(new InputEvent(InputType.DOWN, false), "DOWN");
-        keyMap.put(new InputEvent(InputType.DOWN, true), "released DOWN");
-
-        keyMap.put(new InputEvent(InputType.LEFT, false), "LEFT");
-        keyMap.put(new InputEvent(InputType.LEFT, true), "released LEFT");
-
-        keyMap.put(new InputEvent(InputType.RIGHT, false), "RIGHT");
-        keyMap.put(new InputEvent(InputType.RIGHT, true), "released RIGHT");
-
+    /**
+     * Base constructor for GameViewImpl.
+     * @param game
+     */
+    public GameViewImpl(final Game game) {
+        this.game = game;
     }
 
     /**
@@ -77,12 +66,12 @@ public class GameViewImpl implements GameView, ViewComponent<JPanel> {
         header.setBackground(Color.WHITE);
         header.setLayout(new BoxLayout(header, BoxLayout.LINE_AXIS));
         final JPanel gameContentPanel = new JPanel();
-        setKeyBindings.accept(gameContentPanel);
+        getOperation(setKeyBindings).accept(gameContentPanel);
         gameContentPanel.setLayout(null);
         redrawPanelOperation = Optional.of(() -> {
             gameContentPanel.removeAll();
             this.gameMap.entrySet().stream().forEach(entry -> {
-                JLabel view = entry.getValue().build(window);
+                final JLabel view = entry.getValue().build(window);
                 gameContentPanel.add(view);
                 setGameObjectPosition(entry.getKey(), view);
             });
@@ -99,8 +88,8 @@ public class GameViewImpl implements GameView, ViewComponent<JPanel> {
         return mainPanel;
     }
 
-    private void scoreUpdateLabel(JLabel score, Integer scoreValue) {
-        score.setText("SCORE : " + String.valueOf(scoreValue));
+    private void scoreUpdateLabel(final JLabel score, final Integer scoreValue) {
+        score.setText("SCORE : " + scoreValue);
     }
 
     /**
@@ -110,6 +99,13 @@ public class GameViewImpl implements GameView, ViewComponent<JPanel> {
     public void registerEventsCallbacks(final EventsSubscriber<GameEvent> eventsSubscriber,
             final GameStateInfo gameState) {
         eventsSubscriber.registerCallback(GameEvent.GAME_OVER, null);
+        eventsSubscriber.registerCallback(GameEvent.INCREMENT_SCORE, (gameEvent) -> {
+            getOperation(scoreUpdaterOperation).run();
+        });
+        eventsSubscriber.registerCallback(GameEvent.DECREMENT_SCORE, (gameEvent) -> {
+            getOperation(scoreUpdaterOperation).run();
+        });
+        eventsSubscriber.registerCallback(GameEvent.VICTORY, null);
     }
 
     /**
@@ -117,39 +113,39 @@ public class GameViewImpl implements GameView, ViewComponent<JPanel> {
      */
     @Override
     public void setInputEventsScheduler(final EventsScheduler<InputEvent> eventsScheduler) {
-        //inizializzazione di un consumer JPanel che usa eventscheduler. verrà usato in build. veramente brutto.
-        setKeyBindings = (out)->{
-            bindKey(InputType.UP, KEY_UP, eventsScheduler,out);
-            bindKey(InputType.DOWN, KEY_DOWN, eventsScheduler,out);
-            bindKey(InputType.LEFT, KEY_LEFT, eventsScheduler,out);
-            bindKey(InputType.RIGHT, KEY_RIGHT, eventsScheduler,out);
-        };
+        setKeyBindings = Optional.of((out) -> {
+            bindKey(InputType.UP, KEY_UP, eventsScheduler, out);
+            bindKey(InputType.DOWN, KEY_DOWN, eventsScheduler, out);
+            bindKey(InputType.LEFT, KEY_LEFT, eventsScheduler, out);
+            bindKey(InputType.RIGHT, KEY_RIGHT, eventsScheduler, out);
+        });
     }
 
-    private void bindKey(final InputType type, final int keyCode, final EventsScheduler<InputEvent> eventsScheduler, final JPanel out) {
-        InputEvent nonDropEvent = new InputEvent(type, false);
-        String nonDropKey = type.name() + "_PRESSED";
+    private void bindKey(final InputType type, final int keyCode, final EventsScheduler<InputEvent> eventsScheduler,
+            final JPanel out) {
+        final InputEvent nonDropEvent = new InputEvent(type, false);
+        final String nonDropKey = type.name() + "_PRESSED";
         out.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(keyCode,
-        0, false), nonDropKey);
+                0, false), nonDropKey);
         out.getActionMap().put(nonDropKey, new AbstractAction() {
 
-        @Override
-        public void actionPerformed(ActionEvent arg) {
-        eventsScheduler.scheduleEvent(nonDropEvent);
-        }
+            @Override
+            public void actionPerformed(final ActionEvent arg) {
+                eventsScheduler.scheduleEvent(nonDropEvent);
+            }
 
         });
 
-        InputEvent dropEvent = new InputEvent(type, true);
-        String dropKey = type.name() + "_RELEASED";
+        final InputEvent dropEvent = new InputEvent(type, true);
+        final String dropKey = type.name() + "_RELEASED";
         out.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(keyCode,
-        0, true), dropKey);
+                0, true), dropKey);
         out.getActionMap().put(dropKey, new AbstractAction() {
 
-        @Override
-        public void actionPerformed(final ActionEvent arg) {
-        eventsScheduler.scheduleEvent(dropEvent);
-        }
+            @Override
+            public void actionPerformed(final ActionEvent arg) {
+                eventsScheduler.scheduleEvent(dropEvent);
+            }
 
         });
     }
@@ -160,8 +156,8 @@ public class GameViewImpl implements GameView, ViewComponent<JPanel> {
     @Override
     public void destroyObject(final GameObjectInfo gameObject) {
         this.gameMap.remove(gameObject);
-
-        runOperation(redrawPanelOperation);
+        getOperation(redrawPanelOperation).run();
+        getOperation(scoreUpdaterOperation).run();
     }
 
     /**
@@ -170,8 +166,8 @@ public class GameViewImpl implements GameView, ViewComponent<JPanel> {
     @Override
     public void createObject(final GameObjectInfo gameObject) {
         this.gameMap.put(gameObject, new GameObjectView(gameObject.type()));
-        runOperation(redrawPanelOperation);
-        runOperation(scoreUpdaterOperation);
+        getOperation(redrawPanelOperation).run();
+        getOperation(scoreUpdaterOperation).run();
     }
 
     /**
@@ -180,15 +176,12 @@ public class GameViewImpl implements GameView, ViewComponent<JPanel> {
     @Override
     public void updateObject(final GameObjectInfo gameObject) {
         this.gameMap.replace(gameObject, new GameObjectView(gameObject.type()));
-        runOperation(redrawPanelOperation);
+        getOperation(redrawPanelOperation).run();
+        getOperation(scoreUpdaterOperation).run();
     }
 
-    private void runOperation(final Optional<Runnable> operation) {
-        if (operation.isPresent()) {
-            operation.get().run();
-        } else {
-            throw new IllegalStateException("Game View is not available/built yet.");
-        }
+    private <T> T getOperation(final Optional<T> operation) {
+        return Optionals.orIllegalState(operation, "Illegal operation");
     }
 
     private void setGameObjectPosition(final GameObjectInfo object, final JLabel rendererdLabel) {
@@ -202,7 +195,7 @@ public class GameViewImpl implements GameView, ViewComponent<JPanel> {
      * @param args
      */
     public static void main(final String[] args) {
-        SwingUtils.testComponent(new GameViewImpl()::build);
+        // SwingUtils.testComponent(new GameViewImpl()::build);
     }
 
 }
