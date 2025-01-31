@@ -2,10 +2,17 @@ package arcaym.common.utils.file;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 /**
  * Class used to create the application folders in the user home. 
@@ -89,4 +96,34 @@ public final class FileUtils {
         }
     }
 
+    /**
+     * Reads the content of a file from a specific path.
+     * 
+     * @param path The path of the file to read
+     * @return Returns the string read or an {@link Optional#empty()} if there was an error while reading
+     */
+    public static Optional<String> readFromPath(final Path path) {
+        try {
+            return Optional.of(Files.readString(path, StandardCharsets.UTF_8));
+        } catch (IOException e) {
+            return Optional.empty();
+        }
+    }
+
+    /**
+     * Converts a string to a specific object.
+     * 
+     * @param <T> The object type to convert the string to
+     * @param classType The {@link Class} of the object to convert
+     * @param content The string to convert
+     * @return Returns an instance of the generic type given
+     */
+    public static <T> Optional<T> convertToObj(final Class<T> classType, final String content) {
+        final Gson json = new Gson();
+        try {
+            return Optional.of(json.fromJson(content, classType));
+        } catch (JsonSyntaxException e) {
+            return Optional.empty();
+        }
+    }
 }
