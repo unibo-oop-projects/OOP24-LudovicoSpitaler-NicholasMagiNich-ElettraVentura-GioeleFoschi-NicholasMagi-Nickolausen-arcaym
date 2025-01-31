@@ -35,7 +35,7 @@ public class GridView implements ViewComponent<JScrollPane> {
 
     private final int columns;
     private final int rows;
-    private final Consumer<Collection<Position>> reciver;
+    private final Consumer<Collection<Position>> receiver;
     private final BiMap<JLayeredPane, Position> cells = HashBiMap.create();
     private Optional<WindowInfo> window;
 
@@ -46,7 +46,7 @@ public class GridView implements ViewComponent<JScrollPane> {
      * @param size The size of the map
      */
     public GridView(final Consumer<Collection<Position>> sendObjects, final Position size) {
-        this.reciver = sendObjects;
+        this.receiver = sendObjects;
         this.columns = size.x();
         this.rows = size.y();
         this.window = Optional.empty();
@@ -84,7 +84,7 @@ public class GridView implements ViewComponent<JScrollPane> {
             @Override
             public void mouseReleased(final MouseEvent e) {
                 isClicking = false;
-                reciver.accept(positionInvolved);
+                receiver.accept(positionInvolved);
                 positionInvolved.clear();
             }
 
