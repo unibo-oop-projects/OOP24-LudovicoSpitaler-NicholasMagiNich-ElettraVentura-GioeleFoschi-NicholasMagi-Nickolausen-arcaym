@@ -1,6 +1,5 @@
 package arcaym.model.user.impl;
 
-import java.io.Serializable;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Set;

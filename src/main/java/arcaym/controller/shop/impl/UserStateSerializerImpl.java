@@ -5,14 +5,12 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
-import java.util.function.Function;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 
-import arcaym.common.utils.Optionals;
 import arcaym.common.utils.file.FileUtils;
 import arcaym.model.user.api.UserState;
 import arcaym.model.user.impl.UserStateImpl;
