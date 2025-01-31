@@ -67,6 +67,7 @@ public class GridModelImpl implements GridModel {
      */
     @Override
     public void placeObjects(final Collection<Position> positions, final GameObjectType type) throws EditorGridException {
+        this.history.saveSnapshot(this.grid.takeSnapshot(positions));
         this.changedState = positions.stream().collect(Collectors.toSet());
         this.grid.setObjects(positions, type);
     }
@@ -76,6 +77,7 @@ public class GridModelImpl implements GridModel {
      */
     @Override
     public void removeObjects(final Collection<Position> positions) throws EditorGridException {
+        this.history.saveSnapshot(this.grid.takeSnapshot(positions));
         this.changedState = positions.stream().collect(Collectors.toSet());
         this.grid.removeObjects(positions);
     }
