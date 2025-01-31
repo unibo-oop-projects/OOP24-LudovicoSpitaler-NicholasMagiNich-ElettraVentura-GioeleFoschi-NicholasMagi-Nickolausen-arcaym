@@ -55,13 +55,4 @@ public enum Scale {
         return this.label;
     }
 
-    /**
-     * Get if the scaled window should be fullscreen.
-     * 
-     * @return if the window should be fullscreen
-     */
-    public boolean isFullScreen() {
-        return this.value == 1;
-    }
-
 }

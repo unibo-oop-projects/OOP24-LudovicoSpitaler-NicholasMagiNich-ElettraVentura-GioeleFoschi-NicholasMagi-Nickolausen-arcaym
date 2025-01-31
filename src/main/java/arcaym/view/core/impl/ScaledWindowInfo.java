@@ -13,6 +13,8 @@ import arcaym.view.utils.SwingUtils;
  */
 public class ScaledWindowInfo implements WindowInfo {
 
+    private static final float FULLSCREEEN_SCALE_VALUE = 1f;
+
     private final Dimension size;
     private final Point ratio;
     private final Scale scale;
@@ -55,7 +57,7 @@ public class ScaledWindowInfo implements WindowInfo {
      */
     @Override
     public boolean isFullscreen() {
-        return this.scale.isFullScreen();
+        return this.scale.value() == FULLSCREEEN_SCALE_VALUE;
     }
 
 }
