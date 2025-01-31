@@ -2,6 +2,7 @@ package arcaym.view.core.impl;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.Objects;
 
 import arcaym.common.geometry.impl.Point;
 import arcaym.view.core.api.WindowInfo;
@@ -10,22 +11,22 @@ import arcaym.view.utils.SwingUtils;
 /**
  * Implementation of {@link WindowInfo} that scales the window from a given factor.
  */
-public class ScaledWindowInfo extends AbstractWindowInfo {
+public class ScaledWindowInfo implements WindowInfo {
 
     private final Dimension size;
     private final Point ratio;
+    private final Scale scale;
 
     /**
-     * Initialize with given window scale.
+     * Initialize with given scale.
      * 
-     * @param windowScale scale factor
-     * @param fullScreen if the window is fullScreen
+     * @param scale scale
      */
-    public ScaledWindowInfo(final float windowScale, final boolean fullScreen) {
-        super(fullScreen);
+    public ScaledWindowInfo(final Scale scale) {
+        this.scale = Objects.requireNonNull(scale);
         this.size = SwingUtils.scaleDimension(
             Toolkit.getDefaultToolkit().getScreenSize(), 
-            windowScale
+            scale.value()
         );
         this.ratio = Point.of(
             this.size.getWidth() / STANDARD_SIZE.getWidth(),
@@ -47,6 +48,14 @@ public class ScaledWindowInfo extends AbstractWindowInfo {
     @Override
     public Point ratio() {
         return this.ratio;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isFullscreen() {
+        return this.scale.isFullScreen();
     }
 
 }

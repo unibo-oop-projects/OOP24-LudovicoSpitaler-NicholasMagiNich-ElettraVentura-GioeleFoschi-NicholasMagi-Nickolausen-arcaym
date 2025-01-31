@@ -6,19 +6,19 @@ import java.util.Objects;
  * Enum of possible window scales.
  */
 public enum Scale {
-    
+
     /**
      * Scale to occupy all screen.
      */
     FULLSCREEN(1f, "Fullscreen"),
-    
+
     /**
-     * Scale to occupy 75% of the screen
+     * Scale to occupy 75% of the screen.
      */
     X75(.75f),
 
     /**
-     * Scale to occupy 50% of the screen
+     * Scale to occupy 50% of the screen.
      */
     X50(.50f);
 

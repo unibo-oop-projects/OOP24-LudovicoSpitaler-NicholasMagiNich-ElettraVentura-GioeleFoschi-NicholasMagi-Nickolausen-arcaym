@@ -130,7 +130,7 @@ public final class SwingUtils {
      */
     public static JFrame testComponent(final BiFunction<WindowInfo, JFrame, JComponent> componentCreator) {
         final var frame = new JFrame();
-        final var window = new ScaledWindowInfo(WINDOW_SCALE.value(), WINDOW_SCALE.isFullScreen());
+        final var window = new ScaledWindowInfo(WINDOW_SCALE);
         frame.setSize(window.size());
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
