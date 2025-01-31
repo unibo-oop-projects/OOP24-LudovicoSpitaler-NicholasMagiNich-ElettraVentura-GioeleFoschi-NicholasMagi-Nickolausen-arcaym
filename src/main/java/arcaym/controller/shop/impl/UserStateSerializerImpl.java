@@ -5,14 +5,17 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
+import java.util.function.Function;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 
+import arcaym.common.utils.Optionals;
 import arcaym.common.utils.file.FileUtils;
 import arcaym.model.user.api.UserState;
+import arcaym.model.user.impl.UserStateImpl;
 import arcaym.controller.shop.api.UserStateSerializer;
 
 /**
@@ -47,12 +50,12 @@ public class UserStateSerializerImpl implements UserStateSerializer {
      * {@inheritDoc}
      */
     @Override
-    public Optional<UserState> load() {
+    public Optional<? extends UserState> load() {
         final var rawState = FileUtils.readFromPath(FILE_PATH);
         if (rawState.isEmpty()) {
             LOGGER.error("An error occurred while READING '" + FILENAME + "' file.");
             return Optional.empty();
         }
-        return FileUtils.convertToObj(UserState.class, rawState.get());
+        return FileUtils.convertToObj(UserStateImpl.class, rawState.get());
     }
 }

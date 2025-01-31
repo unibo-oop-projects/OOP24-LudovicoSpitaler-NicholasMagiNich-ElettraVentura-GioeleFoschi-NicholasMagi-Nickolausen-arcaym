@@ -27,12 +27,12 @@ public interface UserState extends UserStateInfo {
      * Increments the user score.
      * @param amount the amount to add to the score. If the amount is negative, nothing happens
      */
-    void incrementScore(int amount);
+    void incrementCredit(int amount);
 
     /**
      * Decrements the user score.
      * @param amount the amount to subtract to the score. If the subtraction
      * makes the score drop below 0, then it goes to 0
      */
-    void decrementScore(int amount);
+    void decrementCredit(int amount);
 }

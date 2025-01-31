@@ -15,9 +15,8 @@ import arcaym.model.user.api.UserState;
 /**
  * Implementation of {@link UserState}.
  */
-public class UserStateImpl implements UserState, Serializable, EventsObserver<GameEvent> {
+public class UserStateImpl implements UserState, EventsObserver<GameEvent> {
 
-    private static final long serialVersionUID = 1L;
     private int currentCredit;
     private final Set<GameObjectType> itemsOwned = EnumSet.noneOf(GameObjectType.class);
 
@@ -49,7 +48,7 @@ public class UserStateImpl implements UserState, Serializable, EventsObserver<Ga
      * {@inheritDoc}
      */
     @Override
-    public void incrementScore(final int amount) {
+    public void incrementCredit(final int amount) {
         this.currentCredit += Integer.max(amount, 0);
     }
 
@@ -57,7 +56,7 @@ public class UserStateImpl implements UserState, Serializable, EventsObserver<Ga
      * {@inheritDoc}
      */
     @Override
-    public void decrementScore(final int amount) {
+    public void decrementCredit(final int amount) {
         this.currentCredit -= (this.currentCredit - amount < 0) ? this.currentCredit : amount;
     }
 
@@ -66,6 +65,6 @@ public class UserStateImpl implements UserState, Serializable, EventsObserver<Ga
      */
     @Override
     public void registerEventsCallbacks(final EventsSubscriber<GameEvent> eventsSubscriber, final GameStateInfo gameState) {
-        eventsSubscriber.registerCallback(GameEvent.VICTORY, e -> incrementScore(gameState.score().getValue()));
+        eventsSubscriber.registerCallback(GameEvent.VICTORY, e -> incrementCredit(gameState.score().getValue()));
     }
 }

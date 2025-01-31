@@ -15,7 +15,6 @@ import arcaym.model.user.api.UserStateInfo;
 public class ShopControllerImpl implements ShopController {
 
     private final Shop shopModel;
-    private final GameObjectsProvider provider;
     private final UserStateInfo userView;
 
     /**
@@ -25,8 +24,7 @@ public class ShopControllerImpl implements ShopController {
      * @param provider 
      */
     public ShopControllerImpl(final UserStateInfo userView, final GameObjectsProvider provider) {
-        this.shopModel = new ShopImpl();
-        this.provider = provider;
+        this.shopModel = new ShopImpl(provider.getLockedGameObjects());
         this.userView = userView;
     }
 
@@ -43,7 +41,7 @@ public class ShopControllerImpl implements ShopController {
      */
     @Override
     public Map<GameObjectType, Integer> getLockedGameObjects() {
-        return provider.getLockedGameObjects();
+        return shopModel.getLockedGameObjects();
     }
 
     /**

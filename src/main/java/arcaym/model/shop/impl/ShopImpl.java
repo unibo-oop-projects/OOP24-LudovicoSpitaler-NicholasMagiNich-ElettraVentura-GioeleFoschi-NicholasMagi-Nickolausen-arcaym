@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Map;
 
+import arcaym.controller.app.api.GameObjectsProvider;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.model.shop.api.Shop;
 import arcaym.model.user.api.UserState;
@@ -20,8 +21,8 @@ public class ShopImpl implements Shop {
     /**
      * Default constructor.
      */
-    public ShopImpl() {
-        this.lockedObjects = new EnumMap<>(GameObjectType.class);
+    public ShopImpl(final Map<GameObjectType, Integer> lockedObjects) {
+        this.lockedObjects = Collections.unmodifiableMap(lockedObjects);
         this.userState = new UserStateImpl();
     }
 
@@ -32,9 +33,9 @@ public class ShopImpl implements Shop {
     public boolean makeTransaction(final GameObjectType toBuy) {
         final int price = lockedObjects.get(toBuy);
         if (canBuy(toBuy)) {
-            userState.decrementScore(price);
+            userState.decrementCredit(price);
             userState.addNewGameObject(toBuy);
-            this.lockedObjects.remove(toBuy);
+            lockedObjects.remove(toBuy);
             return true;
         }
         return false;
@@ -54,6 +55,6 @@ public class ShopImpl implements Shop {
     @Override
     public boolean canBuy(final GameObjectType item) {
         final int price = lockedObjects.get(item);
-        return userState.getCredit() - price >= 0;
+        return !userState.getPurchasedGameObjects().contains(item) && userState.getCredit() - price >= 0;
     }
 }
