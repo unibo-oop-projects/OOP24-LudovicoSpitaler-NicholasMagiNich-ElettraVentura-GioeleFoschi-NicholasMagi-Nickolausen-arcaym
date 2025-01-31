@@ -21,4 +21,10 @@ public interface MementoCaretaker {
      * or an {@link Optional#empty()} if there is no state to recover
      */
     Optional<Memento> recoverSnapshot();
+
+    /**
+     * Checks if there are any old states to recover.
+     * @return Returns true if the undo can be performed
+     */
+    boolean canUndo();
 }

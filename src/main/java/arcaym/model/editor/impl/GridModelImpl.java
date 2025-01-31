@@ -1,18 +1,11 @@
 package arcaym.model.editor.impl;
 
-import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import arcaym.common.utils.Position;
 import arcaym.controller.editor.saves.LevelMetadata;
@@ -20,14 +13,11 @@ import arcaym.model.editor.EditorGridException;
 import arcaym.model.editor.EditorType;
 import arcaym.model.editor.api.Grid;
 import arcaym.model.editor.api.GridModel;
-import arcaym.model.editor.api.Memento;
 import arcaym.model.game.objects.api.GameObjectType;
 /**
  * An implementation of the grid model.
  */
 public class GridModelImpl implements GridModel {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(GridModelImpl.class);
 
     private final Grid grid;
     private Set<Position> changedState = Collections.emptySet();
@@ -61,16 +51,7 @@ public class GridModelImpl implements GridModel {
      */
     @Override
     public void undo() {
-        final var memento = (GridMemento) this.history.recoverSnapshot().get();
-        memento.getState().entrySet()
-            .forEach(e -> {
-                try {
-                    grid.setObjects(e.getValue(), e.getKey());
-                } catch (EditorGridException ex) {
-                    // This should not throw any errors.
-                    LOGGER.error("Exception thrown in undo.", ex);
-                }
-            });
+        this.grid.recoverSavedState(this.history.recoverSnapshot().get());
     }
 
     /**
@@ -78,7 +59,7 @@ public class GridModelImpl implements GridModel {
      */
     @Override
     public boolean canUndo() {
-        return false; // tmp
+        return this.history.canUndo();
     }
 
     /**
@@ -115,36 +96,5 @@ public class GridModelImpl implements GridModel {
     @Override
     public boolean saveState(final String uuid) {
         return this.grid.saveState(uuid);
-    }
-
-    private final class GridMemento implements Memento {
-
-        private final Map<Position, List<GameObjectType>> changedCells;
-
-        private GridMemento(final Collection<Position> pos) {
-            this.changedCells = pos
-                .stream()
-                .collect(Collectors.toMap(p -> p, grid::getObjects));
-        }
-
-        private Map<GameObjectType, Collection<Position>> getState() {
-            // from the map of Position, List<GameObjectType> creates a Map<GameObjectType, List<Position>>
-            // for easier recovery of the old state;
-            return changedCells.entrySet()
-                .stream()
-                .flatMap(e -> 
-                    e.getValue()
-                        .stream()
-                        .map(gameObject -> new AbstractMap.SimpleEntry<GameObjectType, Position>(gameObject, e.getKey())))
-                .collect(Collectors.groupingBy(
-                    Entry::getKey, 
-                    Collector.of(
-                        HashSet::new,
-                        (set, entry) -> set.add(entry.getValue()),
-                        (set1, set2) -> {
-                            set1.addAll(set2); return set1;
-                        }
-                )));
-        }
     }
 }

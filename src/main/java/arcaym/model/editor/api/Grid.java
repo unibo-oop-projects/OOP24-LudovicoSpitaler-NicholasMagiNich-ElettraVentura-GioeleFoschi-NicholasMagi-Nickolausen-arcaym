@@ -40,6 +40,20 @@ public interface Grid {
     List<GameObjectType> getObjects(Position pos);
 
     /**
+     * Saves only the cells modified.
+     * 
+     * @param positions The cells that needs to be saved
+     * @return A {@link Memento} object representing the state
+     */
+    Memento takeSnapshot(Collection<Position> positions);
+
+    /**
+     * Recovers a specific state.
+     * @param state The state to recover
+     */
+    void recoverSavedState(Memento state);
+
+    /**
      * Saves the current state of the grid.
      * @param uuid The name of the file to save.
      * @return True if the save was succesfull

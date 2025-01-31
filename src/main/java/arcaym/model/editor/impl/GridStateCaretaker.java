@@ -48,4 +48,12 @@ public class GridStateCaretaker implements MementoCaretaker {
         }
         return Optional.empty();
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean canUndo() {
+        return this.currentIndex >= 0;
+    }
 }

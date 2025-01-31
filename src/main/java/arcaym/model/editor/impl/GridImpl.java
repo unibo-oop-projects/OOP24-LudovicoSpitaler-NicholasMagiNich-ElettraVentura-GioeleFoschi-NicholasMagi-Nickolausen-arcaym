@@ -17,6 +17,7 @@ import arcaym.model.editor.EditorType;
 import arcaym.model.editor.api.Cell;
 import arcaym.model.editor.api.Grid;
 import arcaym.model.editor.api.MapConstraint;
+import arcaym.model.editor.api.Memento;
 import arcaym.model.editor.saves.MapSerializerImpl;
 import arcaym.model.game.core.objects.api.GameObjectCategory;
 import arcaym.model.game.objects.api.GameObjectType;
@@ -157,4 +158,60 @@ public class GridImpl implements Grid {
     public boolean saveState(final String uuid) {
         return new MapSerializerImpl<Position, Cell>().serializeMap(map, uuid);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Memento takeSnapshot(final Collection<Position> positions) {
+        return new GridMemento(positions);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void recoverSavedState(final Memento state) {
+        if (state instanceof GridMemento) {
+            // not checking for constraints as recovering the previous state should never fail constraints.
+            this.map.putAll(((GridMemento) state).getState());
+        }
+    }
+
+    private final class GridMemento implements Memento {
+
+        private final Map<Position, Cell> changedCells;
+
+        private GridMemento(final Collection<Position> pos) {
+            this.changedCells = map.entrySet()
+                .stream()
+                .filter(e -> pos.contains(e.getKey()))
+                .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
+        }
+
+        private Map<Position, Cell> getState() {
+            return Map.copyOf(changedCells);
+            // Older implementation of the memento, that also checked for constraints.
+            // Changed for performance issues
+            // Saving it, because it was beautiful
+            // from the map of Position, List<GameObjectType> creates a Map<GameObjectType, List<Position>>
+            // for easier recovery of the old state;
+            // return changedCells.entrySet()
+            //     .stream()
+            //     .flatMap(e -> 
+            //         e.getValue()
+            //             .stream()
+            //             .map(gameObject -> new AbstractMap.SimpleEntry<GameObjectType, Position>(gameObject, e.getKey())))
+            //     .collect(Collectors.groupingBy(
+            //         Entry::getKey, 
+            //         Collector.of(
+            //             HashSet::new,
+            //             (set, entry) -> set.add(entry.getValue()),
+            //             (set1, set2) -> {
+            //                 set1.addAll(set2); return set1;
+            //             }
+            //     )));
+        }
+    }
+
 }
