@@ -4,9 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import arcaym.view.core.api.WindowInfo;
+import arcaym.view.core.impl.Scale;
 import arcaym.view.core.impl.ScaledWindowInfo;
 
 import java.net.URL;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import javax.swing.JComponent;
@@ -18,13 +20,22 @@ import javax.swing.JPanel;
  */
 public final class SwingUtils {
 
-    private static final float WINDOW_SIZE_FACTOR = 0.8f;
+    private static final Scale WINDOW_SCALE = Scale.X75;
 
     private static final float NORMAL_GAP_FACTOR = 1f;
     private static final float LITTLE_GAP_FACTOR = 0.5f;
     private static final float BIG_GAP_FACTOR = 2f;
 
     private SwingUtils() { }
+
+    /**
+     * Send close event to the frame.
+     * 
+     * @param frame frame
+     */
+    public static void closeFrame(final JFrame frame) {
+        frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+    }
 
     /**
      * Scale dimension by factor.
@@ -108,15 +119,25 @@ public final class SwingUtils {
      * @return created frame
      */
     public static JFrame testComponent(final Function<WindowInfo, JComponent> componentCreator) {
+        return testComponent((window, frame) -> componentCreator.apply(window));
+    }
+
+    /**
+     * Show a component in a test window.
+     * 
+     * @param componentCreator creation function for the component to show
+     * @return created frame
+     */
+    public static JFrame testComponent(final BiFunction<WindowInfo, JFrame, JComponent> componentCreator) {
         final var frame = new JFrame();
-        final var screenInfo = new ScaledWindowInfo(WINDOW_SIZE_FACTOR);
-        frame.setSize(screenInfo.size());
+        final var window = new ScaledWindowInfo(WINDOW_SCALE);
+        frame.setSize(window.size());
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         final var panel = new JPanel();
         frame.setContentPane(panel);
         panel.setLayout(new BorderLayout());
-        panel.add(componentCreator.apply(screenInfo), BorderLayout.CENTER);
+        panel.add(componentCreator.apply(window, frame), BorderLayout.CENTER);
         frame.setVisible(true);
         return frame;
     }

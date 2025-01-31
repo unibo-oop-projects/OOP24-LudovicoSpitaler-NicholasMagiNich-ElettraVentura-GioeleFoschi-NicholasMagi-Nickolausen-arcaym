@@ -28,4 +28,11 @@ public interface WindowInfo {
      */
     Point ratio();
 
+    /**
+     * Get if the window is in fullscreen mode.
+     * 
+     * @return if the window is fullscreen
+     */
+    boolean isFullscreen();
+
 }
