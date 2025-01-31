@@ -56,9 +56,10 @@ public class MainMenu extends SwitchablePanel {
      * @param args foiaeuighiouweahiuogfea
      */
     public static void main(final String[] args) {
-        SwingUtils.testComponent(new PanelsSwitcher(
-            switcher -> () -> new MainMenu(switcher)
-        )::build);
+        SwingUtils.testComponent((window, frame) -> new PanelsSwitcher(
+            switcher -> () -> new MainMenu(switcher),
+            () -> SwingUtils.closeFrame(frame)
+        ).build(window));
     }
 
 }

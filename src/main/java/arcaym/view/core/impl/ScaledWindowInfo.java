@@ -10,7 +10,7 @@ import arcaym.view.utils.SwingUtils;
 /**
  * Implementation of {@link WindowInfo} that scales the window from a given factor.
  */
-public class ScaledWindowInfo implements WindowInfo {
+public class ScaledWindowInfo extends AbstractWindowInfo {
 
     private final Dimension size;
     private final Point ratio;
@@ -19,8 +19,10 @@ public class ScaledWindowInfo implements WindowInfo {
      * Initialize with given window scale.
      * 
      * @param windowScale scale factor
+     * @param fullScreen if the window is fullScreen
      */
-    public ScaledWindowInfo(final float windowScale) {
+    public ScaledWindowInfo(final float windowScale, final boolean fullScreen) {
+        super(fullScreen);
         this.size = SwingUtils.scaleDimension(
             Toolkit.getDefaultToolkit().getScreenSize(), 
             windowScale
