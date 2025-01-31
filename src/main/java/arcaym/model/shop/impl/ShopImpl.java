@@ -1,17 +1,15 @@
 package arcaym.model.shop.impl;
 
 import java.util.Collections;
-import java.util.EnumMap;
 import java.util.Map;
 
-import arcaym.controller.app.api.GameObjectsProvider;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.model.shop.api.Shop;
 import arcaym.model.user.api.UserState;
 import arcaym.model.user.impl.UserStateImpl;
 
 /**
- * Default implementation of interface @see Shop.
+ * Default implementation of interface {@link Shop}.
  */
 public class ShopImpl implements Shop {
 

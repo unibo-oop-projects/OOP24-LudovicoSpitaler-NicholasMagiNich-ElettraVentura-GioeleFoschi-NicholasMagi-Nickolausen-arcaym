@@ -3,6 +3,7 @@ package arcaym.controller.shop;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -23,16 +24,24 @@ public class TestUserStateSerializer {
     void setup() {
         serializer = new UserStateSerializerImpl();
         userState = new UserStateImpl();
-        FileUtils.deleteFile(FILENAME, FileUtils.SAVES_FOLDER);
     }
 
-    @Test
-    void testSerializationSuccess() {
+    @AfterEach
+    void clearTraces() {
+        FileUtils.deleteFile(FILENAME, "saves");
+    }
+
+    private void initUserState() {
         final var initialCredit = 50;
         userState.addNewGameObject(GameObjectType.COIN);
         userState.addNewGameObject(GameObjectType.WALL);
         userState.addNewGameObject(GameObjectType.SPIKE);
         userState.incrementCredit(initialCredit);
+    }
+
+    @Test
+    void testSerializationSuccess() {
+        initUserState();
         final var ok = serializer.save(userState);
         
         assertTrue(ok);
@@ -40,11 +49,7 @@ public class TestUserStateSerializer {
 
     @Test
     void testDeserializationSuccess() {
-        final var initialCredit = 50;
-        userState.addNewGameObject(GameObjectType.COIN);
-        userState.addNewGameObject(GameObjectType.WALL);
-        userState.addNewGameObject(GameObjectType.SPIKE);
-        userState.incrementCredit(initialCredit);
+        initUserState();
         serializer.save(userState);
         final var deserializedUserState = serializer.load();
 
@@ -57,5 +62,7 @@ public class TestUserStateSerializer {
     @Test
     void testDeserializationFailure() {
         final var deserializedUserState = serializer.load();
+        // De-serialization must fail if nothing has been saved before.
+        assertTrue(deserializedUserState.isEmpty());
     }
 }
