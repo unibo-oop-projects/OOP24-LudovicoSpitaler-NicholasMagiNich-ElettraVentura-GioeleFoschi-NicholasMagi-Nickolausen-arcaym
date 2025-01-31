@@ -2,6 +2,7 @@ package arcaym.view.utils;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.WindowEvent;
 
 import arcaym.view.core.api.WindowInfo;
 import arcaym.view.core.impl.Scale;
