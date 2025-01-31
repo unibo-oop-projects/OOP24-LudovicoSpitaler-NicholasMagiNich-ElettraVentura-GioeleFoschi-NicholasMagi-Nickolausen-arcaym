@@ -1,9 +1,11 @@
 package arcaym.model.editor.api;
 
+import java.util.Optional;
+
 /**
  * Class used to save old states in form of a {@link Memento}.
  */
-public interface GridStatesCaretaker {
+public interface MementoCaretaker {
     /**
      * Saves to the collection of previews states the given {@link Memento}.
      * 
@@ -15,7 +17,8 @@ public interface GridStatesCaretaker {
      * Recovers the latest snapshot saved.
      * If multiple calls are made consecutevly, recovers the second to last.
      * 
-     * @return The {@link Memento} class consisting in the state to recover
+     * @return The {@link Memento} class consisting in the state to recover,
+     * or an {@link Optional#empty()} if there is no state to recover
      */
-    Memento recoverSnapshot();
+    Optional<Memento> recoverSnapshot();
 }

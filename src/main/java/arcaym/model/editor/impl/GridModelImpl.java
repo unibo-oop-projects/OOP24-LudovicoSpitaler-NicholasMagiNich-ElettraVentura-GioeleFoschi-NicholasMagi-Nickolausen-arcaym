@@ -1,10 +1,14 @@
 package arcaym.model.editor.impl;
 
+import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import arcaym.common.utils.Position;
@@ -13,6 +17,7 @@ import arcaym.model.editor.EditorGridException;
 import arcaym.model.editor.EditorType;
 import arcaym.model.editor.api.Grid;
 import arcaym.model.editor.api.GridModel;
+import arcaym.model.editor.api.Memento;
 import arcaym.model.game.objects.api.GameObjectType;
 /**
  * An implementation of the grid model.
@@ -21,7 +26,7 @@ public class GridModelImpl implements GridModel {
 
     private final Grid grid;
     private Set<Position> changedState = Collections.emptySet();
-    // private final MementoCareTaker
+    private final GridStateCaretaker history;
 
     /**
      * Creates a new grid model starting from an empty map.
@@ -34,7 +39,7 @@ public class GridModelImpl implements GridModel {
         final int x,
         final int y) {
         this.grid = new GridImpl(x, y, type);
-        // new mementocaretaker
+        this.history = new GridStateCaretaker();
     }
 
     /**
@@ -43,7 +48,7 @@ public class GridModelImpl implements GridModel {
      */
     public GridModelImpl(final LevelMetadata metadata) {
         this.grid = new GridImpl(metadata);
-        // new memento caretaker
+        this.history = new GridStateCaretaker();
     }
 
     /**
@@ -51,7 +56,12 @@ public class GridModelImpl implements GridModel {
      */
     @Override
     public void undo() {
-        // memento recover
+        final var memento = (GridMemento) this.history.recoverSnapshot().get();
+        memento.getState().entrySet()
+            .forEach(e -> {
+                // e.getValue()
+                //     .forEach(object -> placeObjects(changedState, object));
+            });
     }
 
     /**
@@ -114,4 +124,34 @@ public class GridModelImpl implements GridModel {
         return this.grid.saveState(uuid);
     }
 
+    private final class GridMemento implements Memento {
+
+        private final Map<Position, List<GameObjectType>> changedCells;
+
+        private GridMemento(final Collection<Position> pos) {
+            this.changedCells = pos
+                .stream()
+                .collect(Collectors.toMap(p -> p, grid::getObjects));
+        }
+
+        private Map<GameObjectType, Collection<Position>> getState() {
+            // from the map of Position, List<GameObjectType> creates a Map<GameObjectType, List<Position>>
+            // for easier recovery of the old state;
+            return changedCells.entrySet()
+                .stream()
+                .flatMap(e -> 
+                    e.getValue()
+                        .stream()
+                        .map(gameObject -> new AbstractMap.SimpleEntry<GameObjectType, Position>(gameObject, e.getKey())))
+                .collect(Collectors.groupingBy(
+                    Entry::getKey, 
+                    Collector.of(
+                        HashSet::new,
+                        (set, entry) -> set.add(entry.getValue()),
+                        (set1, set2) -> {
+                            set1.addAll(set2); return set1;
+                        }
+                )));
+        }
+    }
 }
