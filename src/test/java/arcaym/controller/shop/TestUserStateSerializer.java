@@ -14,8 +14,8 @@ import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.model.user.api.UserState;
 import arcaym.model.user.impl.UserStateImpl;
 
-public class TestUserStateSerializer {
-    
+class TestUserStateSerializer {
+
     private UserStateSerializer serializer;
     private UserState userState;
     private static final String FILENAME = "user_data.json";
@@ -43,7 +43,7 @@ public class TestUserStateSerializer {
     void testSerializationSuccess() {
         initUserState();
         final var ok = serializer.save(userState);
-        
+
         assertTrue(ok);
     }
 
@@ -53,7 +53,7 @@ public class TestUserStateSerializer {
         serializer.save(userState);
         final var deserializedUserState = serializer.load();
 
-        assertTrue( deserializedUserState.isPresent());
+        assertTrue(deserializedUserState.isPresent());
         assertEquals(userState.getCredit(), deserializedUserState.get().getCredit());
         assertTrue(deserializedUserState.get().getPurchasedGameObjects().containsAll(userState.getPurchasedGameObjects()));
         assertEquals(userState.getPurchasedGameObjects().size(), deserializedUserState.get().getPurchasedGameObjects().size());

@@ -18,6 +18,8 @@ public class ShopImpl implements Shop {
 
     /**
      * Default constructor.
+     * 
+     * @param lockedObjects
      */
     public ShopImpl(final Map<GameObjectType, Integer> lockedObjects) {
         this.lockedObjects = Collections.unmodifiableMap(lockedObjects);
