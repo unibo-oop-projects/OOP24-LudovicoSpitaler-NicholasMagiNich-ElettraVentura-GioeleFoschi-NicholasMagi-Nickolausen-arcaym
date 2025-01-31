@@ -11,6 +11,9 @@ import java.util.Set;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import arcaym.common.utils.Position;
 import arcaym.controller.editor.saves.LevelMetadata;
 import arcaym.model.editor.EditorGridException;
@@ -23,6 +26,8 @@ import arcaym.model.game.objects.api.GameObjectType;
  * An implementation of the grid model.
  */
 public class GridModelImpl implements GridModel {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(GridModelImpl.class);
 
     private final Grid grid;
     private Set<Position> changedState = Collections.emptySet();
@@ -59,8 +64,12 @@ public class GridModelImpl implements GridModel {
         final var memento = (GridMemento) this.history.recoverSnapshot().get();
         memento.getState().entrySet()
             .forEach(e -> {
-                // e.getValue()
-                //     .forEach(object -> placeObjects(changedState, object));
+                try {
+                    grid.setObjects(e.getValue(), e.getKey());
+                } catch (EditorGridException ex) {
+                    // This should not throw any errors.
+                    LOGGER.error("Exception thrown in undo.", ex);
+                }
             });
     }
 
@@ -69,22 +78,6 @@ public class GridModelImpl implements GridModel {
      */
     @Override
     public boolean canUndo() {
-        return false; // tmp
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void redo() {
-        // memento recover
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean canRedo() {
         return false; // tmp
     }
 
