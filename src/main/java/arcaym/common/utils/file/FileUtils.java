@@ -67,10 +67,11 @@ public final class FileUtils {
      * @param subFolder the folder to select (saves or levelMetadata)
      */
     public static void deleteFile(final String name, final String subFolder) {
-        final File deleteme = new File(Paths.get(APP_FOLDER, subFolder, name).toString());
-        final boolean deleted = deleteme.delete();
-        if (!deleted) {
-            LOGGER.error("Error while deleating the file");
+        final var deleteMe = Paths.get(APP_FOLDER, subFolder, name);
+        try {
+            Files.deleteIfExists(deleteMe);
+        } catch (IOException e) {
+            LOGGER.error("Error while deleting the file '" + deleteMe + "'", e);
         }
     }
 
