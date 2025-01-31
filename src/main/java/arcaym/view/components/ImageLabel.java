@@ -1,8 +1,6 @@
 package arcaym.view.components;
 
 import java.awt.Image;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -20,8 +18,6 @@ public class ImageLabel implements ViewComponent<JLabel> {
      * Default image scaling value.
      */
     public static final double DEFAULT_SCALE = 1.0;
-
-    private static final Map<String, ImageIcon> IMAGES_CACHE = new HashMap<>();
 
     private final String path;
     private final double scale;
@@ -51,10 +47,7 @@ public class ImageLabel implements ViewComponent<JLabel> {
      */
     @Override
     public JLabel build(final WindowInfo window) {
-        if (!IMAGES_CACHE.containsKey(this.path)) {
-            IMAGES_CACHE.put(this.path, new ImageIcon(SwingUtils.getResource(this.path)));
-        }
-        final var imageIcon = IMAGES_CACHE.get(this.path);
+        final var imageIcon = new ImageIcon(SwingUtils.getResource(this.path));
         final var label = new JLabel(imageIcon);
         label.setOpaque(false);
         final var image = imageIcon.getImage();
