@@ -48,7 +48,8 @@ public class UserStateImpl implements UserState, EventsObserver<GameEvent> {
      */
     @Override
     public void incrementCredit(final int amount) {
-        this.currentCredit += Integer.max(amount, 0);
+        validateAmount(amount);
+        this.currentCredit += amount;
     }
 
     /**
@@ -56,6 +57,7 @@ public class UserStateImpl implements UserState, EventsObserver<GameEvent> {
      */
     @Override
     public void decrementCredit(final int amount) {
+        validateAmount(amount);
         this.currentCredit -= (this.currentCredit - amount < 0) ? this.currentCredit : amount;
     }
 
@@ -65,5 +67,11 @@ public class UserStateImpl implements UserState, EventsObserver<GameEvent> {
     @Override
     public void registerEventsCallbacks(final EventsSubscriber<GameEvent> eventsSubscriber, final GameStateInfo gameState) {
         eventsSubscriber.registerCallback(GameEvent.VICTORY, e -> incrementCredit(gameState.score().getValue()));
+    }
+
+    private void validateAmount(final int amount) {
+        if (amount < 0) {
+            throw new IllegalArgumentException("Invalid amount! It has to be > 0 (Received: '" + amount + "')");
+        }
     }
 }
