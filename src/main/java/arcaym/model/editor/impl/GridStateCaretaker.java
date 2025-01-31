@@ -14,14 +14,12 @@ import arcaym.model.editor.api.MementoCaretaker;
 public class GridStateCaretaker implements MementoCaretaker {
 
     private final List<Memento> history;
-    private int currentIndex;
 
     /**
      * Creates a caretaker object.
      */
     public GridStateCaretaker() {
         this.history = new ArrayList<>();
-        this.currentIndex = -1;
     }
 
     /**
@@ -29,12 +27,7 @@ public class GridStateCaretaker implements MementoCaretaker {
      */
     @Override
     public void saveSnapshot(final Memento state) {
-        if (this.history.size() > currentIndex) {
-            // if the current index is not the last, remove the "recovered states"
-            this.history.subList(currentIndex + 1, this.history.size()).clear();
-        }
-        this.history.add(state);
-        this.currentIndex++;
+        this.history.addLast(state);
     }
 
     /**
@@ -42,9 +35,8 @@ public class GridStateCaretaker implements MementoCaretaker {
      */
     @Override
     public Optional<Memento> recoverSnapshot() {
-        if (this.currentIndex >= 0) {
-            this.currentIndex--;
-            return Optional.of(this.history.get(currentIndex + 1));
+        if (!this.history.isEmpty()) {
+            return Optional.of(this.history.removeLast());
         }
         return Optional.empty();
     }
@@ -54,6 +46,6 @@ public class GridStateCaretaker implements MementoCaretaker {
      */
     @Override
     public boolean canUndo() {
-        return this.currentIndex >= 0;
+        return !this.history.isEmpty();
     }
 }

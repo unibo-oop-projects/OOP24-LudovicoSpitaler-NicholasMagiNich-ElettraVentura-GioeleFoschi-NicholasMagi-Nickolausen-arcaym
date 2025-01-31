@@ -51,7 +51,7 @@ public class GridModelImpl implements GridModel {
      */
     @Override
     public void undo() {
-        this.grid.recoverSavedState(this.history.recoverSnapshot().get());
+        this.changedState = this.grid.recoverSavedState(this.history.recoverSnapshot().get());
     }
 
     /**
