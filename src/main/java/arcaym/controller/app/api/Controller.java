@@ -3,7 +3,9 @@ package arcaym.controller.app.api;
 import arcaym.view.app.api.View;
 
 /**
- * Interface for a controller of a sub-section of the app.
+ * Interface for a generic controller.
+ * 
+ * @param <T> associated view type
  */
 public interface Controller<T extends View> {
 

@@ -19,7 +19,7 @@ public class MainViewImpl {
     private JPanel game;
 
     /**
-     * TODO remove
+     * TODO remove.
      */
     public final void switchToEditor() {
         initEditor();
@@ -30,7 +30,7 @@ public class MainViewImpl {
     }
 
     /**
-     * TODO remove
+     * TODO remove.
      */
     public void switchToGame() {
         initGame();

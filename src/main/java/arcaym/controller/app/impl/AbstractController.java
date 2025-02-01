@@ -8,6 +8,9 @@ import arcaym.view.app.api.View;
 
 /**
  * Abstract implementation of {@link Controller}.
+ * It provides the controller switcher access while leaving the logic.
+ * 
+ * @param <T> associated view type
  */
 public abstract class AbstractController<T extends View> implements Controller<T> {
 
