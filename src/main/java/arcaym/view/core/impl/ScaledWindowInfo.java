@@ -56,6 +56,14 @@ public class ScaledWindowInfo implements WindowInfo {
      * {@inheritDoc}
      */
     @Override
+    public float scale() {
+        return this.scale.value();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public boolean isFullscreen() {
         return this.scale.value() == FULLSCREEEN_SCALE_VALUE;
     }
