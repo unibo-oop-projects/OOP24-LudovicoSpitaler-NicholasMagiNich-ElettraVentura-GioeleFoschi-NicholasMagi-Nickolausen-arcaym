@@ -1,4 +1,4 @@
-package arcaym.controller.game.core.api;
+package arcaym.model.game.core.engine.api;
 
 import arcaym.common.geometry.impl.Point;
 import arcaym.model.game.objects.api.GameObjectType;

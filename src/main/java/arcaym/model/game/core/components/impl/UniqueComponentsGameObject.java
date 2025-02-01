@@ -5,13 +5,13 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import arcaym.controller.game.core.api.GameStateInfo;
-import arcaym.controller.game.events.api.EventsScheduler;
-import arcaym.controller.game.events.api.EventsSubscriber;
-import arcaym.controller.game.scene.api.GameSceneInfo;
 import arcaym.model.game.core.components.api.ComponentsBasedGameObject;
 import arcaym.model.game.core.components.api.GameComponent;
+import arcaym.model.game.core.engine.api.GameStateInfo;
+import arcaym.model.game.core.events.api.EventsScheduler;
+import arcaym.model.game.core.events.api.EventsSubscriber;
 import arcaym.model.game.core.objects.impl.AbstractGameObject;
+import arcaym.model.game.core.scene.api.GameSceneInfo;
 import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.events.impl.InputEvent;
 import arcaym.model.game.objects.api.GameObjectType;

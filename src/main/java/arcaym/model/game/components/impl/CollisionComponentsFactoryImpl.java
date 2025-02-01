@@ -4,15 +4,15 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import arcaym.common.geometry.impl.Rectangles;
-import arcaym.controller.game.core.api.GameStateInfo;
-import arcaym.controller.game.events.api.EventsScheduler;
-import arcaym.controller.game.scene.api.GameSceneInfo;
 import arcaym.model.game.components.api.CollisionComponentsFactory;
 import arcaym.model.game.core.components.api.GameComponent;
 import arcaym.model.game.core.components.impl.AbstractGameComponent;
 import arcaym.model.game.core.components.impl.UniqueComponentsGameObject;
+import arcaym.model.game.core.engine.api.GameStateInfo;
+import arcaym.model.game.core.events.api.EventsScheduler;
 import arcaym.model.game.core.objects.api.GameObjectCategory;
 import arcaym.model.game.core.objects.api.GameObjectInfo;
+import arcaym.model.game.core.scene.api.GameSceneInfo;
 import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.objects.api.GameObjectType;
 

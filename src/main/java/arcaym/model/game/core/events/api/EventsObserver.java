@@ -1,7 +1,6 @@
-package arcaym.controller.game.events.api;
+package arcaym.model.game.core.events.api;
 
-import arcaym.controller.game.core.api.GameStateInfo;
-import arcaym.model.game.events.api.Event;
+import arcaym.model.game.core.engine.api.GameStateInfo;
 
 /**
  * Interface for a generic events observer.

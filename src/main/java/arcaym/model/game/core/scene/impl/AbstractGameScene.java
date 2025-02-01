@@ -1,4 +1,4 @@
-package arcaym.controller.game.scene.impl;
+package arcaym.model.game.core.scene.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import arcaym.controller.game.scene.api.GameScene;
 import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.core.objects.api.GameObjectInfo;
+import arcaym.model.game.core.scene.api.GameScene;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.view.game.api.GameView;
 

@@ -1,12 +1,12 @@
-package arcaym.controller.game.core.impl;
+package arcaym.model.game.core.engine.impl;
 
 import java.util.Objects;
 
-import arcaym.controller.game.core.api.Game;
-import arcaym.controller.game.core.api.GameBuilder;
-import arcaym.controller.game.scene.api.GameScene;
-import arcaym.controller.game.scene.impl.FactoryBasedGameScene;
+import arcaym.model.game.core.engine.api.Game;
+import arcaym.model.game.core.engine.api.GameBuilder;
 import arcaym.model.game.core.objects.api.GameObjectsFactory;
+import arcaym.model.game.core.scene.api.GameScene;
+import arcaym.model.game.core.scene.impl.FactoryBasedGameScene;
 
 /**
  * Implementation of {@link GameBuilder} that uses a {@link GameObjectsFactory}.

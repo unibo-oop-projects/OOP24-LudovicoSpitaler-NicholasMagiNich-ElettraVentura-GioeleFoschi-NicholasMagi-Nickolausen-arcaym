@@ -1,4 +1,4 @@
-package arcaym.model.game.events.api;
+package arcaym.model.game.core.events.api;
 
 /**
  * Interface for a basic event.

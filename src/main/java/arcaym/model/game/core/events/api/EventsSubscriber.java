@@ -1,8 +1,6 @@
-package arcaym.controller.game.events.api;
+package arcaym.model.game.core.events.api;
 
 import java.util.function.Consumer;
-
-import arcaym.model.game.events.api.Event;
 
 /**
  * Interface for an events subscriber.

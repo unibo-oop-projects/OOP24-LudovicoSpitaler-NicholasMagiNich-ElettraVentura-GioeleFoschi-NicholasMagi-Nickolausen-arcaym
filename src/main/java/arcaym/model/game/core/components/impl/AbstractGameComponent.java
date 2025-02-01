@@ -5,11 +5,11 @@ import java.util.Objects;
 import arcaym.common.utils.representation.FieldRepresentation;
 import arcaym.common.utils.representation.StringRepresentation;
 import arcaym.common.utils.representation.TypeRepresentation;
-import arcaym.controller.game.core.api.GameStateInfo;
-import arcaym.controller.game.events.api.EventsSubscriber;
-import arcaym.controller.game.scene.api.GameSceneInfo;
 import arcaym.model.game.core.components.api.ComponentsBasedGameObject;
 import arcaym.model.game.core.components.api.GameComponent;
+import arcaym.model.game.core.engine.api.GameStateInfo;
+import arcaym.model.game.core.events.api.EventsSubscriber;
+import arcaym.model.game.core.scene.api.GameSceneInfo;
 import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.events.impl.InputEvent;
 

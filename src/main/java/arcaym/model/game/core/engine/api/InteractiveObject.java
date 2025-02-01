@@ -1,9 +1,8 @@
 package arcaym.model.game.core.engine.api;
 
-import arcaym.controller.game.core.api.GameStateInfo;
-import arcaym.controller.game.events.api.EventsScheduler;
-import arcaym.controller.game.events.api.EventsSubscriber;
-import arcaym.controller.game.scene.api.GameSceneInfo;
+import arcaym.model.game.core.events.api.EventsScheduler;
+import arcaym.model.game.core.events.api.EventsSubscriber;
+import arcaym.model.game.core.scene.api.GameSceneInfo;
 import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.events.impl.InputEvent;
 

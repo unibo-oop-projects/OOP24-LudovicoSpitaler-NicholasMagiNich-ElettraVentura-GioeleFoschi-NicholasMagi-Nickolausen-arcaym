@@ -1,6 +1,4 @@
-package arcaym.controller.game.events.api;
-
-import arcaym.model.game.events.api.Event;
+package arcaym.model.game.core.events.api;
 
 /**
  * Interface for an events scheduler.

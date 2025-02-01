@@ -1,4 +1,4 @@
-package arcaym.controller.game.events.impl;
+package arcaym.model.game.core.events.impl;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -12,8 +12,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
 
-import arcaym.controller.game.events.api.EventsManager;
-import arcaym.model.game.events.api.Event;
+import arcaym.model.game.core.events.api.Event;
+import arcaym.model.game.core.events.api.EventsManager;
 
 /**
  * Thread safe implementation of {@link EventsManager}.
