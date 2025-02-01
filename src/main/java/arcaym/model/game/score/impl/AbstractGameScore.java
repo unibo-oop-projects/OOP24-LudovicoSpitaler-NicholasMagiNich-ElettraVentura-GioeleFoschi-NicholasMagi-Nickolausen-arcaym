@@ -3,8 +3,8 @@ package arcaym.model.game.score.impl;
 import arcaym.common.utils.representation.FieldRepresentation;
 import arcaym.common.utils.representation.StringRepresentation;
 import arcaym.common.utils.representation.TypeRepresentation;
-import arcaym.controller.game.core.api.GameStateInfo;
-import arcaym.controller.game.events.api.EventsSubscriber;
+import arcaym.model.game.core.engine.api.GameStateInfo;
+import arcaym.model.game.core.events.api.EventsSubscriber;
 import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.score.api.GameScore;
 

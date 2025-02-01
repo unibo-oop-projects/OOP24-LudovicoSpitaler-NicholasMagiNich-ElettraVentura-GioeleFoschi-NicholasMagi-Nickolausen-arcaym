@@ -1,10 +1,10 @@
-package arcaym.controller.game.scene.impl;
+package arcaym.model.game.core.scene.impl;
 
 import java.util.Objects;
 
-import arcaym.controller.game.scene.api.GameScene;
 import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.core.objects.api.GameObjectsFactory;
+import arcaym.model.game.core.scene.api.GameScene;
 import arcaym.model.game.objects.api.GameObjectType;
 
 /**

@@ -1,9 +1,9 @@
-package arcaym.controller.game.core.impl;
+package arcaym.model.game.core.engine.impl;
 
 import java.util.Objects;
 
-import arcaym.controller.game.core.api.GameState;
-import arcaym.controller.game.events.api.EventsSubscriber;
+import arcaym.model.game.core.engine.api.GameState;
+import arcaym.model.game.core.events.api.EventsSubscriber;
 import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.score.api.GameScore;
 import arcaym.model.game.score.api.GameScoreInfo;

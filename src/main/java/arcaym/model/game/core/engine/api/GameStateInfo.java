@@ -1,4 +1,4 @@
-package arcaym.controller.game.core.api;
+package arcaym.model.game.core.engine.api;
 
 import arcaym.model.game.score.api.GameScoreInfo;
 

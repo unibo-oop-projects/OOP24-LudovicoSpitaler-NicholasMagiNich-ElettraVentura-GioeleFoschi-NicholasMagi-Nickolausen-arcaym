@@ -1,13 +1,13 @@
-package arcaym.controller.game.core.impl;
+package arcaym.model.game.core.engine.impl;
 
 import java.util.Objects;
 
-import arcaym.controller.game.core.api.Game;
-import arcaym.controller.game.core.api.GameState;
-import arcaym.controller.game.core.api.GameStateInfo;
-import arcaym.controller.game.events.api.EventsManager;
-import arcaym.controller.game.events.impl.ThreadSafeEventsManager;
-import arcaym.controller.game.scene.api.GameScene;
+import arcaym.model.game.core.engine.api.Game;
+import arcaym.model.game.core.engine.api.GameState;
+import arcaym.model.game.core.engine.api.GameStateInfo;
+import arcaym.model.game.core.events.api.EventsManager;
+import arcaym.model.game.core.events.impl.ThreadSafeEventsManager;
+import arcaym.model.game.core.scene.api.GameScene;
 import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.events.impl.InputEvent;
 import arcaym.view.game.api.GameView;

@@ -1,6 +1,6 @@
-package arcaym.controller.game.core.api;
+package arcaym.model.game.core.engine.api;
 
-import arcaym.controller.game.events.api.EventsSubscriber;
+import arcaym.model.game.core.events.api.EventsSubscriber;
 import arcaym.model.game.events.api.GameEvent;
 
 /**

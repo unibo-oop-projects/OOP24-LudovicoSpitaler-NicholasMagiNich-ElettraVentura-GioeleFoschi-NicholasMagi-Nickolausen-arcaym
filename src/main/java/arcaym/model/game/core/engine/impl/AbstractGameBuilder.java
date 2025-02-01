@@ -1,13 +1,13 @@
-package arcaym.controller.game.core.impl;
+package arcaym.model.game.core.engine.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 import arcaym.common.geometry.impl.Point;
-import arcaym.controller.game.core.api.Game;
-import arcaym.controller.game.core.api.GameBuilder;
-import arcaym.controller.game.scene.api.GameScene;
-import arcaym.controller.game.scene.api.GameSceneInfo.CreationInfo;
+import arcaym.model.game.core.engine.api.Game;
+import arcaym.model.game.core.engine.api.GameBuilder;
+import arcaym.model.game.core.scene.api.GameScene;
+import arcaym.model.game.core.scene.api.GameSceneInfo.CreationInfo;
 import arcaym.model.game.objects.api.GameObjectType;
 
 /**

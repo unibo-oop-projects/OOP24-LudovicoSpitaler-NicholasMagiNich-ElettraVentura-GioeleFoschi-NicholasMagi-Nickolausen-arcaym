@@ -1,4 +1,4 @@
-package arcaym.controller.game.scene.api;
+package arcaym.model.game.core.scene.api;
 
 import java.util.Collection;
 
