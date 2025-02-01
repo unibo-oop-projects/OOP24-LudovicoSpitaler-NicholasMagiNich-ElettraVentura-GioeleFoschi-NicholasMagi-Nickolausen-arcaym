@@ -33,6 +33,9 @@ public class GridModelImpl implements GridModel {
         final EditorType type,
         final int x,
         final int y) {
+        if (x < 0 || y < 0) {
+            throw new IllegalArgumentException("Grid diemnsion cannot be less than zero");
+        }
         this.grid = new GridImpl(x, y, type);
         this.history = new GridStateCaretaker();
     }
