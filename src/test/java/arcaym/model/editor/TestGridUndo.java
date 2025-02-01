@@ -72,7 +72,7 @@ final class TestGridUndo {
     }
 
     @Test
-    void testRecoverAfterDelete(){
+    void testRecoverAfterDelete() {
         // add some objects
         assertDoesNotThrow(() -> this.grid.placeObjects(
                 Set.of(Position.of(0, 0),
