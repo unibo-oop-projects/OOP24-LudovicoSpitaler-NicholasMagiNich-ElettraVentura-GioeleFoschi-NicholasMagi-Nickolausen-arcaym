@@ -26,12 +26,14 @@ import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.view.core.api.ViewComponent;
 import arcaym.view.core.api.WindowInfo;
 import arcaym.view.objects.GameObjectView;
+
 /**
  * An implementation of the grid view.
  */
 public class GridView implements ViewComponent<JScrollPane> {
 
-    private static final int CELL_SCALE = 50;
+    private static final int DEFAULT_SCALE = 30; // tmp
+    private static final int CELL_SIZE = Double.valueOf(DEFAULT_SCALE * GameObjectView.DEFAULT_SCALE).intValue();
 
     private final int columns;
     private final int rows;
@@ -43,7 +45,7 @@ public class GridView implements ViewComponent<JScrollPane> {
      * The constructor of the component.
      * 
      * @param sendObjects The function that needs to process the list of objects
-     * @param size The size of the map
+     * @param size        The size of the map
      */
     public GridView(final Consumer<Collection<Position>> sendObjects, final Position size) {
         this.receiver = sendObjects;
@@ -58,10 +60,9 @@ public class GridView implements ViewComponent<JScrollPane> {
     @Override
     public JScrollPane build(final WindowInfo window) {
         this.window = Optional.of(window);
-        final int cellDimension = window.size().width / CELL_SCALE;
         // Create the grid and set its minimum size so every cell is a square.
         final var grid = new JPanel(new GridLayout(rows, columns));
-        grid.setPreferredSize(new Dimension(columns * cellDimension, rows * cellDimension));
+        grid.setPreferredSize(new Dimension(columns * CELL_SIZE, rows * CELL_SIZE));
         // Create the mouse listener used for a "drawing-like" experience.
         final MouseListener m = new MouseListener() {
 
@@ -104,7 +105,7 @@ public class GridView implements ViewComponent<JScrollPane> {
         for (int i = 0; i < columns; i++) {
             for (int j = 0; j < rows; j++) {
                 final JLayeredPane jp = new JLayeredPane();
-                jp.setBounds(0, 0, cellDimension, cellDimension);
+                jp.setBounds(0, 0, CELL_SIZE, CELL_SIZE);
                 jp.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
                 cells.put(jp, Position.of(i, j));
                 jp.addMouseListener(m);
@@ -117,24 +118,77 @@ public class GridView implements ViewComponent<JScrollPane> {
 
     /**
      * Changes the grid cells view based on the given map.
+     * 
      * @param positions Contains the list of objets to place in the cell in a specific position
+     * @param gridToUpdate the grid containing the cells, to update after each modification
      */
-    public void setPositionFromMap(final Map<Position, List<GameObjectType>> positions) {
+    public void setPositionFromMap(final Map<Position, List<GameObjectType>> positions, final JScrollPane gridToUpdate) {
         final var window = Optionals.orIllegalState(this.window, "The method build has not been called yet");
-        final int cellDimension = window.size().width / CELL_SCALE;
         positions.entrySet().forEach(e -> {
             final var panel = cells.inverse().get(e.getKey());
             // Clear the content of the cell
             panel.removeAll();
             // Set all the images in the cell
             e.getValue().forEach(object -> {
-                final var objView = new GameObjectView(object).build(window);
-                objView.setBounds(0, 0, cellDimension, cellDimension);
+                final var objView = new GameObjectView(object, 1 / window.scale()).build(window);
+                objView.setBounds(0, 0, CELL_SIZE, CELL_SIZE);
                 panel.add(objView, (Object) e.getValue().indexOf(object));
             });
             // Re-Draw the single cell
-            panel.revalidate();
-            panel.repaint();
         });
+        gridToUpdate.revalidate();
+        gridToUpdate.repaint();
     }
+
+    // public static void main(final String[] args) {
+
+    //     final Scale WINDOW_SCALE = Scale.X75;
+    //     final var frame = new JFrame();
+    //     final var window = new ScaledWindowInfo(WINDOW_SCALE);
+    //     frame.setSize(window.size());
+    //     frame.setResizable(false);
+    //     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    //     final var panel = new JPanel();
+    //     frame.setContentPane(panel);
+    //     panel.setLayout(new BorderLayout());
+
+    //     class InternalTest {
+    //         private int i = 0;
+    //         private final GridView grid;
+    //         private final JScrollPane test;
+
+    //         public InternalTest(int col, int row) {
+    //             this.grid = new GridView(this::compute, Position.of(col, row));
+    //             this.test = grid.build(window);
+    //         }
+
+    //         public void draw(final Map<Position, List<GameObjectType>> map) {
+    //             this.grid.setPositionFromMap(map, test);
+    //         }
+
+    //         public void compute(final Collection<Position> positions) {
+    //             if (i % 2 == 0) {
+    //                 this.draw(positions.stream().collect(Collectors.toMap(p -> p, p -> List.of(GameObjectType.WALL))));
+    //             } else {
+    //                 this.draw(positions.stream().collect(
+    //                         Collectors.toMap(p -> p, p -> List.of(GameObjectType.FLOOR, GameObjectType.COIN))));
+    //             }
+    //             i++;
+    //         }
+
+    //         public JScrollPane getPane(){
+    //             return test;
+    //         }
+    //     }
+
+    //     final var test = new InternalTest(55, 28);
+    //     test.draw(IntStream.range(0, 55)
+    //             .mapToObj(i -> i)
+    //             .flatMap(x -> IntStream.range(0, 28)
+    //                     .mapToObj(y -> Position.of(x, y)))
+    //             .collect(Collectors.toMap(p -> p, p -> List.of(GameObjectType.WALL))));
+
+    //     panel.add(test.getPane(), BorderLayout.CENTER);
+    //     frame.setVisible(true);
+    // }
 }
