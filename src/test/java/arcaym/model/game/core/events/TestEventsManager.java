@@ -1,4 +1,4 @@
-package arcaym.controller.game.core.events;
+package arcaym.model.game.core.events;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
