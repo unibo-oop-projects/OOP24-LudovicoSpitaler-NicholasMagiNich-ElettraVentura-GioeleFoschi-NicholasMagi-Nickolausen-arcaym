@@ -96,7 +96,6 @@ public class GameViewImpl implements GameView, ViewComponent<JPanel> {
         header.add(Box.createHorizontalStrut(SwingUtils.getNormalGap(header)));
         header.add(score);
         mainPanel.add(header, BorderLayout.NORTH);
-        mainPanel.add(new JLabel("GAMEOVER"));
         return mainPanel;
     }
 
@@ -113,7 +112,7 @@ public class GameViewImpl implements GameView, ViewComponent<JPanel> {
         // This method will be called before build().
         eventsSubscriber.registerCallback(GameEvent.GAME_OVER,
                 (gameEvent) -> setGameEventReaction = Optional.of((out, window) -> {
-                    JLabel message = new JLabel(gameEvent.name());
+                    final JLabel message = new JLabel(gameEvent.name());
                     out.add(new CenteredPanel().build(window, message));
                 }));
         eventsSubscriber.registerCallback(GameEvent.INCREMENT_SCORE, (gameEvent) -> {
@@ -125,7 +124,7 @@ public class GameViewImpl implements GameView, ViewComponent<JPanel> {
         // The operation changes when the event is called, as its callback.
         eventsSubscriber.registerCallback(GameEvent.VICTORY,
                 (gameEvent) -> setGameEventReaction = Optional.of((out, window) -> {
-                    JLabel message = new JLabel(gameEvent.name());
+                    final JLabel message = new JLabel(gameEvent.name());
                     out.add(new CenteredPanel().build(window, message));
                 }));
     }
@@ -198,7 +197,6 @@ public class GameViewImpl implements GameView, ViewComponent<JPanel> {
      */
     @Override
     public void updateObject(final GameObjectInfo gameObject) {
-        this.gameMap.replace(gameObject, new GameObjectView(gameObject.type()));
         getOperation(redrawPanelOperation).run();
         getOperation(scoreUpdaterOperation).run();
     }
