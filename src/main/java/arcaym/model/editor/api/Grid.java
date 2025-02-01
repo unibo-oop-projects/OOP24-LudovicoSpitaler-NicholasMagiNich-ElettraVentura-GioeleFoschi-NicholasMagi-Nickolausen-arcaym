@@ -2,6 +2,7 @@ package arcaym.model.editor.api;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import arcaym.common.utils.Position;
 import arcaym.model.editor.EditorGridException;
@@ -40,7 +41,24 @@ public interface Grid {
     List<GameObjectType> getObjects(Position pos);
 
     /**
+     * Saves only the cells modified.
+     * 
+     * @param positions The cells that needs to be saved
+     * @return A {@link Memento} object representing the state
+     */
+    Memento takeSnapshot(Collection<Position> positions);
+
+    /**
+     * Recovers a specific state.
+     * 
+     * @param state The state to recover
+     * @return Returns the set of positions that were modified by the operation
+     */
+    Set<Position> recoverSavedState(Memento state);
+
+    /**
      * Saves the current state of the grid.
+     * 
      * @param uuid The name of the file to save.
      * @return True if the save was succesfull
      */

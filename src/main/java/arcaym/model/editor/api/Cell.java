@@ -23,4 +23,10 @@ public interface Cell {
      * @return Returns the list of objects contained in that cell
      */
     List<GameObjectType> getValues();
+
+    /**
+     * Used to get a copy of the cell.
+     * @return An exact copy of the cell
+     */
+    Cell getCopy();
 }

@@ -2,7 +2,7 @@ package arcaym.controller.shop.impl;
 
 import java.util.Map;
 
-import arcaym.controller.app.api.GameObjectsProvider;
+import arcaym.controller.game.objects.api.GameObjectsProvider;
 import arcaym.controller.shop.api.ShopController;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.model.shop.api.Shop;
@@ -24,7 +24,7 @@ public class ShopControllerImpl implements ShopController {
      * @param provider 
      */
     public ShopControllerImpl(final UserStateInfo userView, final GameObjectsProvider provider) {
-        this.shopModel = new ShopImpl(provider.getLockedGameObjects());
+        this.shopModel = new ShopImpl(provider.getLockedGameObjects(), provider.getUnlockedGameObjects());
         this.userView = userView;
     }
 

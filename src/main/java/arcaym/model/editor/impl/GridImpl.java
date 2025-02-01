@@ -1,6 +1,7 @@
 package arcaym.model.editor.impl;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +18,7 @@ import arcaym.model.editor.EditorType;
 import arcaym.model.editor.api.Cell;
 import arcaym.model.editor.api.Grid;
 import arcaym.model.editor.api.MapConstraint;
+import arcaym.model.editor.api.Memento;
 import arcaym.model.editor.saves.MapSerializerImpl;
 import arcaym.model.game.core.objects.api.GameObjectCategory;
 import arcaym.model.game.objects.api.GameObjectType;
@@ -28,7 +30,6 @@ public class GridImpl implements Grid {
 
     private static final GameObjectType DEFAUL_TYPE = GameObjectType.FLOOR; // GameObjectType.WALL;
     private static final String ILLEGAL_POSITION_EXCEPTION_MESSAGE = "Trying to place a block outside of the boundary";
-    // private static final Logger LOGGER = LoggerFactory.getLogger(GridImpl.class);
 
     private final Map<Position, Cell> map;
     private final Map<GameObjectType, MapConstraint> objectConstraint = new EnumMap<>(GameObjectType.class);
@@ -43,6 +44,11 @@ public class GridImpl implements Grid {
      */
     public GridImpl(final int x, final int y, final EditorType editorType) {
         this.map = new HashMap<>();
+        for (int i = 0; i < x; i++) {
+            for (int j = 0; j < y; j++) {
+                map.put(Position.of(i, j), new ThreeLayerCell(DEFAUL_TYPE));
+            }
+        }
         this.mapSize = Position.of(x, y);
         addConstraints(editorType);
     }
@@ -157,4 +163,63 @@ public class GridImpl implements Grid {
     public boolean saveState(final String uuid) {
         return new MapSerializerImpl<Position, Cell>().serializeMap(map, uuid);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Memento takeSnapshot(final Collection<Position> positions) {
+        return new GridMemento(positions);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Set<Position> recoverSavedState(final Memento state) {
+        if (state instanceof GridMemento) {
+            // not checking for constraints as recovering the previous state should never fail constraints.
+            final var recoveredState = ((GridMemento) state).getState();
+            this.map.putAll(recoveredState);
+            return recoveredState.keySet();
+        }
+        return Collections.emptySet();
+    }
+
+    private final class GridMemento implements Memento {
+
+        private final Map<Position, Cell> changedCells;
+
+        private GridMemento(final Collection<Position> pos) {
+            this.changedCells = map.entrySet()
+                .stream()
+                .filter(e -> pos.contains(e.getKey()))
+                .collect(Collectors.toMap(Entry::getKey, e -> e.getValue().getCopy()));
+        }
+
+        private Map<Position, Cell> getState() {
+            return Map.copyOf(changedCells);
+            // Older implementation of the memento, that also checked for constraints.
+            // Changed for performance issues
+            // Saving it, because it was beautiful
+            // from the map of Position, List<GameObjectType> creates a Map<GameObjectType, List<Position>>
+            // for easier recovery of the old state;
+            // return changedCells.entrySet()
+            //     .stream()
+            //     .flatMap(e -> 
+            //         e.getValue()
+            //             .stream()
+            //             .map(gameObject -> new AbstractMap.SimpleEntry<GameObjectType, Position>(gameObject, e.getKey())))
+            //     .collect(Collectors.groupingBy(
+            //         Entry::getKey, 
+            //         Collector.of(
+            //             HashSet::new,
+            //             (set, entry) -> set.add(entry.getValue()),
+            //             (set1, set2) -> {
+            //                 set1.addAll(set2); return set1;
+            //             }
+            //     )));
+        }
+    }
+
 }

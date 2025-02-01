@@ -1,4 +1,4 @@
-package arcaym.controller.shop.impl;
+package arcaym.controller.user.impl;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -12,9 +12,9 @@ import org.slf4j.LoggerFactory;
 import com.google.gson.Gson;
 
 import arcaym.common.utils.file.FileUtils;
+import arcaym.controller.user.api.UserStateSerializer;
 import arcaym.model.user.api.UserState;
 import arcaym.model.user.impl.UserStateImpl;
-import arcaym.controller.shop.api.UserStateSerializer;
 
 /**
  * Implementation of {@link UserStateSerializer}. 

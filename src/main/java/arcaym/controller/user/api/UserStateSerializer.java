@@ -1,4 +1,4 @@
-package arcaym.controller.shop.api;
+package arcaym.controller.user.api;
 
 import java.util.Optional;
 

@@ -25,7 +25,7 @@ public class GameObjectView implements ViewComponent<JLabel> {
      */
     public GameObjectView(final GameObjectType type, final double scaleFactor) {
         this.type = type;
-        this.scale = scaleFactor;
+        this.scale = scaleFactor * DEFAULT_SCALE;
     }
 
     /**
@@ -34,7 +34,7 @@ public class GameObjectView implements ViewComponent<JLabel> {
      * @param type the category (OBSTACLE, WALL, PLAYER...)
      */
     public GameObjectView(final GameObjectType type) {
-        this(type, DEFAULT_SCALE);
+        this(type, ImageLabel.DEFAULT_SCALE);
     }
 
     /**

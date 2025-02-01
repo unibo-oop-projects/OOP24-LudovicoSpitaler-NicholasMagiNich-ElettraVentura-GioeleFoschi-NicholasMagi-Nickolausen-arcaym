@@ -21,7 +21,7 @@ public interface UserState extends UserStateInfo {
      * 
      * @param gameObject
      */
-    void addNewGameObject(GameObjectType gameObject);
+    void unlockNewGameObject(GameObjectType gameObject);
 
     /**
      * Increments the user score.

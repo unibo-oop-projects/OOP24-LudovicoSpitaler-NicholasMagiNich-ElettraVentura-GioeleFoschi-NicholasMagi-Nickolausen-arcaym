@@ -1,4 +1,4 @@
-package arcaym.controller.app.api;
+package arcaym.controller.game.objects.api;
 
 import java.util.Map;
 import java.util.Set;

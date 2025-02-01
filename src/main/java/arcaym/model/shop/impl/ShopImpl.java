@@ -2,6 +2,7 @@ package arcaym.model.shop.impl;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.model.shop.api.Shop;
@@ -20,10 +21,11 @@ public class ShopImpl implements Shop {
      * Default constructor.
      * 
      * @param lockedObjects
+     * @param unlockedObjects
      */
-    public ShopImpl(final Map<GameObjectType, Integer> lockedObjects) {
+    public ShopImpl(final Map<GameObjectType, Integer> lockedObjects, final Set<GameObjectType> unlockedObjects) {
         this.lockedObjects = Collections.unmodifiableMap(lockedObjects);
-        this.userState = new UserStateImpl();
+        this.userState = new UserStateImpl(Collections.unmodifiableSet(unlockedObjects));
     }
 
     /**
@@ -34,7 +36,7 @@ public class ShopImpl implements Shop {
         final int price = lockedObjects.get(toBuy);
         if (canBuy(toBuy)) {
             userState.decrementCredit(price);
-            userState.addNewGameObject(toBuy);
+            userState.unlockNewGameObject(toBuy);
             lockedObjects.remove(toBuy);
             return true;
         }

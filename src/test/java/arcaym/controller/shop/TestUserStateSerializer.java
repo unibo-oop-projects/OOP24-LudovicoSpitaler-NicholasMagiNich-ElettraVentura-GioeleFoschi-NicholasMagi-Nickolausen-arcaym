@@ -3,13 +3,15 @@ package arcaym.controller.shop;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Collections;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import arcaym.common.utils.file.FileUtils;
-import arcaym.controller.shop.api.UserStateSerializer;
-import arcaym.controller.shop.impl.UserStateSerializerImpl;
+import arcaym.controller.user.api.UserStateSerializer;
+import arcaym.controller.user.impl.UserStateSerializerImpl;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.model.user.api.UserState;
 import arcaym.model.user.impl.UserStateImpl;
@@ -23,7 +25,7 @@ class TestUserStateSerializer {
     @BeforeEach
     void setup() {
         serializer = new UserStateSerializerImpl();
-        userState = new UserStateImpl();
+        userState = new UserStateImpl(Collections.emptySet());
     }
 
     @AfterEach
@@ -33,9 +35,9 @@ class TestUserStateSerializer {
 
     private void initUserState() {
         final var initialCredit = 50;
-        userState.addNewGameObject(GameObjectType.COIN);
-        userState.addNewGameObject(GameObjectType.WALL);
-        userState.addNewGameObject(GameObjectType.SPIKE);
+        userState.unlockNewGameObject(GameObjectType.COIN);
+        userState.unlockNewGameObject(GameObjectType.WALL);
+        userState.unlockNewGameObject(GameObjectType.SPIKE);
         userState.incrementCredit(initialCredit);
     }
 

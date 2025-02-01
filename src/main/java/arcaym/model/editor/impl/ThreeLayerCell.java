@@ -33,6 +33,10 @@ public class ThreeLayerCell implements Cell, Serializable {
         this.layers.put(Layer.LOWERLAYER, defaultLayer);
     }
 
+    private ThreeLayerCell(final Map<Layer, GameObjectType> layers) {
+        this.layers = layers;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -60,6 +64,14 @@ public class ThreeLayerCell implements Cell, Serializable {
      */
     @Override
     public List<GameObjectType> getValues() {
-        return layers.entrySet().stream().map(Entry::getValue).toList();
+        return layers.entrySet().stream().sorted(Entry.comparingByKey()).map(Entry::getValue).toList();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Cell getCopy() {
+        return new ThreeLayerCell(Map.copyOf(layers));
     }
 }

@@ -32,22 +32,10 @@ public interface GridController {
     void undo();
 
     /**
-     * If an {@link #undo()} was executed, this can revert that action.
-     */
-    void redo();
-
-    /**
      * Weather the editor is in the correct state for an undo.
      * @return True if an undo can be performed
      */
     boolean canUndo();
-
-    /**
-     * Weather the editor is in the correct state for an redo.
-     * 
-     * @return True if an redo can be performed
-     */
-    boolean canRedo();
 
     /**
      * Ereases every object in the selected position.

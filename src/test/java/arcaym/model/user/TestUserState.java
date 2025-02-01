@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Collections;
 import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -24,7 +25,7 @@ class TestUserState {
 
     @BeforeEach
     void setup() {
-        userState = new UserStateImpl();
+        userState = new UserStateImpl(Collections.emptySet());
     }
 
     @Test
@@ -53,14 +54,14 @@ class TestUserState {
     void testOwnedObjects() {
         // May be removed if the user state has been serialized before.
         assertTrue(userState.getPurchasedGameObjects().isEmpty());
-        userState.addNewGameObject(GameObjectType.COIN);
-        userState.addNewGameObject(GameObjectType.COIN);
+        userState.unlockNewGameObject(GameObjectType.COIN);
+        userState.unlockNewGameObject(GameObjectType.COIN);
         assertEquals(1, userState.getPurchasedGameObjects().size());
         assertTrue(userState.getPurchasedGameObjects().contains(GameObjectType.COIN));
 
-        userState.addNewGameObject(GameObjectType.FLOOR);
-        userState.addNewGameObject(GameObjectType.WALL);
-        userState.addNewGameObject(GameObjectType.WIN_GOAL);
+        userState.unlockNewGameObject(GameObjectType.FLOOR);
+        userState.unlockNewGameObject(GameObjectType.WALL);
+        userState.unlockNewGameObject(GameObjectType.WIN_GOAL);
         assertEquals(
             Set.of(GameObjectType.WIN_GOAL, GameObjectType.WALL, GameObjectType.FLOOR, GameObjectType.COIN),
             userState.getPurchasedGameObjects());

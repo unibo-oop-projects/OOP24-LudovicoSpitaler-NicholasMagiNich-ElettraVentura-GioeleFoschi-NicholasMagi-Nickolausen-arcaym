@@ -88,7 +88,9 @@ public abstract class AbstractThreadSafeGame implements Game {
      */
     @Override
     public void start(final GameView gameView) {
-        Objects.requireNonNull(gameView).registerEventsCallbacks(this.gameEventsManager, this.gameState);
+        Objects.requireNonNull(gameView);
+        gameView.setInputEventsScheduler(this.inputEventsManager);
+        gameView.registerEventsCallbacks(this.gameEventsManager, this.gameState);
         this.gameScene.consumePendingActions(gameView);
         this.gameScene.getGameObjects().forEach(
             o -> o.setup(this.gameEventsManager, this.inputEventsManager, gameScene, this.gameState)
