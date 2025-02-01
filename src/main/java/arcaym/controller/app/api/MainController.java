@@ -1,8 +1,8 @@
 package arcaym.controller.app.api;
 
-/**
- * The main controller of the application.
- */
-public interface MainController  {
+import arcaym.view.app.api.MainView;
 
-}
+/**
+ * Interface for the main app controller.
+ */
+public interface MainController extends Controller<MainView> { }

@@ -1,4 +1,4 @@
-package arcaym.view.editor.components;
+package arcaym.view.editor.impl.components;
 
 import java.awt.Color;
 import java.awt.Dimension;

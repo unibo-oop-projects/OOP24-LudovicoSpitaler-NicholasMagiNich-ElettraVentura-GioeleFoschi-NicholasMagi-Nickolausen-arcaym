@@ -1,4 +1,4 @@
-package arcaym.view.app.menu.levels;
+package arcaym.view.menu.impl;
 
 import java.awt.BorderLayout;
 import java.util.Objects;
@@ -10,8 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import arcaym.controller.editor.saves.LevelMetadata;
-import arcaym.view.core.api.WindowInfo;
 import arcaym.view.core.api.ViewComponent;
+import arcaym.view.core.api.WindowInfo;
 import arcaym.view.utils.SwingUtils;
 
 /**

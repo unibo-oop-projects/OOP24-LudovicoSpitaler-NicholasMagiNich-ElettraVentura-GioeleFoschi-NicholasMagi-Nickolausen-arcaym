@@ -1,25 +1,22 @@
 package arcaym.controller.app.api;
 
+import arcaym.view.app.api.View;
+
 /**
- * An interface that each sub-controller has to implement in order
- * to correctly switch from each page.
+ * Interface for a controller of a sub-section of the app.
  */
-public interface Controller {
-    /**
-     * Sets the necessary methods / objects.
-     */
-    void setView(/* Potentially generic stuff */);
+public interface Controller<T extends View> {
 
     /**
-     * Executes the given function on the return action.
-     * Only temporary, will possibly be affected by future changes
+     * Set the view associated to this controller.
      * 
-     * @param onReturn The function to run
+     * @param view view
      */
-    void onReturn(Runnable onReturn);
+    void setView(T view);
 
     /**
-     * This function will be called if the application is closed.
+     * Close the controller.
      */
-    void runOnClose();
+    void close();
+
 }

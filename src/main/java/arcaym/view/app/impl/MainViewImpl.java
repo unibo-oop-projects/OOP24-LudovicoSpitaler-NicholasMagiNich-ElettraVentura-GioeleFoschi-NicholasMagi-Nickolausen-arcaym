@@ -6,12 +6,10 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import arcaym.view.app.api.MainView;
-
 /**
  * Implementation of the main window of the application.
  */
-public class MainViewImpl implements MainView {
+public class MainViewImpl {
 
     private static final Dimension MINIMUM_SCREEN_SIZE = new Dimension(1024, 768);
     private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -21,9 +19,8 @@ public class MainViewImpl implements MainView {
     private JPanel game;
 
     /**
-     * {@inheritDoc}
+     * TODO remove
      */
-    @Override
     public final void switchToEditor() {
         initEditor();
         mainFrame.remove(game);
@@ -33,9 +30,8 @@ public class MainViewImpl implements MainView {
     }
 
     /**
-     * {@inheritDoc}
+     * TODO remove
      */
-    @Override
     public void switchToGame() {
         initGame();
         mainFrame.remove(editor);

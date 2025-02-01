@@ -1,4 +1,4 @@
-package arcaym.view.app.panels;
+package arcaym.view.app.impl;
 
 import java.awt.BorderLayout;
 import java.util.Deque;
@@ -14,8 +14,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import arcaym.view.core.api.WindowInfo;
 import arcaym.view.core.api.ViewComponent;
+import arcaym.view.core.api.WindowInfo;
 import arcaym.view.utils.SwingUtils;
 
 /**
