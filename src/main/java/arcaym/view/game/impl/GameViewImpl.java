@@ -19,10 +19,10 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
 import arcaym.common.utils.Optionals;
-import arcaym.controller.game.core.api.Game;
-import arcaym.controller.game.core.api.GameStateInfo;
-import arcaym.controller.game.events.api.EventsScheduler;
-import arcaym.controller.game.events.api.EventsSubscriber;
+import arcaym.model.game.core.engine.api.Game;
+import arcaym.model.game.core.engine.api.GameStateInfo;
+import arcaym.model.game.core.events.api.EventsScheduler;
+import arcaym.model.game.core.events.api.EventsSubscriber;
 import arcaym.model.game.core.objects.api.GameObjectInfo;
 import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.events.api.InputType;
@@ -64,16 +64,19 @@ public class GameViewImpl implements GameView, ViewComponent<JPanel> {
      */
     @Override
     public JPanel build(final WindowInfo window) {
-
         final JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         final JPanel header = new JPanel();
         header.setBackground(Color.WHITE);
         header.setLayout(new BoxLayout(header, BoxLayout.LINE_AXIS));
         final JPanel gameContentPanel = new JPanel();
+        gameContentPanel.setLayout(null);
+        // Binding the operations of GameEventsReaction and KeyBindings to the panel of
+        // the game view.
         getOperation(setGameEventReaction).accept(gameContentPanel, window);
         getOperation(setKeyBindings).accept(gameContentPanel);
-        gameContentPanel.setLayout(null);
+        // The operation that redraws the game panel is saved and no longer null.
+        // In this way, the panel is accessible to the other update methods.
         redrawPanelOperation = Optional.of(() -> {
             gameContentPanel.removeAll();
             this.gameMap.entrySet().stream().forEach(entry -> {
@@ -84,11 +87,12 @@ public class GameViewImpl implements GameView, ViewComponent<JPanel> {
         });
         final JLabel score = new JLabel();
         SwingUtils.changeFontSize(score, SCALE);
-        scoreUpdateLabel(score, 9);
-        scoreUpdateLabel(score, game.state().score().getValue());
+        // In a similar way to the redraw operation, the score updater operation has
+        // access to the score label.
         scoreUpdaterOperation = Optional.of(() -> {
             scoreUpdateLabel(score, game.state().score().getValue());
         });
+        getOperation(scoreUpdaterOperation).run();
         header.add(Box.createHorizontalStrut(SwingUtils.getNormalGap(header)));
         header.add(score);
         mainPanel.add(header, BorderLayout.NORTH);
@@ -106,6 +110,7 @@ public class GameViewImpl implements GameView, ViewComponent<JPanel> {
     @Override
     public void registerEventsCallbacks(final EventsSubscriber<GameEvent> eventsSubscriber,
             final GameStateInfo gameState) {
+        // This method will be called before build().
         eventsSubscriber.registerCallback(GameEvent.GAME_OVER,
                 (gameEvent) -> setGameEventReaction = Optional.of((out, window) -> {
                     JLabel message = new JLabel(gameEvent.name());
@@ -117,6 +122,7 @@ public class GameViewImpl implements GameView, ViewComponent<JPanel> {
         eventsSubscriber.registerCallback(GameEvent.DECREMENT_SCORE, (gameEvent) -> {
             getOperation(scoreUpdaterOperation).run();
         });
+        // The operation changes when the event is called, as its callback.
         eventsSubscriber.registerCallback(GameEvent.VICTORY,
                 (gameEvent) -> setGameEventReaction = Optional.of((out, window) -> {
                     JLabel message = new JLabel(gameEvent.name());
@@ -129,6 +135,7 @@ public class GameViewImpl implements GameView, ViewComponent<JPanel> {
      */
     @Override
     public void setInputEventsScheduler(final EventsScheduler<InputEvent> eventsScheduler) {
+        // This method will be called before build().
         setKeyBindings = Optional.of((out) -> {
             bindKey(InputType.UP, KEY_UP, eventsScheduler, out);
             bindKey(InputType.DOWN, KEY_DOWN, eventsScheduler, out);
