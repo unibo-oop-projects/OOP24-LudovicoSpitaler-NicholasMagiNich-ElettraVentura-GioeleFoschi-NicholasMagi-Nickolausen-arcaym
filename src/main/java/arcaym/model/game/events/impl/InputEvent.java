@@ -1,6 +1,6 @@
 package arcaym.model.game.events.impl;
 
-import arcaym.model.game.events.api.Event;
+import arcaym.model.game.core.events.api.Event;
 import arcaym.model.game.events.api.InputType;
 
 /**
