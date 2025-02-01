@@ -5,12 +5,12 @@ import java.util.Map;
 
 import arcaym.common.geometry.impl.Point;
 import arcaym.common.geometry.impl.Vector;
-import arcaym.controller.game.core.api.GameStateInfo;
-import arcaym.controller.game.events.api.EventsScheduler;
-import arcaym.controller.game.events.api.EventsSubscriber;
-import arcaym.controller.game.scene.api.GameSceneInfo;
 import arcaym.model.game.core.components.api.ComponentsBasedGameObject;
 import arcaym.model.game.core.components.impl.AbstractGameComponent;
+import arcaym.model.game.core.engine.api.GameStateInfo;
+import arcaym.model.game.core.events.api.EventsScheduler;
+import arcaym.model.game.core.events.api.EventsSubscriber;
+import arcaym.model.game.core.scene.api.GameSceneInfo;
 import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.events.api.InputType;
 import arcaym.model.game.events.impl.InputEvent;
