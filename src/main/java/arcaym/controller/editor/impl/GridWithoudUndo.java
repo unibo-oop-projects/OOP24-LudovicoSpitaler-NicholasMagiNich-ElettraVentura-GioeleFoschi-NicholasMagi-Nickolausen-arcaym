@@ -87,23 +87,8 @@ public class GridWithoudUndo implements GridController {
      * {@inheritDoc}
      */
     @Override
-    public void redo() {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public boolean canUndo() {
-        return this.grid.canUndo();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean canRedo() {
-        return this.grid.canRedo();
+        return false;
     }
 
     /**

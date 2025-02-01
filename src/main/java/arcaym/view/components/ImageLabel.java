@@ -14,7 +14,10 @@ import arcaym.view.utils.SwingUtils;
  */
 public class ImageLabel implements ViewComponent<JLabel> {
 
-    private static final double DEFAULT_SCALE = 1.0;
+    /**
+     * Default image scaling value.
+     */
+    public static final double DEFAULT_SCALE = 1.0;
 
     private final String path;
     private final double scale;
@@ -46,12 +49,15 @@ public class ImageLabel implements ViewComponent<JLabel> {
     public JLabel build(final WindowInfo window) {
         final var imageIcon = new ImageIcon(SwingUtils.getResource(this.path));
         final var label = new JLabel(imageIcon);
+        label.setOpaque(false);
         final var image = imageIcon.getImage();
-        imageIcon.setImage(image.getScaledInstance(
-            Double.valueOf(image.getWidth(label) * window.ratio().x() * this.scale).intValue(),
-            Double.valueOf(image.getHeight(label) * window.ratio().y() * this.scale).intValue(),
-            Image.SCALE_DEFAULT
-        ));
+        if (this.scale != DEFAULT_SCALE) {
+            imageIcon.setImage(image.getScaledInstance(
+                Double.valueOf(image.getWidth(label) * window.ratio().x() * this.scale).intValue(),
+                Double.valueOf(image.getHeight(label) * window.ratio().y() * this.scale).intValue(),
+                Image.SCALE_FAST
+            ));
+        }
         return label;
     }
 

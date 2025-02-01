@@ -26,18 +26,6 @@ public interface GridModel {
     boolean canUndo();
 
     /**
-     * If an {@link #undo()} was executed, this can revert that action.
-     */
-    void redo();
-
-    /**
-     * Tells if the editor is in the correct state for an redo.
-     * 
-     * @return True if an redo can be performed
-     */
-    boolean canRedo();
-
-    /**
      * Places the object type in the positions given, if the placements does not break any constraints.
      * 
      * @param positions The position on wich the objects will be placed
