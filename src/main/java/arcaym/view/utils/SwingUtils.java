@@ -56,9 +56,10 @@ public final class SwingUtils {
      * @param component swing component
      * @param scaleFactor font scale factor
      */
-    public static void changeFontSize(final JComponent component, final float scaleFactor) {
+    public static <T extends JComponent> T changeFontSize(final T component, final float scaleFactor) {
         final var font = component.getFont();
         component.setFont(font.deriveFont(font.getSize() * scaleFactor));
+        return component;
     }
 
     /**

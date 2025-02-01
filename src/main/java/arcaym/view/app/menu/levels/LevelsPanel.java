@@ -1,16 +1,11 @@
 package arcaym.view.app.menu.levels;
 
-import java.util.List;
-import java.util.stream.Stream;
+import java.awt.BorderLayout;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
-import arcaym.controller.editor.saves.LevelMetadata;
-import arcaym.controller.editor.saves.MetadataManagerImpl;
+import arcaym.view.app.menu.MenuButton;
+import arcaym.view.app.panels.PanelsSwitcher;
 import arcaym.view.app.panels.SwitchablePanel;
 import arcaym.view.app.panels.Switcher;
 import arcaym.view.components.CenteredPanel;
@@ -22,7 +17,7 @@ import arcaym.view.utils.SwingUtils;
  */
 public class LevelsPanel extends SwitchablePanel {
 
-    private final List<LevelMetadata> levels = new MetadataManagerImpl().loadData();
+    private static final String CREATE_BUTTON_TEXT = "CREATE NEW LEVEL";
 
     /**
      * Initialize with given switcher.
@@ -39,17 +34,20 @@ public class LevelsPanel extends SwitchablePanel {
     @Override
     public JPanel build(final WindowInfo window) {
         final var mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
         final var gap = SwingUtils.getNormalGap(mainPanel);
-        levels.stream()
-            .sorted((l1, l2) -> l1.levelName().compareTo(l2.levelName()))
-            .map(LevelCard::new)
-            .map(l -> l.build(window))
-            .flatMap(c -> Stream.of(Box.createVerticalStrut(gap), c))
-            .skip(1)
-            .forEach(mainPanel::add);
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(gap, gap, gap, gap));
-        return new CenteredPanel().build(window, new JScrollPane(mainPanel));
+        mainPanel.setLayout(new BorderLayout(gap, gap));
+        final var createButton = new MenuButton(CREATE_BUTTON_TEXT).build(window);
+        createButton.addActionListener(e -> new CreateLevelDialog().show(window, mainPanel));
+        mainPanel.add(new CenteredPanel().build(window, createButton), BorderLayout.NORTH);
+        mainPanel.add(new LevelsList().build(window), BorderLayout.CENTER);
+        return mainPanel;
+    }
+
+    public static void main(String[] args) {
+        SwingUtils.testComponent((window, frame) -> new PanelsSwitcher(
+            switcher -> () -> new LevelsPanel(switcher),
+            () -> SwingUtils.closeFrame(frame)
+        ).build(window));
     }
 
 }
