@@ -29,6 +29,13 @@ public interface WindowInfo {
     Point ratio();
 
     /**
+     * Get window scale value.
+     * 
+     * @return scale value
+     */
+    float scale();
+
+    /**
      * Get if the window is in fullscreen mode.
      * 
      * @return if the window is fullscreen
