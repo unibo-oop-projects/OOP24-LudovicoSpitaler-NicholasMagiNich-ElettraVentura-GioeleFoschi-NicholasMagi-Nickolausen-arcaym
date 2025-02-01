@@ -20,7 +20,7 @@ import arcaym.model.editor.impl.MapConstraintFactoryImpl;
  * Tests the various {@link MapConstraint} created by the {@link MapConstraintsFactory}.
  */
 
-final class TestCosntraints {
+final class TestConstraints {
 
     static final int DEFAULT_MAX_WIDTH = 30;
     static final int DEFAULT_MAX_HEIGHT = 30;
