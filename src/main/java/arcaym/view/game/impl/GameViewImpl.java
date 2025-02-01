@@ -41,7 +41,7 @@ public class GameViewImpl implements GameView, ViewComponent<JPanel> {
     private static final int KEY_DOWN = KeyEvent.VK_S;
     private static final int KEY_LEFT = KeyEvent.VK_A;
     private static final int KEY_RIGHT = KeyEvent.VK_D;
-    private final Game game;
+    private final Game game; //Gamecontroller placeholder
     private Optional<Runnable> redrawPanelOperation = Optional.empty();
     private Optional<Runnable> scoreUpdaterOperation = Optional.empty();
     private Optional<Consumer<JPanel>> setKeyBindings = Optional.empty();
