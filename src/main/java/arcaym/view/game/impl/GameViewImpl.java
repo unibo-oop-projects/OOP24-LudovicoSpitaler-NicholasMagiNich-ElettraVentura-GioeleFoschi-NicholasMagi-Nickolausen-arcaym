@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import javax.swing.AbstractAction;
@@ -26,6 +27,7 @@ import arcaym.model.game.core.objects.api.GameObjectInfo;
 import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.events.api.InputType;
 import arcaym.model.game.events.impl.InputEvent;
+import arcaym.view.components.CenteredPanel;
 import arcaym.view.core.api.ViewComponent;
 import arcaym.view.core.api.WindowInfo;
 import arcaym.view.game.api.GameView;
@@ -41,14 +43,16 @@ public class GameViewImpl implements GameView, ViewComponent<JPanel> {
     private static final int KEY_DOWN = KeyEvent.VK_S;
     private static final int KEY_LEFT = KeyEvent.VK_A;
     private static final int KEY_RIGHT = KeyEvent.VK_D;
-    private final Game game; //Gamecontroller placeholder
+    private final Game game; // Gamecontroller placeholder
     private Optional<Runnable> redrawPanelOperation = Optional.empty();
     private Optional<Runnable> scoreUpdaterOperation = Optional.empty();
     private Optional<Consumer<JPanel>> setKeyBindings = Optional.empty();
+    private Optional<BiConsumer<JPanel, WindowInfo>> setGameEventReaction = Optional.empty();
     private final Map<GameObjectInfo, GameObjectView> gameMap = new HashMap<>();
 
     /**
      * Base constructor for GameViewImpl.
+     * 
      * @param game
      */
     public GameViewImpl(final Game game) {
@@ -60,12 +64,14 @@ public class GameViewImpl implements GameView, ViewComponent<JPanel> {
      */
     @Override
     public JPanel build(final WindowInfo window) {
+
         final JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         final JPanel header = new JPanel();
         header.setBackground(Color.WHITE);
         header.setLayout(new BoxLayout(header, BoxLayout.LINE_AXIS));
         final JPanel gameContentPanel = new JPanel();
+        getOperation(setGameEventReaction).accept(gameContentPanel, window);
         getOperation(setKeyBindings).accept(gameContentPanel);
         gameContentPanel.setLayout(null);
         redrawPanelOperation = Optional.of(() -> {
@@ -78,6 +84,7 @@ public class GameViewImpl implements GameView, ViewComponent<JPanel> {
         });
         final JLabel score = new JLabel();
         SwingUtils.changeFontSize(score, SCALE);
+        scoreUpdateLabel(score, 9);
         scoreUpdateLabel(score, game.state().score().getValue());
         scoreUpdaterOperation = Optional.of(() -> {
             scoreUpdateLabel(score, game.state().score().getValue());
@@ -85,6 +92,7 @@ public class GameViewImpl implements GameView, ViewComponent<JPanel> {
         header.add(Box.createHorizontalStrut(SwingUtils.getNormalGap(header)));
         header.add(score);
         mainPanel.add(header, BorderLayout.NORTH);
+        mainPanel.add(new JLabel("GAMEOVER"));
         return mainPanel;
     }
 
@@ -98,14 +106,22 @@ public class GameViewImpl implements GameView, ViewComponent<JPanel> {
     @Override
     public void registerEventsCallbacks(final EventsSubscriber<GameEvent> eventsSubscriber,
             final GameStateInfo gameState) {
-        eventsSubscriber.registerCallback(GameEvent.GAME_OVER, null);
+        eventsSubscriber.registerCallback(GameEvent.GAME_OVER,
+                (gameEvent) -> setGameEventReaction = Optional.of((out, window) -> {
+                    JLabel message = new JLabel(gameEvent.name());
+                    out.add(new CenteredPanel().build(window, message));
+                }));
         eventsSubscriber.registerCallback(GameEvent.INCREMENT_SCORE, (gameEvent) -> {
             getOperation(scoreUpdaterOperation).run();
         });
         eventsSubscriber.registerCallback(GameEvent.DECREMENT_SCORE, (gameEvent) -> {
             getOperation(scoreUpdaterOperation).run();
         });
-        eventsSubscriber.registerCallback(GameEvent.VICTORY, null);
+        eventsSubscriber.registerCallback(GameEvent.VICTORY,
+                (gameEvent) -> setGameEventReaction = Optional.of((out, window) -> {
+                    JLabel message = new JLabel(gameEvent.name());
+                    out.add(new CenteredPanel().build(window, message));
+                }));
     }
 
     /**
