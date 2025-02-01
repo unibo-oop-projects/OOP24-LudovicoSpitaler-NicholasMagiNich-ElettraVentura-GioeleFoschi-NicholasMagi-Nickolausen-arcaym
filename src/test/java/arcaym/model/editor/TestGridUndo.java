@@ -70,4 +70,33 @@ final class TestGridUndo {
                     Position.of(0, 1), List.of(GameObjectType.FLOOR)),
                 grid.getUpdatedGrid());
     }
+
+    @Test
+    void testRecoverAfterDelete(){
+        // add some objects
+        assertDoesNotThrow(() -> this.grid.placeObjects(
+                Set.of(Position.of(0, 0),
+                        Position.of(0, 1)),
+                GameObjectType.COIN));
+
+        assertDoesNotThrow(() -> this.grid.placeObjects(
+                Set.of(Position.of(0, 0),
+                        Position.of(0, 1)),
+                GameObjectType.WALL));
+        // clear map in those position
+        assertDoesNotThrow(() -> this.grid.removeObjects(
+            Set.of(
+                Position.of(0, 0),
+                Position.of(0, 1))));
+        assertEquals(Map.of(
+            Position.of(0, 0), List.of(GameObjectType.FLOOR),
+            Position.of(0, 1), List.of(GameObjectType.FLOOR)), this.grid.getUpdatedGrid());
+        // undo last operation
+        assertTrue(this.grid.canUndo());
+        this.grid.undo();
+        // check if the grid is in the correct state
+        assertEquals(Map.of(
+                Position.of(0, 0), List.of(GameObjectType.WALL, GameObjectType.COIN),
+                Position.of(0, 1), List.of(GameObjectType.WALL, GameObjectType.COIN)), this.grid.getUpdatedGrid());
+    }
 }
