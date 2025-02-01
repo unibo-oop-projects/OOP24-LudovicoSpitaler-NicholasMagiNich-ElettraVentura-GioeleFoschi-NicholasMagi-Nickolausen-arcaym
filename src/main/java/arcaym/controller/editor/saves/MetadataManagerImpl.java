@@ -13,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 
 import arcaym.common.utils.file.FileUtils;
 
@@ -51,9 +50,9 @@ public class MetadataManagerImpl implements MetadataManager {
         try (Stream<Path> paths = Files.walk(Paths.get(FileUtils.METADATA_FOLDER))) {
             return paths.
                 filter(Files::isRegularFile)
-                .map(this::readFromPath)
+                .map(FileUtils::readFromPath)
                 .flatMap(Optional::stream)
-                .map(this::convertToMetadata)
+                .map(obj -> FileUtils.convertToObj(LevelMetadata.class, obj))
                 .flatMap(Optional::stream)
                 .toList();
         } catch (IOException e) {
@@ -62,22 +61,4 @@ public class MetadataManagerImpl implements MetadataManager {
         // if an error occurs return an empty list
         return List.of();
     }
-
-    private Optional<String> readFromPath(final Path path) {
-        try {
-            return Optional.of(Files.readString(path, StandardCharsets.UTF_8));
-        } catch (IOException e) {
-            return Optional.empty();
-        }
-    }
-
-    private Optional<LevelMetadata> convertToMetadata(final String content) {
-        final Gson json = new Gson();
-        try {
-            return Optional.of(json.fromJson(content, LevelMetadata.class));
-        } catch (JsonSyntaxException e) {
-            return Optional.empty();
-        }
-    }
-
 }

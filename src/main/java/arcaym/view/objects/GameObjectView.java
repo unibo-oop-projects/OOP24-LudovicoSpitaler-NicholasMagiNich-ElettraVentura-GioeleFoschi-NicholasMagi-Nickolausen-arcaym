@@ -13,7 +13,20 @@ import arcaym.view.core.api.WindowInfo;
  */
 public class GameObjectView implements ViewComponent<JLabel> {
 
+    private static final double DEFAULT_SCALE = 2;
     private final GameObjectType type;
+    private double scale;
+
+    /**
+     * Default constructor.
+     * 
+     * @param type the category (OBSTACLE, WALL, PLAYER...)
+     * @param scaleFactor factor needed to resize the image (default: {@link #DEFAULT_SCALE}) 
+     */
+    public GameObjectView(final GameObjectType type, final double scaleFactor) {
+        this.type = type;
+        this.scale = scaleFactor * DEFAULT_SCALE;
+    }
 
     /**
      * Default constructor.
@@ -21,7 +34,7 @@ public class GameObjectView implements ViewComponent<JLabel> {
      * @param type the category (OBSTACLE, WALL, PLAYER...)
      */
     public GameObjectView(final GameObjectType type) {
-        this.type = type;
+        this(type, ImageLabel.DEFAULT_SCALE);
     }
 
     /**
@@ -37,7 +50,7 @@ public class GameObjectView implements ViewComponent<JLabel> {
      */
     @Override
     public JLabel build(final WindowInfo window) {
-        return new ImageLabel(getImagePath()).build(window);
+        return new ImageLabel(getImagePath(), scale).build(window);
     }
 
     private String getImagePath() {

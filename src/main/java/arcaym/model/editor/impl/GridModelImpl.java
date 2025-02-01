@@ -21,7 +21,7 @@ public class GridModelImpl implements GridModel {
 
     private final Grid grid;
     private Set<Position> changedState = Collections.emptySet();
-    // private final MementoCareTaker
+    private final GridStateCaretaker history;
 
     /**
      * Creates a new grid model starting from an empty map.
@@ -34,7 +34,7 @@ public class GridModelImpl implements GridModel {
         final int x,
         final int y) {
         this.grid = new GridImpl(x, y, type);
-        // new mementocaretaker
+        this.history = new GridStateCaretaker();
     }
 
     /**
@@ -43,7 +43,7 @@ public class GridModelImpl implements GridModel {
      */
     public GridModelImpl(final LevelMetadata metadata) {
         this.grid = new GridImpl(metadata);
-        // new memento caretaker
+        this.history = new GridStateCaretaker();
     }
 
     /**
@@ -51,7 +51,7 @@ public class GridModelImpl implements GridModel {
      */
     @Override
     public void undo() {
-        // memento recover
+        this.changedState = this.grid.recoverSavedState(this.history.recoverSnapshot().get());
     }
 
     /**
@@ -59,23 +59,7 @@ public class GridModelImpl implements GridModel {
      */
     @Override
     public boolean canUndo() {
-        return false; // tmp
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void redo() {
-        // memento recover
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean canRedo() {
-        return false; // tmp
+        return this.history.canUndo();
     }
 
     /**
@@ -83,6 +67,7 @@ public class GridModelImpl implements GridModel {
      */
     @Override
     public void placeObjects(final Collection<Position> positions, final GameObjectType type) throws EditorGridException {
+        this.history.saveSnapshot(this.grid.takeSnapshot(positions));
         this.changedState = positions.stream().collect(Collectors.toSet());
         this.grid.setObjects(positions, type);
     }
@@ -92,6 +77,7 @@ public class GridModelImpl implements GridModel {
      */
     @Override
     public void removeObjects(final Collection<Position> positions) throws EditorGridException {
+        this.history.saveSnapshot(this.grid.takeSnapshot(positions));
         this.changedState = positions.stream().collect(Collectors.toSet());
         this.grid.removeObjects(positions);
     }
@@ -113,5 +99,4 @@ public class GridModelImpl implements GridModel {
     public boolean saveState(final String uuid) {
         return this.grid.saveState(uuid);
     }
-
 }

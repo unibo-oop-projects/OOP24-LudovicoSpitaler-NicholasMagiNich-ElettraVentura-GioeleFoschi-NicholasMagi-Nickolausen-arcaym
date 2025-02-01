@@ -4,19 +4,32 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
-import arcaym.view.app.menu.levels.LevelsList;
+import arcaym.view.app.menu.levels.LevelsPanel;
+import arcaym.view.app.panels.PanelsSwitcher;
+import arcaym.view.app.panels.SwitchablePanel;
+import arcaym.view.app.panels.Switcher;
 import arcaym.view.components.CenteredPanel;
 import arcaym.view.components.ImageLabel;
 import arcaym.view.core.api.WindowInfo;
-import arcaym.view.core.api.ViewComponent;
 import arcaym.view.utils.SwingUtils;
 
 /**
  * View for the main menu.
  */
-public class MainMenu implements ViewComponent<JPanel> {
+public class MainMenu extends SwitchablePanel {
 
     private static final String TITLE_IMAGE = "title.png";
+    private static final String LEVELS_BUTTON_TEXT = "LOAD LEVELS";
+    private static final String SHOP_BUTTON_TEXT = "OPEN SHOP";
+
+    /**
+     * Initialize with given switcher.
+     * 
+     * @param switcher switcher function
+     */
+    public MainMenu(final Switcher switcher) {
+        super(switcher);
+    }
 
     /**
      * {@inheritDoc}
@@ -24,19 +37,29 @@ public class MainMenu implements ViewComponent<JPanel> {
     @Override
     public JPanel build(final WindowInfo window) {
         final var mainPanel = new JPanel();
-        final var loadLevelsButton = new MenuButton("Load levels").build(window);
-        final var openShopButton = new MenuButton("Open shop").build(window);
+        final var levelsButton = new MenuButton(LEVELS_BUTTON_TEXT).build(window);
+        final var shopButton = new MenuButton(SHOP_BUTTON_TEXT).build(window);
+        levelsButton.addActionListener(e -> this.switcher().switchTo(() -> new LevelsPanel(this.switcher())));
         final var gap = SwingUtils.getNormalGap(mainPanel);
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
         mainPanel.add(new CenteredPanel().build(window, new ImageLabel(TITLE_IMAGE)));
         mainPanel.add(Box.createVerticalGlue());
-        mainPanel.add(new CenteredPanel().build(window, loadLevelsButton));
+        mainPanel.add(new CenteredPanel().build(window, levelsButton));
         mainPanel.add(Box.createVerticalStrut(gap));
-        mainPanel.add(new CenteredPanel().build(window, openShopButton));
-        mainPanel.add(Box.createVerticalStrut(gap));
-        mainPanel.add(new CenteredPanel().build(window, new LevelsList()));
-        mainPanel.add(Box.createVerticalStrut(gap));
+        mainPanel.add(new CenteredPanel().build(window, shopButton));
+        mainPanel.add(Box.createVerticalGlue());
         return new CenteredPanel().build(window, mainPanel);
+    }
+
+    /**
+     * TODO remove.
+     * @param args foiaeuighiouweahiuogfea
+     */
+    public static void main(final String[] args) {
+        SwingUtils.testComponent((window, frame) -> new PanelsSwitcher(
+            switcher -> () -> new MainMenu(switcher),
+            () -> SwingUtils.closeFrame(frame)
+        ).build(window));
     }
 
 }
