@@ -2,7 +2,7 @@ package arcaym.controller.user.api;
 
 import java.util.Optional;
 
-import arcaym.model.user.api.UserState;
+import arcaym.model.user.api.UserStateInfo;
 
 /**
  * A facade for the serialization & de-serialization of the user state.
@@ -14,11 +14,11 @@ public interface UserStateSerializer {
      * @param userState
      * @return {@code True} if the user state has been saved, {@code False} otherwise.
      */
-    boolean save(UserState userState);
+    boolean save(UserStateInfo userState);
 
     /**
      * De-serializes the user state.
      * @return the UserState previously saved. {@link Optional#empty()} if an error occurred while loading the UserState.
      */
-    Optional<? extends UserState> load();
+    Optional<UserStateInfo> load();
 }

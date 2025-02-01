@@ -3,7 +3,6 @@ package arcaym.controller.shop;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.Collections;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,7 +24,7 @@ class TestUserStateSerializer {
     @BeforeEach
     void setup() {
         serializer = new UserStateSerializerImpl();
-        userState = new UserStateImpl(Collections.emptySet());
+        userState = new UserStateImpl();
     }
 
     @AfterEach
@@ -35,9 +34,9 @@ class TestUserStateSerializer {
 
     private void initUserState() {
         final var initialCredit = 50;
-        userState.unlockNewGameObject(GameObjectType.COIN);
-        userState.unlockNewGameObject(GameObjectType.WALL);
-        userState.unlockNewGameObject(GameObjectType.SPIKE);
+        userState.unlockNewItem(GameObjectType.COIN, 0);
+        userState.unlockNewItem(GameObjectType.WALL, 0);
+        userState.unlockNewItem(GameObjectType.SPIKE, 0);
         userState.incrementCredit(initialCredit);
     }
 
@@ -57,8 +56,8 @@ class TestUserStateSerializer {
 
         assertTrue(deserializedUserState.isPresent());
         assertEquals(userState.getCredit(), deserializedUserState.get().getCredit());
-        assertTrue(deserializedUserState.get().getPurchasedGameObjects().containsAll(userState.getPurchasedGameObjects()));
-        assertEquals(userState.getPurchasedGameObjects().size(), deserializedUserState.get().getPurchasedGameObjects().size());
+        assertTrue(deserializedUserState.get().getPurchasedItems().keySet().equals(userState.getPurchasedItems().keySet()));
+        assertEquals(userState.getPurchasedItems().size(), deserializedUserState.get().getPurchasedItems().size());
     }
 
     @Test

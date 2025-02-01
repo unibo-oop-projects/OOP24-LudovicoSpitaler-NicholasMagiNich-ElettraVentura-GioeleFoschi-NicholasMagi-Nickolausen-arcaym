@@ -2,26 +2,29 @@ package arcaym.model.user.api;
 
 import java.util.Set;
 
+import arcaym.model.game.core.events.api.EventsObserver;
+import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.objects.api.GameObjectType;
 
 /**
  * Interface modelling the user state and its relative operations.
  * This class serves primarily as collector of useful information.
  */
-public interface UserState extends UserStateInfo {
+public interface UserState extends EventsObserver<GameEvent> {
 
     /**
      * 
-     * @return the objects owned by the user
+     * @return
      */
-    Set<GameObjectType> getPurchasedGameObjects();
+    int getCredit();
 
     /**
      * Adds a new game object to the collection of purchased assets.
      * 
      * @param gameObject
+     * @param price
      */
-    void unlockNewGameObject(GameObjectType gameObject);
+    void unlockNewItem(GameObjectType gameObject);
 
     /**
      * Increments the user score.
@@ -39,4 +42,16 @@ public interface UserState extends UserStateInfo {
      * @throws IllegalArgumentException if the amount is negative.
      */
     void decrementCredit(int amount);
+
+    /**
+     * 
+     * @return the items the user purchased from the shop.
+     */
+    Set<GameObjectType> getPurchasedItems();
+
+    /**
+     * 
+     * @return the items the user has (default + purchased).
+     */
+    Set<GameObjectType> getItemsOwned();
 }

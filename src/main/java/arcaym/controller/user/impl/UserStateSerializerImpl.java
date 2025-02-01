@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import arcaym.common.utils.file.FileUtils;
 import arcaym.controller.user.api.UserStateSerializer;
 import arcaym.model.user.api.UserState;
+import arcaym.model.user.api.UserStateInfo;
 import arcaym.model.user.impl.UserStateImpl;
 
 /**
@@ -31,7 +32,7 @@ public class UserStateSerializerImpl implements UserStateSerializer {
      * {@inheritDoc}
      */
     @Override
-    public boolean save(final UserState userState) {
+    public boolean save(final UserStateInfo userState) {
         try {
             Files.writeString(
                 FILE_PATH,
@@ -48,12 +49,12 @@ public class UserStateSerializerImpl implements UserStateSerializer {
      * {@inheritDoc}
      */
     @Override
-    public Optional<? extends UserState> load() {
+    public Optional<UserStateInfo> load() {
         final var rawState = FileUtils.readFromPath(FILE_PATH);
         if (rawState.isEmpty()) {
             LOGGER.error("An error occurred while READING '" + FILENAME + "' file.");
             return Optional.empty();
         }
-        return FileUtils.convertToObj(UserStateImpl.class, rawState.get());
+        return FileUtils.convertToObj(UserStateInfo.class, rawState.get());
     }
 }

@@ -1,10 +1,9 @@
-package arcaym.model.user;
+package arcaym.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.Collections;
 import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -25,7 +24,7 @@ class TestUserState {
 
     @BeforeEach
     void setup() {
-        userState = new UserStateImpl(Collections.emptySet());
+        userState = new UserStateImpl();
     }
 
     @Test
@@ -53,17 +52,17 @@ class TestUserState {
     @Test
     void testOwnedObjects() {
         // May be removed if the user state has been serialized before.
-        assertTrue(userState.getPurchasedGameObjects().isEmpty());
-        userState.unlockNewGameObject(GameObjectType.COIN);
-        userState.unlockNewGameObject(GameObjectType.COIN);
-        assertEquals(1, userState.getPurchasedGameObjects().size());
-        assertTrue(userState.getPurchasedGameObjects().contains(GameObjectType.COIN));
+        assertTrue(userState.getPurchasedItems().isEmpty());
+        userState.unlockNewItem(GameObjectType.COIN, 0);
+        userState.unlockNewItem(GameObjectType.COIN, 0);
+        assertEquals(1, userState.getPurchasedItems().size());
+        assertTrue(userState.getPurchasedItems().keySet().contains(GameObjectType.COIN));
 
-        userState.unlockNewGameObject(GameObjectType.FLOOR);
-        userState.unlockNewGameObject(GameObjectType.WALL);
-        userState.unlockNewGameObject(GameObjectType.WIN_GOAL);
+        userState.unlockNewItem(GameObjectType.FLOOR, 0);
+        userState.unlockNewItem(GameObjectType.WALL, 0);
+        userState.unlockNewItem(GameObjectType.WIN_GOAL, 0);
         assertEquals(
             Set.of(GameObjectType.WIN_GOAL, GameObjectType.WALL, GameObjectType.FLOOR, GameObjectType.COIN),
-            userState.getPurchasedGameObjects());
+            userState.getPurchasedItems());
     }
 }
