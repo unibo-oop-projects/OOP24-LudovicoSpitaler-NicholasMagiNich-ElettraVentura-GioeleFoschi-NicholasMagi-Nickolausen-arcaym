@@ -19,8 +19,11 @@ import arcaym.model.user.api.UserStateInfo;
  */
 public class UserStateImpl implements UserState {
 
+    /* Initial credit */
     private static final int DEFAULT_CREDIT = 0;
+    /* Message shown in case of error while loading the user state from file */
     private static final String DEFAULT_SERIALIZATION_ERROR_MSG = "Something went wrong while loading the user state from file!";
+    /* Items owned by the user at the beginning of the game */
     private static final Set<GameObjectType> DEFAULT_ITEMS = EnumSet.copyOf(Set.of(
         GameObjectType.USER_PLAYER,
         GameObjectType.COIN,

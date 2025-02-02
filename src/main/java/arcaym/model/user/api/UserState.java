@@ -29,7 +29,7 @@ public interface UserState extends EventsObserver<GameEvent> {
     /**
      * Increments the user score.
      * 
-     * @param amount the amount to add to the score. If the amount is negative, nothing happens
+     * @param amount the amount to add to the score.
      * @throws IllegalArgumentException if the amount is negative.
      */
     void incrementCredit(int amount);
