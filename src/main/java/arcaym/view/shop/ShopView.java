@@ -5,9 +5,12 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -17,7 +20,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import arcaym.controller.shop.api.ShopController;
+import arcaym.controller.shop.impl.ShopControllerImpl;
 import arcaym.model.game.core.objects.api.GameObjectCategory;
+import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.view.components.CenteredPanel;
 import arcaym.view.core.api.ViewComponent;
 import arcaym.view.core.api.WindowInfo;
@@ -31,7 +36,7 @@ public class ShopView implements ViewComponent<JPanel> {
     private static final String SHOP_TITLE = "SHOP";
     private static final String BUY_BUTTON = "PURCHASE";
     private static final String BACK_TO_MAIN_PAGE = "BACK TO MENU";
-    private final ShopController controller = null;
+    private final ShopController controller = new ShopControllerImpl();
     private final Map<JButton, ProductInfo> productsMap = new HashMap<>();
     private Optional<ProductInfo> selected = Optional.empty();
     private JButton buyButton;
@@ -67,10 +72,8 @@ public class ShopView implements ViewComponent<JPanel> {
 
             @Override
             public void actionPerformed(final ActionEvent arg) {
-                if (selected.isPresent()) {
-                    // controllerBUY();
+                if (selected.isPresent() && controller.requestTransaction(selected.get().type())) {
                     updateCreditLable(userCredit);
-                    //
                     buyButton.setEnabled(false);
                     selected = Optional.empty();
                     setAvailableButtons();
@@ -120,46 +123,65 @@ public class ShopView implements ViewComponent<JPanel> {
 
         final int maxAvailableItems = (int) controller.getLockedGameObjects().keySet().stream()
                 .filter(type -> type.category() == category).count();
-        // final int maxAlreadyOwnedItems = (int)
-        // controller.????.keySet().stream().filter(type->type.category() ==
-        // category).count();
-        final int maxItems = maxAvailableItems; // Math.max(maxAvailableItems, maxAlreadyOwnedItems);
-        if (maxItems == 0) { // if (maxAvailableItems == 0 && maxAlreadyOwnedItems == 0)
+        final int maxAlreadyOwnedItems = (int) controller.getPurchasedGameObjects().keySet().stream()
+                .filter(type -> type.category() == category).count();
+        if (maxAvailableItems == 0 && maxAlreadyOwnedItems == 0) {
             showItemsPanel.setBackground(Color.GRAY);
             showItemsPanel.add(new JLabel("No Items Available."));
-        } else { // else { if(maxAvailableItems != 0)
-            for (final var object : controller.getLockedGameObjects().entrySet().stream()
-                    .filter(type -> type.getKey().category().equals(category)).toList()) {
-                final JPanel item = new DisplayProductView(new ProductInfo(object.getKey(), object.getValue()))
-                        .build(window);
-                item.setLayout(new BoxLayout(item, BoxLayout.PAGE_AXIS));
-                final JButton price = new JButton(String.valueOf(object.getValue()));
-                productsMap.put(price, new ProductInfo(object.getKey(), object.getValue()));
-                price.addActionListener(new ActionListener() {
+        } else {
+            if (maxAvailableItems != 0) {
+                for (final var object : filterForCategory(controller.getLockedGameObjects().entrySet().stream(),
+                category)) {
+                    final JPanel item = new DisplayProductView(new ProductInfo(object.getKey(), object.getValue()))
+                            .build(window);
+                    item.setLayout(new BoxLayout(item, BoxLayout.PAGE_AXIS));
+                    final JButton price = new JButton(String.valueOf(object.getValue()));
+                    productsMap.put(price, new ProductInfo(object.getKey(), object.getValue()));
+                    price.addActionListener(new ActionListener() {
 
-                    @Override
-                    public void actionPerformed(final ActionEvent arg) {
-                        final JButton pressedButton = (JButton) arg.getSource();
-                        if (selected.isEmpty()
-                                || (selected.isPresent() && !selected.get().equals(productsMap.get(pressedButton)))) {
-                            setAvailableButtons();
-                            selected = Optional.of(productsMap.get(pressedButton));
-                            pressedButton.setBackground(Color.PINK);
-                        } else if (selected.isPresent() && selected.get().equals(productsMap.get(pressedButton))) {
-                            selected = Optional.empty();
-                            pressedButton.setBackground(Color.WHITE);
+                        @Override
+                        public void actionPerformed(final ActionEvent arg) {
+                            final JButton pressedButton = (JButton) arg.getSource();
+                            if (selected.isEmpty()
+                                    || (selected.isPresent()
+                                            && !selected.get().equals(productsMap.get(pressedButton)))) {
+                                setAvailableButtons();
+                                selected = Optional.of(productsMap.get(pressedButton));
+                                pressedButton.setBackground(Color.PINK);
+                            } else if (selected.isPresent() && selected.get().equals(productsMap.get(pressedButton))) {
+                                selected = Optional.empty();
+                                pressedButton.setBackground(Color.WHITE);
+                            }
+                            regulateBuyOption();
                         }
-                        regulateBuyOption();
-                    }
 
-                });
-                item.add(new CenteredPanel().build(window, price));
-                showItemsPanel.add(item);
+                    });
+                    item.add(new CenteredPanel().build(window, price));
+                    showItemsPanel.add(item);
+                }
             }
-        } // if(maxAlreadyOwnedItems != 0)      }
-        // same thing as before but with the map of already owned objects.
+            if (maxAlreadyOwnedItems != 0) {
+                for (final var object : filterForCategory(controller.getPurchasedGameObjects().entrySet().stream(),
+                        category)) {
+                    final JPanel item = new DisplayProductView(new ProductInfo(object.getKey(), object.getValue()))
+                            .build(window);
+                    item.setLayout(new BoxLayout(item, BoxLayout.PAGE_AXIS));
+                    final JButton price = new JButton(String.valueOf(object.getValue()));
+                    productsMap.put(price, new ProductInfo(object.getKey(), object.getValue()));
+                    price.setEnabled(false);
+                    item.add(new CenteredPanel().build(window, price));
+                    showItemsPanel.add(item);
+                }
+
+            }
+        }
         card.add(showItemsPanel);
         return card;
+    }
+
+    private Collection<Entry<GameObjectType, Integer>> filterForCategory(
+            final Stream<Entry<GameObjectType, Integer>> stream, final GameObjectCategory category) {
+        return stream.filter(type -> type.getKey().category().equals(category)).toList();
     }
 
     private void regulateBuyOption() {
@@ -175,6 +197,10 @@ public class ShopView implements ViewComponent<JPanel> {
             if (controller.canBuy(product.getValue().type())) {
                 product.getKey().setEnabled(true);
                 product.getKey().setBackground(Color.WHITE);
+            } else if (!controller.canBuy(product.getValue().type())
+                    && !controller.getPurchasedGameObjects().containsKey(product.getValue().type())) {
+                product.getKey().setEnabled(false);
+                product.getKey().setBackground(Color.RED);
             }
         });
     }
