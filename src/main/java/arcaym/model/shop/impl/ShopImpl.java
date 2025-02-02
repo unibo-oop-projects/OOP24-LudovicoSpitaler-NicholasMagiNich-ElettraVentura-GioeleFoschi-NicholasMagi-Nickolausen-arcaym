@@ -20,18 +20,21 @@ public class ShopImpl implements Shop {
         GameObjectType.MOVING_X_OBSTACLE, 30,
         GameObjectType.MOVING_Y_OBSTACLE, 40
     ));
+
     private final Map<GameObjectType, Integer> lockedObjects;
     private final UserState userState;
 
     /**
      * Default constructor.
-     * 
-     * @param lockedObjects
      */
     public ShopImpl() {
         this.userState = new UserStateImpl();
-        this.lockedObjects = new EnumMap<>(GameObjectType.class);
-        
+        this.lockedObjects = new EnumMap<>(PRICES);
+        // Removes from the locked objects all the ones bought from the user. 
+        this.userState.getPurchasedItems().forEach(item -> {
+            // Does not throw an Exception if the item was not mapped.
+            this.lockedObjects.remove(item);
+        });
     }
 
     /**
@@ -65,8 +68,14 @@ public class ShopImpl implements Shop {
         return !userState.getItemsOwned().contains(item) && userState.getCredit() - price >= 0;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public int getPriceOf(GameObjectType item) {
+    public int getPriceOf(final GameObjectType item) {
+        if (!PRICES.containsKey(item)) {
+            throw new IllegalArgumentException(item + " not included in the purchasable assets collection!");
+        }
         return PRICES.get(item);
     }
 }

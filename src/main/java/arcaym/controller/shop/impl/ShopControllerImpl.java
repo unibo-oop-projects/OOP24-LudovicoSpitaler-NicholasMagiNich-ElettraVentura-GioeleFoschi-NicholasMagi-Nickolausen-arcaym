@@ -1,7 +1,8 @@
 package arcaym.controller.shop.impl;
 
-import java.util.Collections;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import arcaym.controller.shop.api.ShopController;
 import arcaym.model.game.objects.api.GameObjectType;
@@ -20,9 +21,6 @@ public class ShopControllerImpl implements ShopController {
 
     /**
      * Default constructor.
-     * 
-     * @param userView needed to read the score of the user
-     * @param provider 
      */
     public ShopControllerImpl() {
         this.shopModel = new ShopImpl();
@@ -66,7 +64,7 @@ public class ShopControllerImpl implements ShopController {
      */
     @Override
     public Map<GameObjectType, Integer> getPurchasedGameObjects() {
-        // return Collections.unmodifiableMap(userView.getPurchasedItems());
-        return null;
+        return userState.getPurchasedItems().stream()
+            .collect(Collectors.toMap(Function.identity(), shopModel::getPriceOf));
     }
 }

@@ -14,7 +14,7 @@ public interface UserState extends EventsObserver<GameEvent> {
 
     /**
      * 
-     * @return
+     * @return the credit of the user.
      */
     int getCredit();
 
@@ -22,7 +22,7 @@ public interface UserState extends EventsObserver<GameEvent> {
      * Adds a new game object to the collection of purchased assets.
      * 
      * @param gameObject
-     * @param price
+     * @throws IllegalArgumentException if the gameObject is already owned.
      */
     void unlockNewItem(GameObjectType gameObject);
 

@@ -42,7 +42,7 @@ public interface Shop {
     /**
      * 
      * @param item
-     * @return the price of the item
+     * @return the price of the item passed as argument
      */
     int getPriceOf(GameObjectType item);
 }

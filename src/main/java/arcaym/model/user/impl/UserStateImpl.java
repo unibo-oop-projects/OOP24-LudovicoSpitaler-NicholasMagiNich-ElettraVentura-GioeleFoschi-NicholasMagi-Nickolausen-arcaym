@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Set;
 
+import arcaym.common.utils.Optionals;
 import arcaym.controller.user.api.UserStateSerializer;
 import arcaym.controller.user.impl.UserStateSerializerImpl;
 import arcaym.model.game.core.engine.api.GameStateInfo;
@@ -19,24 +20,23 @@ import arcaym.model.user.api.UserStateInfo;
 public class UserStateImpl implements UserState {
 
     private static final int DEFAULT_CREDIT = 0;
-    private static final Set<GameObjectType> DEFAULT_ITEMS_OWNED = EnumSet.copyOf(Set.of(
+    private static final String DEFAULT_SERIALIZATION_ERROR_MSG = "Something went wrong while loading the user state from file!";
+    private static final Set<GameObjectType> DEFAULT_ITEMS = EnumSet.copyOf(Set.of(
         GameObjectType.USER_PLAYER,
         GameObjectType.COIN,
         GameObjectType.FLOOR,
         GameObjectType.SPIKE));
 
-    private UserStateInfo userStateData;
-    private final UserStateSerializer serializer = new UserStateSerializerImpl();
+    private final UserStateSerializer serializer;
 
     /**
      * Default constructor.
      */
     public UserStateImpl() {
-        var savedState = serializer.load();
-        if (savedState.isPresent()) {
-            this.userStateData = savedState.get();    
-        } else {
-            this.userStateData = new UserStateInfo(DEFAULT_CREDIT, DEFAULT_ITEMS_OWNED, DEFAULT_ITEMS_OWNED, Collections.emptySet());
+        this.serializer = new UserStateSerializerImpl();
+        final var savedState = serializer.load();
+        if (savedState.isEmpty()) {
+            updateSavedState(new UserStateInfo(DEFAULT_CREDIT, DEFAULT_ITEMS, DEFAULT_ITEMS, Collections.emptySet()));
         }
     }
 
@@ -45,9 +45,20 @@ public class UserStateImpl implements UserState {
      */
     @Override
     public void unlockNewItem(final GameObjectType gameObject) {
-        final var purchasedItems = EnumSet.copyOf(userStateData.purchasedItems());
-        purchasedItems.add(gameObject);
-        updateSavedState(this.userStateData.withPurchasedItems(purchasedItems));
+        final var savedState = Optionals.orIllegalState(serializer.load(), DEFAULT_SERIALIZATION_ERROR_MSG);
+        if (savedState.itemsOwned().contains(gameObject) || savedState.purchasedItems().contains(gameObject)) {
+            throw new IllegalArgumentException("Cannot unlock an object already owned! (Unlocking: " + gameObject + ")");
+        }
+        final var itemsOwned = EnumSet.copyOf(savedState.itemsOwned());
+        itemsOwned.add(gameObject);
+        final var newState = savedState.withItemsOwned(itemsOwned);
+        if (savedState.purchasedItems().isEmpty()) {
+            updateSavedState(newState.withPurchasedItems(EnumSet.copyOf(Set.of(gameObject))));
+        } else {
+            final var purchasedItems = EnumSet.copyOf(savedState.purchasedItems());
+            purchasedItems.add(gameObject);
+            updateSavedState(newState.withPurchasedItems(purchasedItems));
+        }
     }
 
     /**
@@ -55,7 +66,8 @@ public class UserStateImpl implements UserState {
      */
     @Override
     public int getCredit() {
-        return this.userStateData.credit();
+        final var savedState = Optionals.orIllegalState(serializer.load(), DEFAULT_SERIALIZATION_ERROR_MSG);
+        return savedState.credit();
     }
 
     /**
@@ -63,7 +75,8 @@ public class UserStateImpl implements UserState {
      */
     @Override
     public Set<GameObjectType> getItemsOwned() {
-        return this.userStateData.itemsOwned();
+        final var savedState = Optionals.orIllegalState(serializer.load(), DEFAULT_SERIALIZATION_ERROR_MSG);
+        return savedState.itemsOwned();
     }
 
     /**
@@ -71,7 +84,8 @@ public class UserStateImpl implements UserState {
      */
     @Override
     public Set<GameObjectType> getPurchasedItems() {
-        return this.userStateData.purchasedItems();
+        final var savedState = Optionals.orIllegalState(serializer.load(), DEFAULT_SERIALIZATION_ERROR_MSG);
+        return savedState.purchasedItems();
     }
 
     /**
@@ -80,8 +94,9 @@ public class UserStateImpl implements UserState {
     @Override
     public void incrementCredit(final int amount) {
         validateAmount(amount);
-        final var newCredit = this.userStateData.credit() + amount;
-        updateSavedState(this.userStateData.withCredit(newCredit));
+        final var savedState = Optionals.orIllegalState(serializer.load(), DEFAULT_SERIALIZATION_ERROR_MSG);
+        final var newCredit = savedState.credit() + amount;
+        updateSavedState(savedState.withCredit(newCredit));
     }
 
     /**
@@ -90,8 +105,9 @@ public class UserStateImpl implements UserState {
     @Override
     public void decrementCredit(final int amount) {
         validateAmount(amount);
-        final var newCredit = this.userStateData.credit() - amount;
-        updateSavedState(this.userStateData.withCredit(newCredit));
+        final var savedState = Optionals.orIllegalState(serializer.load(), DEFAULT_SERIALIZATION_ERROR_MSG);
+        final var newCredit = savedState.credit() - (savedState.credit() - amount < 0 ? savedState.credit() : amount);
+        updateSavedState(savedState.withCredit(newCredit));
     }
 
     /**
