@@ -57,6 +57,17 @@ public interface Grid {
     Set<Position> recoverSavedState(Memento state);
 
     /**
+     * Getter for the grid size.
+     * 
+     * @return The size of the grid:
+     * <br>
+     * - {@link Position#x()} = width;
+     * <br>
+     * - {@link Position#y()} = height
+     */
+    Position getSize();
+
+    /**
      * Saves the current state of the grid.
      * 
      * @param uuid The name of the file to save.

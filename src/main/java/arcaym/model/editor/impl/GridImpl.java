@@ -160,6 +160,14 @@ public class GridImpl implements Grid {
      * {@inheritDoc}
      */
     @Override
+    public Position getSize() {
+        return Position.of(this.mapSize.x(), this.mapSize.y());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public boolean saveState(final String uuid) {
         return new MapSerializerImpl<Position, Cell>().serializeMap(map, uuid);
     }
@@ -221,5 +229,4 @@ public class GridImpl implements Grid {
             //     )));
         }
     }
-
 }

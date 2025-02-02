@@ -3,9 +3,12 @@ package arcaym.controller.editor.impl;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+import arcaym.common.geometry.impl.Point;
+import arcaym.common.utils.Optionals;
 import arcaym.common.utils.Position;
 import arcaym.controller.editor.api.GridController;
 import arcaym.controller.editor.saves.LevelMetadata;
@@ -14,6 +17,8 @@ import arcaym.model.editor.EditorGridException;
 import arcaym.model.editor.EditorType;
 import arcaym.model.editor.api.GridModel;
 import arcaym.model.editor.impl.GridModelImpl;
+import arcaym.model.game.components.impl.ComponentsBasedObjectsFactory;
+import arcaym.model.game.core.engine.impl.FactoryBasedGameBuilder;
 import arcaym.model.game.objects.api.GameObjectType;
 
 /**
@@ -24,7 +29,7 @@ public class GridWithoudUndo implements GridController {
     private GameObjectType selectedObject = GameObjectType.FLOOR;
     private final GridModel grid;
     private final LevelMetadata metadata;
-    private Consumer<Map<Position, List<GameObjectType>>> view;
+    private Optional<Consumer<Map<Position, List<GameObjectType>>>> view;
 
     /**
      * Creates an editor controller without the ability do undo / redo.
@@ -44,6 +49,7 @@ public class GridWithoudUndo implements GridController {
             UUID.randomUUID().toString(),
             type,
             Position.of(x, y));
+        this.view = Optional.empty();
     }
 
     /**
@@ -58,6 +64,7 @@ public class GridWithoudUndo implements GridController {
             metadata.uuid(),
             metadata.type(),
             metadata.size());
+        this.view = Optional.empty();
     }
 
     /**
@@ -65,7 +72,13 @@ public class GridWithoudUndo implements GridController {
      */
     @Override
     public void play() {
-        // LevelBuilder.build;
+        final var gameFactory = new FactoryBasedGameBuilder(new ComponentsBasedObjectsFactory(10)); // 10 is temporary
+        final var objectsInPosition = this.grid.getFullMap();
+        objectsInPosition.entrySet().forEach(e -> {
+            e.getValue()
+                .forEach(type -> gameFactory.addObject(type, Point.of(e.getKey().x(), e.getKey().y())));
+        });
+        // return gameFactory.build();
     }
 
     /**
@@ -121,7 +134,7 @@ public class GridWithoudUndo implements GridController {
      */
     @Override
     public void setView(final Consumer<Map<Position, List<GameObjectType>>> listener) {
-        this.view = listener;
+        this.view = Optional.of(listener);
     }
 
     /**
@@ -129,11 +142,7 @@ public class GridWithoudUndo implements GridController {
      */
     @Override
     public void updateView(final Map<Position, List<GameObjectType>> map) {
-        if (view == null) { 
-            // Objects.isNull(view) <= gives spotbugs error false positive: 
-            // field view not initialized in constructor and dereferenced in method.
-            throw new IllegalStateException("View listener not initialized");
-        }
-        this.view.accept(map);
+        final var update = Optionals.orIllegalState(this.view, "View listener not initialized");
+        update.accept(map);
     }
 }
