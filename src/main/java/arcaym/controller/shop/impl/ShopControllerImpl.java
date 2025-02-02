@@ -1,13 +1,15 @@
 package arcaym.controller.shop.impl;
 
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
-import arcaym.controller.app.api.GameObjectsProvider;
 import arcaym.controller.shop.api.ShopController;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.model.shop.api.Shop;
 import arcaym.model.shop.impl.ShopImpl;
-import arcaym.model.user.api.UserStateInfo;
+import arcaym.model.user.api.UserState;
+import arcaym.model.user.impl.UserStateImpl;
 
 /**
  * Default implementation of {@link ShopController}.
@@ -15,19 +17,14 @@ import arcaym.model.user.api.UserStateInfo;
 public class ShopControllerImpl implements ShopController {
 
     private final Shop shopModel;
-    private final GameObjectsProvider provider;
-    private final UserStateInfo userView;
+    private final UserState userState;
 
     /**
      * Default constructor.
-     * 
-     * @param userView needed to read the score of the user
-     * @param provider 
      */
-    public ShopControllerImpl(final UserStateInfo userView, final GameObjectsProvider provider) {
+    public ShopControllerImpl() {
         this.shopModel = new ShopImpl();
-        this.provider = provider;
-        this.userView = userView;
+        this.userState = new UserStateImpl();
     }
 
     /**
@@ -35,7 +32,7 @@ public class ShopControllerImpl implements ShopController {
      */
     @Override
     public boolean requestTransaction(final GameObjectType toBuy) {
-        return shopModel.makeTransaction(toBuy);
+        return shopModel.makeTransaction(toBuy).isPresent();
     }
 
     /**
@@ -43,7 +40,7 @@ public class ShopControllerImpl implements ShopController {
      */
     @Override
     public Map<GameObjectType, Integer> getLockedGameObjects() {
-        return provider.getLockedGameObjects();
+        return shopModel.getLockedGameObjects();
     }
 
     /**
@@ -51,7 +48,7 @@ public class ShopControllerImpl implements ShopController {
      */
     @Override
     public int getCredit() {
-        return this.userView.getCredit();
+        return userState.getCredit();
     }
 
     /**
@@ -60,5 +57,14 @@ public class ShopControllerImpl implements ShopController {
     @Override
     public boolean canBuy(final GameObjectType item) {
         return shopModel.canBuy(item);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Map<GameObjectType, Integer> getPurchasedGameObjects() {
+        return userState.getPurchasedItems().stream()
+            .collect(Collectors.toMap(Function.identity(), shopModel::getPriceOf));
     }
 }

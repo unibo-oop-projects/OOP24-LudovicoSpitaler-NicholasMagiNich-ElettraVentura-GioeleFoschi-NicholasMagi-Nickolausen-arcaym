@@ -3,6 +3,7 @@ package arcaym.controller.shop.api;
 import java.util.Map;
 
 import arcaym.model.game.objects.api.GameObjectType;
+import arcaym.model.shop.api.Shop;
 
 /**
  * Interface for shop controller.
@@ -23,10 +24,16 @@ public interface ShopController {
     Map<GameObjectType, Integer> getLockedGameObjects();
 
     /**
+     * 
+     * @return all the game objects purchased from the shop.
+     */
+    Map<GameObjectType, Integer> getPurchasedGameObjects();
+
+    /**
      *
      * @see Shop#canBuy(GameObjectType)
      * @param item
-     * @return Same as {@link Shop#canBuy(GameObjectType)}
+     * @return Same as {@link Shop}
      */
     boolean canBuy(GameObjectType item);
 

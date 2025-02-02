@@ -3,6 +3,11 @@ package arcaym.view.utils;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.WindowEvent;
+
+import arcaym.view.core.api.WindowInfo;
+import arcaym.view.core.impl.Scale;
+import arcaym.view.core.impl.ScaledWindowInfo;
+
 import java.net.URL;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -10,10 +15,6 @@ import java.util.function.Function;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import arcaym.view.core.api.WindowInfo;
-import arcaym.view.core.impl.Scale;
-import arcaym.view.core.impl.ScaledWindowInfo;
 
 /**
  * Utility class for swing.
