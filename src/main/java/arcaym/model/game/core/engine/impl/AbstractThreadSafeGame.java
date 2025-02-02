@@ -2,6 +2,9 @@ package arcaym.model.game.core.engine.impl;
 
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import arcaym.model.game.core.engine.api.Game;
 import arcaym.model.game.core.engine.api.GameState;
 import arcaym.model.game.core.engine.api.GameStateInfo;
@@ -18,6 +21,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * It provides events management while leaving the update logic.
  */
 public abstract class AbstractThreadSafeGame implements Game {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractThreadSafeGame.class);
 
     private final EventsManager<GameEvent> gameEventsManager = new ThreadSafeEventsManager<>();
     private final EventsManager<InputEvent> inputEventsManager = new ThreadSafeEventsManager<>();
@@ -91,13 +96,17 @@ public abstract class AbstractThreadSafeGame implements Game {
         Objects.requireNonNull(gameView);
         gameView.setInputEventsScheduler(this.inputEventsManager);
         gameView.registerEventsCallbacks(this.gameEventsManager, this.gameState);
+        LOGGER.info("Successfully set up game view");
         this.gameScene.consumePendingActions(gameView);
         this.gameScene.getGameObjects().forEach(
             o -> o.setup(this.gameEventsManager, this.inputEventsManager, gameScene, this.gameState)
         );
+        LOGGER.info("Successfully set up game scene");
         this.gameState.setupCallbacks(this.gameEventsManager);
+        LOGGER.info("Successfully set up game state");
         this.gameEventsManager.registerCallback(GameEvent.GAME_OVER, e -> this.scheduleStop());
         this.gameEventsManager.registerCallback(GameEvent.VICTORY, e -> this.scheduleStop());
+        LOGGER.info("Successfully registered stop conditions");
     }
 
 }
