@@ -4,8 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -17,7 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
-import arcaym.common.geometry.impl.Rectangle;
 import arcaym.common.utils.Optionals;
 import arcaym.model.game.core.engine.api.Game;
 import arcaym.model.game.core.engine.api.GameStateInfo;
@@ -30,7 +27,6 @@ import arcaym.model.game.events.impl.InputEvent;
 import arcaym.view.core.api.ViewComponent;
 import arcaym.view.core.api.WindowInfo;
 import arcaym.view.game.api.GameView;
-import arcaym.view.objects.GameObjectView;
 import arcaym.view.utils.SwingUtils;
 
 /**
@@ -43,11 +39,9 @@ public class GameViewImpl implements GameView, ViewComponent<JPanel> {
     private static final int KEY_LEFT = KeyEvent.VK_A;
     private static final int KEY_RIGHT = KeyEvent.VK_D;
     private final Game game; // Gamecontroller placeholder
-    private Optional<Runnable> redrawPanelOperation = Optional.empty();
     private Optional<Runnable> scoreUpdaterOperation = Optional.empty();
     private Optional<Consumer<JPanel>> setKeyBindings = Optional.empty();
     private Optional<Consumer<JPanel>> setGameEventReaction = Optional.empty();
-    private final Map<GameObjectInfo, GameObjectView> gameMap = new HashMap<>();
     private Optional<GamePanel> gamePanel = Optional.empty();
 
     /**
@@ -72,7 +66,7 @@ public class GameViewImpl implements GameView, ViewComponent<JPanel> {
         final JPanel header = new JPanel();
         header.setBackground(Color.WHITE);
         header.setLayout(new BoxLayout(header, BoxLayout.LINE_AXIS));
-        final GamePanel gameContentPanel = new GamePanel(new Rectangle(null, null));
+        final GamePanel gameContentPanel = new GamePanel(game.state().boundaries());
         gamePanel = Optional.of(gameContentPanel);
         // Binding the operations of GameEventsReaction and KeyBindings to the panel of
         // the game view.

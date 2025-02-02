@@ -46,10 +46,10 @@ public class GamePanel extends JPanel {
         this.gameMap.entrySet().stream().forEach(entry -> {
             g2d.drawImage(entry.getValue(), Double.valueOf(entry.getKey().boundaries().northWest().x()*scale).intValue(), // boundaries?
             Double.valueOf(entry.getKey().boundaries().northWest().y()*scale).intValue(),
-                    (int) entry.getKey().boundaries().base(), //to fix 
-                    (int) entry.getKey().boundaries().height(), null);
+                    Double.valueOf(entry.getKey().boundaries().base()*scale).intValue(), //to fix 
+                    Double.valueOf(entry.getKey().boundaries().height()*scale).intValue(), null);
         });
-        g2d.drawString("Score", 0, 0);
+        //g2d.drawString("Score : ", 0, 0);
         g2d.dispose();
     }
 
