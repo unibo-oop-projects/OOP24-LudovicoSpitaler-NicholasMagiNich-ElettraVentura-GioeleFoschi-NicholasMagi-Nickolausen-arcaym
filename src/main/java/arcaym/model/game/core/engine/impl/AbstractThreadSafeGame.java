@@ -5,6 +5,7 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import arcaym.common.geometry.impl.Rectangle;
 import arcaym.model.game.core.engine.api.Game;
 import arcaym.model.game.core.engine.api.GameState;
 import arcaym.model.game.core.engine.api.GameStateInfo;
@@ -26,16 +27,18 @@ public abstract class AbstractThreadSafeGame implements Game {
 
     private final EventsManager<GameEvent> gameEventsManager = new ThreadSafeEventsManager<>();
     private final EventsManager<InputEvent> inputEventsManager = new ThreadSafeEventsManager<>();
-    private final GameState gameState = new DefaultGameState();
+    private final GameState gameState;
     private final GameScene gameScene;
 
     /**
      * Initialize with the given scene.
      * 
      * @param gameScene game scene
+     * @param boundaries total level boundaries
      */
-    protected AbstractThreadSafeGame(final GameScene gameScene) {
+    protected AbstractThreadSafeGame(final GameScene gameScene, final Rectangle boundaries) {
         this.gameScene = Objects.requireNonNull(gameScene);
+        this.gameState = new DefaultGameState(Objects.requireNonNull(boundaries));
     }
 
     /**
