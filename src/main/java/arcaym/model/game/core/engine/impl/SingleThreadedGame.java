@@ -55,11 +55,11 @@ public class SingleThreadedGame extends AbstractThreadSafeGame {
             throw new IllegalStateException("Game is not running");
         }
         this.runGameLoop = false;
-        LOGGER.info("Successfully requested game loop stop");
+        LOGGER.info("Requested game loop stop");
     }
 
     private void gameLoop(final GameView gameView) {
-        LOGGER.info("Successfully started game loop");
+        LOGGER.info("Game loop thread started");
         long deltaTime = this.updateDeltaTime(0);
         while (this.runGameLoop) {
             this.inputEventsManager().consumePendingEvents();
@@ -72,7 +72,7 @@ public class SingleThreadedGame extends AbstractThreadSafeGame {
             this.scene().consumePendingActions(gameView);
             this.gameEventsManager().consumePendingEvents();
         }
-        LOGGER.info("Successfully finished game loop");
+        LOGGER.info("Finished game loop");
     }
 
     private long updateDeltaTime(final long start) {

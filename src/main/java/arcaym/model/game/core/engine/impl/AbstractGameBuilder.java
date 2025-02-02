@@ -61,7 +61,7 @@ public abstract class AbstractGameBuilder implements GameBuilder {
         this.consumed = true;
         final var scene = this.buildScene();
         this.creationEvents.forEach(scene::scheduleCreation);
-        LOGGER.info("Successfully scheduled all creation events");
+        LOGGER.info("Finished scheduling all creation events");
         return this.buildGame(scene);
     }
 

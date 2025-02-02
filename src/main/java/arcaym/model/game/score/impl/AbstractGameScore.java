@@ -53,7 +53,7 @@ public abstract class AbstractGameScore implements GameScore {
     ) {
         eventsSubscriber.registerCallback(GameEvent.INCREMENT_SCORE, e -> this.increment());
         eventsSubscriber.registerCallback(GameEvent.DECREMENT_SCORE, e -> this.decrement());
-        LOGGER.info("Successfully registered callbacks to game events");
+        LOGGER.info("Registered all callbacks to game events");
     }
 
     /**

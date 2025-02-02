@@ -27,8 +27,8 @@ public class DefaultGameState implements GameState {
      */
     @Override
     public void setupCallbacks(final EventsSubscriber<GameEvent> eventsSubscriber) {
+        LOGGER.info("Setting up game score");
         this.gameScore.registerEventsCallbacks(Objects.requireNonNull(eventsSubscriber), this);
-        LOGGER.info("Successfully st up game score");
     }
 
     /**
