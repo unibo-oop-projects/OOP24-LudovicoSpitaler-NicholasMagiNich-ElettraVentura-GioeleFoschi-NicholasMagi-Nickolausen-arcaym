@@ -1,5 +1,7 @@
 package arcaym.model.game.events.api;
 
+import arcaym.model.game.core.events.api.Event;
+
 /**
  * In-game events.
  */

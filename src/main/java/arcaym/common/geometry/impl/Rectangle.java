@@ -58,28 +58,36 @@ public record Rectangle(Point northEast, Point southWest) {
     }
 
     /**
-     * {@inheritDoc}
+     * Get north west angle.
+     * 
+     * @return angle position
      */
     public Point northWest() {
         return new Point(this.southWest.x(), this.northEast.y());
     }
 
     /**
-     * {@inheritDoc}
+     * Get south east angle.
+     * 
+     * @return angle position
      */
     public Point southEast() {
         return Point.of(this.northEast.x(), this.southWest.y());
     }
 
     /**
-     * {@inheritDoc}
+     * Get base.
+     * 
+     * @return base value
      */
     public double base() {
         return this.southWest.subtract(this.northEast).x();
     }
 
     /**
-     * {@inheritDoc}
+     * Get height.
+     * 
+     * @return height value
      */
     public double height() {
         return this.southWest.subtract(this.northEast).y();

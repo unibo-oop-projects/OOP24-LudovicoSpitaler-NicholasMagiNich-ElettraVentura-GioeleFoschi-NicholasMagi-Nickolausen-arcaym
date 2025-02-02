@@ -12,8 +12,10 @@ import arcaym.view.core.api.WindowInfo;
  * Generic class to represent all the views of the objects implemented via Swing. 
  */
 public class GameObjectView implements ViewComponent<JLabel> {
-
-    private static final double DEFAULT_SCALE = 2;
+    /**
+     * Default image scaling value.
+     */
+    public static final double DEFAULT_SCALE = 1.5;
     private final GameObjectType type;
     private double scale;
 
