@@ -5,20 +5,20 @@ import java.util.Objects;
 /**
  * Basic implementation of a rectangle.
  * 
- * @param northEast north east vertex
- * @param southWest south west vertex
+ * @param northWest north east vertex
+ * @param southEast south west vertex
  */
-public record Rectangle(Point northEast, Point southWest) {
+public record Rectangle(Point northWest, Point southEast) {
 
     /**
      * Create a rectangle with the given vertexes.
      * 
-     * @param northEast north east vertex
-     * @param southWest south west vertex
+     * @param northWest north east vertex
+     * @param southEast south west vertex
      * @return resulting rectangle
      */
-    public static Rectangle of(final Point northEast, final Point southWest) {
-        return new Rectangle(northEast, southWest);
+    public static Rectangle of(final Point northWest, final Point southEast) {
+        return new Rectangle(northWest, southEast);
     }
 
     /**
@@ -37,24 +37,24 @@ public record Rectangle(Point northEast, Point southWest) {
     /**
      * Initialize with given angles.
      * 
-     * @param northEast north east angle
-     * @param southWest south west angle
+     * @param northWest north east angle
+     * @param southEast south west angle
      */
-    public Rectangle(final Point northEast, final Point southWest) {
-        Objects.requireNonNull(northEast);
-        Objects.requireNonNull(southWest);
-        if (northEast.x() > southWest.x() || northEast.y() > southWest.y()) {
+    public Rectangle(final Point northWest, final Point southEast) {
+        Objects.requireNonNull(northWest);
+        Objects.requireNonNull(southEast);
+        if (northWest.x() > southEast.x() || northWest.y() > southEast.y()) {
             throw new IllegalArgumentException(
                 new StringBuilder("Points ")
-                    .append(northEast)
+                    .append(northWest)
                     .append(", ")
-                    .append(southWest)
+                    .append(southEast)
                     .append(" are not valid NE/SW angles")
                     .toString()
             );
         }
-        this.northEast = northEast;
-        this.southWest = southWest;
+        this.northWest = northWest;
+        this.southEast = southEast;
     }
 
     /**
@@ -62,8 +62,8 @@ public record Rectangle(Point northEast, Point southWest) {
      * 
      * @return angle position
      */
-    public Point northWest() {
-        return new Point(this.southWest.x(), this.northEast.y());
+    public Point northEast() {
+        return new Point(this.southEast.x(), this.northWest.y());
     }
 
     /**
@@ -71,8 +71,8 @@ public record Rectangle(Point northEast, Point southWest) {
      * 
      * @return angle position
      */
-    public Point southEast() {
-        return Point.of(this.northEast.x(), this.southWest.y());
+    public Point southWest() {
+        return Point.of(this.northWest.x(), this.southEast.y());
     }
 
     /**
@@ -81,7 +81,7 @@ public record Rectangle(Point northEast, Point southWest) {
      * @return base value
      */
     public double base() {
-        return this.southWest.subtract(this.northEast).x();
+        return this.southEast.subtract(this.northWest).x();
     }
 
     /**
@@ -90,7 +90,7 @@ public record Rectangle(Point northEast, Point southWest) {
      * @return height value
      */
     public double height() {
-        return this.southWest.subtract(this.northEast).y();
+        return this.southEast.subtract(this.northWest).y();
     }
 
 }
