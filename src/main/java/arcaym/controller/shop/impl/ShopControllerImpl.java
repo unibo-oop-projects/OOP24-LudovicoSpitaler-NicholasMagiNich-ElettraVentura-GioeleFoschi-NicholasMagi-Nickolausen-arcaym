@@ -6,7 +6,6 @@ import arcaym.controller.shop.api.ShopController;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.model.shop.api.Shop;
 import arcaym.model.shop.impl.ShopImpl;
-import arcaym.model.user.api.UserState;
 import arcaym.model.user.impl.UserStateImpl;
 
 /**
@@ -15,14 +14,12 @@ import arcaym.model.user.impl.UserStateImpl;
 public class ShopControllerImpl implements ShopController {
 
     private final Shop shopModel;
-    private final UserState userState;
 
     /**
      * Default constructor.
      */
     public ShopControllerImpl() {
         this.shopModel = new ShopImpl();
-        this.userState = new UserStateImpl();
     }
 
     /**
@@ -46,7 +43,7 @@ public class ShopControllerImpl implements ShopController {
      */
     @Override
     public int getUserCredit() {
-        return userState.getCredit();
+        return new UserStateImpl().getCredit();
     }
 
     /**
