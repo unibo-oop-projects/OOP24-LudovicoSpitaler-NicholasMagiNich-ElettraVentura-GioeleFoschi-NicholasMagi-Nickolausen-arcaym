@@ -26,7 +26,7 @@ public interface Grid {
      * Removes every objects from the given positions.
      * Also performs all the checks of the present constraint to see if they are still respected
      * 
-     * @param positions
+     * @param positions positions to remove
      * @throws EditorGridException when removing the positiongiven puts the grid in a inconsistent state
      */
     void removeObjects(Collection<Position> positions) throws EditorGridException;

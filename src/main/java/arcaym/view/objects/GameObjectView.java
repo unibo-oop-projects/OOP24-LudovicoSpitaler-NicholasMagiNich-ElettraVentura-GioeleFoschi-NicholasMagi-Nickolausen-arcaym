@@ -40,6 +40,7 @@ public class GameObjectView implements ViewComponent<JLabel> {
     }
 
     /**
+     * Get object category.
      * 
      * @return the category the game object belongs to
      */

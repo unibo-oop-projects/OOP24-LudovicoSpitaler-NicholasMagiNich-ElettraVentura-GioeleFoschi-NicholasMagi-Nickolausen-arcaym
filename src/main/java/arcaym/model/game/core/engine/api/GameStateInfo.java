@@ -1,5 +1,6 @@
 package arcaym.model.game.core.engine.api;
 
+import arcaym.common.geometry.impl.Rectangle;
 import arcaym.model.game.score.api.GameScoreInfo;
 
 /**
@@ -13,5 +14,12 @@ public interface GameStateInfo {
      * @return game score
      */
     GameScoreInfo score();
+
+    /**
+     * Get rectangle containing the entire level.
+     * 
+     * @return boundaries rectangle
+     */
+    Rectangle boundaries();
 
 }
