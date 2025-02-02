@@ -7,7 +7,7 @@ import arcaym.view.app.api.View;
  * 
  * @param <T> associated view type
  */
-public interface Controller<T extends View> extends ControllerInfo<T> {
+public interface Controller<T extends View> extends ControllerInfo {
 
     /**
      * Set the view associated to this controller.

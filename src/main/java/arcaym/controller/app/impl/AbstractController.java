@@ -1,7 +1,9 @@
 package arcaym.controller.app.impl;
 
 import java.util.Objects;
+import java.util.Optional;
 
+import arcaym.common.utils.Optionals;
 import arcaym.controller.app.api.Controller;
 import arcaym.controller.app.api.ControllerSwitcher;
 import arcaym.view.app.api.View;
@@ -16,6 +18,7 @@ public abstract class AbstractController<T extends View> implements Controller<T
 
     private final ControllerSwitcher switcher;
     private final Runnable backOperation;
+    private Optional<T> view = Optional.empty();
 
     /**
      * Initialize controller with switcher and back operation.
@@ -26,6 +29,23 @@ public abstract class AbstractController<T extends View> implements Controller<T
     public AbstractController(final ControllerSwitcher switcher, final Runnable backOperation) {
         this.switcher = Objects.requireNonNull(switcher);
         this.backOperation = Objects.requireNonNull(backOperation);
+    }
+
+    /**
+     * Get attached view.
+     * 
+     * @return view
+     */
+    protected final T view() {
+        return Optionals.orIllegalState(this.view, "View has not been set");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setView(final T view) {
+        this.view = Optional.of(view);
     }
 
     /**
