@@ -23,7 +23,7 @@ public interface ControllerSwitcher {
      * class EditorControllerImpl implements EditorController {
      *      ...
      *      void play() {
-     *          // is is assumed the class has access to the switcher
+     *          // it is assumed the class has access to the switcher
      *          GameController gameController = // create game controller
      *          switcher.switchTo(gameController, MainView::switchToGame);
      *      }
