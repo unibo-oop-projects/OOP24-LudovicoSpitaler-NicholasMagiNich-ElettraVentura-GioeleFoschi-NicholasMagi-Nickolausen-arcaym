@@ -1,6 +1,13 @@
 package arcaym.view.objects;
 
-import javax.swing.ImageIcon;
+import java.awt.Image;
+import java.io.IOException;
+import java.util.Optional;
+
+import javax.imageio.ImageIO;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import arcaym.model.game.core.objects.api.GameObjectCategory;
 import arcaym.model.game.objects.api.GameObjectType;
@@ -16,13 +23,14 @@ public class GameObjectView extends ImageLabel {
      * Default image scaling value.
      */
     public static final double DEFAULT_SCALE = 1.5;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(GameObjectView.class);
     private final GameObjectType type;
 
     /**
      * Default constructor.
      * 
      * @param type the category (OBSTACLE, WALL, PLAYER...)
-     * @param path the path of the image 
      * @param scaleFactor factor needed to resize the image (default: {@link #DEFAULT_SCALE}) 
      */
     public GameObjectView(final GameObjectType type, final double scaleFactor) {
@@ -52,11 +60,16 @@ public class GameObjectView extends ImageLabel {
      * 
      * @return an image not wrapped in any component
      */
-    public ImageIcon getImage() {
-        return new ImageIcon(SwingUtils.getResource(getImagePath(type)));
+    public Optional<Image> getImage() {
+        try {
+            return Optional.of(ImageIO.read(SwingUtils.getResource(getImagePath(type))));
+        } catch (IOException e) {
+            LOGGER.error("Cannot load game object image!", e);
+            return Optional.empty();
+        }
     }
 
-    private static String getImagePath(GameObjectType type) {
+    private static String getImagePath(final GameObjectType type) {
         return switch (type) {
             case 
                 USER_PLAYER, 
