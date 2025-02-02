@@ -7,7 +7,7 @@ import arcaym.view.app.api.View;
  * 
  * @param <T> associated view type
  */
-public interface Controller<T extends View> {
+public interface Controller<T extends View> extends ControllerInfo<T> {
 
     /**
      * Set the view associated to this controller.
@@ -17,8 +17,8 @@ public interface Controller<T extends View> {
     void setView(T view);
 
     /**
-     * Close the controller.
+     * Perform all operations needed before closing.
      */
-    void close();
+    void dispose();
 
 }

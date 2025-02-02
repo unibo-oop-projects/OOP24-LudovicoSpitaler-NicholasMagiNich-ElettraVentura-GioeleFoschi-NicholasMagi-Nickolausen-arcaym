@@ -37,7 +37,7 @@ public interface ControllerSwitcher {
      * @param controller controller
      * @param viewCreator view creator
      */
-    <V extends View, C extends Controller<V>> void switchTo(C controller, BiFunction<MainView, C, V> viewCreator);
+    <V extends View, C extends ControllerInfo<V>> void switchTo(C controller, BiFunction<MainView, C, V> viewCreator);
 
     /**
      * Call {@link #switchTo(Controller, BiFunction)} using {@link MainView#switchToMenu(MenuController)} to create the view.

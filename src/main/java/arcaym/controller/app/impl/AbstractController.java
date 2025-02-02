@@ -29,9 +29,10 @@ public abstract class AbstractController<T extends View> implements Controller<T
     }
 
     /**
-     * Perform all operations needed before closing.
+     * {@inheritDoc}
      */
-    protected void dispose() { }
+    @Override
+    public void dispose() { }
 
     /**
      * Get controller switcher.

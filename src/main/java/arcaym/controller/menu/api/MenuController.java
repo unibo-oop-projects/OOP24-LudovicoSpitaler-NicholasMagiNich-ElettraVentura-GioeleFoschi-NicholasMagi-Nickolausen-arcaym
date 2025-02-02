@@ -1,6 +1,6 @@
 package arcaym.controller.menu.api;
 
-import arcaym.controller.app.api.Controller;
+import arcaym.controller.app.api.ControllerInfo;
 import arcaym.controller.editor.saves.LevelMetadata;
 import arcaym.model.editor.EditorType;
 import arcaym.view.menu.api.MenuView;
@@ -8,7 +8,7 @@ import arcaym.view.menu.api.MenuView;
 /**
  * Interface for a menu controller.
  */
-public interface MenuController extends Controller<MenuView> {
+public interface MenuController extends ControllerInfo<MenuView> {
 
     /**
      * Open editor from existing metadata.
