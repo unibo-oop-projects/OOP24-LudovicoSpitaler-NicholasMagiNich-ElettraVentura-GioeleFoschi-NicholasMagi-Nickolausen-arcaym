@@ -44,7 +44,9 @@ class TestCartesianEntity<T extends CartesianEntity<T>> {
     void testSum(final CartesianEntityConstructor<T> constructor) {
         final var e1 = constructor.apply(1.0, 2.0);
         final var e2 = constructor.apply(2.0, -1.0);
-        assertEquals(constructor.apply(3.0, 1.0), e1.sum(e2));
+        final var expectedX = 3.0;
+        final var expectedY = 1.0;
+        assertEquals(constructor.apply(expectedX, expectedY), e1.sum(e2));
     }
 
     @ParameterizedTest
@@ -52,7 +54,9 @@ class TestCartesianEntity<T extends CartesianEntity<T>> {
     void testSubtract(final CartesianEntityConstructor<T> constructor) {
         final var e1 = constructor.apply(1.0, 2.0);
         final var e2 = constructor.apply(2.0, -1.0);
-        assertEquals(constructor.apply(-1.0, 3.0), e1.subtract(e2));
+        final var expectedX = -1.0;
+        final var expectedY = 3.0;
+        assertEquals(constructor.apply(expectedX, expectedY), e1.subtract(e2));
     }
 
     @ParameterizedTest
@@ -60,7 +64,9 @@ class TestCartesianEntity<T extends CartesianEntity<T>> {
     void testMultiply(final CartesianEntityConstructor<T> constructor) {
         final var e1 = constructor.apply(2.0, 2.0);
         final var e2 = constructor.apply(3.0, -4.0);
-        assertEquals(constructor.apply(6.0, -8.0), e1.multiply(e2));
+        final var expectedX = 6.0;
+        final var expectedY = -8.0;
+        assertEquals(constructor.apply(expectedX, expectedY), e1.multiply(e2));
     }
 
 }
