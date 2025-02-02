@@ -72,9 +72,9 @@ public record UserStateInfo(
             throw new IllegalArgumentException("Cannot receive negative credit! (Received: " + credit + ")");
         }
         return new UserStateInfo(credit,
-                Collections.unmodifiableSet(this.itemsOwned()),
-                Collections.unmodifiableSet(this.defaultItems()),
-                Collections.unmodifiableSet(this.purchasedItems()));
+                this.itemsOwned(),
+                this.defaultItems(),
+                this.purchasedItems());
     }
 
     /**
@@ -90,8 +90,8 @@ public record UserStateInfo(
         return new UserStateInfo(
                 this.credit(),
                 Objects.requireNonNull(itemsOwned, "Cannot set null set!"),
-                Collections.unmodifiableSet(this.defaultItems()),
-                Collections.unmodifiableSet(this.purchasedItems()));
+                this.defaultItems(),
+                this.purchasedItems());
     }
 
     /**
@@ -106,8 +106,8 @@ public record UserStateInfo(
     public UserStateInfo withPurchasedItems(final Set<GameObjectType> purchasedItems) {
         return new UserStateInfo(
                 this.credit(),
-                Collections.unmodifiableSet(this.itemsOwned()),
-                Collections.unmodifiableSet(this.defaultItems()),
+                this.itemsOwned(),
+                this.defaultItems(),
                 Objects.requireNonNull(purchasedItems, "Cannot set null set!"));
     }
 }

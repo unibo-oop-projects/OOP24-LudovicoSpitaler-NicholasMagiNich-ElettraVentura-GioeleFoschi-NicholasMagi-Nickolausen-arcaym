@@ -1,8 +1,6 @@
 package arcaym.controller.shop.impl;
 
 import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import arcaym.controller.shop.api.ShopController;
 import arcaym.model.game.objects.api.GameObjectType;
@@ -32,14 +30,14 @@ public class ShopControllerImpl implements ShopController {
      */
     @Override
     public boolean requestTransaction(final GameObjectType toBuy) {
-        return shopModel.makeTransaction(toBuy).isPresent();
+        return shopModel.makeTransaction(toBuy);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Map<GameObjectType, Integer> getLockedGameObjects() {
+    public Map<GameObjectType, Integer> getLockedItems() {
         return shopModel.getLockedGameObjects();
     }
 
@@ -47,7 +45,7 @@ public class ShopControllerImpl implements ShopController {
      * {@inheritDoc}
      */
     @Override
-    public int getCredit() {
+    public int getUserCredit() {
         return userState.getCredit();
     }
 
@@ -63,8 +61,7 @@ public class ShopControllerImpl implements ShopController {
      * {@inheritDoc}
      */
     @Override
-    public Map<GameObjectType, Integer> getPurchasedGameObjects() {
-        return userState.getPurchasedItems().stream()
-            .collect(Collectors.toMap(Function.identity(), shopModel::getPriceOf));
+    public Map<GameObjectType, Integer> getPurchasedItems() {
+        return shopModel.getPurchasedGameObjects();
     }
 }

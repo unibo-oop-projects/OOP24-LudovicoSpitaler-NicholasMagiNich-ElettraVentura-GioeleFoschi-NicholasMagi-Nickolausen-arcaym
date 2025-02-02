@@ -1,7 +1,6 @@
 package arcaym.model.shop.api;
 
 import java.util.Map;
-import java.util.Optional;
 
 import arcaym.model.game.objects.api.GameObjectType;
 
@@ -14,11 +13,10 @@ public interface Shop {
      * Attempts to make a transaction.
      * 
      * @param toBuy item to be bought
-     * @return a full optional with the price of the object bought if the transaction ends
-     *         with success,
-     *         an {@link Optional#empty()} otherwise
+     * @return {@code true} if the transaction ends with success, 
+     * {@code false} otherwise
      */
-    Optional<Integer> makeTransaction(GameObjectType toBuy);
+    boolean makeTransaction(GameObjectType toBuy);
 
     /**
      * 
@@ -45,4 +43,11 @@ public interface Shop {
      * @return the price of the item passed as argument
      */
     int getPriceOf(GameObjectType item);
+
+    /**
+     * All the game objects purchased from the shop.
+     * 
+     * @return all the game objects purchased from the shop.
+     */
+    Map<GameObjectType, Integer> getPurchasedGameObjects();
 }

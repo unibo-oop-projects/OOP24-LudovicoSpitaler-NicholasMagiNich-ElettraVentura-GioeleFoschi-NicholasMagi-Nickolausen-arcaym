@@ -3,7 +3,8 @@ package arcaym.model.shop.impl;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Map;
-import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.model.shop.api.Shop;
@@ -41,14 +42,14 @@ public class ShopImpl implements Shop {
      * {@inheritDoc}
      */
     @Override
-    public Optional<Integer> makeTransaction(final GameObjectType toBuy) {
+    public boolean makeTransaction(final GameObjectType toBuy) {
         final int price = lockedObjects.get(toBuy);
         if (canBuy(toBuy)) {
             userState.decrementCredit(price);
             userState.unlockNewItem(toBuy);
-            return Optional.of(price);
+            return true;
         }
-        return Optional.empty();
+        return false;
     }
 
     /**
@@ -80,5 +81,14 @@ public class ShopImpl implements Shop {
             throw new IllegalArgumentException(item + " not included in the purchasable assets collection!");
         }
         return PRICES.get(item);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Map<GameObjectType, Integer> getPurchasedGameObjects() {
+        return userState.getPurchasedItems().stream()
+            .collect(Collectors.toMap(Function.identity(), this::getPriceOf));
     }
 }
