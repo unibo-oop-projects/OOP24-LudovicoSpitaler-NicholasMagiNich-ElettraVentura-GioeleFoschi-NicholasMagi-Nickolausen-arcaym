@@ -5,8 +5,8 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import arcaym.view.core.api.WindowInfo;
 import arcaym.view.core.api.ViewComponent;
+import arcaym.view.core.api.WindowInfo;
 import arcaym.view.utils.SwingUtils;
 
 /**
@@ -51,13 +51,11 @@ public class ImageLabel implements ViewComponent<JLabel> {
         final var label = new JLabel(imageIcon);
         label.setOpaque(false);
         final var image = imageIcon.getImage();
-        if (this.scale != DEFAULT_SCALE) {
-            imageIcon.setImage(image.getScaledInstance(
-                Double.valueOf(image.getWidth(label) * window.ratio().x() * this.scale).intValue(),
-                Double.valueOf(image.getHeight(label) * window.ratio().y() * this.scale).intValue(),
-                Image.SCALE_FAST
-            ));
-        }
+        imageIcon.setImage(image.getScaledInstance(
+            Double.valueOf(image.getWidth(label) * window.ratio().x() * this.scale).intValue(),
+            Double.valueOf(image.getHeight(label) * window.ratio().y() * this.scale).intValue(),
+            Image.SCALE_FAST
+        ));
         return label;
     }
 
