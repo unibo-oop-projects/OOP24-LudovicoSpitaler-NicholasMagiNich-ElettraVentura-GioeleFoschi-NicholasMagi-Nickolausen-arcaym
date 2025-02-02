@@ -1,6 +1,7 @@
 package arcaym.model.game.core.engine.api;
 
 import arcaym.common.geometry.impl.Point;
+import arcaym.common.geometry.impl.Rectangle;
 import arcaym.model.game.objects.api.GameObjectType;
 
 /**
@@ -21,8 +22,9 @@ public interface GameBuilder {
     /**
      * Build game with added objects.
      * 
+     * @param boundaries total level boundaries
      * @return resulting game
      */
-    Game build();
+    Game build(Rectangle boundaries);
 
 }
