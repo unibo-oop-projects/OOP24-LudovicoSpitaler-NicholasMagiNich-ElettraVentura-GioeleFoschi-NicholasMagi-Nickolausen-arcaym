@@ -11,7 +11,7 @@ import arcaym.model.game.core.objects.api.GameObjectsFactory;
 import arcaym.model.game.objects.api.GameObjectType;
 
 /**
- * Implementation of {@link GameObjectFactory}.
+ * Implementation of {@link GameObjectsFactory} using game components.
  */
 public class ComponentsBasedObjectsFactory implements GameObjectsFactory {
     private final double tileSize;
@@ -19,9 +19,9 @@ public class ComponentsBasedObjectsFactory implements GameObjectsFactory {
     private final MovementComponentsFactory movementFactory = new MovementComponentsFactoryImpl();
 
     /**
-     * Contructor receiving tileSize as an argument.
+     * Contructor receiving tile size as an argument.
      * 
-     * @param tileSize
+     * @param tileSize tile size
      */
     public ComponentsBasedObjectsFactory(final int tileSize) {
         this.tileSize = tileSize;
