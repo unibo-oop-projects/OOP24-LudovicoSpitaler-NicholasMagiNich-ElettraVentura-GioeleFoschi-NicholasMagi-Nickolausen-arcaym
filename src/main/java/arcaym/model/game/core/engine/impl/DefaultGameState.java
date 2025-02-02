@@ -24,6 +24,11 @@ public class DefaultGameState implements GameState {
     private final GameScore gameScore = new UnitGameScore(GAME_SCORE_UNIT);
     private final Rectangle boundaries;
 
+    /**
+     * Initialize game state with boundaries.
+     * 
+     * @param boundaries total level boundaries
+     */
     public DefaultGameState(final Rectangle boundaries) {
         this.boundaries = Objects.requireNonNull(boundaries);
     }
