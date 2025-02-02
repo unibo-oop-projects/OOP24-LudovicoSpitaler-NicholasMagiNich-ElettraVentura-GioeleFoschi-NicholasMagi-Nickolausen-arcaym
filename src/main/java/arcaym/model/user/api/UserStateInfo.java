@@ -35,25 +35,31 @@ public record UserStateInfo(
     }
 
     /**
+     * Needed in order to avoid exposing internal representation of fields.
      * 
      * @return an immutable view of defaultItems()
      */
+    @Override
     public Set<GameObjectType> defaultItems() {
         return Collections.unmodifiableSet(defaultItems);
     }
 
     /**
+     * Needed in order to avoid exposing internal representation of fields.
      * 
      * @return an immutable view of purchasedItems()
      */
+    @Override
     public Set<GameObjectType> purchasedItems() {
         return Collections.unmodifiableSet(purchasedItems);
     }
 
     /**
+     * Needed in order to avoid exposing internal representation of fields.
      * 
      * @return an immutable view of itemsOwned()
      */
+    @Override
     public Set<GameObjectType> itemsOwned() {
         return Collections.unmodifiableSet(itemsOwned);
     }
