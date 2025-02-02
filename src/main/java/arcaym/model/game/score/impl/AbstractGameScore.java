@@ -1,5 +1,8 @@
 package arcaym.model.game.score.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import arcaym.common.utils.representation.FieldRepresentation;
 import arcaym.common.utils.representation.StringRepresentation;
 import arcaym.common.utils.representation.TypeRepresentation;
@@ -15,6 +18,8 @@ import arcaym.model.game.score.api.GameScore;
 @TypeRepresentation
 public abstract class AbstractGameScore implements GameScore {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(UnitGameScore.class);
+
     private int value;
 
     /**
@@ -23,7 +28,9 @@ public abstract class AbstractGameScore implements GameScore {
      * @param amount change value
      */
     protected final void changeValue(final int amount) {
+        final var builder = new StringBuilder("Value changed from ").append(this.value);
         this.value += amount;
+        LOGGER.info(builder.append(" to ").append(this.value).toString());
     }
 
     /**
@@ -46,6 +53,7 @@ public abstract class AbstractGameScore implements GameScore {
     ) {
         eventsSubscriber.registerCallback(GameEvent.INCREMENT_SCORE, e -> this.increment());
         eventsSubscriber.registerCallback(GameEvent.DECREMENT_SCORE, e -> this.decrement());
+        LOGGER.info("Registered all callbacks to game events");
     }
 
     /**
