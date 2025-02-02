@@ -11,12 +11,11 @@ import javax.swing.JScrollPane;
 
 import arcaym.controller.editor.saves.LevelMetadata;
 import arcaym.controller.editor.saves.MetadataManagerImpl;
-import arcaym.view.components.CenteredPanel;
 import arcaym.view.core.api.ViewComponent;
 import arcaym.view.core.api.WindowInfo;
 import arcaym.view.utils.SwingUtils;
 
-public class LevelsList implements ViewComponent<JPanel> {
+public class LevelsList implements ViewComponent<JScrollPane> {
 
     private final List<LevelMetadata> levels = new MetadataManagerImpl().loadData();
 
@@ -24,7 +23,7 @@ public class LevelsList implements ViewComponent<JPanel> {
      * {@inheritDoc}
      */
     @Override
-    public JPanel build(final WindowInfo window) {
+    public JScrollPane build(final WindowInfo window) {
         final var mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
         final var gap = SwingUtils.getNormalGap(mainPanel);
@@ -36,7 +35,7 @@ public class LevelsList implements ViewComponent<JPanel> {
             .skip(1)
             .forEach(mainPanel::add);
         mainPanel.setBorder(BorderFactory.createEmptyBorder(gap, gap, gap, gap));
-        return new CenteredPanel().build(window, new JScrollPane(mainPanel));
+        return new JScrollPane(mainPanel);
     }
 
 }

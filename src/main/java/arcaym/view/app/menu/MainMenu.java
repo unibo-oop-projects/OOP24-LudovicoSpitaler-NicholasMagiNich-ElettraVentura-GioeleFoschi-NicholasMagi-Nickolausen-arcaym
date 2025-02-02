@@ -1,5 +1,7 @@
 package arcaym.view.app.menu;
 
+import java.awt.FlowLayout;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
@@ -19,7 +21,7 @@ public class MainMenu implements ViewComponent<JPanel> {
 
     private static final String TITLE_IMAGE = "title.png";
     private static final String SHOP_BUTTON_TEXT = "OPEN SHOP";
-    private static final String CREATE_BUTTON_TEXT = "CREATE NEW LEVEL";
+    private static final String CREATE_BUTTON_TEXT = "NEW LEVEL";
 
     /**
      * {@inheritDoc}
@@ -31,10 +33,8 @@ public class MainMenu implements ViewComponent<JPanel> {
         final var shopButton = new MenuButton(SHOP_BUTTON_TEXT).build(window);
         final var createButton = new MenuButton(CREATE_BUTTON_TEXT).build(window);
         createButton.addActionListener(e -> new CreateLevelDialog().show(window, mainPanel));
-        final var buttonsRow = new JPanel();
-        buttonsRow.setLayout(new BoxLayout(buttonsRow, BoxLayout.LINE_AXIS));
+        final var buttonsRow = new JPanel(new FlowLayout(FlowLayout.CENTER, gap, 0));
         buttonsRow.add(createButton);
-        buttonsRow.add(Box.createHorizontalStrut(gap));
         buttonsRow.add(shopButton);
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
         mainPanel.add(new CenteredPanel().build(window, new ImageLabel(TITLE_IMAGE)));
