@@ -72,14 +72,16 @@ public class GridWithoudUndo implements GridController {
      */
     @Override
     public void play() {
-        final int tileSize = 10;
-        final var gameFactory = new FactoryBasedGameBuilder(new ComponentsBasedObjectsFactory(tileSize)); // 10 is temporary
+        final int tileSize = 10; // temporary value
+        final var gameFactory = new FactoryBasedGameBuilder(new ComponentsBasedObjectsFactory(tileSize));
         final var objectsInPosition = this.grid.getFullMap();
         objectsInPosition.entrySet().forEach(e -> {
             e.getValue()
                 .forEach(type -> gameFactory.addObject(
                     type,
-                    Point.of(e.getKey().x() + tileSize / 2, e.getKey().y() + tileSize / 2))); // dont think this will work
+                    Point.of(
+                        e.getKey().x() * tileSize + tileSize / 2,
+                        e.getKey().y() * tileSize + tileSize / 2)));
         });
         // return gameFactory.build();
     }
