@@ -45,11 +45,12 @@ public abstract class AbstractGameComponent implements GameComponent {
      * {@inheritDoc}
      */
     @Override
-    public void setup(final EventsSubscriber<GameEvent> gameEventsSubscriber,
-            final EventsSubscriber<InputEvent> inputEventsSubscriber,
-            final GameSceneInfo gameScene,
-            final GameStateInfo gameState) {
-    }
+    public void setup(
+        final EventsSubscriber<GameEvent> gameEventsSubscriber,
+        final EventsSubscriber<InputEvent> inputEventsSubscriber,
+        final GameSceneInfo gameScene,
+        final GameStateInfo gameState
+    ) { }
 
     /**
      * {@inheritDoc}

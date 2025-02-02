@@ -39,10 +39,11 @@ public class UniqueComponentsGameObject extends AbstractGameObject implements Co
      */
     @Override
     public void setup(
-            final EventsSubscriber<GameEvent> gameEventsSubscriber,
-            final EventsSubscriber<InputEvent> inputEventsSubscriber,
-            final GameSceneInfo gameScene,
-            final GameStateInfo gameState) {
+        final EventsSubscriber<GameEvent> gameEventsSubscriber,
+        final EventsSubscriber<InputEvent> inputEventsSubscriber,
+        final GameSceneInfo gameScene,
+        final GameStateInfo gameState
+    ) {
         this.components.forEach(c -> c.setup(gameEventsSubscriber, inputEventsSubscriber, gameScene, gameState));
     }
 
@@ -51,10 +52,11 @@ public class UniqueComponentsGameObject extends AbstractGameObject implements Co
      */
     @Override
     public void update(
-            final long deltaTime,
-            final EventsScheduler<GameEvent> eventsScheduler,
-            final GameSceneInfo scene,
-            final GameStateInfo state) {
+        final long deltaTime,
+        final EventsScheduler<GameEvent> eventsScheduler,
+        final GameSceneInfo scene,
+        final GameStateInfo state
+    ) {
         this.components.forEach(c -> c.update(deltaTime, eventsScheduler, scene, state));
     }
 

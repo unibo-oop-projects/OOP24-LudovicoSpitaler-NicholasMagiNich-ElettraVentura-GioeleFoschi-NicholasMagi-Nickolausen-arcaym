@@ -2,8 +2,13 @@ package arcaym.model.game.core.engine.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import arcaym.common.geometry.impl.Point;
+import arcaym.common.geometry.impl.Rectangle;
 import arcaym.model.game.core.engine.api.Game;
 import arcaym.model.game.core.engine.api.GameBuilder;
 import arcaym.model.game.core.scene.api.GameScene;
@@ -15,6 +20,8 @@ import arcaym.model.game.objects.api.GameObjectType;
  * It provides objects addition while leaving scene and game creation.
  */
 public abstract class AbstractGameBuilder implements GameBuilder {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractGameBuilder.class);
 
     private final Collection<CreationInfo> creationEvents = new ArrayList<>();
     private boolean consumed;
@@ -30,9 +37,10 @@ public abstract class AbstractGameBuilder implements GameBuilder {
      * Create game with scene.
      * 
      * @param gameScene game scene
+     * @param boundaries total level boundaries
      * @return resulting game
      */
-    protected abstract Game buildGame(GameScene gameScene);
+    protected abstract Game buildGame(GameScene gameScene, Rectangle boundaries);
 
     /**
      * {@inheritDoc}
@@ -42,7 +50,9 @@ public abstract class AbstractGameBuilder implements GameBuilder {
         if (this.consumed) {
             throw new IllegalStateException("Builder already consumed");
         }
-        this.creationEvents.add(new CreationInfo(type, position));
+        final var event = new CreationInfo(type, position);
+        this.creationEvents.add(event);
+        LOGGER.info(new StringBuilder("Registered creation event ").append(event).toString());
         return this;
     }
 
@@ -50,11 +60,12 @@ public abstract class AbstractGameBuilder implements GameBuilder {
      * {@inheritDoc}
      */
     @Override
-    public Game build() {
+    public Game build(final Rectangle boundaries) {
         this.consumed = true;
         final var scene = this.buildScene();
         this.creationEvents.forEach(scene::scheduleCreation);
-        return this.buildGame(scene);
+        LOGGER.info("Finished scheduling all creation events");
+        return this.buildGame(scene, Objects.requireNonNull(boundaries));
     }
 
 }
