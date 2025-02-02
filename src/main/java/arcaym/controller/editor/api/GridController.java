@@ -21,8 +21,8 @@ public interface GridController {
 
     /**
      * Updates the selected object.
-     * This will be the object placed in the grid in the next {@link #applyChange()}
-     * @param object
+     * This will be the object placed in the grid in the next {@link #applyChange(Collection)}
+     * @param object game object type
      */
     void setSelectedObject(GameObjectType object);
 
@@ -41,6 +41,7 @@ public interface GridController {
      * Ereases every object in the selected position.
      * 
      * @param positions the selected positions
+     * @throws EditorGridException if a constraint is not respected
      */
     void eraseArea(Collection<Position> positions) throws EditorGridException;
 
@@ -49,6 +50,7 @@ public interface GridController {
      * modifies the grid accordingly by adding / replacing objects inside.
      * 
      * @param positions The collection of position to change
+     * @throws EditorGridException if a constraint is not respected
      */
     void applyChange(Collection<Position> positions) throws EditorGridException;
 

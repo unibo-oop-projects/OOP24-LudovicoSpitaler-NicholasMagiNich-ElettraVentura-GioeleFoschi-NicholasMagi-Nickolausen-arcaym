@@ -17,7 +17,7 @@ import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.objects.api.GameObjectType;
 
 /**
- * Implementation of a {@link CollisionComponentFactory}.
+ * Implementation of a {@link CollisionComponentsFactory}.
  */
 public class CollisionComponentsFactoryImpl implements CollisionComponentsFactory {
 
