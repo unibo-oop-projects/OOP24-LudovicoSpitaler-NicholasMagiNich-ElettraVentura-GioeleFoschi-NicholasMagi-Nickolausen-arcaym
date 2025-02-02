@@ -2,11 +2,13 @@ package arcaym.model.game.core.engine.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import arcaym.common.geometry.impl.Point;
+import arcaym.common.geometry.impl.Rectangle;
 import arcaym.model.game.core.engine.api.Game;
 import arcaym.model.game.core.engine.api.GameBuilder;
 import arcaym.model.game.core.scene.api.GameScene;
@@ -35,9 +37,10 @@ public abstract class AbstractGameBuilder implements GameBuilder {
      * Create game with scene.
      * 
      * @param gameScene game scene
+     * @param boundaries total level boundaries
      * @return resulting game
      */
-    protected abstract Game buildGame(GameScene gameScene);
+    protected abstract Game buildGame(GameScene gameScene, Rectangle boundaries);
 
     /**
      * {@inheritDoc}
@@ -57,12 +60,12 @@ public abstract class AbstractGameBuilder implements GameBuilder {
      * {@inheritDoc}
      */
     @Override
-    public Game build() {
+    public Game build(final Rectangle boundaries) {
         this.consumed = true;
         final var scene = this.buildScene();
         this.creationEvents.forEach(scene::scheduleCreation);
         LOGGER.info("Finished scheduling all creation events");
-        return this.buildGame(scene);
+        return this.buildGame(scene, Objects.requireNonNull(boundaries));
     }
 
 }
