@@ -11,7 +11,7 @@ public interface MovementComponentsFactory {
     /**
      * Handles movement from input.
      * 
-     * @param gameObject
+     * @param gameObject game object
      * @return said behaviour as a game component
      */
     GameComponent fromInputMovement(UniqueComponentsGameObject gameObject);
@@ -19,7 +19,7 @@ public interface MovementComponentsFactory {
     /**
      * Handles automatic patrolling movement on X axis.
      * 
-     * @param gameObject
+     * @param gameObject game object
      * @return said behaviour as a game component
      */
     GameComponent automaticXMovement(UniqueComponentsGameObject gameObject);
@@ -27,7 +27,7 @@ public interface MovementComponentsFactory {
     /**
      * Handles automatic patrolling movement on Y axis.
      * 
-     * @param gameObject
+     * @param gameObject game object
      * @return said behaviour as a game component
      */
     GameComponent automaticYMovement(UniqueComponentsGameObject gameObject);

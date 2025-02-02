@@ -40,6 +40,7 @@ public class GameObjectView extends ImageLabel {
     }
 
     /**
+     * Get object category.
      * 
      * @return the category the game object belongs to
      */
