@@ -26,4 +26,9 @@ public interface MenuControllerInfo extends ControllerInfo {
      */
     void createEditor(String name, int width, int height, EditorType type);
 
+    /**
+     * Open shop.
+     */
+    void openShop();
+
 }
