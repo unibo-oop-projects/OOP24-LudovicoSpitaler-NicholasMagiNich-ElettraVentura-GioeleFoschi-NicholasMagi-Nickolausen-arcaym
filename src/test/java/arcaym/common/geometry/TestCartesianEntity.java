@@ -55,7 +55,6 @@ class TestCartesianEntity<T extends CartesianEntity<T>> {
         assertEquals(constructor.apply(-1.0, 3.0), e1.subtract(e2));
     }
 
-    // CHECKSTYLE: MagicNumber OFF
     @ParameterizedTest
     @ArgumentsSource(CartesianEntitiesProvider.class)
     void testMultiply(final CartesianEntityConstructor<T> constructor) {
@@ -63,6 +62,5 @@ class TestCartesianEntity<T extends CartesianEntity<T>> {
         final var e2 = constructor.apply(3.0, -4.0);
         assertEquals(constructor.apply(6.0, -8.0), e1.multiply(e2));
     }
-    // CHECKSTYLE: MagicNumber ON
 
 }
