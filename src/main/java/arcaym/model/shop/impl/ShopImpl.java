@@ -64,6 +64,9 @@ public class ShopImpl implements Shop {
      */
     @Override
     public boolean canBuy(final GameObjectType item) {
+        if (!lockedObjects.containsKey(item)) {
+            return false;
+        }
         final int price = lockedObjects.get(item);
         return !userState.getItemsOwned().contains(item) && userState.getCredit() - price >= 0;
     }
