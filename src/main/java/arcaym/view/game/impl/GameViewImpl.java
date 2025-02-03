@@ -36,6 +36,7 @@ import arcaym.view.app.impl.AbstractView;
 import arcaym.view.core.api.ViewComponent;
 import arcaym.view.core.api.WindowInfo;
 import arcaym.view.game.api.GameView;
+import arcaym.view.objects.GameObjectView;
 import arcaym.view.utils.SwingUtils;
 
 /**
@@ -107,7 +108,7 @@ public class GameViewImpl extends AbstractView<GameController> implements GameVi
          * @param gameObject
          */
         public void createObject(final GameObjectInfo gameObject) {
-            // this.gameMap.add(gameObject);
+            gameMap.put(gameObject,new GameObjectView(gameObject.type()).getImage().get());
             this.repaint();
         }
 
