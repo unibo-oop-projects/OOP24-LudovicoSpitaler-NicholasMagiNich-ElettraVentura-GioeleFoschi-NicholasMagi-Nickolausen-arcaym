@@ -50,6 +50,12 @@ public interface GridModel {
     Map<Position, List<GameObjectType>> getUpdatedGrid();
 
     /**
+     * Returns a map representing the whole map.
+     * @return A map where to each position corresponds a list of game objects in that position
+     */
+    Map<Position, List<GameObjectType>> getFullMap();
+
+    /**
      * Saves the current state of the grid in a file for later use.
      * @param uuid The name of the file.
      * @return Returns true if the file was saved successfully
