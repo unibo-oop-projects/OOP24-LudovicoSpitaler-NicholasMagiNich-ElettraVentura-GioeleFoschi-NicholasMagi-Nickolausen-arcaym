@@ -11,33 +11,22 @@ import javax.swing.JScrollPane;
 
 import arcaym.controller.editor.saves.LevelMetadata;
 import arcaym.controller.editor.saves.MetadataManagerImpl;
-import arcaym.view.app.impl.SwitchablePanel;
-import arcaym.view.app.impl.Switcher;
-import arcaym.view.components.CenteredPanel;
+import arcaym.view.core.api.ViewComponent;
 import arcaym.view.core.api.WindowInfo;
 import arcaym.view.utils.SwingUtils;
 
 /**
- * View for a levels panel.
+ * View of all the saved levels.
  */
-public class LevelsPanel extends SwitchablePanel {
+public class LevelsList implements ViewComponent<JScrollPane> {
 
     private final List<LevelMetadata> levels = new MetadataManagerImpl().loadData();
-
-    /**
-     * Initialize with given switcher.
-     * 
-     * @param switcher switcher function
-     */
-    public LevelsPanel(final Switcher switcher) {
-        super(switcher);
-    }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public JPanel build(final WindowInfo window) {
+    public JScrollPane build(final WindowInfo window) {
         final var mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
         final var gap = SwingUtils.getNormalGap(mainPanel);
@@ -49,7 +38,7 @@ public class LevelsPanel extends SwitchablePanel {
             .skip(1)
             .forEach(mainPanel::add);
         mainPanel.setBorder(BorderFactory.createEmptyBorder(gap, gap, gap, gap));
-        return new CenteredPanel().build(window, new JScrollPane(mainPanel));
+        return new JScrollPane(mainPanel);
     }
 
 }

@@ -2,6 +2,7 @@ package arcaym.view.menu.impl;
 
 import java.awt.BorderLayout;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -18,6 +19,8 @@ import arcaym.view.utils.SwingUtils;
  * View for a {@link LevelMetadata}.
  */
 public class LevelCard implements ViewComponent<JButton> {
+
+    private static final String KEY_DIVISOR = ": ";
 
     private final LevelMetadata metadata;
 
@@ -45,11 +48,11 @@ public class LevelCard implements ViewComponent<JButton> {
         infoPanel.setOpaque(false);
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.PAGE_AXIS));
         infoPanel.add(Box.createVerticalGlue());
-        infoPanel.add(new JLabel("ID: " + this.metadata.uuid()));
+        infoPanel.add(this.buildLine("ID", this.metadata.uuid()));
         infoPanel.add(Box.createVerticalStrut(littleGap));
-        infoPanel.add(new JLabel("Size: " + this.metadata.size().x() + "x" + this.metadata.size().y()));
+        infoPanel.add(this.buildLine("Size", "x", this.metadata.size().x(), this.metadata.size().y()));
         infoPanel.add(Box.createVerticalStrut(littleGap));
-        infoPanel.add(new JLabel("Type: " + this.metadata.type().name()));
+        infoPanel.add(this.buildLine("Type", this.metadata.type().name()));
         infoPanel.add(Box.createVerticalGlue());
 
         button.setLayout(new BorderLayout());
@@ -62,6 +65,19 @@ public class LevelCard implements ViewComponent<JButton> {
         });
 
         return button;
+    }
+
+    private JLabel buildLine(final String key, final Object value) {
+        return this.buildLine(key, "", value);
+    }
+
+    private JLabel buildLine(final String key, final String valuesDivisor, final Object... values) {
+        return new JLabel(
+            new StringBuilder(key)
+                .append(KEY_DIVISOR)
+                .append(String.join(valuesDivisor, Stream.of(values).map(String::valueOf).toList()))
+                .toString()
+        );
     }
 
 }
