@@ -37,11 +37,21 @@ public class ShopView implements ViewComponent<JPanel> {
     private static final String SHOP_TITLE = "SHOP";
     private static final String BUY_BUTTON = "PURCHASE";
     private static final String BACK_TO_MAIN_PAGE = "BACK TO MENU";
-    private final ShopController controller = new ShopControllerImpl();
+    private final ShopController controller; // constructor
+
     // private final MainController mainController;
     private final BiMap<JButton, ProductInfo> productsMap = HashBiMap.create();
     private Optional<ProductInfo> selected = Optional.empty();
     private JButton buyButton;
+
+    /**
+     * Basic constructor for shop view.
+     * 
+     * @param controller
+     */
+    public ShopView(final ShopControllerImpl controller) {
+        this.controller = controller;
+    }
 
     /**
      * {@inheritDoc}
@@ -208,14 +218,5 @@ public class ShopView implements ViewComponent<JPanel> {
                 product.getKey().setBackground(Color.RED);
             }
         });
-    }
-
-    /**
-     * Debug only.
-     * 
-     * @param args args
-     */
-    public static void main(final String[] args) {
-        SwingUtils.testComponent(new ShopView()::build);
     }
 }
