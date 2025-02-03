@@ -1,11 +1,9 @@
 package arcaym.view.game.impl;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -20,7 +18,6 @@ import arcaym.model.game.core.objects.api.GameObjectInfo;
 public class GamePanel extends JPanel {
     private final static long serialVersionUID = 1L;
     private final Rectangle boundaries;
-    private Optional<Dimension> dim = Optional.empty();
     private final ConcurrentMap<GameObjectInfo, Image> gameMap = new ConcurrentHashMap<>();
 
     /**
@@ -44,20 +41,19 @@ public class GamePanel extends JPanel {
         g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
         g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
         this.gameMap.entrySet().stream().forEach(entry -> {
-            g2d.drawImage(entry.getValue(), Double.valueOf(entry.getKey().boundaries().northWest().x()*scale).intValue(), // boundaries?
-            Double.valueOf(entry.getKey().boundaries().northWest().y()*scale).intValue(),
-                    Double.valueOf(entry.getKey().boundaries().base()*scale).intValue(), //to fix 
-                    Double.valueOf(entry.getKey().boundaries().height()*scale).intValue(), null);
+            g2d.drawImage(entry.getValue(),
+                    Double.valueOf(entry.getKey().boundaries().northWest().x() * scale).intValue(),
+                    Double.valueOf(entry.getKey().boundaries().northWest().y() * scale).intValue(),
+                    Double.valueOf(entry.getKey().boundaries().base() * scale).intValue(),
+                    Double.valueOf(entry.getKey().boundaries().height() * scale).intValue(), null);
         });
-        //g2d.drawString("Score : ", 0, 0);
         g2d.dispose();
     }
 
     private double calculateScale() {
         return Math.min(
-            this.getSize().getHeight() / boundaries.height(),
-            this.getSize().getWidth() / boundaries.base()
-        );
+                this.getSize().getHeight() / boundaries.height(),
+                this.getSize().getWidth() / boundaries.base());
     }
 
     /**

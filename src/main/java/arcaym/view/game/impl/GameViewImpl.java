@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.Optional;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import javax.swing.AbstractAction;
@@ -12,11 +13,11 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
-import arcaym.common.utils.Optionals;
-import arcaym.model.game.core.engine.api.Game;
+import arcaym.controller.game.api.GameController;
 import arcaym.model.game.core.engine.api.GameStateInfo;
 import arcaym.model.game.core.events.api.EventsScheduler;
 import arcaym.model.game.core.events.api.EventsSubscriber;
@@ -24,6 +25,7 @@ import arcaym.model.game.core.objects.api.GameObjectInfo;
 import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.events.api.InputType;
 import arcaym.model.game.events.impl.InputEvent;
+import arcaym.view.app.impl.AbstractView;
 import arcaym.view.core.api.ViewComponent;
 import arcaym.view.core.api.WindowInfo;
 import arcaym.view.game.api.GameView;
@@ -32,16 +34,14 @@ import arcaym.view.utils.SwingUtils;
 /**
  * Implementation of {@link GameView}.
  */
-public class GameViewImpl implements GameView, ViewComponent<JPanel> {
+public class GameViewImpl extends AbstractView<GameController> implements GameView, ViewComponent<JPanel> {
     private static final int SCALE = 2;
     private static final int KEY_UP = KeyEvent.VK_W;
     private static final int KEY_DOWN = KeyEvent.VK_S;
     private static final int KEY_LEFT = KeyEvent.VK_A;
     private static final int KEY_RIGHT = KeyEvent.VK_D;
-    private final Game game; // Gamecontroller placeholder
-    private Optional<Runnable> scoreUpdaterOperation = Optional.empty();
     private Optional<Consumer<JPanel>> setKeyBindings = Optional.empty();
-    private Optional<Consumer<JPanel>> setGameEventReaction = Optional.empty();
+    private Optional<BiConsumer<JPanel, JLabel>> setGameEventReaction = Optional.empty();
     private Optional<GamePanel> gamePanel = Optional.empty();
 
     /**
@@ -49,8 +49,8 @@ public class GameViewImpl implements GameView, ViewComponent<JPanel> {
      * 
      * @param game
      */
-    public GameViewImpl(final Game game) {
-        this.game = game;
+    public GameViewImpl(final GameController controller) {
+        super(controller);
     }
 
     /**
@@ -58,28 +58,26 @@ public class GameViewImpl implements GameView, ViewComponent<JPanel> {
      */
     @Override
     public JPanel build(final WindowInfo window) {
+        // These operations must be setted before the build starts
         if (setGameEventReaction.isEmpty() || setKeyBindings.isEmpty()) {
-            throw new IllegalStateException();
+            throw new IllegalStateException("Operation not initialized.");
         }
         final JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
+        // The header contains the game score
         final JPanel header = new JPanel();
         header.setBackground(Color.WHITE);
         header.setLayout(new BoxLayout(header, BoxLayout.LINE_AXIS));
-        final GamePanel gameContentPanel = new GamePanel(game.state().boundaries());
+        // The gameContentPanel contains the game view (with the game objects)
+        final GamePanel gameContentPanel = new GamePanel(this.controller().getGameState().boundaries());
         gamePanel = Optional.of(gameContentPanel);
-        // Binding the operations of GameEventsReaction and KeyBindings to the panel of
-        // the game view.
-        getOperation(setGameEventReaction).accept(mainPanel);
-        getOperation(setKeyBindings).accept(mainPanel);
+        // accepts the key bindings setup on the main panel
+        setKeyBindings.get().accept(mainPanel);
+        // score label
         final JLabel score = new JLabel();
         SwingUtils.changeFontSize(score, SCALE);
-        // In a similar way to the redraw operation, the score updater operation has
-        // access to the score label.
-        scoreUpdaterOperation = Optional.of(() -> {
-            scoreUpdateLabel(score, game.state().score().getValue());
-        });
-        getOperation(scoreUpdaterOperation).run();
+        scoreUpdateLabel(score);
+        setGameEventReaction.get().accept(gameContentPanel, score);
         header.add(Box.createHorizontalStrut(SwingUtils.getNormalGap(header)));
         header.add(score);
         mainPanel.add(header, BorderLayout.NORTH);
@@ -87,8 +85,8 @@ public class GameViewImpl implements GameView, ViewComponent<JPanel> {
         return mainPanel;
     }
 
-    private void scoreUpdateLabel(final JLabel score, final Integer scoreValue) {
-        score.setText("SCORE : " + scoreValue);
+    private void scoreUpdateLabel(final JLabel score) {
+        score.setText("SCORE : " + this.controller().getGameState().score().getValue());
     }
 
     /**
@@ -98,23 +96,20 @@ public class GameViewImpl implements GameView, ViewComponent<JPanel> {
     public void registerEventsCallbacks(final EventsSubscriber<GameEvent> eventsSubscriber,
             final GameStateInfo gameState) {
         // This method will be called before build().
-        eventsSubscriber.registerCallback(GameEvent.GAME_OVER,
-                (gameEvent) -> setGameEventReaction = Optional.of((out) -> {
-                    final JLabel message = new JLabel(gameEvent.name());
-                    out.add(message, BorderLayout.CENTER);
-                }));
-        eventsSubscriber.registerCallback(GameEvent.INCREMENT_SCORE, (gameEvent) -> {
-            getOperation(scoreUpdaterOperation).run();
+        setGameEventReaction = Optional.of((gamePanel, scoreLabel) -> {
+            eventsSubscriber.registerCallback(GameEvent.GAME_OVER, (gameEvent) -> {
+                JOptionPane.showMessageDialog(gamePanel, gameEvent.name());
+            });
+            eventsSubscriber.registerCallback(GameEvent.DECREMENT_SCORE, (gameEvent) -> {
+                scoreUpdateLabel(scoreLabel);
+            });
+            eventsSubscriber.registerCallback(GameEvent.INCREMENT_SCORE, (gameEvent) -> {
+                scoreUpdateLabel(scoreLabel);
+            });
+            eventsSubscriber.registerCallback(GameEvent.VICTORY, (gameEvent) -> {
+                JOptionPane.showMessageDialog(gamePanel, gameEvent.name());
+            });
         });
-        eventsSubscriber.registerCallback(GameEvent.DECREMENT_SCORE, (gameEvent) -> {
-            getOperation(scoreUpdaterOperation).run();
-        });
-        // The operation changes when the event is called, as its callback.
-        eventsSubscriber.registerCallback(GameEvent.VICTORY,
-                (gameEvent) -> setGameEventReaction = Optional.of((out) -> {
-                    final JLabel message = new JLabel(gameEvent.name());
-                    out.add(message, BorderLayout.CENTER);
-                }));
     }
 
     /**
@@ -182,10 +177,6 @@ public class GameViewImpl implements GameView, ViewComponent<JPanel> {
     @Override
     public void updateObject(final GameObjectInfo gameObject) {
         this.gamePanel.ifPresent((panel) -> panel.updateObject(gameObject));
-    }
-
-    private <T> T getOperation(final Optional<T> operation) {
-        return Optionals.orIllegalState(operation, "Illegal operation");
     }
 
     /**
