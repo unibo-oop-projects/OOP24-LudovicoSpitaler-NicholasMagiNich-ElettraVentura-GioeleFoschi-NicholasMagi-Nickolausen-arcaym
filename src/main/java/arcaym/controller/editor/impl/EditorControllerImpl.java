@@ -33,7 +33,7 @@ import arcaym.view.editor.api.EditorView;
 /**
  * Implementation of {@link EditorController}.
  */
-public class EditorControllerInfoImpl extends AbstractController<EditorView> implements EditorController {
+public class EditorControllerImpl extends AbstractController<EditorView> implements EditorController {
 
     private final UserStateInfo userState;
     private final LevelMetadata metadata;
@@ -50,7 +50,7 @@ public class EditorControllerInfoImpl extends AbstractController<EditorView> imp
      * @param name The name to give to the level
      * @param switcher Used to change the active controller
      */
-    public EditorControllerInfoImpl(
+    public EditorControllerImpl(
         final int x, 
         final int y, 
         final EditorType type,
@@ -73,7 +73,7 @@ public class EditorControllerInfoImpl extends AbstractController<EditorView> imp
      * @param metadata The object with internal data.
      * @param switcher Used to change the active controller
      */
-    public EditorControllerInfoImpl(
+    public EditorControllerImpl(
         final LevelMetadata metadata,
         final ControllerSwitcher switcher) {
         super(switcher);
