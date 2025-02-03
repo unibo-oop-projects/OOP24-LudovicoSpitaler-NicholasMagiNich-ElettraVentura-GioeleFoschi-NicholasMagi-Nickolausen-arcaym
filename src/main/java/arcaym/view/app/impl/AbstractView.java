@@ -2,7 +2,7 @@ package arcaym.view.app.impl;
 
 import java.util.Objects;
 
-import arcaym.controller.app.api.ControllerInfo;
+import arcaym.controller.app.api.Controller;
 import arcaym.view.app.api.View;
 
 /**
@@ -11,7 +11,7 @@ import arcaym.view.app.api.View;
  * 
  * @param <C> controller type
  */
-public class AbstractView<C extends ControllerInfo> implements View {
+public class AbstractView<C extends Controller> implements View {
 
     private final C controller;
 

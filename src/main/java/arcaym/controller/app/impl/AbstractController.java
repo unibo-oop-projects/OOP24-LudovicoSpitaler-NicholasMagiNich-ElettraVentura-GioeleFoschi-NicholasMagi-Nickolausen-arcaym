@@ -4,17 +4,17 @@ import java.util.Objects;
 import java.util.Optional;
 
 import arcaym.common.utils.Optionals;
-import arcaym.controller.app.api.Controller;
 import arcaym.controller.app.api.ControllerSwitcher;
+import arcaym.controller.app.api.ExtendedController;
 import arcaym.view.app.api.View;
 
 /**
- * Abstract implementation of {@link Controller}.
+ * Abstract implementation of {@link ExtendedController}.
  * It provides the controller switcher access while leaving the logic.
  * 
  * @param <T> associated view type
  */
-public abstract class AbstractController<T extends View> implements Controller<T> {
+public abstract class AbstractController<T extends View> implements ExtendedController<T> {
 
     private final ControllerSwitcher switcher;
     private final Runnable backOperation;

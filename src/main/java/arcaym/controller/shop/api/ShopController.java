@@ -5,13 +5,11 @@ import java.util.Map;
 import arcaym.controller.app.api.Controller;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.model.shop.api.Shop;
-import arcaym.view.shop.api.ShopView;
 
 /**
- import java.util.Map;
  * Interface for a shop controller.
  */
-public interface ShopController extends Controller<ShopView>, ShopControllerInfo {
+public interface ShopController extends Controller {
 
     /**
      * Request transaction to the shop model.
@@ -45,4 +43,5 @@ public interface ShopController extends Controller<ShopView>, ShopControllerInfo
      * @return the amount of credit the user can spend.
      */
     int getUserCredit();
+
 }

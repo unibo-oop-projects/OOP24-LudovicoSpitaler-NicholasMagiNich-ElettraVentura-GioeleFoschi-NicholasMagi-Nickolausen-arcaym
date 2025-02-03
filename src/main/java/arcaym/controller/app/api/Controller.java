@@ -1,24 +1,13 @@
 package arcaym.controller.app.api;
 
-import arcaym.view.app.api.View;
-
 /**
  * Interface for a generic controller.
- * 
- * @param <T> associated view type
  */
-public interface Controller<T extends View> extends ControllerInfo {
+public interface Controller {
 
     /**
-     * Set the view associated to this controller.
-     * 
-     * @param view view
+     * Close the controller.
      */
-    void setView(T view);
-
-    /**
-     * Perform all operations needed before closing.
-     */
-    void dispose();
+    void close();
 
 }
