@@ -40,7 +40,8 @@ public interface ControllerSwitcher {
     <V extends View, C extends ExtendedController<V>> void switchTo(C controller, BiFunction<MainView, C, V> viewCreator);
 
     /**
-     * Call {@link #switchTo(ExtendedController, BiFunction)} using {@link MainView#switchToMenu(ExtendedMenuController)} to create the view.
+     * Call {@link #switchTo(ExtendedController, BiFunction)} using 
+     * {@link MainView#switchToMenu(ExtendedMenuController)} to create the view.
      * 
      * @param controller menu controller
      */
@@ -49,7 +50,8 @@ public interface ControllerSwitcher {
     }
 
     /**
-     * Call {@link #switchTo(ExtendedController, BiFunction)} using {@link MainView#switchToEditor(ExtendedEditorController)} to create the view.
+     * Call {@link #switchTo(ExtendedController, BiFunction)} using 
+     * {@link MainView#switchToEditor(ExtendedEditorController)} to create the view.
      * 
      * @param controller editor controller
      */
@@ -58,7 +60,8 @@ public interface ControllerSwitcher {
     }
 
     /**
-     * Call {@link #switchTo(ExtendedController, BiFunction)} using {@link MainView#switchToGame(ExtendedGameController)} to create the view.
+     * Call {@link #switchTo(ExtendedController, BiFunction)} using 
+     * {@link MainView#switchToGame(ExtendedGameController)} to create the view.
      * 
      * @param controller game controller
      */
