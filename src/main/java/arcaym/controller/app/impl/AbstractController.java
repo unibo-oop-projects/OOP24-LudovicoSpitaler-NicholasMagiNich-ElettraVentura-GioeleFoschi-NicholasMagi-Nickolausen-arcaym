@@ -20,7 +20,7 @@ public abstract class AbstractController<T extends View> implements ExtendedCont
     private Optional<T> view = Optional.empty();
 
     /**
-     * Initialize controller with switcher and back operation.
+     * Initialize controller with switcher.
      * 
      * @param switcher controller switcher
      */
