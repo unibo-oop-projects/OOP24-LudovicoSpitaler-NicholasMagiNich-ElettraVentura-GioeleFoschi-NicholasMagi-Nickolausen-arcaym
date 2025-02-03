@@ -1,4 +1,4 @@
-package arcaym.view.app.menu.levels;
+package arcaym.view.menu.impl;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -11,8 +11,8 @@ import javax.swing.JScrollPane;
 
 import arcaym.controller.editor.saves.LevelMetadata;
 import arcaym.controller.editor.saves.MetadataManagerImpl;
-import arcaym.view.app.panels.SwitchablePanel;
-import arcaym.view.app.panels.Switcher;
+import arcaym.view.app.impl.SwitchablePanel;
+import arcaym.view.app.impl.Switcher;
 import arcaym.view.components.CenteredPanel;
 import arcaym.view.core.api.WindowInfo;
 import arcaym.view.utils.SwingUtils;
