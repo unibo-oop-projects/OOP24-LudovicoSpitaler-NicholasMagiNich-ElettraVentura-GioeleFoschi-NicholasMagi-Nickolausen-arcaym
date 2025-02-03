@@ -10,6 +10,7 @@ import java.util.UUID;
 import java.util.function.Consumer;
 
 import arcaym.common.geometry.impl.Point;
+import arcaym.common.geometry.impl.Rectangle;
 import arcaym.common.utils.Optionals;
 import arcaym.common.utils.Position;
 import arcaym.controller.app.api.ControllerSwitcher;
@@ -17,6 +18,7 @@ import arcaym.controller.app.impl.AbstractController;
 import arcaym.controller.editor.api.EditorController;
 import arcaym.controller.editor.saves.LevelMetadata;
 import arcaym.controller.editor.saves.MetadataManagerImpl;
+import arcaym.controller.game.impl.GameControllerImpl;
 import arcaym.controller.user.impl.UserStateSerializerImpl;
 import arcaym.model.editor.EditorGridException;
 import arcaym.model.editor.EditorType;
@@ -118,12 +120,14 @@ public class EditorControllerInfoImpl extends AbstractController<EditorView> imp
                         e.getKey().x() * tileSize + tileSize / 2,
                         e.getKey().y() * tileSize + tileSize / 2)));
         });
-        // this.switcher().switchToGame(gameFactory.build(
-        //     new Rectangle(
-        //         Point.of(0, 0),
-        //         Point.of(
-        //             (this.metadata.size().x() + 1) * tileSize,
-        //             (this.metadata.size().y() + 1) * tileSize))), this.switcher());
+        this.switcher().switchToGame(new GameControllerImpl(
+            gameFactory.build(
+                new Rectangle(
+                    Point.of(0, 0),
+                    Point.of(
+                        (this.metadata.size().x() + 1) * tileSize,
+                        (this.metadata.size().y() + 1) * tileSize))),
+            this.switcher()));
     }
 
     /**

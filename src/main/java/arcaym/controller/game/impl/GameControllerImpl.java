@@ -3,6 +3,7 @@ package arcaym.controller.game.impl;
 import arcaym.controller.app.api.ControllerSwitcher;
 import arcaym.controller.app.impl.AbstractController;
 import arcaym.controller.game.api.ExtendedGameController;
+import arcaym.controller.game.api.GameController;
 import arcaym.model.game.core.engine.api.Game;
 import arcaym.model.game.core.engine.api.GameStateInfo;
 import arcaym.view.game.api.GameView;
@@ -17,10 +18,10 @@ public class GameControllerImpl extends AbstractController<GameView> implements 
     /**
      * Basic contructor of GameControllerImpl.
      * 
-     * @param switcher that changes the Controller in charge
      * @param game game
+     * @param switcher that changes the Controller in charge
      */
-    public GameControllerImpl(final ControllerSwitcher switcher, final Game game) {
+    public GameControllerImpl(final Game game, final ControllerSwitcher switcher) {
         super(switcher);
         this.game = game;
     }
