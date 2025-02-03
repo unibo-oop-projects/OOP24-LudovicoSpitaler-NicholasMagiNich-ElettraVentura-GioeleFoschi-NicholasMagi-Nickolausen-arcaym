@@ -12,9 +12,7 @@ import arcaym.view.menu.api.MenuView;
 /**
  * Implementation of {@link ExtendedMenuController}.
  */
-public class MenuControllerImpl 
-    extends AbstractController<MenuView>
-    implements ExtendedMenuController {
+public class MenuControllerImpl extends AbstractController<MenuView> implements ExtendedMenuController {
 
     /**
      * Initialize menu.
