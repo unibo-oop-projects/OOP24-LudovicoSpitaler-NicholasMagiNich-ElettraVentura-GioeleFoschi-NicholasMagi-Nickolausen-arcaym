@@ -78,7 +78,6 @@ public class ShopViewImpl extends AbstractView<ShopController> implements ViewCo
         contentPanel.add(Box.createVerticalStrut(gap));
         this.buyButton = new JButton(BUY_BUTTON);
         buyButton.setEnabled(false);
-
         buyButton.addActionListener(a -> {
             if (selected.isPresent() && controller().requestTransaction(selected.get().type())) {
                 updateCreditLable(userCredit);
@@ -86,7 +85,6 @@ public class ShopViewImpl extends AbstractView<ShopController> implements ViewCo
                 productsMap.inverse().get(selected.get()).setBackground(Color.WHITE);
                 productsMap.inverse().get(selected.get()).setEnabled(false);
                 selected = Optional.empty();
-
                 setAvailableButtons();
             }
         });
@@ -114,16 +112,13 @@ public class ShopViewImpl extends AbstractView<ShopController> implements ViewCo
     private JPanel createCategoryCard(final WindowInfo window, final GameObjectCategory category) {
         final JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.PAGE_AXIS));
-
         final JLabel titleLabel = new JLabel("NEW " + category.name() + "S");
         SwingUtils.changeFontSize(titleLabel, SCALE);
         final JPanel title = new CenteredPanel().build(window, titleLabel);
         title.setBackground(Color.WHITE);
         card.add(title);
-
         final JPanel showItemsPanel = new JPanel();
         showItemsPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-
         final int maxAvailableItems = (int) controller().getLockedItems().keySet().stream()
                 .filter(type -> type.category() == category).count();
         final int maxAlreadyOwnedItems = (int) controller().getPurchasedItems().keySet().stream()
