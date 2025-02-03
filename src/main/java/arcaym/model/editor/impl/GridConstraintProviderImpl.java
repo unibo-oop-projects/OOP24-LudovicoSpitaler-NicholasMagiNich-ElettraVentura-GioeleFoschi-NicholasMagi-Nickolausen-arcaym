@@ -19,6 +19,7 @@ public class GridConstraintProviderImpl implements GridConstraintProvider {
     public void sandbox(
         final BiConsumer<GameObjectType, MapConstraint> object, 
         final BiConsumer<GameObjectCategory, MapConstraint> category) {
+        // free to place objects without rules
     }
 
     /**

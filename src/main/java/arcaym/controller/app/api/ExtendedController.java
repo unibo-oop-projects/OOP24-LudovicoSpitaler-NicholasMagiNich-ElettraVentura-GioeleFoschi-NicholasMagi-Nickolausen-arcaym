@@ -3,7 +3,7 @@ package arcaym.controller.app.api;
 import arcaym.view.app.api.View;
 
 /**
- * Interface for a {@link Controller} extended view.
+ * Interface for a generic extended {@link Controller}.
  * 
  * @param <T> associated view type
  */
@@ -17,8 +17,7 @@ public interface ExtendedController<T extends View> extends Controller {
     void setView(T view);
 
     /**
-     * Perform all operations needed before closing.
+     * Close the controller.
      */
-    void dispose();
-
+    void close();
 }
