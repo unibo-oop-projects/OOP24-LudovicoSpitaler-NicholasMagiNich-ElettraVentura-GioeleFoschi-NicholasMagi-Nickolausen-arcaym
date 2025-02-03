@@ -12,7 +12,7 @@ public final class Rectangles {
      * 
      * @param rect1 first rectangles
      * @param rect2 second rectangles
-     * @return if they are intersecting or not
+     * @return if they are intersecting
      */
     public static boolean intersecting(final Rectangle rect1, final Rectangle rect2) {
         return rect1.southWest().x() < rect2.northEast().x()
