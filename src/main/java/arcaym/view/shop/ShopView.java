@@ -6,8 +6,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -18,6 +16,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 
 import arcaym.controller.shop.api.ShopController;
 import arcaym.controller.shop.impl.ShopControllerImpl;
@@ -38,7 +39,7 @@ public class ShopView implements ViewComponent<JPanel> {
     private static final String BACK_TO_MAIN_PAGE = "BACK TO MENU";
     private final ShopController controller = new ShopControllerImpl();
     // private final MainController mainController;
-    private final Map<JButton, ProductInfo> productsMap = new HashMap<>();
+    private final BiMap<JButton, ProductInfo> productsMap = HashBiMap.create();
     private Optional<ProductInfo> selected = Optional.empty();
     private JButton buyButton;
 
@@ -76,7 +77,10 @@ public class ShopView implements ViewComponent<JPanel> {
                 if (selected.isPresent() && controller.requestTransaction(selected.get().type())) {
                     updateCreditLable(userCredit);
                     buyButton.setEnabled(false);
+                    productsMap.inverse().get(selected.get()).setBackground(Color.WHITE);
+                    productsMap.inverse().get(selected.get()).setEnabled(false);
                     selected = Optional.empty();
+
                     setAvailableButtons();
                 }
             }
