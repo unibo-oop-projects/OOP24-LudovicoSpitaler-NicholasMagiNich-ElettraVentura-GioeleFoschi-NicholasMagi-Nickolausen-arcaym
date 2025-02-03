@@ -17,9 +17,9 @@ public class GameControllerImpl extends AbstractController<GameView> implements 
     /**
      * Basic contructor of GameControllerImpl.
      * 
-     * @param switcher      that changes the Controller in charge
+     * @param switcher that changes the Controller in charge
      * @param backOperation backOperation
-     * @param game          game
+     * @param game game
      */
     public GameControllerImpl(final ControllerSwitcher switcher, final Runnable backOperation, final Game game) {
         super(switcher, backOperation);
