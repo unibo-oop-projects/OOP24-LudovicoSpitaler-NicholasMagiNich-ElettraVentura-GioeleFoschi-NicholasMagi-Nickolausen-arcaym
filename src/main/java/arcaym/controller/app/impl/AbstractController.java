@@ -17,18 +17,15 @@ import arcaym.view.app.api.View;
 public abstract class AbstractController<T extends View> implements ExtendedController<T> {
 
     private final ControllerSwitcher switcher;
-    private final Runnable backOperation;
     private Optional<T> view = Optional.empty();
 
     /**
      * Initialize controller with switcher and back operation.
      * 
      * @param switcher controller switcher
-     * @param backOperation back operation
      */
-    public AbstractController(final ControllerSwitcher switcher, final Runnable backOperation) {
+    public AbstractController(final ControllerSwitcher switcher) {
         this.switcher = Objects.requireNonNull(switcher);
-        this.backOperation = Objects.requireNonNull(backOperation);
     }
 
     /**
@@ -49,12 +46,6 @@ public abstract class AbstractController<T extends View> implements ExtendedCont
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void dispose() { }
-
-    /**
      * Get controller switcher.
      * 
      * @return controller switcher
@@ -67,9 +58,6 @@ public abstract class AbstractController<T extends View> implements ExtendedCont
      * {@inheritDoc}
      */
     @Override
-    public void close() {
-        this.dispose();
-        this.backOperation.run();
-    }
+    public void close() { }
 
 }

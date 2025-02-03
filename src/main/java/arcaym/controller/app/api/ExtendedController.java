@@ -15,10 +15,4 @@ public interface ExtendedController<T extends View> extends Controller {
      * @param view view
      */
     void setView(T view);
-
-    /**
-     * Perform all operations needed before closing.
-     */
-    void dispose();
-
 }
