@@ -3,8 +3,6 @@ package arcaym.view.shop.impl;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Collection;
 import java.util.Map.Entry;
 import java.util.Optional;
@@ -80,24 +78,18 @@ public class ShopViewImpl extends AbstractView<ShopController> implements ViewCo
         contentPanel.add(Box.createVerticalStrut(gap));
         this.buyButton = new JButton(BUY_BUTTON);
         buyButton.setEnabled(false);
-        final ActionListener purchaseAl = new ActionListener() {
 
-            @Override
-            public void actionPerformed(final ActionEvent arg) {
-                if (selected.isPresent() && controller().requestTransaction(selected.get().type())) {
-                    updateCreditLable(userCredit);
-                    buyButton.setEnabled(false);
-                    productsMap.inverse().get(selected.get()).setBackground(Color.WHITE);
-                    productsMap.inverse().get(selected.get()).setEnabled(false);
-                    selected = Optional.empty();
+        buyButton.addActionListener(a -> {
+            if (selected.isPresent() && controller().requestTransaction(selected.get().type())) {
+                updateCreditLable(userCredit);
+                buyButton.setEnabled(false);
+                productsMap.inverse().get(selected.get()).setBackground(Color.WHITE);
+                productsMap.inverse().get(selected.get()).setEnabled(false);
+                selected = Optional.empty();
 
-                    setAvailableButtons();
-                }
+                setAvailableButtons();
             }
-
-        };
-
-        buyButton.addActionListener(purchaseAl);
+        });
         SwingUtils.changeFontSize(buyButton, SCALE);
         contentPanel.add(new CenteredPanel().build(window, buyButton));
 
@@ -148,11 +140,8 @@ public class ShopViewImpl extends AbstractView<ShopController> implements ViewCo
                     item.setLayout(new BoxLayout(item, BoxLayout.PAGE_AXIS));
                     final JButton price = new JButton(String.valueOf(object.getValue()));
                     productsMap.put(price, new ProductInfo(object.getKey(), object.getValue()));
-                    price.addActionListener(new ActionListener() {
-
-                        @Override
-                        public void actionPerformed(final ActionEvent arg) {
-                            final JButton pressedButton = (JButton) arg.getSource();
+                    price.addActionListener(a -> {
+                            final JButton pressedButton = (JButton) a.getSource();
                             if (selected.isEmpty()
                                     || (selected.isPresent()
                                             && !selected.get().equals(productsMap.get(pressedButton)))) {
@@ -164,8 +153,6 @@ public class ShopViewImpl extends AbstractView<ShopController> implements ViewCo
                                 pressedButton.setBackground(Color.WHITE);
                             }
                             regulateBuyOption();
-                        }
-
                     });
                     item.add(new CenteredPanel().build(window, price));
                     showItemsPanel.add(item);
