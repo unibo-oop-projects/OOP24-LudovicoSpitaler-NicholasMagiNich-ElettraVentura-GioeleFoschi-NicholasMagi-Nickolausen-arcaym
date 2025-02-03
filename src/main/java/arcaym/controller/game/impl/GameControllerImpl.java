@@ -6,7 +6,6 @@ import arcaym.controller.game.api.ExtendedGameController;
 import arcaym.model.game.core.engine.api.Game;
 import arcaym.model.game.core.engine.api.GameStateInfo;
 import arcaym.view.game.api.GameView;
-import arcaym.view.game.impl.GameViewImpl;
 
 /**
  * Implementation of {@link GameController} that extends
@@ -25,7 +24,6 @@ public class GameControllerImpl extends AbstractController<GameView> implements 
     public GameControllerImpl(final ControllerSwitcher switcher, final Runnable backOperation, final Game game) {
         super(switcher, backOperation);
         this.game = game;
-        this.setView(new GameViewImpl(this));
     }
 
     /**

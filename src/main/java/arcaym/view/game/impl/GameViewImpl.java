@@ -2,9 +2,15 @@ package arcaym.view.game.impl;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -17,6 +23,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
+import arcaym.common.geometry.impl.Rectangle;
 import arcaym.controller.game.api.GameController;
 import arcaym.model.game.core.engine.api.GameStateInfo;
 import arcaym.model.game.core.events.api.EventsScheduler;
@@ -43,14 +50,86 @@ public class GameViewImpl extends AbstractView<GameController> implements GameVi
     private Optional<Consumer<JPanel>> setKeyBindings = Optional.empty();
     private Optional<BiConsumer<JPanel, JLabel>> setGameEventReaction = Optional.empty();
     private Optional<GamePanel> gamePanel = Optional.empty();
+    private final Rectangle boundaries;
+    private final ConcurrentMap<GameObjectInfo, Image> gameMap = new ConcurrentHashMap<>();
 
     /**
      * Base constructor for GameViewImpl.
      * 
-     * @param game
+     * @param controller game controller
      */
     public GameViewImpl(final GameController controller) {
         super(controller);
+        this.boundaries = this.controller().getGameState().boundaries();
+    }
+
+    /**
+     * "The field arcaym.view.game.impl.GamePanel.gameMap is transient but isn't set
+     * by deserialization In GamePanel.java"
+     * Due to the quoted spotbugs error, we implemented the game panel class
+     * directly in the game view implementation,
+     * as a private class. In this way, the fields in GamePanel do not have
+     * serialization problem
+     */
+    private final class GamePanel extends JPanel {
+        private static final long serialVersionUID = 1L;
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        protected void paintComponent(final Graphics g) {
+            super.paintComponent(g);
+            final double scale = calculateScale();
+            final Graphics2D g2d = (Graphics2D) g.create();
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+            g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
+            g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
+            gameMap.entrySet().stream().forEach(entry -> {
+                g2d.drawImage(entry.getValue(),
+                        Double.valueOf(entry.getKey().boundaries().northWest().x() * scale).intValue(),
+                        Double.valueOf(entry.getKey().boundaries().northWest().y() * scale).intValue(),
+                        Double.valueOf(entry.getKey().boundaries().base() * scale).intValue(),
+                        Double.valueOf(entry.getKey().boundaries().height() * scale).intValue(), null);
+            });
+            g2d.dispose();
+        }
+
+        private double calculateScale() {
+            return Math.min(
+                    this.getSize().getHeight() / boundaries.height(),
+                    this.getSize().getWidth() / boundaries.base());
+        }
+
+        /**
+         * Creates new object in the game.
+         * 
+         * @param gameObject
+         */
+        public void createObject(final GameObjectInfo gameObject) {
+            // this.gameMap.add(gameObject);
+            this.repaint();
+        }
+
+        /**
+         * Updates new object in the game.
+         * 
+         * @param gameObject
+         */
+        public void updateObject(final GameObjectInfo gameObject) {
+            this.repaint();
+        }
+
+        /**
+         * Destroys new object in the game.
+         * 
+         * @param gameObject
+         */
+        public void destroyObject(final GameObjectInfo gameObject) {
+            gameMap.remove(gameObject);
+            this.repaint();
+        }
+
     }
 
     /**
@@ -69,7 +148,7 @@ public class GameViewImpl extends AbstractView<GameController> implements GameVi
         header.setBackground(Color.WHITE);
         header.setLayout(new BoxLayout(header, BoxLayout.LINE_AXIS));
         // The gameContentPanel contains the game view (with the game objects)
-        final GamePanel gameContentPanel = new GamePanel(this.controller().getGameState().boundaries());
+        final GamePanel gameContentPanel = new GamePanel();
         gamePanel = Optional.of(gameContentPanel);
         // accepts the key bindings setup on the main panel
         setKeyBindings.get().accept(mainPanel);
@@ -177,15 +256,6 @@ public class GameViewImpl extends AbstractView<GameController> implements GameVi
     @Override
     public void updateObject(final GameObjectInfo gameObject) {
         this.gamePanel.ifPresent((panel) -> panel.updateObject(gameObject));
-    }
-
-    /**
-     * Debug only.
-     * 
-     * @param args
-     */
-    public static void main(final String[] args) {
-        // SwingUtils.testComponent(new GameViewImpl()::build);
     }
 
 }
