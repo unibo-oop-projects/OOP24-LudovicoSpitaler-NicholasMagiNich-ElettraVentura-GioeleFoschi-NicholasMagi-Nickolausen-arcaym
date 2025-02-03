@@ -90,8 +90,8 @@ public class EditorControllerInfoImpl extends AbstractController<EditorView> imp
      */
     @Override
     public void close() {
-        this.saveLevel();
         super.close();
+        this.saveLevel();
     }
 
     /**
@@ -107,7 +107,7 @@ public class EditorControllerInfoImpl extends AbstractController<EditorView> imp
      */
     @Override
     public void play() {
-        final int tileSize = 10; // temporary value
+        final int tileSize = 10; // logic dimension of the tile
         final var gameFactory = new FactoryBasedGameBuilder(new ComponentsBasedObjectsFactory(tileSize));
         final var objectsInPosition = this.grid.getFullMap();
         objectsInPosition.entrySet().forEach(e -> {
@@ -118,7 +118,12 @@ public class EditorControllerInfoImpl extends AbstractController<EditorView> imp
                         e.getKey().x() * tileSize + tileSize / 2,
                         e.getKey().y() * tileSize + tileSize / 2)));
         });
-        // this.switcher().switchToGame(gameController, EditorView::run);
+        // this.switcher().switchToGame(gameFactory.build(
+        //     new Rectangle(
+        //         Point.of(0, 0),
+        //         Point.of(
+        //             (this.metadata.size().x() + 1) * tileSize,
+        //             (this.metadata.size().y() + 1) * tileSize))), this.switcher());
     }
 
     /**
