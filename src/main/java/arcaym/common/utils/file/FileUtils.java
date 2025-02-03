@@ -35,7 +35,6 @@ public final class FileUtils {
 
     /**
      * Creates the directory .arcaym/saves in the user home.
-     * @throws IOException if the directory cannot be created
      */
     public static void createSavesDirectory() {
         createDirectory(SAVES_FOLDER);
@@ -43,7 +42,6 @@ public final class FileUtils {
 
     /**
      * Creates the directory .arcaym/levelsMetadata in the user home.
-     * @throws IOException if the directory cannot be created
      */
     public static void createMetadataDirectory() {
         createDirectory(METADATA_FOLDER);
