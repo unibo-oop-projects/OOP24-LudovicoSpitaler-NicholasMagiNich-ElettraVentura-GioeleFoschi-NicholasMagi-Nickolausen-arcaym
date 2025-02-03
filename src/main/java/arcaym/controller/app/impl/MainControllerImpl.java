@@ -7,6 +7,7 @@ import java.util.function.BiFunction;
 
 import arcaym.controller.app.api.ExtendedController;
 import arcaym.controller.app.api.MainController;
+import arcaym.controller.menu.impl.MenuControllerImpl;
 import arcaym.view.app.api.MainView;
 import arcaym.view.app.api.View;
 
@@ -28,6 +29,7 @@ public class MainControllerImpl implements MainController {
     @Override
     public void setView(final MainView view) {
         this.mainView = Optional.of(view);
+        this.switchTo(new MenuControllerImpl(this::switchTo), MainView::switchToMenu);
     }
 
     /**

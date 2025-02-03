@@ -1,8 +1,6 @@
 package arcaym.view.app.impl;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Optional;
@@ -30,6 +28,7 @@ import arcaym.view.editor.impl.EditorMainView;
 import arcaym.view.game.api.GameView;
 import arcaym.view.game.impl.GameViewImpl;
 import arcaym.view.menu.api.MenuView;
+import arcaym.view.menu.impl.MenuViewImpl;
 import arcaym.view.shop.api.ShopView;
 import arcaym.view.utils.SwingUtils;
 
@@ -85,12 +84,15 @@ public class MainViewImpl extends AbstractView<MainController> implements MainVi
         mainPanel.add(topRow, BorderLayout.NORTH);
         mainPanel.add(mainContent.build(windowInfo), BorderLayout.CENTER);
         window.setContentPane(mainPanel);
+        window.revalidate();
+        window.repaint();
     }  
 
     @Override
     public MenuView switchToMenu(MenuController controller) {
-        // final var menuView = new MenuViewImpl();
-        // fillContent(null);
+        final var menuView = new MenuViewImpl(controller);
+        fillContent(menuView);
+        return menuView;
     }
 
     @Override
@@ -110,8 +112,7 @@ public class MainViewImpl extends AbstractView<MainController> implements MainVi
 
     @Override
     public ShopView switchToShop(ShopController controller) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'switchToShop'");
+        return null;
     }
 
     public void init() {

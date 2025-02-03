@@ -2,6 +2,9 @@ package arcaym;
 
 import java.util.logging.Logger;
 
+import arcaym.controller.app.impl.MainControllerImpl;
+import arcaym.view.app.impl.MainViewImpl;
+
 /**
  * App entry class.
  * Merry Christmas
@@ -26,9 +29,10 @@ public class AppLauncher {
      * @param args launch arguments
      */
     public static void main(final String[] args) {
-        //var controller = new MainController();
-        //controller.setView(new MainView(controller));
-        final var app = new AppLauncher();
-        LOGGER.info(app.getGreeting("World"));
+        final var controller = new MainControllerImpl();
+        final var view = new MainViewImpl(controller);
+        view.init();
+        controller.setView(view);
+        LOGGER.info("Application has started!");
     }
 }
