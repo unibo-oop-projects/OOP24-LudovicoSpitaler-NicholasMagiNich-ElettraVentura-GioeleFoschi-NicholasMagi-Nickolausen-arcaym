@@ -3,16 +3,17 @@ package arcaym.common.utils.representation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collections;
+import java.util.Map;
 import java.util.Objects;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
-import java.util.Map;
 
 /**
  * Utility class to represent {@link TypeRepresentation}-annotated objects as strings.
  * 
  * <p>
  * Example of usage:
+ * </p>
  * <pre>
  * {@code @TypeRepresentation}
  * public class TestClass {
@@ -31,7 +32,6 @@ import java.util.Map;
  * 
  * System.out.println(new TestClass()); // TestClass[getValue=5]
  * </pre>
- * </p>
  * 
  * @see TypeRepresentation
  * @see FieldRepresentation

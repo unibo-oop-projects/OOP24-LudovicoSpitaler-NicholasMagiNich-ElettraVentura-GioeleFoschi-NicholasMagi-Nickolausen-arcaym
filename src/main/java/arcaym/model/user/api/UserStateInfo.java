@@ -35,25 +35,31 @@ public record UserStateInfo(
     }
 
     /**
+     * Needed in order to avoid exposing internal representation of fields.
      * 
      * @return an immutable view of defaultItems()
      */
+    @Override
     public Set<GameObjectType> defaultItems() {
         return Collections.unmodifiableSet(defaultItems);
     }
 
     /**
+     * Needed in order to avoid exposing internal representation of fields.
      * 
      * @return an immutable view of purchasedItems()
      */
+    @Override
     public Set<GameObjectType> purchasedItems() {
         return Collections.unmodifiableSet(purchasedItems);
     }
 
     /**
+     * Needed in order to avoid exposing internal representation of fields.
      * 
      * @return an immutable view of itemsOwned()
      */
+    @Override
     public Set<GameObjectType> itemsOwned() {
         return Collections.unmodifiableSet(itemsOwned);
     }
@@ -72,9 +78,9 @@ public record UserStateInfo(
             throw new IllegalArgumentException("Cannot receive negative credit! (Received: " + credit + ")");
         }
         return new UserStateInfo(credit,
-                Collections.unmodifiableSet(this.itemsOwned()),
-                Collections.unmodifiableSet(this.defaultItems()),
-                Collections.unmodifiableSet(this.purchasedItems()));
+                this.itemsOwned(),
+                this.defaultItems(),
+                this.purchasedItems());
     }
 
     /**
@@ -90,8 +96,8 @@ public record UserStateInfo(
         return new UserStateInfo(
                 this.credit(),
                 Objects.requireNonNull(itemsOwned, "Cannot set null set!"),
-                Collections.unmodifiableSet(this.defaultItems()),
-                Collections.unmodifiableSet(this.purchasedItems()));
+                this.defaultItems(),
+                this.purchasedItems());
     }
 
     /**
@@ -106,8 +112,8 @@ public record UserStateInfo(
     public UserStateInfo withPurchasedItems(final Set<GameObjectType> purchasedItems) {
         return new UserStateInfo(
                 this.credit(),
-                Collections.unmodifiableSet(this.itemsOwned()),
-                Collections.unmodifiableSet(this.defaultItems()),
+                this.itemsOwned(),
+                this.defaultItems(),
                 Objects.requireNonNull(purchasedItems, "Cannot set null set!"));
     }
 }

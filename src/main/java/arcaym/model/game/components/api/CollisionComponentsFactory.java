@@ -9,21 +9,21 @@ import arcaym.model.game.core.components.impl.UniqueComponentsGameObject;
 public interface CollisionComponentsFactory {
     /**
      * Handles a collision with an obstacle.
-     * @param gameObject
+     * @param gameObject game object
      * @return said behaviour as a game component
      */
     GameComponent obstacleCollision(UniqueComponentsGameObject gameObject);
 
     /**
      * Handles a collision with a collectable.
-     * @param gameObject
+     * @param gameObject game object
      * @return said behaviour as a game component
      */
     GameComponent collectableCollision(UniqueComponentsGameObject gameObject);
 
     /**
      * Handles a collision with the goal area.
-     * @param gameObject
+     * @param gameObject game object
      * @return said behaviour as a game component
      */
     GameComponent reachedGoal(UniqueComponentsGameObject gameObject);

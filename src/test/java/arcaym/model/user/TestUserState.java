@@ -4,31 +4,20 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.Collections;
-import java.util.EnumSet;
 import java.util.Set;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import arcaym.common.utils.file.FileUtils;
-import arcaym.controller.user.impl.UserStateSerializerImpl;
+import arcaym.common.utils.TestingToolkit;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.model.user.api.UserState;
-import arcaym.model.user.api.UserStateInfo;
 import arcaym.model.user.impl.UserStateImpl;
 
 class TestUserState {
 
     private static final int DEFAULT_CREDIT = 0;
-    private static final String COPY_FILE = "user_data_backup";
-    private static final String SAVES_FILE = "user_data";
-    private static final Set<GameObjectType> DEFAULT_ITEMS = EnumSet.copyOf(Set.of(
-        GameObjectType.USER_PLAYER,
-        GameObjectType.COIN,
-        GameObjectType.FLOOR,
-        GameObjectType.SPIKE));
 
     private UserState userState;
 
@@ -39,27 +28,14 @@ class TestUserState {
     @BeforeEach
     void setup() {
         // Does not overwrite the previous states (if the player has some recent saves)
-        final var serializer = new UserStateSerializerImpl();
+        TestingToolkit.makeUserStateBackup();
+        TestingToolkit.writeUserStateDefault(0);
         this.userState = new UserStateImpl();
-        serializer.save(
-            new UserStateInfo(
-                userState.getCredit(), 
-                userState.getItemsOwned(),
-                DEFAULT_ITEMS, 
-                userState.getPurchasedItems()), COPY_FILE);
-        serializer.save(
-            new UserStateInfo(
-                DEFAULT_CREDIT,
-                DEFAULT_ITEMS, 
-                DEFAULT_ITEMS,
-                Collections.emptySet()), SAVES_FILE);
     }
 
     @AfterEach
     void clearTraces() {
-        final var serializer = new UserStateSerializerImpl();
-        serializer.save(serializer.load(COPY_FILE).get(), SAVES_FILE);
-        FileUtils.deleteFile(COPY_FILE.concat(".json"), "saves");
+        TestingToolkit.writeUserStateBackup();
     }
 
     @Test

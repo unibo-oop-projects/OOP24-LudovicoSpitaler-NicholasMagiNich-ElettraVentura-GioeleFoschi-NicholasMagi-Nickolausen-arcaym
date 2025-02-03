@@ -29,7 +29,7 @@ import arcaym.view.core.api.WindowInfo;
 import arcaym.view.utils.SwingUtils;
 
 /**
- * View of shop.
+ * View of the shop.
  */
 public class ShopView implements ViewComponent<JPanel> {
     private static final Integer SCALE = 3;
@@ -37,6 +37,7 @@ public class ShopView implements ViewComponent<JPanel> {
     private static final String BUY_BUTTON = "PURCHASE";
     private static final String BACK_TO_MAIN_PAGE = "BACK TO MENU";
     private final ShopController controller = new ShopControllerImpl();
+    // private final MainController mainController;
     private final Map<JButton, ProductInfo> productsMap = new HashMap<>();
     private Optional<ProductInfo> selected = Optional.empty();
     private JButton buyButton;
@@ -97,7 +98,7 @@ public class ShopView implements ViewComponent<JPanel> {
     }
 
     private void updateCreditLable(final JLabel userCredit) {
-        userCredit.setText("Credit : " + controller.getCredit());
+        userCredit.setText("Credit : " + controller.getUserCredit());
     }
 
     private void fillItems(final WindowInfo window, final JPanel itemsPanel) {
@@ -121,17 +122,17 @@ public class ShopView implements ViewComponent<JPanel> {
         final JPanel showItemsPanel = new JPanel();
         showItemsPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-        final int maxAvailableItems = (int) controller.getLockedGameObjects().keySet().stream()
+        final int maxAvailableItems = (int) controller.getLockedItems().keySet().stream()
                 .filter(type -> type.category() == category).count();
-        final int maxAlreadyOwnedItems = (int) controller.getPurchasedGameObjects().keySet().stream()
+        final int maxAlreadyOwnedItems = (int) controller.getPurchasedItems().keySet().stream()
                 .filter(type -> type.category() == category).count();
         if (maxAvailableItems == 0 && maxAlreadyOwnedItems == 0) {
             showItemsPanel.setBackground(Color.GRAY);
             showItemsPanel.add(new JLabel("No Items Available."));
         } else {
             if (maxAvailableItems != 0) {
-                for (final var object : filterForCategory(controller.getLockedGameObjects().entrySet().stream(),
-                category)) {
+                for (final var object : filterForCategory(controller.getLockedItems().entrySet().stream(),
+                        category)) {
                     final JPanel item = new DisplayProductView(new ProductInfo(object.getKey(), object.getValue()))
                             .build(window);
                     item.setLayout(new BoxLayout(item, BoxLayout.PAGE_AXIS));
@@ -161,7 +162,7 @@ public class ShopView implements ViewComponent<JPanel> {
                 }
             }
             if (maxAlreadyOwnedItems != 0) {
-                for (final var object : filterForCategory(controller.getPurchasedGameObjects().entrySet().stream(),
+                for (final var object : filterForCategory(controller.getPurchasedItems().entrySet().stream(),
                         category)) {
                     final JPanel item = new DisplayProductView(new ProductInfo(object.getKey(), object.getValue()))
                             .build(window);
@@ -198,7 +199,7 @@ public class ShopView implements ViewComponent<JPanel> {
                 product.getKey().setEnabled(true);
                 product.getKey().setBackground(Color.WHITE);
             } else if (!controller.canBuy(product.getValue().type())
-                    && !controller.getPurchasedGameObjects().containsKey(product.getValue().type())) {
+                    && !controller.getPurchasedItems().containsKey(product.getValue().type())) {
                 product.getKey().setEnabled(false);
                 product.getKey().setBackground(Color.RED);
             }
@@ -208,7 +209,7 @@ public class ShopView implements ViewComponent<JPanel> {
     /**
      * Debug only.
      * 
-     * @param args
+     * @param args args
      */
     public static void main(final String[] args) {
         SwingUtils.testComponent(new ShopView()::build);

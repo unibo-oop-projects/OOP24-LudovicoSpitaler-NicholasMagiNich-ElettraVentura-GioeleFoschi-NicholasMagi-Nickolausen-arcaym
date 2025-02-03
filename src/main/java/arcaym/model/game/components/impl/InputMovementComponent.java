@@ -25,7 +25,7 @@ public class InputMovementComponent extends AbstractGameComponent {
     /**
      * Basic constructor getting gameObject as an argument.
      * 
-     * @param gameObject
+     * @param gameObject game object
      */
     public InputMovementComponent(final ComponentsBasedGameObject gameObject) {
         super(gameObject);

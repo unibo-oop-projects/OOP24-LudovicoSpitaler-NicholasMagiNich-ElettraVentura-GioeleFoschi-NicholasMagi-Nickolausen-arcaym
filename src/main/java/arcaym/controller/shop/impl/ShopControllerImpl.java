@@ -1,14 +1,11 @@
 package arcaym.controller.shop.impl;
 
 import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import arcaym.controller.shop.api.ShopController;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.model.shop.api.Shop;
 import arcaym.model.shop.impl.ShopImpl;
-import arcaym.model.user.api.UserState;
 import arcaym.model.user.impl.UserStateImpl;
 
 /**
@@ -17,14 +14,12 @@ import arcaym.model.user.impl.UserStateImpl;
 public class ShopControllerImpl implements ShopController {
 
     private final Shop shopModel;
-    private final UserState userState;
 
     /**
      * Default constructor.
      */
     public ShopControllerImpl() {
         this.shopModel = new ShopImpl();
-        this.userState = new UserStateImpl();
     }
 
     /**
@@ -32,14 +27,14 @@ public class ShopControllerImpl implements ShopController {
      */
     @Override
     public boolean requestTransaction(final GameObjectType toBuy) {
-        return shopModel.makeTransaction(toBuy).isPresent();
+        return shopModel.makeTransaction(toBuy);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Map<GameObjectType, Integer> getLockedGameObjects() {
+    public Map<GameObjectType, Integer> getLockedItems() {
         return shopModel.getLockedGameObjects();
     }
 
@@ -47,8 +42,8 @@ public class ShopControllerImpl implements ShopController {
      * {@inheritDoc}
      */
     @Override
-    public int getCredit() {
-        return userState.getCredit();
+    public int getUserCredit() {
+        return new UserStateImpl().getCredit();
     }
 
     /**
@@ -63,8 +58,7 @@ public class ShopControllerImpl implements ShopController {
      * {@inheritDoc}
      */
     @Override
-    public Map<GameObjectType, Integer> getPurchasedGameObjects() {
-        return userState.getPurchasedItems().stream()
-            .collect(Collectors.toMap(Function.identity(), shopModel::getPriceOf));
+    public Map<GameObjectType, Integer> getPurchasedItems() {
+        return shopModel.getPurchasedGameObjects();
     }
 }

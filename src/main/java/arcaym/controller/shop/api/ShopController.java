@@ -21,13 +21,13 @@ public interface ShopController {
      * 
      * @return all the game objects to be purchased.
      */
-    Map<GameObjectType, Integer> getLockedGameObjects();
+    Map<GameObjectType, Integer> getLockedItems();
 
     /**
      * 
      * @return all the game objects purchased from the shop.
      */
-    Map<GameObjectType, Integer> getPurchasedGameObjects();
+    Map<GameObjectType, Integer> getPurchasedItems();
 
     /**
      *
@@ -41,5 +41,5 @@ public interface ShopController {
      * 
      * @return the amount of credit the user can spend.
      */
-    int getCredit();
+    int getUserCredit();
 }
