@@ -16,6 +16,7 @@ import arcaym.common.utils.Position;
 import arcaym.controller.app.api.ControllerSwitcher;
 import arcaym.controller.app.impl.AbstractController;
 import arcaym.controller.editor.api.EditorController;
+import arcaym.controller.editor.api.ExtendedEditorController;
 import arcaym.controller.editor.saves.LevelMetadata;
 import arcaym.controller.editor.saves.MetadataManagerImpl;
 import arcaym.controller.game.impl.GameControllerImpl;
@@ -33,7 +34,7 @@ import arcaym.view.editor.api.EditorView;
 /**
  * Implementation of {@link EditorController}.
  */
-public class EditorControllerImpl extends AbstractController<EditorView> implements EditorController {
+public class EditorControllerImpl extends AbstractController<EditorView> implements ExtendedEditorController {
 
     private final UserStateInfo userState;
     private final LevelMetadata metadata;
@@ -44,25 +45,25 @@ public class EditorControllerImpl extends AbstractController<EditorView> impleme
     /**
      * Creates a new editor controller.
      * 
-     * @param x Width of the grid
-     * @param y Height of the grid
+     * @param width Width of the grid
+     * @param height Height of the grid
      * @param type The type of grid that needs to be created
      * @param name The name to give to the level
      * @param switcher Used to change the active controller
      */
     public EditorControllerImpl(
-        final int x, 
-        final int y, 
+        final int width, 
+        final int height, 
         final EditorType type,
         final String name,
         final ControllerSwitcher switcher) {
         super(switcher);
-        this.grid = new GridModelImpl(type, x, y);
+        this.grid = new GridModelImpl(type, width, height);
         this.metadata = new LevelMetadata(
             name,
             UUID.randomUUID().toString(),
             type,
-            Position.of(x, y));
+            Position.of(width, height));
         this.view = Optional.empty();
         this.userState = new UserStateSerializerImpl().getUpdatedState();
     }

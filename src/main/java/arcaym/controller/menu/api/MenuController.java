@@ -19,12 +19,12 @@ public interface MenuController extends Controller {
     /**
      * Create and open a new editor.
      * 
-     * @param name level name
      * @param width grid width
      * @param height grid height
      * @param type editor type
+     * @param name level name
      */
-    void createEditor(String name, int width, int height, EditorType type);
+    void createEditor(int width, int height, EditorType type, String name);
 
     /**
      * Open shop.
