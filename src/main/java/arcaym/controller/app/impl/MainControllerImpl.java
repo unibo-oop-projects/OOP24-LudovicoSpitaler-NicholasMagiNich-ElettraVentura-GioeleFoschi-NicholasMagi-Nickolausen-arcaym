@@ -18,7 +18,9 @@ public class MainControllerImpl implements MainController {
     private Optional<MainView> mainView = Optional.empty();
     private final Deque<QueueElement<?, ?>> stack = new LinkedList<>();
 
-    private record QueueElement<V extends View, C extends ExtendedController<V>>(C controller, BiFunction<MainView, C, V> viewCreator) {}
+    private record QueueElement<V extends View, C extends ExtendedController<V>>(
+        C controller, 
+        BiFunction<MainView, C, V> viewCreator) { }
 
     /**
      * {@inheritDoc}
@@ -36,9 +38,12 @@ public class MainControllerImpl implements MainController {
         stack.stream()
             .map(QueueElement::controller)
             .forEach(ExtendedController::close);
-        System.exit(0);
+        Runtime.getRuntime().exit(0);
     }
 
+    /**
+     * Goes back to the previous panel.
+     */
     public void goBack() {
         if (stack.size() == 1) {
             throw new IllegalStateException("Cannot go back!");
@@ -47,11 +52,13 @@ public class MainControllerImpl implements MainController {
         switchTo(this.stack.removeFirst());
     }
 
-    private <V extends View, C extends ExtendedController<V>> void switchTo(final QueueElement<V,C> element) {
-        this.switchTo(element.controller(), element.viewCreator());;
+    private <V extends View, C extends ExtendedController<V>> void switchTo(final QueueElement<V, C> element) {
+        this.switchTo(element.controller(), element.viewCreator());
     }
 
-    private <V extends View, C extends ExtendedController<V>> void switchTo(C controller, BiFunction<MainView, C, V> viewCreator) {
+    private <V extends View, C extends ExtendedController<V>> void switchTo(
+            final C controller, 
+            final BiFunction<MainView, C, V> viewCreator) {
         this.stack.addLast(new QueueElement<>(controller, viewCreator));
         final var view = viewCreator.apply(mainView.get(), controller);
         controller.setView(view);
