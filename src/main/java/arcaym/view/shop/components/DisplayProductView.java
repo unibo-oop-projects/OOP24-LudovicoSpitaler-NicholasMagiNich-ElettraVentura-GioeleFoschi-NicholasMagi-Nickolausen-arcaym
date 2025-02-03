@@ -1,4 +1,4 @@
-package arcaym.view.shop;
+package arcaym.view.shop.components;
 
 import java.awt.Color;
 

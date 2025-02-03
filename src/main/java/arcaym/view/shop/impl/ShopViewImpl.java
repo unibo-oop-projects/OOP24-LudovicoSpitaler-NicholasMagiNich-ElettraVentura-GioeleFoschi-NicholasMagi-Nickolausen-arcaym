@@ -1,4 +1,4 @@
-package arcaym.view.shop;
+package arcaym.view.shop.impl;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -27,17 +27,20 @@ import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.view.components.CenteredPanel;
 import arcaym.view.core.api.ViewComponent;
 import arcaym.view.core.api.WindowInfo;
+import arcaym.view.shop.api.ShopView;
+import arcaym.view.shop.components.DisplayProductView;
+import arcaym.view.shop.components.ProductInfo;
 import arcaym.view.utils.SwingUtils;
 
 /**
  * View of the shop.
  */
-public class ShopView implements ViewComponent<JPanel> {
+public class ShopViewImpl implements ViewComponent<JPanel>, ShopView {
     private static final Integer SCALE = 3;
     private static final String SHOP_TITLE = "SHOP";
     private static final String BUY_BUTTON = "PURCHASE";
     private static final String BACK_TO_MAIN_PAGE = "BACK TO MENU";
-    private final ShopController controller; // constructor
+    private final ShopController controller;
 
     // private final MainController mainController;
     private final BiMap<JButton, ProductInfo> productsMap = HashBiMap.create();
@@ -49,7 +52,7 @@ public class ShopView implements ViewComponent<JPanel> {
      * 
      * @param controller
      */
-    public ShopView(final ShopControllerImpl controller) {
+    public ShopViewImpl(final ShopControllerImpl controller) {
         this.controller = controller;
     }
 
@@ -105,6 +108,14 @@ public class ShopView implements ViewComponent<JPanel> {
 
         final JButton backToMenuButton = new JButton(BACK_TO_MAIN_PAGE);
         contentPanel.add(new CenteredPanel().build(window, backToMenuButton));
+        backToMenuButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                // switch to editor
+            }
+
+        });
         contentPanel.add(Box.createVerticalStrut(gap));
 
         contentPanel.setVisible(true);

@@ -1,4 +1,4 @@
-package arcaym.view.shop;
+package arcaym.view.shop.components;
 
 import arcaym.model.game.objects.api.GameObjectType;
 
