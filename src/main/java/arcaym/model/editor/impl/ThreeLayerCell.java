@@ -25,8 +25,9 @@ public class ThreeLayerCell implements Cell, Serializable {
     private final Map<Layer, GameObjectType> layers;
 
     /**
+     * Initialize the cell with a default layer filled.
      * 
-     * @param defaultLayer
+     * @param defaultLayer default layer fill
      */
     public ThreeLayerCell(final GameObjectType defaultLayer) {
         this.layers = new EnumMap<>(Layer.class);
