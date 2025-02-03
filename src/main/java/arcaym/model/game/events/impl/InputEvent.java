@@ -5,9 +5,8 @@ import arcaym.model.game.events.api.InputType;
 
 /**
  * Record of Input Events.
- * @param inputType
+ * 
+ * @param inputType input type
  * @param drop wether the input is dropped or not
  */
-public record InputEvent(InputType inputType, boolean drop) implements Event {
-
-}
+public record InputEvent(InputType inputType, boolean drop) implements Event { }

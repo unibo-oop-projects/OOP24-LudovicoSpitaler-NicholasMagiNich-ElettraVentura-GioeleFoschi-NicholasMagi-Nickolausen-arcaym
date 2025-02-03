@@ -10,8 +10,8 @@ public final class Rectangles {
     /**
      * Checks if two rectangles are intesecting.
      * 
-     * @param rect1
-     * @param rect2
+     * @param rect1 first rectangles
+     * @param rect2 second rectangles
      * @return if they are intersecting or not
      */
     public static boolean intersecting(final Rectangle rect1, final Rectangle rect2) {
@@ -20,4 +20,5 @@ public final class Rectangles {
                 && rect1.southWest().y() < rect2.northEast().y()
                 && rect1.northEast().y() > rect2.southWest().y();
     }
+
 }

@@ -1,23 +1,31 @@
 package arcaym.view.objects;
 
-import javax.swing.JLabel;
+import java.awt.Image;
+import java.io.IOException;
+import java.util.Optional;
+
+import javax.imageio.ImageIO;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import arcaym.model.game.core.objects.api.GameObjectCategory;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.view.components.ImageLabel;
-import arcaym.view.core.api.ViewComponent;
-import arcaym.view.core.api.WindowInfo;
+import arcaym.view.utils.SwingUtils;
 
 /**
  * Generic class to represent all the views of the objects implemented via Swing. 
  */
-public class GameObjectView implements ViewComponent<JLabel> {
+public class GameObjectView extends ImageLabel {
+
     /**
      * Default image scaling value.
      */
     public static final double DEFAULT_SCALE = 1.5;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(GameObjectView.class);
     private final GameObjectType type;
-    private double scale;
 
     /**
      * Default constructor.
@@ -26,8 +34,8 @@ public class GameObjectView implements ViewComponent<JLabel> {
      * @param scaleFactor factor needed to resize the image (default: {@link #DEFAULT_SCALE}) 
      */
     public GameObjectView(final GameObjectType type, final double scaleFactor) {
+        super(getImagePath(type), scaleFactor * DEFAULT_SCALE);
         this.type = type;
-        this.scale = scaleFactor * DEFAULT_SCALE;
     }
 
     /**
@@ -40,6 +48,7 @@ public class GameObjectView implements ViewComponent<JLabel> {
     }
 
     /**
+     * Get object category.
      * 
      * @return the category the game object belongs to
      */
@@ -48,15 +57,20 @@ public class GameObjectView implements ViewComponent<JLabel> {
     }
 
     /**
-     * {@inheritDoc}
+     * 
+     * @return an image not wrapped in any component
      */
-    @Override
-    public JLabel build(final WindowInfo window) {
-        return new ImageLabel(getImagePath(), scale).build(window);
+    public Optional<Image> getImage() {
+        try {
+            return Optional.of(ImageIO.read(SwingUtils.getResource(getImagePath(type))));
+        } catch (IOException e) {
+            LOGGER.error("Cannot load game object image!", e);
+            return Optional.empty();
+        }
     }
 
-    private String getImagePath() {
-        return switch (this.type) {
+    private static String getImagePath(final GameObjectType type) {
+        return switch (type) {
             case 
                 USER_PLAYER, 
                 WIN_GOAL,

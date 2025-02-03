@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import arcaym.common.geometry.impl.Rectangle;
 import arcaym.model.game.core.engine.api.Game;
 import arcaym.model.game.core.scene.api.GameScene;
 import arcaym.view.game.api.GameView;
@@ -25,9 +26,10 @@ public class SingleThreadedGame extends AbstractThreadSafeGame {
      * Initialize with the given scene.
      * 
      * @param gameScene game scene
+     * @param boundaries total level boundaries
      */
-    public SingleThreadedGame(final GameScene gameScene) {
-        super(gameScene);
+    public SingleThreadedGame(final GameScene gameScene, final Rectangle boundaries) {
+        super(gameScene, boundaries);
     }
 
     /**

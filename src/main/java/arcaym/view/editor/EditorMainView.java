@@ -6,9 +6,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
-import arcaym.view.core.api.ViewComponent;
-import arcaym.view.core.api.WindowInfo;
 import arcaym.view.editor.components.GridAreaView;
+import arcaym.view.core.api.WindowInfo;
+import arcaym.view.core.api.ViewComponent;
 import arcaym.view.editor.components.SideMenuView;
 
 /**

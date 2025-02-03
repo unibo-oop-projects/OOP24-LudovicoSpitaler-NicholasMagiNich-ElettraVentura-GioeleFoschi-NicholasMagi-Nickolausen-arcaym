@@ -2,6 +2,7 @@ package arcaym.model.game.core.engine.impl;
 
 import java.util.Objects;
 
+import arcaym.common.geometry.impl.Rectangle;
 import arcaym.model.game.core.engine.api.Game;
 import arcaym.model.game.core.engine.api.GameBuilder;
 import arcaym.model.game.core.objects.api.GameObjectsFactory;
@@ -36,8 +37,8 @@ public class FactoryBasedGameBuilder extends AbstractGameBuilder {
      * {@inheritDoc}
      */
     @Override
-    protected Game buildGame(final GameScene gameScene) {
-        return new SingleThreadedGame(gameScene);
+    protected Game buildGame(final GameScene gameScene, final Rectangle boundaries) {
+        return new SingleThreadedGame(gameScene, boundaries);
     }
 
 }

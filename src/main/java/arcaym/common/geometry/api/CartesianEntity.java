@@ -5,6 +5,7 @@ package arcaym.common.geometry.api;
  * 
  * <p>
  * Example of usage:
+ * </p>
  * <pre>
  * // Implement the interface with the class itself as the generic type
  * {@code class Point implements CartesianEntity<Point>} {
@@ -16,7 +17,6 @@ package arcaym.common.geometry.api;
  *      ...
  * }
  * </pre>
- * </p>
  * 
  * @param <T> entity type
  */
