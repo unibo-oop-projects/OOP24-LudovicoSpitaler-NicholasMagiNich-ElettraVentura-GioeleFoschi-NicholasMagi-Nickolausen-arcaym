@@ -12,7 +12,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import arcaym.common.utils.TestingToolkit;
+import arcaym.TestingToolkit;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.model.shop.api.Shop;
 import arcaym.model.shop.impl.ShopImpl;

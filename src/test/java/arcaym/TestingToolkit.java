@@ -1,4 +1,4 @@
-package arcaym.common.utils;
+package arcaym;
 
 import java.util.Collections;
 import java.util.EnumSet;
@@ -19,8 +19,7 @@ public final class TestingToolkit {
     private static final String SAVES_FILE = "user_data";
 
     // Utility class
-    private TestingToolkit() {
-    }
+    private TestingToolkit() { }
 
     /**
      * Creates a backup for the user state in a temporary file.
