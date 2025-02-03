@@ -4,7 +4,7 @@ import java.util.Map;
 
 import arcaym.controller.app.api.ControllerSwitcher;
 import arcaym.controller.app.impl.AbstractController;
-import arcaym.controller.shop.api.ShopController;
+import arcaym.controller.shop.api.ExtendedShopController;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.model.shop.api.Shop;
 import arcaym.model.shop.impl.ShopImpl;
@@ -12,9 +12,9 @@ import arcaym.model.user.impl.UserStateImpl;
 import arcaym.view.shop.api.ShopView;
 
 /**
- * Default implementation of {@link ShopController}.
+ * Default implementation of {@link ExtendedShopController}.
  */
-public class ShopControllerImpl extends AbstractController<ShopView> implements ShopController {
+public class ShopControllerImpl extends AbstractController<ShopView> implements ExtendedShopController {
 
     private final Shop shopModel;
 

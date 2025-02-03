@@ -3,16 +3,16 @@ package arcaym.controller.editor.impl;
 import java.util.Collections;
 import java.util.Set;
 
-import arcaym.controller.editor.api.EditorControllerInfo;
+import arcaym.controller.editor.api.EditorController;
 import arcaym.controller.user.api.UserStateSerializerInfo;
 import arcaym.controller.user.impl.UserStateSerializerImpl;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.model.user.api.UserStateInfo;
 
 /**
- * Implementation of {@link EditorControllerInfo}.
+ * Implementation of {@link EditorController}.
  */
-public class EditorControllerInfoImpl implements EditorControllerInfo {
+public class EditorControllerInfoImpl implements EditorController {
 
     private final UserStateInfo userState;
 
