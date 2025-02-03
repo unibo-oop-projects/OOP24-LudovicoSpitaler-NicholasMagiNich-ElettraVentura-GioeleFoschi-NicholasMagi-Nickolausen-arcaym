@@ -35,6 +35,25 @@ public class CreateLevelDialog implements ViewDialog<Component, Void> {
     private static final float LABELS_FONT_SCALE = 1.5f;
     private static final float MESSAGE_FONT_SCALE = 2f;
 
+    private final LevelCreator levelCreator;
+
+    /**
+     * Interface for the level creation function.
+     */
+    @FunctionalInterface
+    interface LevelCreator {
+        void createEditor(int width, int height, EditorType type, String name);
+    } 
+
+    /**
+     * Initialize with level creator.
+     * 
+     * @param levelCreator level creation function
+     */
+    public CreateLevelDialog(final LevelCreator levelCreator) {
+        this.levelCreator = Objects.requireNonNull(levelCreator);
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -43,16 +62,19 @@ public class CreateLevelDialog implements ViewDialog<Component, Void> {
         final var mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
         final var gap = SwingUtils.getNormalGap(mainPanel);
+        final var nameInput = new JTextField(DEFAULT_NAME);
+        final var widthInput = this.createNumberInput(DEFAULT_WIDTH);
+        final var heightInput = this.createNumberInput(DEFAULT_HEIGHT);
+        final var typesInput = new JComboBox<>(EditorType.values());
+        typesInput.setSelectedItem(DEFAULT_TYPE);
         mainPanel.setBorder(BorderFactory.createEmptyBorder(gap, gap, gap, gap));
         mainPanel.add(new CenteredPanel().build(window, SwingUtils.changeFontSize(new JLabel(MESSAGE), MESSAGE_FONT_SCALE)));
         mainPanel.add(Box.createVerticalStrut(gap));
-        mainPanel.add(this.createRow("Name", new JTextField(DEFAULT_NAME), gap));
+        mainPanel.add(this.createRow("Name", nameInput, gap));
         mainPanel.add(Box.createVerticalStrut(gap));
-        mainPanel.add(this.createRow("Width", this.createNumberInput(DEFAULT_WIDTH), gap));
+        mainPanel.add(this.createRow("Width", widthInput, gap));
         mainPanel.add(Box.createVerticalStrut(gap));
-        mainPanel.add(this.createRow("Height", this.createNumberInput(DEFAULT_HEIGHT), gap));
-        final var typesInput = new JComboBox<>(EditorType.values());
-        typesInput.setSelectedItem(DEFAULT_TYPE);
+        mainPanel.add(this.createRow("Height", heightInput, gap));
         mainPanel.add(Box.createVerticalStrut(gap));
         mainPanel.add(this.createRow("Type", typesInput, gap));
         final var result = JOptionPane.showOptionDialog(
@@ -66,7 +88,12 @@ public class CreateLevelDialog implements ViewDialog<Component, Void> {
             null
         );
         if (result == JOptionPane.OK_OPTION) {
-            // TODO create editor and switch to it
+            this.levelCreator.createEditor(
+                (int) widthInput.getValue(),
+                (int) heightInput.getValue(),
+                (EditorType) typesInput.getSelectedItem(),
+                nameInput.getText()
+            );
         }
         return null;
     }
