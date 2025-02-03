@@ -1,13 +1,9 @@
 package arcaym.controller.app.api;
 
 /**
- * Interface for a generic controller.
+ * Interface that models a general controller.
  */
-public interface Controller {
+public interface Controller { 
 
-    /**
-     * Close the controller.
-     */
-    void close();
-
+    
 }

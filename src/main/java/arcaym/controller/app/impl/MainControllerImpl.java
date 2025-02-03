@@ -2,7 +2,7 @@ package arcaym.controller.app.impl;
 
 import java.util.Deque;
 import java.util.LinkedList;
-import java.util.Objects;
+import java.util.Optional;
 import java.util.function.BiFunction;
 
 import arcaym.controller.app.api.ExtendedController;
@@ -15,23 +15,17 @@ import arcaym.view.app.api.View;
  */
 public class MainControllerImpl implements MainController {
 
-    private final MainView mainView;
-    private Deque<QueueElement<?, ?>> stack = new LinkedList<>();
+    private Optional<MainView> mainView = Optional.empty();
+    private final Deque<QueueElement<?, ?>> stack = new LinkedList<>();
 
     private record QueueElement<V extends View, C extends ExtendedController<V>>(C controller, BiFunction<MainView, C, V> viewCreator) {}
 
     /**
-     * Default constructor.
-     * 
-     * @param switcher
-     * @param backOperation
+     * {@inheritDoc}
      */
-    public MainControllerImpl(final MainView mainView) {
-        this.mainView = Objects.requireNonNull(mainView);
-    }
-
-    public void start() {
-        this.mainView.switchToMenu(null);
+    @Override
+    public void setView(final MainView view) {
+        this.mainView = Optional.of(view);
     }
 
     /**
@@ -39,7 +33,27 @@ public class MainControllerImpl implements MainController {
      */
     @Override
     public void close() {
-        
+        stack.stream()
+            .map(QueueElement::controller)
+            .forEach(ExtendedController::close);
+        System.exit(0);
     }
 
+    public void goBack() {
+        if (stack.size() == 1) {
+            throw new IllegalStateException("Cannot go back!");
+        }
+        this.stack.removeFirst().controller.close();
+        switchTo(this.stack.removeFirst());
+    }
+
+    private <V extends View, C extends ExtendedController<V>> void switchTo(final QueueElement<V,C> element) {
+        this.switchTo(element.controller(), element.viewCreator());;
+    }
+
+    private <V extends View, C extends ExtendedController<V>> void switchTo(C controller, BiFunction<MainView, C, V> viewCreator) {
+        this.stack.addLast(new QueueElement<>(controller, viewCreator));
+        final var view = viewCreator.apply(mainView.get(), controller);
+        controller.setView(view);
+    }
 }
