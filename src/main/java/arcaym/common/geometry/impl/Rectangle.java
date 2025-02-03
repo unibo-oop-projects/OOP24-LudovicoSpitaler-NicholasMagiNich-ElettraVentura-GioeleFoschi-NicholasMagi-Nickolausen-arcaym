@@ -100,8 +100,8 @@ public record Rectangle(Point northWest, Point southEast) {
      * @return if it is outside
      */
     public boolean isOutside(final Point point) {
-        return point.x() < this.northWest().x() || point.x() > this.southEast().x() ||
-            point.y() < this.northWest().y() || point.y() > this.southEast().y();
+        return point.x() < this.northWest().x() || point.x() > this.southEast().x()
+            || point.y() < this.northWest().y() || point.y() > this.southEast().y();
     }
 
 }
