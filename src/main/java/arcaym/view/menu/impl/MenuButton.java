@@ -10,7 +10,7 @@ import arcaym.view.core.api.WindowInfo;
 import arcaym.view.utils.SwingUtils;
 
 /**
- * View for a {@link MainMenu} button.
+ * View for a {@link MenuViewImpl} button.
  */
 public class MenuButton implements ViewComponent<JButton> {
 

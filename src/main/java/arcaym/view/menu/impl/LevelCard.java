@@ -2,6 +2,7 @@ package arcaym.view.menu.impl;
 
 import java.awt.BorderLayout;
 import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import javax.swing.Box;
@@ -23,14 +24,17 @@ public class LevelCard implements ViewComponent<JButton> {
     private static final String KEY_DIVISOR = ": ";
 
     private final LevelMetadata metadata;
+    private final Consumer<LevelMetadata> levelOpener;
 
     /**
      * Initialize with given metadata.
      * 
      * @param metadata level metadata
+     * @param levelOpener level opener function
      */
-    public LevelCard(final LevelMetadata metadata) {
+    public LevelCard(final LevelMetadata metadata, final Consumer<LevelMetadata> levelOpener) {
         this.metadata = Objects.requireNonNull(metadata);
+        this.levelOpener = Objects.requireNonNull(levelOpener);
     }
 
     /**
@@ -59,10 +63,7 @@ public class LevelCard implements ViewComponent<JButton> {
         button.add(nameLabel, BorderLayout.WEST);
         button.add(Box.createHorizontalStrut(normalGap), BorderLayout.CENTER);
         button.add(infoPanel, BorderLayout.EAST);
-
-        button.addActionListener(e -> {
-            // TODO open new editor from metadata
-        });
+        button.addActionListener(e -> this.levelOpener.accept(this.metadata));
 
         return button;
     }

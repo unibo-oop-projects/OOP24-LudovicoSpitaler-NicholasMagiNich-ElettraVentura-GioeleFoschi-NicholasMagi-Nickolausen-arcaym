@@ -1,6 +1,8 @@
 package arcaym.view.menu.impl;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import javax.swing.BorderFactory;
@@ -21,6 +23,16 @@ import arcaym.view.utils.SwingUtils;
 public class LevelsList implements ViewComponent<JScrollPane> {
 
     private final List<LevelMetadata> levels = new MetadataManagerImpl().loadData();
+    private final Consumer<LevelMetadata> levelOpener;
+
+    /**
+     * Initialize with level opener.
+     * 
+     * @param levelOpener level opening function
+     */
+    public LevelsList(final Consumer<LevelMetadata> levelOpener) {
+        this.levelOpener = Objects.requireNonNull(levelOpener);
+    }
 
     /**
      * {@inheritDoc}
@@ -32,8 +44,7 @@ public class LevelsList implements ViewComponent<JScrollPane> {
         final var gap = SwingUtils.getNormalGap(mainPanel);
         levels.stream()
             .sorted((l1, l2) -> l1.levelName().compareTo(l2.levelName()))
-            .map(LevelCard::new)
-            .map(l -> l.build(window))
+            .map(metadata -> new LevelCard(metadata, this.levelOpener).build(window))
             .flatMap(c -> Stream.of(Box.createVerticalStrut(gap), c))
             .skip(1)
             .forEach(mainPanel::add);
