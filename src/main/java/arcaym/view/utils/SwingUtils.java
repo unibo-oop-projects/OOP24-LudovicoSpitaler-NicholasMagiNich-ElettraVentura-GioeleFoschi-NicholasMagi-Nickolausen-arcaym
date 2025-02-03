@@ -3,11 +3,6 @@ package arcaym.view.utils;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.WindowEvent;
-
-import arcaym.view.core.api.WindowInfo;
-import arcaym.view.core.impl.Scale;
-import arcaym.view.core.impl.ScaledWindowInfo;
-
 import java.net.URL;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -15,6 +10,10 @@ import java.util.function.Function;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import arcaym.view.core.api.WindowInfo;
+import arcaym.view.core.impl.Scale;
+import arcaym.view.core.impl.ScaledWindowInfo;
 
 /**
  * Utility class for swing.
@@ -40,6 +39,7 @@ public final class SwingUtils {
 
     /**
      * Scale dimension by factor.
+     * 
      * @param dimension source
      * @param scaleFactor scale factor
      * @return resulting dimension
@@ -54,12 +54,15 @@ public final class SwingUtils {
     /**
      * Change font size of a component.
      * 
-     * @param component swing component
+     * @param <T> component type
+     * @param component component
      * @param scaleFactor font scale factor
+     * @return given component
      */
-    public static void changeFontSize(final JComponent component, final float scaleFactor) {
+    public static <T extends JComponent> T changeFontSize(final T component, final float scaleFactor) {
         final var font = component.getFont();
         component.setFont(font.deriveFont(font.getSize() * scaleFactor));
+        return component;
     }
 
     /**

@@ -83,12 +83,8 @@ public class MovementComponentsFactoryImpl implements MovementComponentsFactory 
      */
     @Override
     public GameComponent automaticXMovement(final UniqueComponentsGameObject gameObject) {
-        if (gameObject.type() == GameObjectType.MOVING_X_OBSTACLE) {
-            return genericMovement(Vector.of(1, 0),
-                    (deltaTime, eventsScheduler, vel, object) -> vel.invert(), gameObject);
-        } else {
-            throw new IllegalStateException("Unsupported GameObject type for obstacleCollision");
-        }
+        return genericMovement(Vector.of(1, 0),
+            (deltaTime, eventsScheduler, vel, object) -> vel.invert(), gameObject);
     }
 
     /**
@@ -96,11 +92,7 @@ public class MovementComponentsFactoryImpl implements MovementComponentsFactory 
      */
     @Override
     public GameComponent automaticYMovement(final UniqueComponentsGameObject gameObject) {
-        if (gameObject.type() == GameObjectType.MOVING_Y_OBSTACLE) {
-            return genericMovement(Vector.of(0, 1),
-                    (deltaTime, eventsScheduler, vel, object) -> vel.invert(), gameObject);
-        } else {
-            throw new IllegalStateException("Unsupported GameObject type for obstacleCollision");
-        }
+        return genericMovement(Vector.of(0, 1),
+            (deltaTime, eventsScheduler, vel, object) -> vel.invert(), gameObject);
     }
 }
