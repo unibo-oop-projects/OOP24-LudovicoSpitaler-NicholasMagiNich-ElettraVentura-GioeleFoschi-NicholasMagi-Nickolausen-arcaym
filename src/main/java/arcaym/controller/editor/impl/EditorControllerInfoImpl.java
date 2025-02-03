@@ -31,7 +31,7 @@ import arcaym.view.editor.api.EditorView;
 /**
  * Implementation of {@link EditorController}.
  */
-public class EditorControllerInfoImpl extends AbstractController<EditorView> implements EditorController { // extends the current grid controller, implement all methods
+public class EditorControllerInfoImpl extends AbstractController<EditorView> implements EditorController {
 
     private final UserStateInfo userState;
     private final LevelMetadata metadata;
@@ -40,7 +40,8 @@ public class EditorControllerInfoImpl extends AbstractController<EditorView> imp
     private Optional<Consumer<Map<Position, List<GameObjectType>>>> view;
 
     /**
-     * Creates an editor controller without the ability do undo / redo.
+     * Creates a new editor controller.
+     * 
      * @param x Width of the grid
      * @param y Height of the grid
      * @param type The type of grid that needs to be created
@@ -68,7 +69,10 @@ public class EditorControllerInfoImpl extends AbstractController<EditorView> imp
 
     /**
      * Creates an editor controller starting from a metadata object.
+     * 
      * @param metadata The object with internal data.
+     * @param switcher Used to change the active controller
+     * @param backOperation The sequence of operation to execute when returning to the previeus page
      */
     public EditorControllerInfoImpl(
         final LevelMetadata metadata,
