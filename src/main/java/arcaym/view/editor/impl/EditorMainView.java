@@ -1,4 +1,4 @@
-package arcaym.view.editor;
+package arcaym.view.editor.impl;
 
 import java.awt.Dimension;
 
@@ -6,10 +6,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
-import arcaym.view.editor.components.GridAreaView;
-import arcaym.view.core.api.WindowInfo;
 import arcaym.view.core.api.ViewComponent;
-import arcaym.view.editor.components.SideMenuView;
+import arcaym.view.core.api.WindowInfo;
+import arcaym.view.editor.impl.components.GridAreaView;
+import arcaym.view.editor.impl.components.SideMenuView;
 
 /**
  * The editor complete page.

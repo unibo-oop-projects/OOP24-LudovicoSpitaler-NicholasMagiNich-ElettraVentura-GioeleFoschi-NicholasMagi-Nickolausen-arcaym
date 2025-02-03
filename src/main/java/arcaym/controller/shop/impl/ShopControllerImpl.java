@@ -2,23 +2,30 @@ package arcaym.controller.shop.impl;
 
 import java.util.Map;
 
+import arcaym.controller.app.api.ControllerSwitcher;
+import arcaym.controller.app.impl.AbstractController;
 import arcaym.controller.shop.api.ShopController;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.model.shop.api.Shop;
 import arcaym.model.shop.impl.ShopImpl;
 import arcaym.model.user.impl.UserStateImpl;
+import arcaym.view.shop.api.ShopView;
 
 /**
  * Default implementation of {@link ShopController}.
  */
-public class ShopControllerImpl implements ShopController {
+public class ShopControllerImpl extends AbstractController<ShopView> implements ShopController {
 
     private final Shop shopModel;
 
     /**
      * Default constructor.
+     * 
+     * @param switcher controller switcher
+     * @param backOperation back operation
      */
-    public ShopControllerImpl() {
+    public ShopControllerImpl(final ControllerSwitcher switcher, final Runnable backOperation) {
+        super(switcher, backOperation);
         this.shopModel = new ShopImpl();
     }
 

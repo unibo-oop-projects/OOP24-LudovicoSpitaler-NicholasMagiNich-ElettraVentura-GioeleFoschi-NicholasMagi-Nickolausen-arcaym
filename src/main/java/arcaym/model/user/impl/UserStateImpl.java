@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Set;
 
-import arcaym.common.utils.Optionals;
 import arcaym.controller.user.api.UserStateSerializer;
 import arcaym.controller.user.impl.UserStateSerializerImpl;
 import arcaym.model.game.core.engine.api.GameStateInfo;
@@ -21,8 +20,6 @@ public class UserStateImpl implements UserState {
 
     /* Initial credit */
     private static final int DEFAULT_CREDIT = 0;
-    /* Message shown in case of error while loading the user state from file */
-    private static final String DEFAULT_SERIALIZATION_ERROR_MSG = "Something went wrong while loading the user state from file!";
     /* Items owned by the user at the beginning of the game */
     private static final Set<GameObjectType> DEFAULT_ITEMS = EnumSet.copyOf(Set.of(
         GameObjectType.USER_PLAYER,
@@ -48,7 +45,7 @@ public class UserStateImpl implements UserState {
      */
     @Override
     public void unlockNewItem(final GameObjectType gameObject) {
-        final var savedState = Optionals.orIllegalState(serializer.load(), DEFAULT_SERIALIZATION_ERROR_MSG);
+        final var savedState = serializer.getUpdatedState();
         if (savedState.itemsOwned().contains(gameObject) || savedState.purchasedItems().contains(gameObject)) {
             throw new IllegalArgumentException("Cannot unlock an object already owned! (Unlocking: " + gameObject + ")");
         }
@@ -69,7 +66,7 @@ public class UserStateImpl implements UserState {
      */
     @Override
     public int getCredit() {
-        final var savedState = Optionals.orIllegalState(serializer.load(), DEFAULT_SERIALIZATION_ERROR_MSG);
+        final var savedState = serializer.getUpdatedState();
         return savedState.credit();
     }
 
@@ -78,7 +75,7 @@ public class UserStateImpl implements UserState {
      */
     @Override
     public Set<GameObjectType> getItemsOwned() {
-        final var savedState = Optionals.orIllegalState(serializer.load(), DEFAULT_SERIALIZATION_ERROR_MSG);
+        final var savedState = serializer.getUpdatedState();
         return savedState.itemsOwned();
     }
 
@@ -87,7 +84,7 @@ public class UserStateImpl implements UserState {
      */
     @Override
     public Set<GameObjectType> getPurchasedItems() {
-        final var savedState = Optionals.orIllegalState(serializer.load(), DEFAULT_SERIALIZATION_ERROR_MSG);
+        final var savedState = serializer.getUpdatedState();
         return savedState.purchasedItems();
     }
 
@@ -97,7 +94,7 @@ public class UserStateImpl implements UserState {
     @Override
     public void incrementCredit(final int amount) {
         validateAmount(amount);
-        final var savedState = Optionals.orIllegalState(serializer.load(), DEFAULT_SERIALIZATION_ERROR_MSG);
+        final var savedState = serializer.getUpdatedState();
         final var newCredit = savedState.credit() + amount;
         updateSavedState(savedState.withCredit(newCredit));
     }
@@ -108,7 +105,7 @@ public class UserStateImpl implements UserState {
     @Override
     public void decrementCredit(final int amount) {
         validateAmount(amount);
-        final var savedState = Optionals.orIllegalState(serializer.load(), DEFAULT_SERIALIZATION_ERROR_MSG);
+        final var savedState = serializer.getUpdatedState();
         final var newCredit = savedState.credit() - (savedState.credit() - amount < 0 ? savedState.credit() : amount);
         updateSavedState(savedState.withCredit(newCredit));
     }

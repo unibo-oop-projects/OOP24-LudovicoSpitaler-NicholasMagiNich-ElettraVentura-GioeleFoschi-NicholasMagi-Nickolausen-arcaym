@@ -1,18 +1,39 @@
 package arcaym.view.app.api;
 
+import arcaym.controller.editor.api.EditorControllerInfo;
+import arcaym.controller.game.api.GameControllerInfo;
+import arcaym.controller.menu.api.MenuControllerInfo;
+import arcaym.view.editor.api.EditorView;
+import arcaym.view.game.api.GameView;
+import arcaym.view.menu.api.MenuView;
+
 /**
- * An interface for the main page of the application.
+ * Interface for the main app view.
  */
-public interface MainView {
+public interface MainView extends View {
 
     /**
-     * A method used to switch from level to editor.
+     * Create and switch a menu view.
+     * 
+     * @param controller menu controller
+     * @return resulting view
      */
-    void switchToEditor();
+    MenuView switchToMenu(MenuControllerInfo controller);
 
     /**
-     * A method used to switch from editor to level.
+     * Create and switch an editor view.
+     * 
+     * @param controller editor controller
+     * @return resulting view
      */
-    void switchToGame();
+    EditorView switchToEditor(EditorControllerInfo controller);
+
+    /**
+     * Create and switch a game view.
+     * 
+     * @param controller game controller
+     * @return resulting view
+     */
+    GameView switchToGame(GameControllerInfo controller);
 
 }

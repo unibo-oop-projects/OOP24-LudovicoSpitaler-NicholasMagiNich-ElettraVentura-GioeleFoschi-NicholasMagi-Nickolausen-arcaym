@@ -2,13 +2,16 @@ package arcaym.controller.shop.api;
 
 import java.util.Map;
 
+import arcaym.controller.app.api.Controller;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.model.shop.api.Shop;
+import arcaym.view.shop.api.ShopView;
 
 /**
- * Interface for shop controller.
+ import java.util.Map;
+ * Interface for a shop controller.
  */
-public interface ShopController {
+public interface ShopController extends Controller<ShopView>, ShopControllerInfo {
 
     /**
      * Request transaction to the shop model.

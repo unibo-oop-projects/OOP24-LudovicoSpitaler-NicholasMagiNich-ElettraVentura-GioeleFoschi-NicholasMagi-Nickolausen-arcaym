@@ -1,22 +1,22 @@
-package arcaym.view.app.menu;
+package arcaym.view.menu.impl;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
-import arcaym.view.app.menu.levels.LevelsPanel;
-import arcaym.view.app.panels.PanelsSwitcher;
-import arcaym.view.app.panels.SwitchablePanel;
-import arcaym.view.app.panels.Switcher;
+import arcaym.view.app.impl.PanelsSwitcher;
+import arcaym.view.app.impl.SwitchablePanel;
+import arcaym.view.app.impl.Switcher;
 import arcaym.view.components.CenteredPanel;
 import arcaym.view.components.ImageLabel;
 import arcaym.view.core.api.WindowInfo;
+import arcaym.view.menu.api.MenuView;
 import arcaym.view.utils.SwingUtils;
 
 /**
  * View for the main menu.
  */
-public class MainMenu extends SwitchablePanel {
+public class MainMenu extends SwitchablePanel implements MenuView {
 
     private static final String TITLE_IMAGE = "title.png";
     private static final String LEVELS_BUTTON_TEXT = "LOAD LEVELS";
