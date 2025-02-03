@@ -3,15 +3,16 @@ package arcaym.model.game.core.events;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ArgumentsSource;
+import org.junit.jupiter.api.Test;
 
 import arcaym.model.game.core.events.api.Event;
 import arcaym.model.game.core.events.api.EventsManager;
+import arcaym.model.game.core.events.impl.ThreadSafeEventsManager;
 
 class TestEventsManager {
 
     private Counter counter;
+    private EventsManager<Event> eventsManager;
 
     static class Counter {
 
@@ -69,6 +70,7 @@ class TestEventsManager {
 
     @BeforeEach
     void setup() {
+        this.eventsManager = new ThreadSafeEventsManager<>();
         this.counter = new Counter();
         this.counter.reset();
     }
@@ -81,118 +83,119 @@ class TestEventsManager {
         assertEquals(this.counter.isLocked, isLocked);
     }
 
-    @ParameterizedTest
-    @ArgumentsSource(EventsManagersProvider.class)
-    void testSingleEvent(final EventsManager<NoPriorityEvent> eventsManager) {
-        eventsManager.registerCallback(NoPriorityEvent.INCREMENT, e -> this.counter.increment());
+    @Test
+    void testSingleEvent() {
+        this.eventsManager.registerCallback(NoPriorityEvent.INCREMENT, e -> this.counter.increment());
         assertCounterValue(0); // starting point
-        eventsManager.consumePendingEvents();
+        this.eventsManager.consumePendingEvents();
         assertCounterValue(0); // no events were scheduled
-        eventsManager.scheduleEvent(NoPriorityEvent.DECREMENT);
+        this.eventsManager.scheduleEvent(NoPriorityEvent.DECREMENT);
         assertCounterValue(0); // decrement is scheduled but not yet consumed
-        eventsManager.consumePendingEvents();
+        this.eventsManager.consumePendingEvents();
         assertCounterValue(0); // decrement has no callback registered
-        eventsManager.scheduleEvent(NoPriorityEvent.INCREMENT);
+        this.eventsManager.scheduleEvent(NoPriorityEvent.INCREMENT);
         assertCounterValue(0); // increment is scheduled but not consumed
-        eventsManager.consumePendingEvents();
+        this.eventsManager.consumePendingEvents();
         assertCounterValue(1); // increment performed
     }
 
-    @ParameterizedTest
-    @ArgumentsSource(EventsManagersProvider.class)
-    void testEventValue(final EventsManager<NoPriorityEvent> eventsManager) {
+    @Test
+    void testEventValue() {
         // assert inside callback that the correct event is received
-        eventsManager.registerCallback(NoPriorityEvent.INCREMENT, e -> assertEquals(NoPriorityEvent.INCREMENT, e));
-        eventsManager.registerCallback(NoPriorityEvent.DECREMENT, e -> assertEquals(NoPriorityEvent.DECREMENT, e));
-        eventsManager.scheduleEvent(NoPriorityEvent.DECREMENT);
-        eventsManager.scheduleEvent(NoPriorityEvent.INCREMENT);
-        eventsManager.consumePendingEvents();
+        this.eventsManager.registerCallback(
+            NoPriorityEvent.INCREMENT, 
+            e -> assertEquals(NoPriorityEvent.INCREMENT, e)
+        );
+        this.eventsManager.registerCallback(
+            NoPriorityEvent.DECREMENT, 
+            e -> assertEquals(NoPriorityEvent.DECREMENT, e)
+        );
+        this.eventsManager.scheduleEvent(NoPriorityEvent.DECREMENT);
+        this.eventsManager.scheduleEvent(NoPriorityEvent.INCREMENT);
+        this.eventsManager.consumePendingEvents();
     }
 
-    @ParameterizedTest
-    @ArgumentsSource(EventsManagersProvider.class)
-    void testMultipleEvents(final EventsManager<NoPriorityEvent> eventsManager) {
-        eventsManager.registerCallback(NoPriorityEvent.INCREMENT, e -> this.counter.increment());
-        eventsManager.registerCallback(NoPriorityEvent.DECREMENT, e -> this.counter.decrement());
+    @Test
+    void testMultipleEvents() {
+        this.eventsManager.registerCallback(NoPriorityEvent.INCREMENT, e -> this.counter.increment());
+        this.eventsManager.registerCallback(NoPriorityEvent.DECREMENT, e -> this.counter.decrement());
 
-        eventsManager.scheduleEvent(NoPriorityEvent.INCREMENT);
-        eventsManager.scheduleEvent(NoPriorityEvent.DECREMENT);
-        eventsManager.consumePendingEvents();
+        this.eventsManager.scheduleEvent(NoPriorityEvent.INCREMENT);
+        this.eventsManager.scheduleEvent(NoPriorityEvent.DECREMENT);
+        this.eventsManager.consumePendingEvents();
         assertCounterValue(0);
-        eventsManager.scheduleEvent(NoPriorityEvent.DECREMENT);
-        eventsManager.scheduleEvent(NoPriorityEvent.INCREMENT);
-        eventsManager.consumePendingEvents();
+        this.eventsManager.scheduleEvent(NoPriorityEvent.DECREMENT);
+        this.eventsManager.scheduleEvent(NoPriorityEvent.INCREMENT);
+        this.eventsManager.consumePendingEvents();
         assertCounterValue(0);
-        eventsManager.scheduleEvent(NoPriorityEvent.INCREMENT);
-        eventsManager.scheduleEvent(NoPriorityEvent.INCREMENT);
-        eventsManager.scheduleEvent(NoPriorityEvent.DECREMENT);
-        eventsManager.consumePendingEvents();
+        this.eventsManager.scheduleEvent(NoPriorityEvent.INCREMENT);
+        this.eventsManager.scheduleEvent(NoPriorityEvent.INCREMENT);
+        this.eventsManager.scheduleEvent(NoPriorityEvent.DECREMENT);
+        this.eventsManager.consumePendingEvents();
         assertCounterValue(1);
     }
 
-    @ParameterizedTest
-    @ArgumentsSource(EventsManagersProvider.class)
-    void testPriorityEvents(final EventsManager<PriorityEvent> eventsManager) {
-        eventsManager.registerCallback(PriorityEvent.LOCK, e -> this.counter.lock());
-        eventsManager.registerCallback(PriorityEvent.INCREMENT, e -> this.counter.increment());
-        eventsManager.registerCallback(PriorityEvent.DECREMENT, e -> this.counter.decrement());
+    @Test
+    void testPriorityEvents() {
+        this.eventsManager.registerCallback(PriorityEvent.LOCK, e -> this.counter.lock());
+        this.eventsManager.registerCallback(PriorityEvent.INCREMENT, e -> this.counter.increment());
+        this.eventsManager.registerCallback(PriorityEvent.DECREMENT, e -> this.counter.decrement());
 
-        eventsManager.scheduleEvent(PriorityEvent.INCREMENT);
-        eventsManager.scheduleEvent(PriorityEvent.DECREMENT);
-        eventsManager.consumePendingEvents(); // same priority
+        this.eventsManager.scheduleEvent(PriorityEvent.INCREMENT);
+        this.eventsManager.scheduleEvent(PriorityEvent.DECREMENT);
+        this.eventsManager.consumePendingEvents(); // same priority
         assertCounterValue(0);
         assertCounterLocked(false);
         this.counter.reset();
-        eventsManager.scheduleEvent(PriorityEvent.LOCK);
-        eventsManager.scheduleEvent(PriorityEvent.DECREMENT);
-        eventsManager.consumePendingEvents(); // lock has priority so decrement has no effect
+        this.eventsManager.scheduleEvent(PriorityEvent.LOCK);
+        this.eventsManager.scheduleEvent(PriorityEvent.DECREMENT);
+        this.eventsManager.consumePendingEvents(); // lock has priority so decrement has no effect
         assertCounterValue(0);
         assertCounterLocked(true);
         this.counter.reset();
-        eventsManager.scheduleEvent(PriorityEvent.DECREMENT);
-        eventsManager.scheduleEvent(PriorityEvent.LOCK);
-        eventsManager.consumePendingEvents(); // same result as before regardless of the events order
+        this.eventsManager.scheduleEvent(PriorityEvent.DECREMENT);
+        this.eventsManager.scheduleEvent(PriorityEvent.LOCK);
+        this.eventsManager.consumePendingEvents(); // same result as before regardless of the events order
         assertCounterValue(0);
         assertCounterLocked(true);
         this.counter.reset();
-        eventsManager.scheduleEvent(PriorityEvent.INCREMENT);
-        eventsManager.scheduleEvent(PriorityEvent.LOCK);
-        eventsManager.scheduleEvent(PriorityEvent.INCREMENT);
-        eventsManager.consumePendingEvents(); // lock has priority on both increment and decrement
+        this.eventsManager.scheduleEvent(PriorityEvent.INCREMENT);
+        this.eventsManager.scheduleEvent(PriorityEvent.LOCK);
+        this.eventsManager.scheduleEvent(PriorityEvent.INCREMENT);
+        this.eventsManager.consumePendingEvents(); // lock has priority on both increment and decrement
         assertCounterValue(0);
         assertCounterLocked(true);
     }
 
-    @ParameterizedTest
-    @ArgumentsSource(EventsManagersProvider.class)
-    void testMixedEvents(final EventsManager<Event> eventsManager) {
+    @Test
+    void testMixedEvents() {
         // assert priority works event againts no-priority events
-        eventsManager.registerCallback(PriorityEvent.LOCK, e -> this.counter.lock());
-        eventsManager.registerCallback(NoPriorityEvent.INCREMENT, e -> this.counter.increment());
-        eventsManager.registerCallback(NoPriorityEvent.DECREMENT, e -> this.counter.decrement());
+        this.eventsManager.registerCallback(PriorityEvent.LOCK, e -> this.counter.lock());
+        this.eventsManager.registerCallback(NoPriorityEvent.INCREMENT, e -> this.counter.increment());
+        this.eventsManager.registerCallback(NoPriorityEvent.DECREMENT, e -> this.counter.decrement());
 
-        eventsManager.scheduleEvent(NoPriorityEvent.INCREMENT);
-        eventsManager.scheduleEvent(NoPriorityEvent.DECREMENT);
-        eventsManager.consumePendingEvents();
+        this.eventsManager.scheduleEvent(NoPriorityEvent.INCREMENT);
+        this.eventsManager.scheduleEvent(NoPriorityEvent.DECREMENT);
+        this.eventsManager.consumePendingEvents();
         assertCounterValue(0);
         assertCounterLocked(false);
         this.counter.reset();
-        eventsManager.scheduleEvent(PriorityEvent.LOCK);
-        eventsManager.scheduleEvent(NoPriorityEvent.DECREMENT);
-        eventsManager.consumePendingEvents();
+        this.eventsManager.scheduleEvent(PriorityEvent.LOCK);
+        this.eventsManager.scheduleEvent(NoPriorityEvent.DECREMENT);
+        this.eventsManager.consumePendingEvents();
         assertCounterValue(0);
         assertCounterLocked(true);
         this.counter.reset();
-        eventsManager.scheduleEvent(NoPriorityEvent.DECREMENT);
-        eventsManager.scheduleEvent(PriorityEvent.LOCK);
-        eventsManager.consumePendingEvents();
+        this.eventsManager.scheduleEvent(NoPriorityEvent.DECREMENT);
+        this.eventsManager.scheduleEvent(PriorityEvent.LOCK);
+        this.eventsManager.consumePendingEvents();
         assertCounterValue(0);
         assertCounterLocked(true);
         this.counter.reset();
-        eventsManager.scheduleEvent(NoPriorityEvent.INCREMENT);
-        eventsManager.scheduleEvent(PriorityEvent.LOCK);
-        eventsManager.scheduleEvent(NoPriorityEvent.INCREMENT);
-        eventsManager.consumePendingEvents();
+        this.eventsManager.scheduleEvent(NoPriorityEvent.INCREMENT);
+        this.eventsManager.scheduleEvent(PriorityEvent.LOCK);
+        this.eventsManager.scheduleEvent(NoPriorityEvent.INCREMENT);
+        this.eventsManager.consumePendingEvents();
         assertCounterValue(0);
         assertCounterLocked(true);
     }

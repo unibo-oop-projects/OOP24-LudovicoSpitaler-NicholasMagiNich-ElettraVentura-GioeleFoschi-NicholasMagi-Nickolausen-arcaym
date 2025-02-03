@@ -12,10 +12,10 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import arcaym.TestingToolkit;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.model.shop.api.Shop;
 import arcaym.model.shop.impl.ShopImpl;
+import arcaym.utils.UserStateTestingUtils;
 
 class TestShop {
 
@@ -24,14 +24,14 @@ class TestShop {
 
     @BeforeEach
     void setup() {
-        TestingToolkit.makeUserStateBackup();
-        TestingToolkit.writeUserStateDefault(DEFAULT_CREDIT);
+        UserStateTestingUtils.makeUserStateBackup();
+        UserStateTestingUtils.writeUserStateDefault(DEFAULT_CREDIT);
         shopModel = new ShopImpl();
     }
 
     @AfterEach
     void clearTraces() {
-        TestingToolkit.writeUserStateBackup();
+        UserStateTestingUtils.writeUserStateBackup();
     }
 
     @Test
@@ -40,7 +40,7 @@ class TestShop {
         assertFalse(shopModel.getLockedGameObjects().keySet().stream().anyMatch(shopModel::canBuy));
 
         final int creditRecharge = 50;
-        TestingToolkit.writeUserStateDefault(creditRecharge);
+        UserStateTestingUtils.writeUserStateDefault(creditRecharge);
 
         // Now the user should be able to buy something
         assertTrue(shopModel.getLockedGameObjects().keySet().stream().anyMatch(shopModel::canBuy));
@@ -55,7 +55,7 @@ class TestShop {
         assertFalse(shopModel.getLockedGameObjects().keySet().stream().anyMatch(shopModel::makeTransaction));
 
         final int creditRecharge = 50;
-        TestingToolkit.writeUserStateDefault(creditRecharge);
+        UserStateTestingUtils.writeUserStateDefault(creditRecharge);
 
         // The transaction ends with success
         assertTrue(shopModel.makeTransaction(GameObjectType.WALL));
@@ -70,7 +70,7 @@ class TestShop {
         assertEquals(shopModel.getPurchasedGameObjects(), Collections.emptyMap());
 
         final int creditRecharge = 200;
-        TestingToolkit.writeUserStateDefault(creditRecharge);
+        UserStateTestingUtils.writeUserStateDefault(creditRecharge);
 
         assertTrue(shopModel.makeTransaction(GameObjectType.WALL)); // -50
         assertTrue(shopModel.makeTransaction(GameObjectType.MOVING_X_OBSTACLE)); // -30

@@ -1,4 +1,4 @@
-package arcaym;
+package arcaym.utils;
 
 import java.util.Collections;
 import java.util.EnumSet;
@@ -13,13 +13,13 @@ import arcaym.model.user.impl.UserStateImpl;
 /**
  * Some utilites for multiple operations in testing.
  */
-public final class TestingToolkit {
+public final class UserStateTestingUtils {
 
     private static final String COPY_FILE = "user_data_backup";
     private static final String SAVES_FILE = "user_data";
 
     // Utility class
-    private TestingToolkit() { }
+    private UserStateTestingUtils() { }
 
     /**
      * Creates a backup for the user state in a temporary file.

@@ -102,35 +102,6 @@ public class GameViewImpl extends AbstractView<GameController> implements GameVi
                     this.getSize().getWidth() / boundaries.base());
         }
 
-        /**
-         * Creates new object in the game.
-         * 
-         * @param gameObject
-         */
-        public void createObject(final GameObjectInfo gameObject) {
-            gameMap.put(gameObject, new GameObjectView(gameObject.type()).getImage().get());
-            this.repaint();
-        }
-
-        /**
-         * Updates new object in the game.
-         * 
-         * @param gameObject
-         */
-        public void updateObject(final GameObjectInfo gameObject) {
-            this.repaint();
-        }
-
-        /**
-         * Destroys new object in the game.
-         * 
-         * @param gameObject
-         */
-        public void destroyObject(final GameObjectInfo gameObject) {
-            gameMap.remove(gameObject);
-            this.repaint();
-        }
-
     }
 
     /**
@@ -240,7 +211,8 @@ public class GameViewImpl extends AbstractView<GameController> implements GameVi
      */
     @Override
     public void destroyObject(final GameObjectInfo gameObject) {
-        this.gamePanel.ifPresent((panel) -> panel.destroyObject(gameObject));
+        gameMap.remove(gameObject);
+        this.gamePanel.ifPresent(JPanel::repaint);
     }
 
     /**
@@ -248,7 +220,8 @@ public class GameViewImpl extends AbstractView<GameController> implements GameVi
      */
     @Override
     public void createObject(final GameObjectInfo gameObject) {
-        this.gamePanel.ifPresent((panel) -> panel.createObject(gameObject));
+        gameMap.put(gameObject, new GameObjectView(gameObject.type()).getImage().get());
+        this.gamePanel.ifPresent(JPanel::repaint);
     }
 
     /**
@@ -256,7 +229,7 @@ public class GameViewImpl extends AbstractView<GameController> implements GameVi
      */
     @Override
     public void updateObject(final GameObjectInfo gameObject) {
-        this.gamePanel.ifPresent((panel) -> panel.updateObject(gameObject));
+        this.gamePanel.ifPresent(JPanel::repaint);
     }
 
 }
