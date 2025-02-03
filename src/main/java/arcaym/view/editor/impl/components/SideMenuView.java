@@ -1,0 +1,47 @@
+package arcaym.view.editor.impl.components;
+
+import java.awt.GridLayout;
+import java.util.Map;
+import java.util.Set;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
+
+import arcaym.model.game.core.objects.api.GameObjectCategory;
+import arcaym.view.core.api.ViewComponent;
+import arcaym.view.core.api.WindowInfo;
+import arcaym.view.objects.GameObjectView;
+
+/**
+ * An implementation of the side menu component in swing.
+ */
+public class SideMenuView implements ViewComponent<JScrollPane> {
+
+    private final Map<GameObjectCategory, Set<GameObjectView>> gameObjects;
+
+    /**
+     * A constructor of the component.
+     */
+    public SideMenuView() {
+        this.gameObjects = Map.of();
+    }
+
+    /**
+     * {@inheritDoc}
+    */
+    @Override
+    public JScrollPane build(final WindowInfo window) {
+        final JScrollPane mainPanel = new JScrollPane();
+        final JPanel content = new JPanel();
+        content.setMinimumSize(mainPanel.getSize());
+        content.setLayout(new GridLayout(0, 1));
+        gameObjects.forEach((category, objects) -> {
+            content.add(new JLabel(category.toString(), SwingConstants.CENTER));
+        });
+        mainPanel.setViewportView(content);
+        mainPanel.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        return mainPanel;
+    }
+}

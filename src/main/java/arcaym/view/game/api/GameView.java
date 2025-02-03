@@ -5,11 +5,12 @@ import arcaym.model.game.core.events.api.EventsScheduler;
 import arcaym.model.game.core.objects.api.GameObjectInfo;
 import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.events.impl.InputEvent;
+import arcaym.view.app.api.View;
 
 /**
  * Interface for a game view.
  */
-public interface GameView extends EventsObserver<GameEvent> {
+public interface GameView extends View, EventsObserver<GameEvent> {
 
     /**
      * Set input events scheduler to use.

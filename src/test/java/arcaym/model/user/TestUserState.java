@@ -10,10 +10,10 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import arcaym.common.utils.TestingToolkit;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.model.user.api.UserState;
 import arcaym.model.user.impl.UserStateImpl;
+import arcaym.utils.UserStateTestingUtils;
 
 class TestUserState {
 
@@ -28,14 +28,14 @@ class TestUserState {
     @BeforeEach
     void setup() {
         // Does not overwrite the previous states (if the player has some recent saves)
-        TestingToolkit.makeUserStateBackup();
-        TestingToolkit.writeUserStateDefault(0);
+        UserStateTestingUtils.makeUserStateBackup();
+        UserStateTestingUtils.writeUserStateDefault(0);
         this.userState = new UserStateImpl();
     }
 
     @AfterEach
     void clearTraces() {
-        TestingToolkit.writeUserStateBackup();
+        UserStateTestingUtils.writeUserStateBackup();
     }
 
     @Test

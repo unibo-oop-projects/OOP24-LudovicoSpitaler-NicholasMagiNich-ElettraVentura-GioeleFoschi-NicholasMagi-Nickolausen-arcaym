@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import arcaym.common.utils.Position;
 import arcaym.controller.editor.saves.LevelMetadata;
@@ -101,5 +102,18 @@ public class GridModelImpl implements GridModel {
     @Override
     public boolean saveState(final String uuid) {
         return this.grid.saveState(uuid);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Map<Position, List<GameObjectType>> getFullMap() {
+        this.changedState = IntStream.range(0, this.grid.getSize().x())
+            .mapToObj(i -> i)
+            .flatMap(x -> IntStream.range(0, this.grid.getSize().y())
+            .mapToObj(y -> new Position(x, y)))
+            .collect(Collectors.toSet());
+        return getUpdatedGrid();
     }
 }

@@ -60,7 +60,7 @@ public class MovementComponentsFactoryImpl implements MovementComponentsFactory 
                     final GameStateInfo gameState) {
                 final Point newPosition = nextPosition(initialVelocity, deltaTime, gameObject);
 
-                if (!isWallCollisionActive(gameScene, gameObject)) {
+                if (!isWallCollisionActive(gameScene, gameObject) && !gameState.boundaries().isOutside(newPosition)) {
                     gameObject.setPosition(newPosition);
                 } else {
                     reaction.reactToLimitReached(deltaTime, eventsScheduler, vel, gameObject);

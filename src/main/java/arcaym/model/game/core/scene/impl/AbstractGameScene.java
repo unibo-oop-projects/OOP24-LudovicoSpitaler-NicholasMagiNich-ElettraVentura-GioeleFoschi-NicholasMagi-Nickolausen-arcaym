@@ -85,6 +85,7 @@ public abstract class AbstractGameScene implements GameScene {
         final var gameObject = this.createObject(creation.type());
         gameObject.setPosition(creation.position());
         LOGGER.info(new StringBuilder("Created object ").append(gameObject).toString());
+        this.gameObjects.add(gameObject);
         gameView.createObject(gameObject);
     }
 
