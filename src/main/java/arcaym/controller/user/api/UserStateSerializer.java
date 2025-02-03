@@ -7,7 +7,7 @@ import arcaym.model.user.api.UserStateInfo;
 /**
  * A facade for the serialization & de-serialization of the user state.
  */
-public interface UserStateSerializer {
+public interface UserStateSerializer extends UserStateSerializerInfo {
 
     /**
      * Serializes the user state.
