@@ -18,7 +18,7 @@ import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.utils.EmptyGameView;
 
 class TestScene {
-    
+
     private static final int TILE_SIZE = 10;
 
     private GameScene scene;
@@ -55,9 +55,9 @@ class TestScene {
         final var type = GameObjectType.USER_PLAYER;
         final var position = Point.of(0, 0);
         assertObjectsCount(0);
-        scene.scheduleCreation(type, position);
+        this.scene.scheduleCreation(type, position);
         assertObjectsCount(0);
-        scene.consumePendingActions(new EmptyGameView());
+        this.scene.consumePendingActions(new EmptyGameView());
         assertObjectsCount(1);
         final var gameObject = getFromScene();
         assertEquals(type, gameObject.type());
@@ -68,13 +68,13 @@ class TestScene {
     void testDestruction() {
         final var type = GameObjectType.USER_PLAYER;
         final var position = Point.of(0, 0);
-        scene.scheduleCreation(type, position);
-        scene.consumePendingActions(new EmptyGameView());
+        this.scene.scheduleCreation(type, position);
+        this.scene.consumePendingActions(new EmptyGameView());
         assertObjectsCount(1);
         final var gameObject = getFromScene();
-        scene.scheduleDestruction(gameObject);
+        this.scene.scheduleDestruction(gameObject);
         assertObjectIsPresent(gameObject);
-        scene.consumePendingActions(new EmptyGameView());
+        this.scene.consumePendingActions(new EmptyGameView());
         assertObjectIsMissing(gameObject);
     }
 
