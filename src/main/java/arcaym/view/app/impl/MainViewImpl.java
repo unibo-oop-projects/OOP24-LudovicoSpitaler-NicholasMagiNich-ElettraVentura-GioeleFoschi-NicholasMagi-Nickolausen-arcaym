@@ -30,6 +30,7 @@ import arcaym.view.game.impl.GameViewImpl;
 import arcaym.view.menu.api.MenuView;
 import arcaym.view.menu.impl.MenuViewImpl;
 import arcaym.view.shop.api.ShopView;
+import arcaym.view.shop.impl.ShopViewImpl;
 import arcaym.view.utils.SwingUtils;
 
 /**
@@ -71,7 +72,7 @@ public class MainViewImpl extends AbstractView<MainController> implements MainVi
         topRow.setLayout(new BoxLayout(topRow, BoxLayout.LINE_AXIS));
         topRow.setBorder(BorderFactory.createEmptyBorder(littleGap, normalGap, littleGap, normalGap));
         final var backButton = new JButton(BACK_BUTTON_TEXT);
-        backButton.addActionListener(e -> controller().goBack());
+        backButton.addActionListener(e -> this.controller().goBack());
         final var closeButton = new JButton(CLOSE_BUTTON_TEXT);
         closeButton.addActionListener(e -> this.controller().close());
         if (this.controller().canGoBack()) {
@@ -112,7 +113,9 @@ public class MainViewImpl extends AbstractView<MainController> implements MainVi
 
     @Override
     public ShopView switchToShop(ShopController controller) {
-        return null;
+        final var shopView = new ShopViewImpl(controller);
+        fillContent(shopView);
+        return shopView;
     }
 
     public void init() {

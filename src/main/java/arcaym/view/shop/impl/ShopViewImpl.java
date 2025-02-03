@@ -47,7 +47,7 @@ public class ShopViewImpl extends AbstractView<ShopController> implements ViewCo
      * 
      * @param controller shop controller
      */
-    public ShopViewImpl(final ShopControllerImpl controller) {
+    public ShopViewImpl(final ShopController controller) {
         super(controller);
     }
 
