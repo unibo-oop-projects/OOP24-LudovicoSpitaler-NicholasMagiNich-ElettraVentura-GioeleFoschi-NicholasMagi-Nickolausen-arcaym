@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import arcaym.common.geometry.impl.Point;
-import arcaym.model.game.components.impl.ComponentsBasedObjectsFactory;
 import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.core.objects.api.GameObjectInfo;
 import arcaym.model.game.core.objects.api.GameObjectsFactory;
@@ -16,16 +15,15 @@ import arcaym.model.game.core.scene.api.GameScene;
 import arcaym.model.game.core.scene.impl.FactoryBasedGameScene;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.utils.EmptyGameView;
+import arcaym.utils.GameTestingUtils;
 
 class TestScene {
-
-    private static final int TILE_SIZE = 10;
 
     private GameScene scene;
 
     @BeforeEach
     void setup() {
-        initialize(new ComponentsBasedObjectsFactory(TILE_SIZE));
+        initialize(GameTestingUtils.createObjectsFactory());
     }
 
     void initialize(final GameObjectsFactory factory) {

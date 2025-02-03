@@ -93,4 +93,15 @@ public record Rectangle(Point northWest, Point southEast) {
         return this.southEast.subtract(this.northWest).y();
     }
 
+    /**
+     * Check if a point is outside of the rectangle.
+     * 
+     * @param point point
+     * @return if it is outside
+     */
+    public boolean isOutside(final Point point) {
+        return point.x() < this.northWest().x() || point.x() > this.southEast().x() ||
+            point.y() < this.northWest().y() || point.y() > this.southEast().y();
+    }
+
 }
