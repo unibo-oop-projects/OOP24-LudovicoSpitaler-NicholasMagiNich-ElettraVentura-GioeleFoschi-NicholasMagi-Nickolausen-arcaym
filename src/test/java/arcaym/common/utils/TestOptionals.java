@@ -12,7 +12,6 @@ class TestOptionals {
     @Test
     void testOrIllegalState() {
         assertEquals(0, Optionals.orIllegalState(Optional.of(0), ""));
-
         final var errorMessage = "Test error";
         final var exception = assertThrowsExactly(
             IllegalStateException.class, 

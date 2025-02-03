@@ -19,8 +19,9 @@ class CartesianEntitiesProvider implements ArgumentsProvider {
     @Override
     public Stream<? extends Arguments> provideArguments(final ExtensionContext context) throws Exception {
         final Stream<CartesianEntityConstructor<?>> implementations = Stream.of(
-                (CartesianEntityConstructor<Point>) Point::of,
-                (CartesianEntityConstructor<Vector>) Vector::of);
+            (CartesianEntityConstructor<Point>) Point::of,
+            (CartesianEntityConstructor<Vector>) Vector::of
+        );
         return implementations.map(Arguments::of);
     }
 

@@ -24,5 +24,4 @@ public final class Optionals {
     public static <T> T orIllegalState(final Optional<T> value, final String message) {
         return value.orElseThrow(() -> new IllegalStateException(Objects.requireNonNull(message)));
     }
-
 }
