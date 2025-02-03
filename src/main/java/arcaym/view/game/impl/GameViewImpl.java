@@ -108,7 +108,7 @@ public class GameViewImpl extends AbstractView<GameController> implements GameVi
          * @param gameObject
          */
         public void createObject(final GameObjectInfo gameObject) {
-            gameMap.put(gameObject,new GameObjectView(gameObject.type()).getImage().get());
+            gameMap.put(gameObject, new GameObjectView(gameObject.type()).getImage().get());
             this.repaint();
         }
 
