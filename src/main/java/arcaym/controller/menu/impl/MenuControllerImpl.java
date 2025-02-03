@@ -8,6 +8,9 @@ import arcaym.controller.shop.impl.ShopControllerImpl;
 import arcaym.model.editor.EditorType;
 import arcaym.view.menu.api.MenuView;
 
+/**
+ * Implementation of {@link ExtendedMenuController}.
+ */
 public class MenuControllerImpl 
     extends AbstractController<MenuView>
     implements ExtendedMenuController {
@@ -34,7 +37,7 @@ public class MenuControllerImpl
      * {@inheritDoc}
      */
     @Override
-    public void createEditor(String name, int width, int height, EditorType type) {
+    public void createEditor(final String name, final int width, final int height, final EditorType type) {
         // TODO fix when editor controlle is ready
         throw new UnsupportedOperationException("Unimplemented method 'createEditor'");
     }
