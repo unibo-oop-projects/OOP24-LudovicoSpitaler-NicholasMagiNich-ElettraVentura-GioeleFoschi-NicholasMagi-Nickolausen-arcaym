@@ -24,11 +24,11 @@ public class EditorControllerInfoImpl implements EditorController {
         this.userState = serializer.getUpdatedState();
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void close() { }
+    // /**
+    //  * {@inheritDoc}
+    //  */
+    // @Override
+    // public void close() { }
 
     /**
      * {@inheritDoc}

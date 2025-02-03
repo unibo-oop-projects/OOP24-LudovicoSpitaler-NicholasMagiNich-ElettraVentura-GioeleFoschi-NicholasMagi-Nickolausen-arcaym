@@ -22,10 +22,9 @@ public class ShopControllerImpl extends AbstractController<ShopView> implements 
      * Default constructor.
      * 
      * @param switcher controller switcher
-     * @param backOperation back operation
      */
-    public ShopControllerImpl(final ControllerSwitcher switcher, final Runnable backOperation) {
-        super(switcher, backOperation);
+    public ShopControllerImpl(final ControllerSwitcher switcher) {
+        super(switcher);
         this.shopModel = new ShopImpl();
     }
 
