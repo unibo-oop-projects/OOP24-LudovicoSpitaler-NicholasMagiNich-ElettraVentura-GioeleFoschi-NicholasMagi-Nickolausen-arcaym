@@ -14,7 +14,6 @@ import arcaym.model.game.core.objects.api.GameObjectCategory;
 import arcaym.model.game.core.objects.api.GameObjectInfo;
 import arcaym.model.game.core.scene.api.GameSceneInfo;
 import arcaym.model.game.events.api.GameEvent;
-import arcaym.model.game.objects.api.GameObjectType;
 
 /**
  * Implementation of a {@link CollisionComponentsFactory}.
@@ -67,15 +66,12 @@ public class CollisionComponentsFactoryImpl implements CollisionComponentsFactor
      */
     @Override
     public GameComponent collectableCollision(final UniqueComponentsGameObject gameObject) {
-        if (gameObject.type().equals(GameObjectType.COIN)) {
-            return genericCollision(info -> info.category() == GameObjectCategory.PLAYER,
-                    (deltaTime, eventsScheduler, collidingObject, gameScene) -> {
-                        eventsScheduler.scheduleEvent(GameEvent.INCREMENT_SCORE);
-                        gameScene.scheduleDestruction(gameObject);
-                    }, gameObject);
-        } else {
-            throw new IllegalStateException("Unsupported GameObject type for obstacleCollision");
-        }
+        return genericCollision(info -> info.category() == GameObjectCategory.PLAYER,
+            (deltaTime, eventsScheduler, collidingObject, gameScene) -> {
+                eventsScheduler.scheduleEvent(GameEvent.INCREMENT_SCORE);
+                gameScene.scheduleDestruction(gameObject);
+            }, 
+            gameObject);
     }
 
     /**
