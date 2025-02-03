@@ -1,4 +1,4 @@
-package arcaym.view.editor.components;
+package arcaym.view.editor.impl.components;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -10,8 +10,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
-import arcaym.view.core.api.WindowInfo;
 import arcaym.view.core.api.ViewComponent;
+import arcaym.view.core.api.WindowInfo;
 
 /**
  * The grid view implementation in swing.

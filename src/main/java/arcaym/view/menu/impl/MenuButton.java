@@ -1,11 +1,11 @@
-package arcaym.view.app.menu;
+package arcaym.view.menu.impl;
 
 import java.util.Objects;
 
 import javax.swing.JButton;
 
-import arcaym.view.core.api.WindowInfo;
 import arcaym.view.core.api.ViewComponent;
+import arcaym.view.core.api.WindowInfo;
 import arcaym.view.utils.SwingUtils;
 
 /**

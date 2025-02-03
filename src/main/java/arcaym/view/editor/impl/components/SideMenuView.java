@@ -1,4 +1,4 @@
-package arcaym.view.editor.components;
+package arcaym.view.editor.impl.components;
 
 import java.awt.GridLayout;
 import java.util.Map;
@@ -10,8 +10,8 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
 import arcaym.model.game.core.objects.api.GameObjectCategory;
-import arcaym.view.core.api.WindowInfo;
 import arcaym.view.core.api.ViewComponent;
+import arcaym.view.core.api.WindowInfo;
 import arcaym.view.objects.GameObjectView;
 
 /**

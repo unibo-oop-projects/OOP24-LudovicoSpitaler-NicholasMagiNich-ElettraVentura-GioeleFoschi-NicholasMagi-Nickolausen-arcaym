@@ -7,7 +7,10 @@ import java.util.Set;
 import arcaym.model.game.objects.api.GameObjectType;
 
 /**
- * A read-only view of {@link UserState}.
+ * A read-only view of {@link UserState}. 
+ * This record serves primarily as a collection of information
+ * that gets serialized and deserialized across the application. To obtain the
+ * updated version of these information, use {@link UserStateView}. 
  * 
  * @param credit the credit of the user needed to buy assets from the shop
  * @param itemsOwned the collection of the items owned by the user (purchased + default)
