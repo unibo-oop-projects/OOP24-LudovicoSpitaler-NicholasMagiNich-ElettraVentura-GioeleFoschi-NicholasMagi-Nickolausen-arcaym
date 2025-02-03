@@ -14,7 +14,7 @@ import arcaym.model.game.objects.api.GameObjectType;
 /**
  * Interface for an editor controller.
  */
-public interface EditorController extends Controller { // Copy grid controller in here 
+public interface EditorController extends Controller {
 
     /**
      * Builds the level that u been cooking.
