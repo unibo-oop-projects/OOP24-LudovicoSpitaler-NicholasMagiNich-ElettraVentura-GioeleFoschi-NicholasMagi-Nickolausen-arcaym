@@ -47,16 +47,14 @@ public class EditorControllerInfoImpl extends AbstractController<EditorView> imp
      * @param type The type of grid that needs to be created
      * @param name The name to give to the level
      * @param switcher Used to change the active controller
-     * @param backOperation The sequence of operation to execute when returning to the previeus page
      */
     public EditorControllerInfoImpl(
         final int x, 
         final int y, 
         final EditorType type,
         final String name,
-        final ControllerSwitcher switcher,
-        final Runnable backOperation) {
-        super(switcher, backOperation);
+        final ControllerSwitcher switcher) {
+        super(switcher);
         this.grid = new GridModelImpl(type, x, y);
         this.metadata = new LevelMetadata(
             name,
@@ -72,13 +70,11 @@ public class EditorControllerInfoImpl extends AbstractController<EditorView> imp
      * 
      * @param metadata The object with internal data.
      * @param switcher Used to change the active controller
-     * @param backOperation The sequence of operation to execute when returning to the previeus page
      */
     public EditorControllerInfoImpl(
         final LevelMetadata metadata,
-        final ControllerSwitcher switcher,
-        final Runnable backOperation) {
-        super(switcher, backOperation);
+        final ControllerSwitcher switcher) {
+        super(switcher);
         this.grid = new GridModelImpl(metadata);
         this.metadata = new LevelMetadata(
             metadata.levelName(),
@@ -93,9 +89,9 @@ public class EditorControllerInfoImpl extends AbstractController<EditorView> imp
      * {@inheritDoc}
      */
     @Override
-    public void dispose() {
+    public void close() {
         this.saveLevel();
-        super.dispose();
+        super.close();
     }
 
     /**

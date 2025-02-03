@@ -5,6 +5,7 @@ import java.util.function.BiFunction;
 import arcaym.controller.editor.api.ExtendedEditorController;
 import arcaym.controller.game.api.ExtendedGameController;
 import arcaym.controller.menu.api.ExtendedMenuController;
+import arcaym.controller.shop.api.ExtendedShopController;
 import arcaym.view.app.api.MainView;
 import arcaym.view.app.api.View;
 
@@ -67,6 +68,16 @@ public interface ControllerSwitcher {
      */
     default void switchToGame(final ExtendedGameController controller) {
         this.switchTo(controller, MainView::switchToGame);
+    }
+
+    /**
+     * Call {@link #switchTo(ExtendedController, BiFunction)} using 
+     * {@link MainView#switchToShop(ExtendedShopController)} to create the view.
+     * 
+     * @param controller shop controller
+     */
+    default void switchToShop(final ExtendedShopController controller) {
+        this.switchTo(controller, MainView::switchToShop);
     }
 
 }
