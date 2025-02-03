@@ -42,14 +42,22 @@ public class MainControllerImpl implements MainController {
     }
 
     /**
-     * Goes back to the previous panel.
+     * {@inheritDoc}
      */
     public void goBack() {
-        if (stack.size() == 1) {
+        if (!canGoBack()) {
             throw new IllegalStateException("Cannot go back!");
         }
         this.stack.removeFirst().controller.close();
         switchTo(this.stack.removeFirst());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean canGoBack() {
+        return stack.size() > 1;
     }
 
     private <V extends View, C extends ExtendedController<V>> void switchTo(final QueueElement<V, C> element) {
