@@ -1,53 +1,99 @@
 package arcaym.view.editor.impl;
 
 import java.awt.BorderLayout;
-import java.util.HashSet;
+import java.awt.FlowLayout;
 
-import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.JTextArea;
 
+import arcaym.common.utils.Position;
 import arcaym.controller.editor.api.EditorController;
-import arcaym.controller.editor.impl.EditorControllerInfoImpl;
-import arcaym.controller.user.impl.UserStateSerializerImpl;
-import arcaym.model.game.objects.api.GameObjectType;
+import arcaym.model.editor.EditorGridException;
+import arcaym.view.app.impl.AbstractView;
 import arcaym.view.core.api.ViewComponent;
 import arcaym.view.core.api.WindowInfo;
-import arcaym.view.editor.impl.components.GridAreaView;
+import arcaym.view.editor.impl.components.GridView;
 import arcaym.view.editor.impl.components.SideMenuView;
 import arcaym.view.utils.SwingUtils;
 
 /**
  * The editor complete page.
  */
-public class EditorMainView implements ViewComponent<JPanel> {
+public class EditorMainView extends AbstractView<EditorController> implements ViewComponent<JPanel> {
 
-    private final EditorController controller = new EditorControllerInfoImpl();
+    private static final String ERASER_ICON_PATH = new StringBuilder()
+        .append("buttons")
+        .append(System.getProperty("separator"))
+        .append("eraser.png").toString();
+
+    /**
+     * Default constructor.
+     * @param controller
+     */
+    public EditorMainView(EditorController controller) {
+        super(controller);
+    }
 
     /**
      * {@inheritDoc}
      */
     @Override
     public JPanel build(final WindowInfo window) {
-        final JPanel out = new JPanel();
+        final var out = new JPanel();
         out.setLayout(new BorderLayout());
-        final JPanel grid = new GridAreaView().build(window);
-        final JScrollPane sideMenu = new SideMenuView(controller.getOwnedObjects())
-            .build(window);
-        final var sideMenuGap = SwingUtils.getNormalGap(sideMenu);
-        sideMenu.setBorder(BorderFactory.createEmptyBorder(
-            sideMenuGap,
-            sideMenuGap,
-            sideMenuGap,
-            sideMenuGap));
+        final var sideMenu = new SideMenuView(
+        this.controller().getOwnedObjects(),
+        this.controller()::setSelectedObject).build(window);
         out.add(sideMenu, BorderLayout.WEST);
-        out.add(grid, BorderLayout.CENTER);
-        return out;
-    }
+        
+        final var rightSide = new JPanel();
+        rightSide.setLayout(new BorderLayout());
+            
+        final var header = new JPanel(new BorderLayout());
+        final var eraserBtn = new JButton(new ImageIcon(SwingUtils.getResource(ERASER_ICON_PATH)));
+        sideMenu.setEnabled(eraserBtn.isEnabled());
+        final var btnContainer = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        final JButton start = new JButton("START");
+        start.addActionListener(evt -> {
+            this.controller().play();
+        });
+        final JButton save = new JButton("SAVE");
+        save.addActionListener(evt -> {
+            this.controller().saveLevel();
+        });
+        final JButton undo = new JButton("Undo");
+        undo.setEnabled(this.controller().canUndo());
+        undo.addActionListener( evt -> {
+            this.controller().undo();
+        });
+        btnContainer.add(undo);
+        btnContainer.add(save);
+        btnContainer.add(new JSeparator(JSeparator.VERTICAL));
+        btnContainer.add(start);
+        btnContainer.add(new JSeparator(JSeparator.VERTICAL));
+        header.add(btnContainer, BorderLayout.EAST);
+        rightSide.add(header, BorderLayout.NORTH);
 
-    public static void main(String[] args) {
-        SwingUtils.testComponent((win) -> 
-            new EditorMainView().build(win)
-        );
+        final var footer = new JTextArea();
+        footer.setEnabled(false);
+        rightSide.add(footer, BorderLayout.SOUTH);
+        final var body = new GridView(t -> {
+            try {
+                if (eraserBtn.isEnabled()) {
+                    controller().eraseArea(t);
+                } else {
+                    controller().applyChange(t);
+                }
+            } catch (EditorGridException e) {
+                footer.setText(e.getMessage());
+            }
+        }, Position.of(20,20)).build(window);
+        rightSide.add(body, BorderLayout.CENTER);
+
+        out.add(rightSide, BorderLayout.CENTER);
+        return out;
     }
 }
