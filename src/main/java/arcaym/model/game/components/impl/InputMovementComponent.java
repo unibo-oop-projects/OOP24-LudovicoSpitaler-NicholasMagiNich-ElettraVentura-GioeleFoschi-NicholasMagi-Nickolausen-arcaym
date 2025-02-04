@@ -74,7 +74,7 @@ public class InputMovementComponent extends AbstractGameComponent {
         final Point currentPosition = gameObject().getPosition();
         final double newX = currentPosition.x() + (velocity.x() * deltaTime);
         final double newY = currentPosition.y() + (velocity.y() * deltaTime);
-        final Point newPosition = Point.of((int) Math.round(newX), (int) Math.round(newY));
+        final Point newPosition = Point.of(newX, newY);
 
         gameObject().setPosition(newPosition);
     }

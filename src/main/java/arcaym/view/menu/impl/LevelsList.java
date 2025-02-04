@@ -1,6 +1,8 @@
 package arcaym.view.menu.impl;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import javax.swing.BorderFactory;
@@ -11,45 +13,43 @@ import javax.swing.JScrollPane;
 
 import arcaym.controller.editor.saves.LevelMetadata;
 import arcaym.controller.editor.saves.MetadataManagerImpl;
-import arcaym.view.app.impl.SwitchablePanel;
-import arcaym.view.app.impl.Switcher;
-import arcaym.view.components.CenteredPanel;
+import arcaym.view.core.api.ViewComponent;
 import arcaym.view.core.api.WindowInfo;
 import arcaym.view.utils.SwingUtils;
 
 /**
- * View for a levels panel.
+ * View of all the saved levels.
  */
-public class LevelsPanel extends SwitchablePanel {
+public class LevelsList implements ViewComponent<JScrollPane> {
 
     private final List<LevelMetadata> levels = new MetadataManagerImpl().loadData();
+    private final Consumer<LevelMetadata> levelOpener;
 
     /**
-     * Initialize with given switcher.
+     * Initialize with level opener.
      * 
-     * @param switcher switcher function
+     * @param levelOpener level opening function
      */
-    public LevelsPanel(final Switcher switcher) {
-        super(switcher);
+    public LevelsList(final Consumer<LevelMetadata> levelOpener) {
+        this.levelOpener = Objects.requireNonNull(levelOpener);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public JPanel build(final WindowInfo window) {
+    public JScrollPane build(final WindowInfo window) {
         final var mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
         final var gap = SwingUtils.getNormalGap(mainPanel);
         levels.stream()
             .sorted((l1, l2) -> l1.levelName().compareTo(l2.levelName()))
-            .map(LevelCard::new)
-            .map(l -> l.build(window))
+            .map(metadata -> new LevelCard(metadata, this.levelOpener).build(window))
             .flatMap(c -> Stream.of(Box.createVerticalStrut(gap), c))
             .skip(1)
             .forEach(mainPanel::add);
         mainPanel.setBorder(BorderFactory.createEmptyBorder(gap, gap, gap, gap));
-        return new CenteredPanel().build(window, new JScrollPane(mainPanel));
+        return new JScrollPane(mainPanel);
     }
 
 }

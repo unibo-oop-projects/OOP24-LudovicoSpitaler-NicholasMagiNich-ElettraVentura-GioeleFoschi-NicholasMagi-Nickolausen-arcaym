@@ -74,9 +74,9 @@ public class MainViewImpl {
         mainFrame.setMinimumSize(MINIMUM_SCREEN_SIZE);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        this.initEditor();
-        this.initGame();
-        this.switchToEditor();
+        // this.initEditor();
+        // this.initGame();
+        // this.switchToEditor();
         mainFrame.pack();
         mainFrame.setVisible(true);
     }

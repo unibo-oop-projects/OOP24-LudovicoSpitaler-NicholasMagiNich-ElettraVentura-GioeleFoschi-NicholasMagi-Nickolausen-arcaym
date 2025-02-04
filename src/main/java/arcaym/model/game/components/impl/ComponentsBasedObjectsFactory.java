@@ -1,10 +1,7 @@
 package arcaym.model.game.components.impl;
 
-import java.util.stream.Stream;
-
 import arcaym.model.game.components.api.CollisionComponentsFactory;
 import arcaym.model.game.components.api.MovementComponentsFactory;
-import arcaym.model.game.core.components.api.GameComponent;
 import arcaym.model.game.core.components.impl.UniqueComponentsGameObject;
 import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.core.objects.api.GameObjectsFactory;
@@ -27,18 +24,6 @@ public class ComponentsBasedObjectsFactory implements GameObjectsFactory {
         this.tileSize = tileSize;
     }
 
-    private Stream<GameComponent> obstacleComponents(final UniqueComponentsGameObject gameObject) {
-        return Stream.of(collisionFactory.obstacleCollision(gameObject));
-    }
-
-    private Stream<GameComponent> movingXobstacleComponents(final UniqueComponentsGameObject gameObject) {
-        return Stream.concat(obstacleComponents(gameObject), Stream.of(movementFactory.automaticXMovement(gameObject)));
-    }
-
-    private Stream<GameComponent> movingYobstacleComponents(final UniqueComponentsGameObject gameObject) {
-        return Stream.concat(obstacleComponents(gameObject), Stream.of(movementFactory.automaticYMovement(gameObject)));
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -53,13 +38,15 @@ public class ComponentsBasedObjectsFactory implements GameObjectsFactory {
             case FLOOR:
                 break;
             case MOVING_X_OBSTACLE:
-                movingXobstacleComponents(obj).forEach(obj::addComponent);
+                obj.addComponent(collisionFactory.obstacleCollision(obj));
+                obj.addComponent(movementFactory.automaticXMovement(obj));
                 break;
             case MOVING_Y_OBSTACLE:
-                movingYobstacleComponents(obj).forEach(obj::addComponent);
+                obj.addComponent(collisionFactory.obstacleCollision(obj));
+                obj.addComponent(movementFactory.automaticYMovement(obj));
                 break;
             case SPIKE:
-                obstacleComponents(obj).forEach(obj::addComponent);
+                obj.addComponent(collisionFactory.obstacleCollision(obj));
                 break;
             case USER_PLAYER:
                 obj.addComponent(movementFactory.fromInputMovement(obj));
