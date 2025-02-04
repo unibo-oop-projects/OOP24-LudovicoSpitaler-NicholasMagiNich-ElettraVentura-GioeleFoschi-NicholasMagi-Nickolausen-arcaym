@@ -38,7 +38,7 @@ public final class UserStateTestingUtils {
         return new UserStateSerializerTestingUtils() {
 
             @Override
-            public boolean save(UserStateInfo userState) {
+            public boolean save(final UserStateInfo userState) {
                 return this.save(userState, SAVES_FILE);
             }
 
@@ -61,7 +61,7 @@ public final class UserStateTestingUtils {
             }
 
             @Override
-            public boolean save(UserStateInfo userState, String filename) {
+            public boolean save(final UserStateInfo userState, final String filename) {
                 FileUtils.createUserDirectory();
                 try {
                     Files.writeString(
