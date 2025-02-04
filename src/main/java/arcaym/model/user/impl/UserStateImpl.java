@@ -11,7 +11,6 @@ import arcaym.model.game.core.events.api.EventsSubscriber;
 import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.model.user.api.UserState;
-import arcaym.model.user.api.UserStateInfo;
 
 /**
  * Implementation of {@link UserState}.

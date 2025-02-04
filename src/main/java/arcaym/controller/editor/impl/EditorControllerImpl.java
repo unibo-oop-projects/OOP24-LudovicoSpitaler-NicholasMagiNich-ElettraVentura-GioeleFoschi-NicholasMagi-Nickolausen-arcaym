@@ -28,7 +28,7 @@ import arcaym.model.editor.impl.GridModelImpl;
 import arcaym.model.game.components.impl.ComponentsBasedObjectsFactory;
 import arcaym.model.game.core.engine.impl.FactoryBasedGameBuilder;
 import arcaym.model.game.objects.api.GameObjectType;
-import arcaym.model.user.api.UserStateInfo;
+import arcaym.model.user.impl.UserStateInfo;
 import arcaym.view.editor.api.EditorView;
 
 /**

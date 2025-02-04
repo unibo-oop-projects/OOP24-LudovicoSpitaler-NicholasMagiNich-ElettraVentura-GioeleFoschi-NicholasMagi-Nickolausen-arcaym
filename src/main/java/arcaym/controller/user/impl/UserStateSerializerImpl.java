@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 
 import arcaym.common.utils.file.FileUtils;
 import arcaym.controller.user.api.UserStateSerializer;
-import arcaym.model.user.api.UserStateInfo;
+import arcaym.model.user.impl.UserStateInfo;
 
 /**
  * Implementation of {@link UserStateSerializer}. 
@@ -31,19 +31,11 @@ public class UserStateSerializerImpl implements UserStateSerializer {
      */
     @Override
     public boolean save(final UserStateInfo userState) {
-        return this.save(userState, FILENAME);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean save(final UserStateInfo userState, final String fileName) {
         FileUtils.createUserDirectory();
-        validateFileName(fileName);
+        validateFileName(FILENAME);
         try {
             Files.writeString(
-                getPathOf(fileName),
+                getPathOf(FILENAME),
                 new Gson().toJson(userState),
                 StandardCharsets.UTF_8);
         } catch (IOException e) {
@@ -53,21 +45,10 @@ public class UserStateSerializerImpl implements UserStateSerializer {
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Optional<UserStateInfo> load() {
-        return this.load(FILENAME);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Optional<UserStateInfo> load(final String fileName) {
-        validateFileName(fileName);
-        final var rawState = FileUtils.readFromPath(getPathOf(fileName));
+    /* Utility function  */
+    private Optional<UserStateInfo> load() {
+        validateFileName(FILENAME);
+        final var rawState = FileUtils.readFromPath(getPathOf(FILENAME));
         if (rawState.isEmpty()) {
             LOGGER.error("An error occurred while READING '" + FILENAME + "' file.");
             return Optional.empty();
@@ -80,7 +61,7 @@ public class UserStateSerializerImpl implements UserStateSerializer {
      */
     @Override
     public UserStateInfo getUpdatedState() {
-        final var previousSave = this.load();
+        final var previousSave = load();
         if (previousSave.isPresent()) {
             return previousSave.get();
         }

@@ -1,4 +1,4 @@
-package arcaym.model.user.api;
+package arcaym.model.user.impl;
 
 import java.util.Collections;
 import java.util.EnumSet;
@@ -8,12 +8,12 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import arcaym.model.game.objects.api.GameObjectType;
+import arcaym.model.user.api.UserState;
 
 /**
  * A read-only view of {@link UserState}. 
  * This record serves primarily as a collection of information
- * that gets serialized and deserialized across the application. To obtain the
- * updated version of these information, use {@link UserStateView}. 
+ * that gets serialized and deserialized across the application. 
  * 
  * @param credit the credit of the user needed to buy assets from the shop
  * @param purchasedItems the collection of the items bought from the shop
@@ -82,8 +82,7 @@ public record UserStateInfo(
 
     /**
      * Returns a new instance of {@link UserStateInfo} almost identical to the
-     * original
-     * instance, except for the credit parameter.
+     * original instance, except for the credit parameter.
      * 
      * @param credit
      * @return

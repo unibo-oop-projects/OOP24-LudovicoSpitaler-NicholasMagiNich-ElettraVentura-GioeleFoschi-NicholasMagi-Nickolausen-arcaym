@@ -31,7 +31,7 @@ class TestShop {
 
     @AfterEach
     void clearTraces() {
-        UserStateTestingUtils.writeUserStateBackup();
+        UserStateTestingUtils.loadUserStateBackup();
     }
 
     @Test
