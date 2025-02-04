@@ -37,6 +37,7 @@ import arcaym.view.utils.SwingUtils;
  */
 public class MainViewImpl extends AbstractView<MainController> implements MainView {
 
+    private static final String APPLICATION_TITLE = "Architect of Mayhem";
     private static final String BACK_BUTTON_TEXT = "BACK";
     private static final String CLOSE_BUTTON_TEXT = "CLOSE";
     private Optional<JFrame> window = Optional.empty();
@@ -126,6 +127,7 @@ public class MainViewImpl extends AbstractView<MainController> implements MainVi
     public boolean init() {
         final var window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setTitle(APPLICATION_TITLE);
         final var windowInfo = new ScaleSelector().askScale(window);
         if (windowInfo.isEmpty()) {
             SwingUtils.closeFrame(window);

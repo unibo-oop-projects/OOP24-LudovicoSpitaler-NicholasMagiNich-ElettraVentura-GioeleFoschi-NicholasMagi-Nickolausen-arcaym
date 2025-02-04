@@ -67,6 +67,7 @@ public class UserStateSerializerImpl implements UserStateSerializer {
         }
         final var defaultState = UserStateInfo.getDefaultState();
         save(defaultState);
+        LOGGER.info("Saving a default user state: " + defaultState);
         return defaultState;
     }
 
