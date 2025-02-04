@@ -29,7 +29,7 @@ class TestUserStateSerializer {
 
     @AfterEach
     void clearTraces() {
-        FileUtils.deleteFile(FILENAME.concat(".json"), "saves");
+        FileUtils.deleteFile(FILENAME.concat(".json"), "user");
     }
 
     private void initUserState() {

@@ -1,8 +1,8 @@
 package arcaym.model.user.impl;
 
-import java.util.Collections;
-import java.util.EnumSet;
 import java.util.Set;
+
+import com.google.common.collect.Sets;
 
 import arcaym.controller.user.api.UserStateSerializer;
 import arcaym.controller.user.impl.UserStateSerializerImpl;
@@ -18,9 +18,6 @@ import arcaym.model.user.api.UserStateInfo;
  */
 public class UserStateImpl implements UserState {
 
-    /* Initial credit */
-    private static final int DEFAULT_CREDIT = 0;
-
     private final UserStateSerializer serializer;
 
     /**
@@ -28,12 +25,6 @@ public class UserStateImpl implements UserState {
      */
     public UserStateImpl() {
         this.serializer = new UserStateSerializerImpl();
-        final var savedState = serializer.load();
-        if (savedState.isEmpty()) {
-            updateSavedState(new UserStateInfo(
-                DEFAULT_CREDIT, 
-                Collections.emptySet()));
-        }
     }
 
     /**
@@ -46,10 +37,9 @@ public class UserStateImpl implements UserState {
             throw new IllegalArgumentException("Cannot unlock an object already owned! (Unlocking: " + gameObject + ")");
         }
         if (savedState.purchasedItems().isEmpty()) {
-            updateSavedState(savedState.withPurchasedItems(EnumSet.copyOf(Set.of(gameObject))));
+            updateSavedState(savedState.withPurchasedItems(Set.of(gameObject)));
         } else {
-            final var purchasedItems = EnumSet.copyOf(savedState.purchasedItems());
-            purchasedItems.add(gameObject);
+            final var purchasedItems = Sets.union(savedState.purchasedItems(), Set.of(gameObject));
             updateSavedState(savedState.withPurchasedItems(purchasedItems));
         }
     }
