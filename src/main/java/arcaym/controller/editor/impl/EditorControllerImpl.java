@@ -20,7 +20,7 @@ import arcaym.controller.editor.api.ExtendedEditorController;
 import arcaym.controller.editor.saves.LevelMetadata;
 import arcaym.controller.editor.saves.MetadataManagerImpl;
 import arcaym.controller.game.impl.GameControllerImpl;
-import arcaym.controller.user.impl.UserStateSerializerImpl;
+import arcaym.controller.user.impl.UserStateSerializerJSON;
 import arcaym.model.editor.EditorGridException;
 import arcaym.model.editor.EditorType;
 import arcaym.model.editor.api.GridModel;
@@ -65,7 +65,7 @@ public class EditorControllerImpl extends AbstractController<EditorView> impleme
             type,
             Position.of(width, height));
         this.view = Optional.empty();
-        this.userState = new UserStateSerializerImpl().getUpdatedState();
+        this.userState = new UserStateSerializerJSON().getUpdatedState();
     }
 
     /**
@@ -85,7 +85,7 @@ public class EditorControllerImpl extends AbstractController<EditorView> impleme
             metadata.type(),
             metadata.size());
         this.view = Optional.empty();
-        this.userState = new UserStateSerializerImpl().getUpdatedState();
+        this.userState = new UserStateSerializerJSON().getUpdatedState();
     }
 
     /**

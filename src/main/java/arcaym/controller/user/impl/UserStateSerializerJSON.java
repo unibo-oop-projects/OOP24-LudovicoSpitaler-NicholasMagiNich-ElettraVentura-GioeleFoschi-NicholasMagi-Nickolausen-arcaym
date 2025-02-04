@@ -19,7 +19,7 @@ import arcaym.model.user.impl.UserStateInfo;
 /**
  * Implementation of {@link UserStateSerializer}. 
  */
-public class UserStateSerializerImpl implements UserStateSerializer {
+public class UserStateSerializerJSON implements UserStateSerializer {
 
     private static final String EXTENSION = ".json";
     private static final String FILENAME = "user_data";
