@@ -35,7 +35,9 @@ public class MapConstraintFactoryImpl implements MapConstraintsFactory {
                         .collect(Collectors.toSet());
                     adjacent.forEach(p -> checkGraph.putEdge(p, pos));
                 });
-                // if the intersection
+                // If the intersection between the dfs exploration result and the original set
+                // is not equal to the original set, it means some cells are not reachable from a random cell
+                // Uses the Connected-component Labeling algorithm
                 if (!Sets.intersection(
                         Sets.newHashSet(
                             Traverser.forGraph(checkGraph).depthFirstPostOrder(positions.iterator().next())),
