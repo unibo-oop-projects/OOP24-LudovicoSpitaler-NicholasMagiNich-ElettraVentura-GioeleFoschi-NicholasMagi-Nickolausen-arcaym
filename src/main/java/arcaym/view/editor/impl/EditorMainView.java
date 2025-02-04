@@ -23,10 +23,7 @@ import arcaym.view.utils.SwingUtils;
  */
 public class EditorMainView extends AbstractView<EditorController> implements ViewComponent<JPanel>, EditorView {
 
-    private static final String ERASER_ICON_PATH = new StringBuilder()
-        .append("buttons")
-        .append(System.getProperty("file.separator"))
-        .append("rubber.png").toString();
+    private static final String ERASER_ICON_PATH = "eraser.png";
 
     /**
      * Default constructor.
