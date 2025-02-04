@@ -111,23 +111,27 @@ public class EditorControllerImpl extends AbstractController<EditorView> impleme
     @Override
     public void play() {
         final int tileSize = 100; // logic dimension of the tile
-        final var gameFactory = new FactoryBasedGameBuilder(new ComponentsBasedObjectsFactory(tileSize));
+        final var gameBuilder = new FactoryBasedGameBuilder(new ComponentsBasedObjectsFactory(tileSize));
         final var objectsInPosition = this.grid.getFullMap();
         objectsInPosition.entrySet().forEach(e -> {
-            e.getValue()
-                .forEach(type -> gameFactory.addObject(
-                    type,
+            final var objects = e.getValue();
+            for (int i = 0; i < objects.size(); i++) {
+                gameBuilder.addObject(
+                    objects.get(i),
                     Point.of(
                         e.getKey().x() * tileSize + tileSize / 2,
-                        e.getKey().y() * tileSize + tileSize / 2)));
+                        e.getKey().y() * tileSize + tileSize / 2),
+                    i
+                );
+            }
         });
         this.switcher().switchToGame(new GameControllerImpl(
-            gameFactory.build(
+            gameBuilder.build(
                 new Rectangle(
                     Point.of(0, 0),
                     Point.of(
-                        (this.metadata.size().x()) * tileSize,
-                        (this.metadata.size().y()) * tileSize))),
+                        this.metadata.size().x() * tileSize,
+                        this.metadata.size().y() * tileSize))),
             this.switcher()));
     }
 

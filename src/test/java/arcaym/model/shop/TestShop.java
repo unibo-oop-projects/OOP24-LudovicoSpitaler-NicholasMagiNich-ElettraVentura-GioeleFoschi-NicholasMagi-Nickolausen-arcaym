@@ -73,13 +73,12 @@ class TestShop {
         UserStateTestingUtils.writeUserStateDefault(creditRecharge);
 
         assertTrue(shopModel.makeTransaction(GameObjectType.WALL)); // -50
-        assertTrue(shopModel.makeTransaction(GameObjectType.MOVING_X_OBSTACLE)); // -30
-        assertTrue(shopModel.makeTransaction(GameObjectType.MOVING_Y_OBSTACLE)); // -40
+        assertTrue(shopModel.makeTransaction(GameObjectType.MOVING_X_OBSTACLE)); // -150
+        assertFalse(shopModel.makeTransaction(GameObjectType.MOVING_Y_OBSTACLE));
         assertEquals(shopModel.getPurchasedGameObjects(), 
             Map.of(
                 GameObjectType.WALL, shopModel.getPriceOf(GameObjectType.WALL),
-                GameObjectType.MOVING_X_OBSTACLE, shopModel.getPriceOf(GameObjectType.MOVING_X_OBSTACLE),
-                GameObjectType.MOVING_Y_OBSTACLE, shopModel.getPriceOf(GameObjectType.MOVING_Y_OBSTACLE)
+                GameObjectType.MOVING_X_OBSTACLE, shopModel.getPriceOf(GameObjectType.MOVING_X_OBSTACLE)
             ));
     }
 }

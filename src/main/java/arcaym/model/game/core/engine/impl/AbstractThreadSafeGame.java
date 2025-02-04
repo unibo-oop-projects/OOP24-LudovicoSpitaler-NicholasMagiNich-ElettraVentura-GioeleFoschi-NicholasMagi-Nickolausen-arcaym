@@ -14,6 +14,7 @@ import arcaym.model.game.core.events.impl.ThreadSafeEventsManager;
 import arcaym.model.game.core.scene.api.GameScene;
 import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.events.impl.InputEvent;
+import arcaym.model.user.impl.UserStateImpl;
 import arcaym.view.game.api.GameView;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -100,6 +101,7 @@ public abstract class AbstractThreadSafeGame implements Game {
         Objects.requireNonNull(gameView);
         gameView.setInputEventsScheduler(this.inputEventsManager);
         gameView.registerEventsCallbacks(this.gameEventsManager, this.gameState);
+        new UserStateImpl().registerEventsCallbacks(this.gameEventsManager, this.gameState);
         LOGGER.info("Setting up game scene");
         this.gameScene.consumePendingActions(gameView);
         this.gameScene.getGameObjects().forEach(

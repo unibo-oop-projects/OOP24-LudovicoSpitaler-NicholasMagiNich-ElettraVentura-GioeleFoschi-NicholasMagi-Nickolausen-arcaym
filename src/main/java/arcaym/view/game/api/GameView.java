@@ -23,8 +23,9 @@ public interface GameView extends View, EventsObserver<GameEvent> {
      * Create a game object.
      * 
      * @param gameObject game object
+     * @param zIndex z index
      */
-    void createObject(GameObjectInfo gameObject);
+    void createObject(GameObjectInfo gameObject, int zIndex);
 
     /**
      * Update an existing game object.
@@ -36,8 +37,8 @@ public interface GameView extends View, EventsObserver<GameEvent> {
     /**
      * Destroy a game object.
      * 
-     * @param gameObjects game object
+     * @param gameObject game object
      */
-    void destroyObject(GameObjectInfo gameObjects);
+    void destroyObject(GameObjectInfo gameObject);
 
 }
