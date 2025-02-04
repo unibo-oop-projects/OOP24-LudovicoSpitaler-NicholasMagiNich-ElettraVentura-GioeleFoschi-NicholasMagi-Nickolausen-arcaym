@@ -32,14 +32,19 @@ public class SideMenuView implements ViewComponent<JScrollPane> {
     private final Map<GameObjectCategory, Set<GameObjectType>> gameObjects;
     private final Map<JButton, GameObjectType> menuItems;
     private final Consumer<GameObjectType> gameObjectConsumer;
+    private final Runnable setNotErase;
 
     /**
      * A constructor of the component.
      * 
      * @param gameObjects
      * @param gameObjectConsumer
+     * @param setObjectPlace used to set the editor to placing mode.
      */
-    public SideMenuView(final Set<GameObjectType> gameObjects, final Consumer<GameObjectType> gameObjectConsumer) {
+    public SideMenuView(
+        final Set<GameObjectType> gameObjects,
+        final Consumer<GameObjectType> gameObjectConsumer,
+        final Runnable setObjectPlace) {
         this.gameObjects = new EnumMap<>(GameObjectCategory.class);
         gameObjects.forEach(gameObject -> {
             this.gameObjects.putIfAbsent(gameObject.category(), EnumSet.noneOf(GameObjectType.class));
@@ -47,6 +52,7 @@ public class SideMenuView implements ViewComponent<JScrollPane> {
         });
         this.gameObjectConsumer = gameObjectConsumer;
         this.menuItems = new HashMap<>();
+        this.setNotErase = setObjectPlace;
     }
 
     /**
@@ -67,6 +73,7 @@ public class SideMenuView implements ViewComponent<JScrollPane> {
                 btn.addActionListener(evt -> {
                     final var src = (JButton) evt.getSource();
                     gameObjectConsumer.accept(menuItems.get(src));
+                    setNotErase.run();
                 });
                 menuItems.put(btn, obj);
                 content.add(btn);
