@@ -30,7 +30,6 @@ public record UserStateInfo(
         GameObjectType.USER_PLAYER,
         GameObjectType.COIN,
         GameObjectType.FLOOR,
-        GameObjectType.SPIKE,
         GameObjectType.WIN_GOAL));
 
     /**
@@ -64,7 +63,8 @@ public record UserStateInfo(
 
     /**
      * 
-     * @return an immutable collection of the items owned at the beginning of the game
+     * @return an immutable collection of the items owned 
+     * ({@link #getDefaultItems()} + {@link #purchasedItems()})
      */
     public Set<GameObjectType> getItemsOwned() {
         return Sets.union(DEFAULT_ITEMS, purchasedItems);

@@ -126,8 +126,8 @@ public class EditorControllerImpl extends AbstractController<EditorView> impleme
                 new Rectangle(
                     Point.of(0, 0),
                     Point.of(
-                        (this.metadata.size().x()) * tileSize,
-                        (this.metadata.size().y()) * tileSize))),
+                        this.metadata.size().x() * tileSize,
+                        this.metadata.size().y() * tileSize))),
             this.switcher()));
     }
 
