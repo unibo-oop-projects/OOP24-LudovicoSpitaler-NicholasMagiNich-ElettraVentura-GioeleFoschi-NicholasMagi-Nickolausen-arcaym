@@ -62,23 +62,24 @@ public class SingleThreadedGame extends AbstractThreadSafeGame {
 
     private void gameLoop(final GameView gameView) {
         LOGGER.info("Game loop thread started");
-        long deltaTime = this.updateDeltaTime(0);
+        long deltaTime = 0;
+        long lastFrameTime = System.currentTimeMillis();
         while (this.runGameLoop) {
             this.inputEventsManager().consumePendingEvents();
-            deltaTime = this.updateDeltaTime(deltaTime);
-            // no stream beacause delta time is not final
             for (final var gameObject : this.scene().getGameObjects()) {
                 gameObject.update(deltaTime, this.gameEventsManager(), this.scene(), this.state());
             }
             this.scene().getGameObjects().forEach(gameView::updateObject);
             this.scene().consumePendingActions(gameView);
             this.gameEventsManager().consumePendingEvents();
+            deltaTime = this.updateDeltaTime(lastFrameTime);
+            lastFrameTime = System.currentTimeMillis();
         }
         LOGGER.info("Finished game loop");
     }
 
-    private long updateDeltaTime(final long start) {
-        final var deltaTime = System.currentTimeMillis() - start;
+    private long updateDeltaTime(final long lastFrameTime) {
+        var deltaTime = this.calculateDeltaTime(lastFrameTime);
         if (deltaTime < GAME_LOOP_PERIOD_MS) {
             try {
                 Thread.sleep(GAME_LOOP_PERIOD_MS - deltaTime);
@@ -86,14 +87,19 @@ public class SingleThreadedGame extends AbstractThreadSafeGame {
                 LOGGER.warn("Update frame waiting interrupted");
             }
         }
+        deltaTime = this.calculateDeltaTime(lastFrameTime);
         LOGGER.info(
             new StringBuilder("FPS: ")
-                .append(SECOND_MS / deltaTime)
-                .append(", Delta: ")
-                .append(deltaTime)
-                .toString()
+            .append(SECOND_MS / deltaTime)
+            .append(", Delta: ")
+            .append(deltaTime)
+            .toString()
         );
         return deltaTime;
+    }
+
+    private long calculateDeltaTime(final long lastFrameTime) {
+        return System.currentTimeMillis() - lastFrameTime;
     }
 
 }

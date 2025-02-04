@@ -76,8 +76,12 @@ public abstract class AbstractGameScene implements GameScene {
      */
     @Override
     public void consumePendingActions(final GameView gameView) {
-        this.creationEvents.forEach(c -> this.createObject(c, gameView));
-        this.destroyEvents.forEach(d -> this.destroyObject(d, gameView));
+        while (!this.creationEvents.isEmpty()) {
+            this.createObject(this.creationEvents.removeFirst(), gameView);
+        }
+        while (!this.destroyEvents.isEmpty()) {
+            this.destroyObject(this.destroyEvents.removeFirst(), gameView);
+        }
         LOGGER.info("Finished consuming all pending events");
     }
 
