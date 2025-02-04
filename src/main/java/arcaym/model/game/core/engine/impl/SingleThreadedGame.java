@@ -16,7 +16,7 @@ import arcaym.view.game.api.GameView;
 public class SingleThreadedGame extends AbstractThreadSafeGame {
 
     private static final String GAME_LOOP_THREAD_NAME = "GameLoopThread";
-    private static final long GAME_LOOP_PERIOD_MS = 10;
+    private static final long DESIRED_FPS = 60;
     private static final long SECOND_MS = 1000;
     private static final Logger LOGGER = LoggerFactory.getLogger(SingleThreadedGame.class);
     private Optional<Thread> gameLoopThread = Optional.empty();
@@ -80,9 +80,10 @@ public class SingleThreadedGame extends AbstractThreadSafeGame {
 
     private long updateDeltaTime(final long lastFrameTime) {
         var deltaTime = this.calculateDeltaTime(lastFrameTime);
-        if (deltaTime < GAME_LOOP_PERIOD_MS) {
+        final var period = SECOND_MS / DESIRED_FPS;
+        if (deltaTime < period) {
             try {
-                Thread.sleep(GAME_LOOP_PERIOD_MS - deltaTime);
+                Thread.sleep(period - deltaTime);
             } catch (InterruptedException e) {
                 LOGGER.warn("Update frame waiting interrupted");
             }
