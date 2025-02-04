@@ -1,6 +1,7 @@
 package arcaym;
 
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import arcaym.controller.app.impl.MainControllerImpl;
 import arcaym.view.app.impl.MainViewImpl;
@@ -11,7 +12,7 @@ import arcaym.view.app.impl.MainViewImpl;
  */
 public class AppLauncher {
 
-    private static final Logger LOGGER = Logger.getLogger(AppLauncher.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(AppLauncher.class);
 
     /**
      * Get greeting message for subject.

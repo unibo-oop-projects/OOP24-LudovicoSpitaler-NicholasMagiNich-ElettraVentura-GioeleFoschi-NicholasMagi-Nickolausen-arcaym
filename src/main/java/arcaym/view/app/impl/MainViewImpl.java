@@ -98,10 +98,9 @@ public class MainViewImpl extends AbstractView<MainController> implements MainVi
 
     @Override
     public EditorView switchToEditor(EditorController controller) {
-        final var editorView = new EditorMainView();
+        final var editorView = new EditorMainView(controller);
         fillContent(editorView);
-        return null;
-        // return editorView;
+        return editorView;
     }
 
     @Override

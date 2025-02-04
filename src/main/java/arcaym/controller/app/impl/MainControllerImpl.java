@@ -50,8 +50,8 @@ public class MainControllerImpl implements MainController {
         if (!canGoBack()) {
             throw new IllegalStateException("Cannot go back!");
         }
-        this.stack.removeFirst().controller.close();
-        switchTo(this.stack.removeFirst());
+        this.stack.removeLast().controller.close();
+        switchTo(this.stack.removeLast());
     }
 
     /**

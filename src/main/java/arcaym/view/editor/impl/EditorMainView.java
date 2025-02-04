@@ -1,11 +1,13 @@
 package arcaym.view.editor.impl;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 
@@ -15,6 +17,7 @@ import arcaym.model.editor.EditorGridException;
 import arcaym.view.app.impl.AbstractView;
 import arcaym.view.core.api.ViewComponent;
 import arcaym.view.core.api.WindowInfo;
+import arcaym.view.editor.api.EditorView;
 import arcaym.view.editor.impl.components.GridView;
 import arcaym.view.editor.impl.components.SideMenuView;
 import arcaym.view.utils.SwingUtils;
@@ -22,12 +25,12 @@ import arcaym.view.utils.SwingUtils;
 /**
  * The editor complete page.
  */
-public class EditorMainView extends AbstractView<EditorController> implements ViewComponent<JPanel> {
+public class EditorMainView extends AbstractView<EditorController> implements ViewComponent<JPanel>, EditorView {
 
     private static final String ERASER_ICON_PATH = new StringBuilder()
         .append("buttons")
-        .append(System.getProperty("separator"))
-        .append("eraser.png").toString();
+        .append(System.getProperty("file.separator"))
+        .append("rubber.png").toString();
 
     /**
      * Default constructor.
@@ -53,6 +56,7 @@ public class EditorMainView extends AbstractView<EditorController> implements Vi
         rightSide.setLayout(new BorderLayout());
             
         final var header = new JPanel(new BorderLayout());
+        header.setBackground(Color.WHITE);
         final var eraserBtn = new JButton(new ImageIcon(SwingUtils.getResource(ERASER_ICON_PATH)));
         sideMenu.setEnabled(eraserBtn.isEnabled());
         final var btnContainer = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -69,6 +73,7 @@ public class EditorMainView extends AbstractView<EditorController> implements Vi
         undo.addActionListener( evt -> {
             this.controller().undo();
         });
+        btnContainer.add(eraserBtn);
         btnContainer.add(undo);
         btnContainer.add(save);
         btnContainer.add(new JSeparator(JSeparator.VERTICAL));
@@ -79,19 +84,18 @@ public class EditorMainView extends AbstractView<EditorController> implements Vi
 
         final var footer = new JTextArea();
         footer.setEnabled(false);
-        rightSide.add(footer, BorderLayout.SOUTH);
-        final var body = new GridView(t -> {
+        footer.setText("MAMMAMIA CHE ROBBA!!");
+        
+        JScrollPane body = new GridView(t -> {
             try {
-                if (eraserBtn.isEnabled()) {
-                    controller().eraseArea(t);
-                } else {
-                    controller().applyChange(t);
-                }
+                controller().applyChange(t);
             } catch (EditorGridException e) {
                 footer.setText(e.getMessage());
             }
-        }, Position.of(20,20)).build(window);
+        }, Position.of(20,20)).build(window); // to change and make it adapt to screen
+        
         rightSide.add(body, BorderLayout.CENTER);
+        rightSide.add(footer, BorderLayout.SOUTH);
 
         out.add(rightSide, BorderLayout.CENTER);
         return out;
