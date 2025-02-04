@@ -22,6 +22,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 
 import arcaym.common.geometry.impl.Rectangle;
 import arcaym.common.utils.Optionals;
@@ -124,6 +125,7 @@ public class GameViewImpl extends AbstractView<GameController> implements GameVi
         // The gameContentPanel contains the game view (with the game objects)
         final GamePanel gameContentPanel = new GamePanel();
         gamePanel = Optional.of(gameContentPanel);
+        gamePanel.get().setLayout(null);
         // accepts the key bindings setup on the main panel
         setKeyBindings = Optional.of((eventsScheduler) -> {
             bindKey(InputType.UP, KEY_UP, eventsScheduler, gameContentPanel);
@@ -157,7 +159,9 @@ public class GameViewImpl extends AbstractView<GameController> implements GameVi
     }
 
     private void scoreUpdateLabel(final JLabel score) {
+        SwingUtilities.invokeLater(() -> {
         score.setText(SCORE + this.controller().getGameState().score().getValue());
+    });
     }
 
     private <T> T getPostBuild(final Optional<T> value) {
