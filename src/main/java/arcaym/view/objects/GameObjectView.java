@@ -71,17 +71,14 @@ public class GameObjectView extends ImageLabel {
 
     private static String getImagePath(final GameObjectType type) {
         return switch (type) {
-            case 
-                USER_PLAYER, 
-                WIN_GOAL,
-                COIN -> "coin.png";
-            case 
-                MOVING_X_OBSTACLE,
-                MOVING_Y_OBSTACLE,
-                SPIKE -> "static_obstacle.png";
-            case
-                WALL, 
-                FLOOR -> "wall.png";
+            case USER_PLAYER -> "player.png"; 
+            case WIN_GOAL -> "goal.png";
+            case COIN -> "coin.png";
+            case MOVING_X_OBSTACLE -> "h_obstacle.png";
+            case MOVING_Y_OBSTACLE -> "v_obstacle.png";
+            case SPIKE -> "spike.png";
+            case WALL -> "wall.png"; 
+            case FLOOR -> "tile.png";
         };
     }
 }

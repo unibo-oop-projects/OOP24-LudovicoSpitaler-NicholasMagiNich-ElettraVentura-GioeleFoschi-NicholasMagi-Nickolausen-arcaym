@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,13 +21,6 @@ class TestUserStateSerializer {
     private UserStateInfo userStateView;
 
     private static final String FILENAME = "user_data_testing";
-    private static final Set<GameObjectType> DEFAULT_ITEMS_OWNED = Set.of(
-        GameObjectType.USER_PLAYER,
-        GameObjectType.WIN_GOAL,
-        GameObjectType.FLOOR,
-        GameObjectType.COIN,
-        GameObjectType.SPIKE
-    );
 
     @BeforeEach
     void setup() {
@@ -44,9 +35,8 @@ class TestUserStateSerializer {
     private void initUserState() {
         final var initialCredit = 50;
         userStateView = new UserStateInfo(
-            initialCredit, 
-            Stream.concat(DEFAULT_ITEMS_OWNED.stream(), Set.of(GameObjectType.WALL).stream()).collect(Collectors.toSet()), 
-            DEFAULT_ITEMS_OWNED, Set.of(GameObjectType.WALL));
+            initialCredit,
+            Set.of(GameObjectType.WALL));
     }
 
     @Test

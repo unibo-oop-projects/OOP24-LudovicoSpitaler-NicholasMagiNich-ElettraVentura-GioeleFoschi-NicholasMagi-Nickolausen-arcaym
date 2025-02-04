@@ -11,7 +11,7 @@ import arcaym.common.geometry.impl.Rectangle;
 import arcaym.model.game.core.engine.api.GameBuilder;
 import arcaym.model.game.core.engine.impl.FactoryBasedGameBuilder;
 import arcaym.model.game.objects.api.GameObjectType;
-import arcaym.utils.GameTestingUtils;
+import arcaym.testing.utils.GameTestingUtils;
 
 class TestGameBuilder {
 

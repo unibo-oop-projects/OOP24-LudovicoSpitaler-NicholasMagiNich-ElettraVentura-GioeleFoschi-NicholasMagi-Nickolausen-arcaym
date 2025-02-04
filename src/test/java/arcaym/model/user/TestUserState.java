@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.model.user.api.UserState;
 import arcaym.model.user.impl.UserStateImpl;
-import arcaym.utils.UserStateTestingUtils;
+import arcaym.testing.utils.UserStateTestingUtils;
 
 class TestUserState {
 

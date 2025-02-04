@@ -102,7 +102,7 @@ public class EditorControllerImpl extends AbstractController<EditorView> impleme
      */
     @Override
     public Set<GameObjectType> getOwnedObjects() {
-        return Collections.unmodifiableSet(userState.itemsOwned());
+        return Collections.unmodifiableSet(userState.getItemsOwned());
     }
 
     /**

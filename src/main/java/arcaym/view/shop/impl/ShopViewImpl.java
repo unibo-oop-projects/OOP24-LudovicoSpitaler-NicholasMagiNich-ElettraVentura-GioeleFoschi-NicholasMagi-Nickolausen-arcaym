@@ -19,7 +19,6 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
 import arcaym.controller.shop.api.ShopController;
-import arcaym.controller.shop.impl.ShopControllerImpl;
 import arcaym.model.game.core.objects.api.GameObjectCategory;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.view.app.impl.AbstractView;
@@ -47,7 +46,7 @@ public class ShopViewImpl extends AbstractView<ShopController> implements ViewCo
      * 
      * @param controller shop controller
      */
-    public ShopViewImpl(final ShopControllerImpl controller) {
+    public ShopViewImpl(final ShopController controller) {
         super(controller);
     }
 

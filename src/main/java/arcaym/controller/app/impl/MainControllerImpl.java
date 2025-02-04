@@ -7,6 +7,7 @@ import java.util.function.BiFunction;
 
 import arcaym.controller.app.api.ExtendedController;
 import arcaym.controller.app.api.MainController;
+import arcaym.controller.menu.impl.MenuControllerImpl;
 import arcaym.view.app.api.MainView;
 import arcaym.view.app.api.View;
 
@@ -28,6 +29,7 @@ public class MainControllerImpl implements MainController {
     @Override
     public void setView(final MainView view) {
         this.mainView = Optional.of(view);
+        this.switchTo(new MenuControllerImpl(this::switchTo), MainView::switchToMenu);
     }
 
     /**
@@ -42,14 +44,23 @@ public class MainControllerImpl implements MainController {
     }
 
     /**
-     * Goes back to the previous panel.
+     * {@inheritDoc}
      */
+    @Override
     public void goBack() {
-        if (stack.size() == 1) {
+        if (!canGoBack()) {
             throw new IllegalStateException("Cannot go back!");
         }
-        this.stack.removeFirst().controller.close();
-        switchTo(this.stack.removeFirst());
+        this.stack.removeLast().controller.close();
+        switchTo(this.stack.removeLast());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean canGoBack() {
+        return stack.size() > 1;
     }
 
     private <V extends View, C extends ExtendedController<V>> void switchTo(final QueueElement<V, C> element) {

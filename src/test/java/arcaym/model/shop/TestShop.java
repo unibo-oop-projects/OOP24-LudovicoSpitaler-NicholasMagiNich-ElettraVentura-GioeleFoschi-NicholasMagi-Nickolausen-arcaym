@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.model.shop.api.Shop;
 import arcaym.model.shop.impl.ShopImpl;
-import arcaym.utils.UserStateTestingUtils;
+import arcaym.testing.utils.UserStateTestingUtils;
 
 class TestShop {
 

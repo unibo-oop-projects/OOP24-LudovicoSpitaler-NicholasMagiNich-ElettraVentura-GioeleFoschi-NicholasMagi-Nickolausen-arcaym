@@ -1,4 +1,4 @@
-package arcaym.utils;
+package arcaym.testing.utils;
 
 import arcaym.model.game.core.engine.api.GameStateInfo;
 import arcaym.model.game.core.events.api.EventsScheduler;
