@@ -52,8 +52,8 @@ public class ImageLabel implements ViewComponent<JLabel> {
         label.setOpaque(false);
         final var image = imageIcon.getImage();
         imageIcon.setImage(image.getScaledInstance(
-            Double.valueOf(image.getWidth(label) * window.ratio().x() * this.scale).intValue(),
-            Double.valueOf(image.getHeight(label) * window.ratio().y() * this.scale).intValue(),
+            Double.valueOf(image.getWidth(label) * window.scale() * this.scale).intValue(),
+            Double.valueOf(image.getHeight(label) * window.scale() * this.scale).intValue(),
             Image.SCALE_FAST
         ));
         return label;
