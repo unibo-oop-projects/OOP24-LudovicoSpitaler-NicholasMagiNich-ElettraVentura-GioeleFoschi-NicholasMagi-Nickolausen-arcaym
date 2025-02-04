@@ -1,7 +1,9 @@
 package arcaym.view.editor.impl.components;
 
 import java.awt.Color;
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -14,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
 import arcaym.model.game.core.objects.api.GameObjectCategory;
@@ -62,9 +65,16 @@ public class SideMenuView implements ViewComponent<JScrollPane> {
     public JScrollPane build(final WindowInfo window) {
         final JScrollPane mainPanel = new JScrollPane();
         final JPanel content = new JPanel();
-        content.setLayout(new GridLayout(0, 1));
+        content.setLayout(new GridBagLayout());
+        final GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        final var gap = SwingUtils.getNormalGap(content);
+        gbc.insets = new Insets(0, 0, gap, gap);
         gameObjects.forEach((category, objectsView) -> {
-            content.add(new JLabel(category.toString().concat(objectsView.isEmpty() ? "" : "S"), SwingConstants.CENTER));
+            content.add(
+                new JLabel(category.toString().concat(objectsView.isEmpty() ? "" : "S"), SwingConstants.CENTER),
+                gbc);
             objectsView.forEach(obj -> {
                 final var btn = new JButton();
                 final var btnPanel = new CenteredPanel().build(window, new GameObjectView(obj));
@@ -77,20 +87,26 @@ public class SideMenuView implements ViewComponent<JScrollPane> {
                     gameObjectConsumer.accept(menuItems.get(src));
                     setNotErase.run();
                 });
+                content.add(btn, gbc);
                 menuItems.put(btn, obj);
-                content.add(btn);
             });
+            content.add(new JSeparator(SwingConstants.HORIZONTAL), gbc);
         });
+        content.remove(content.getComponentCount() - 1);
         content.setBackground(Color.WHITE);
+        final var horizontalContentGap = SwingUtils.getNormalGap(content);
+        content.setBorder(BorderFactory.createEmptyBorder(0, horizontalContentGap, 0, horizontalContentGap));
         mainPanel.setViewportView(content);
         mainPanel.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        mainPanel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         mainPanel.setBackground(Color.WHITE);
-        final var sideMenuGap = SwingUtils.getNormalGap(mainPanel);
+        final var sideMenuHorizontalGap = SwingUtils.getNormalGap(mainPanel);
+        final var sideMenuVerticalGap = SwingUtils.getBigGap(mainPanel);
         mainPanel.setBorder(BorderFactory.createEmptyBorder(
-                sideMenuGap,
-                sideMenuGap,
-                sideMenuGap,
-                sideMenuGap));
+                sideMenuVerticalGap,
+                sideMenuHorizontalGap,
+                sideMenuVerticalGap,
+                sideMenuHorizontalGap));
         return mainPanel;
     }
 }
