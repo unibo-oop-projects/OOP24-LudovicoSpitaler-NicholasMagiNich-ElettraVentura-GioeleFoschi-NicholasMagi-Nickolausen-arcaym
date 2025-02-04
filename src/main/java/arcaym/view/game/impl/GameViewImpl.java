@@ -92,7 +92,9 @@ public class GameViewImpl extends AbstractView<GameController> implements GameVi
                         Double.valueOf(entry.getKey().boundaries().northWest().x() * scale).intValue(),
                         Double.valueOf(entry.getKey().boundaries().northWest().y() * scale).intValue(),
                         Double.valueOf(entry.getKey().boundaries().base() * scale).intValue(),
-                        Double.valueOf(entry.getKey().boundaries().height() * scale).intValue(), null);
+                        Double.valueOf(entry.getKey().boundaries().height() * scale).intValue(), 
+                        null
+                );
             });
             g2d.dispose();
         }
@@ -147,7 +149,7 @@ public class GameViewImpl extends AbstractView<GameController> implements GameVi
         header.add(Box.createHorizontalStrut(SwingUtils.getNormalGap(header)));
         header.add(score);
         mainPanel.add(header, BorderLayout.NORTH);
-        mainPanel.add(gameContentPanel, BorderLayout.CENTER);
+        mainPanel.add(gamePanel.get(), BorderLayout.CENTER);
         return mainPanel;
     }
 
