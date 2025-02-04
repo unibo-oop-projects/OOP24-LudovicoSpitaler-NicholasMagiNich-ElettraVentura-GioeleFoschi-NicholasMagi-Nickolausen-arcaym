@@ -68,7 +68,10 @@ public class CreateLevelDialog implements ViewDialog<Component, Void> {
         final var typesInput = new JComboBox<>(EditorType.values());
         typesInput.setSelectedItem(DEFAULT_TYPE);
         mainPanel.setBorder(BorderFactory.createEmptyBorder(gap, gap, gap, gap));
-        mainPanel.add(new HorizontalCenteredPanel().build(window, SwingUtils.changeFontSize(new JLabel(MESSAGE), MESSAGE_FONT_SCALE)));
+        mainPanel.add(new HorizontalCenteredPanel().build(
+            window, 
+            SwingUtils.changeFontSize(new JLabel(MESSAGE), MESSAGE_FONT_SCALE)
+        ));
         mainPanel.add(Box.createVerticalStrut(gap));
         mainPanel.add(this.createRow("Name", nameInput, gap));
         mainPanel.add(Box.createVerticalStrut(gap));
