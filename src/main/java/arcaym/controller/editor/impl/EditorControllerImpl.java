@@ -186,6 +186,14 @@ public class EditorControllerImpl extends AbstractController<EditorView> impleme
      * {@inheritDoc}
      */
     @Override
+    public Position getSize() {
+        return Position.of(metadata.size().x(), metadata.size().y());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public boolean saveLevel() {
         return this.grid.saveState(metadata.uuid())
             && new MetadataManagerImpl().saveMetadata(metadata);
