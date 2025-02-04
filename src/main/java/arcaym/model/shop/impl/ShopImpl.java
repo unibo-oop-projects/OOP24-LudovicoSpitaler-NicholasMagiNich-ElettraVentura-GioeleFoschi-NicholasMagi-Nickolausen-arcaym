@@ -18,8 +18,9 @@ public class ShopImpl implements Shop {
 
     private static final Map<GameObjectType, Integer> PRICES = new EnumMap<>(Map.of(
         GameObjectType.WALL, 50,
-        GameObjectType.MOVING_X_OBSTACLE, 30,
-        GameObjectType.MOVING_Y_OBSTACLE, 40
+        GameObjectType.SPIKE, 100,
+        GameObjectType.MOVING_X_OBSTACLE, 150,
+        GameObjectType.MOVING_Y_OBSTACLE, 150
     ));
 
     private final Map<GameObjectType, Integer> lockedObjects;

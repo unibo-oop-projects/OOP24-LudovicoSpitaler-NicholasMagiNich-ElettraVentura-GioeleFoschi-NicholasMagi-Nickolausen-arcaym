@@ -80,11 +80,12 @@ public class InputMovementComponent extends AbstractGameComponent {
         final double newY = currentPosition.y() + (vel.y() * deltaTime);
         final Point newPosition = Point.of(newX, newY);
 
+        this.gameObject().setPosition(newPosition);
         if (
-            !CollisionUtils.isWallCollisionActive(gameScene, this.gameObject()) 
-            && gameState.boundaries().contains(this.gameObject().boundaries())
-        ) {
-            this.gameObject().setPosition(newPosition);
+            CollisionUtils.isWallCollisionActive(gameScene, this.gameObject()) 
+            || !gameState.boundaries().contains(this.gameObject().boundaries())
+            ) {
+            this.gameObject().setPosition(currentPosition);
         }
     }
 }

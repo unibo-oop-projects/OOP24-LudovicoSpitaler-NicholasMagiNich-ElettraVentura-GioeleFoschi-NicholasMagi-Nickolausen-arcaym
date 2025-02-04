@@ -15,6 +15,8 @@ public class MapConstraintFactoryImpl implements MapConstraintsFactory {
      */
     @Override
     public MapConstraint adjacencyConstraint() {
+        // Only partially works:
+        // Could not implement Connected-Component Labeling algorithm due to time constraints
         return positions -> {
             if (!positions
                     .stream()
