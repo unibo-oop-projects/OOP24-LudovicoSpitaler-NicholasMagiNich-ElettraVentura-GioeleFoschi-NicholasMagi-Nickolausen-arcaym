@@ -10,7 +10,7 @@ public interface MetadataManager {
     /**
      * Saves the data in a file for later use.
      * @param metadata The instance to save
-     * @return Returns true if the level was saved correctly, false otherwise
+     * @return returns true if the level was saved correctly, false otherwise
      */
     boolean saveMetadata(LevelMetadata metadata);
 
@@ -19,4 +19,11 @@ public interface MetadataManager {
      * @return A list of all the data loaded from files
      */
     List<LevelMetadata> loadData();
+
+    /**
+     * Deletes the metadata associated file.
+     * @param metadata source
+     * @return returns true if the level was deleted correctly, false otherwise
+     */
+    boolean deleteMetadata(LevelMetadata metadata);
 }

@@ -54,7 +54,11 @@ public class MenuViewImpl extends AbstractView<MenuController> implements MenuVi
         mainPanel.add(Box.createVerticalGlue());
         mainPanel.add(new HorizontalCenteredPanel().build(window, buttonsRow));
         mainPanel.add(Box.createVerticalStrut(gap));
-        mainPanel.add(new HorizontalCenteredPanel().build(window, new LevelsList(this.controller()::openEditor)));
+        mainPanel.add(new HorizontalCenteredPanel().build(window, new LevelsList(
+            this.controller()::getLevels,
+            this.controller()::deleteLevel,
+            this.controller()::openEditor
+        )));
         mainPanel.add(Box.createVerticalStrut(gap));
         return new HorizontalCenteredPanel().build(window, mainPanel);
     }

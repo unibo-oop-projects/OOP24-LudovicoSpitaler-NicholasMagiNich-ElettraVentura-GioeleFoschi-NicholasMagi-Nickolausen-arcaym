@@ -73,37 +73,40 @@ public final class FileUtils {
     /**
      * Deletes a file from a path.
      * @param name the path of the file
-     * @param subFolder the folder to select (saves or levelMetadata)
+     * @param folder the folder to select
+     * @return if the operation has concluded successfully
      */
-    public static void deleteFile(final String name, final String subFolder) {
-        final var deleteMe = Paths.get(APP_FOLDER, subFolder, name);
+    public static boolean deleteFile(final String name, final String folder) {
+        final var deleteMe = Paths.get(folder, name);
         try {
             Files.deleteIfExists(deleteMe);
         } catch (IOException e) {
             LOGGER.error("Error while deleting the file '" + deleteMe + "'", e);
+            return false;
         }
+        return true;
     }
 
     /**
-     * Deletes all the contents of the folder and the folder itself.
-     * @param folder The path to the folder
+     * Deletes a file from a path.
+     * @param folder the folder to select
+     * @param name the path of the file
+     * @param string content
+     * @return if the operation has concluded successfully
      */
-    public static void clearFolder(final File folder) {
-        final File[] files = folder.listFiles();
-        if (files != null) { // some JVMs return null for empty dirs
-            for (final File f : files) {
-                if (f.isDirectory()) {
-                    clearFolder(f);
-                } else {
-                    if (!f.delete()) {
-                        LOGGER.error("Error while deleating the file");
-                    }
-                }
-            }
+    public static boolean writeFile(
+        final String name, 
+        final String folder,
+        final String content
+    ) {
+        final var filePath = Paths.get(folder, name);
+        try {
+            Files.writeString(filePath, content, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            LOGGER.error("An error occurred while writing file '" + filePath + "'", e);
+            return false;
         }
-        if (!folder.delete()) {
-            LOGGER.error("Error while deleating folder");
-        }
+        return true;
     }
 
     /**

@@ -1,5 +1,7 @@
 package arcaym.controller.menu.api;
 
+import java.util.List;
+
 import arcaym.controller.app.api.Controller;
 import arcaym.controller.editor.saves.LevelMetadata;
 import arcaym.model.editor.EditorType;
@@ -15,6 +17,21 @@ public interface MenuController extends Controller {
      * @param levelMetadata level metadata
      */
     void openEditor(LevelMetadata levelMetadata);
+
+    /**
+     * Delete existing level.
+     * 
+     * @param levelMetadata level metadata
+     * @return if the operation concluded successfully
+     */
+    boolean deleteLevel(LevelMetadata levelMetadata);
+
+    /**
+     * Get list of existing levels.
+     * 
+     * @return existing levels
+     */
+    public List<LevelMetadata> getLevels();
 
     /**
      * Create and open a new editor.

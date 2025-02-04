@@ -63,4 +63,8 @@ public class MapSerializerImpl<T, U> implements MapSerializer<T, U> {
         return Map.of();
     }
 
+    public boolean deleteMap(final String uuid) {
+        return FileUtils.deleteFile(uuid.concat(EXTENSION), FileUtils.SAVES_FOLDER);
+    }
+
 }

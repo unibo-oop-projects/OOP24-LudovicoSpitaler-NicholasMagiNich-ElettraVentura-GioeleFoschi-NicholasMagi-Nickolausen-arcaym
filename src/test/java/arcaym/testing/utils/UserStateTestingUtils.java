@@ -80,7 +80,7 @@ public final class UserStateTestingUtils {
     public static void loadUserStateBackup() {
         final var serializer = utilitySerializer();
         serializer.save(serializer.load(COPY_FILE).get(), SAVES_FILE);
-        FileUtils.deleteFile(COPY_FILE.concat(EXTENSION), "user");
+        FileUtils.deleteFile(COPY_FILE.concat(EXTENSION), FileUtils.USER_FOLDER);
     }
 
     /**
