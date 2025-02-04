@@ -10,12 +10,12 @@ public enum GameEvent implements Event {
     /**
      * Game ended with success.
      */
-    VICTORY(0),
+    VICTORY(0, true),
 
     /**
      * Game ended with failure.
      */
-    GAME_OVER(1),
+    GAME_OVER(1, true),
 
     /**
      * Game score should increment.
@@ -28,9 +28,15 @@ public enum GameEvent implements Event {
     DECREMENT_SCORE(2);
 
     private final int priority;
+    private final boolean isTerminal;
+
+    GameEvent(final int priority, final boolean isTerminal) {
+        this.priority = priority;
+        this.isTerminal = isTerminal;
+    }
 
     GameEvent(final int priority) {
-        this.priority = priority;
+        this(priority, DEFAULT_TERMINAL);
     }
 
     /**
@@ -39,6 +45,14 @@ public enum GameEvent implements Event {
     @Override
     public int priority() {
         return this.priority;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isTerminal() {
+        return this.isTerminal;
     }
 
 }

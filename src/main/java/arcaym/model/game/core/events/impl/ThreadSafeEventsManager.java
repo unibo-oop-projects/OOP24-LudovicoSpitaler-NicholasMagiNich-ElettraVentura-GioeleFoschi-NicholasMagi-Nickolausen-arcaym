@@ -70,6 +70,9 @@ public class ThreadSafeEventsManager<T extends Event> implements EventsManager<T
                 final var event = this.pendingEvents.poll(POLL_TIMEOUT, POLL_TIMEOUT_UNIT);
                 LOGGER.info(new StringBuilder("Raising event ").append(event).toString());
                 this.eventsCallbacks.getOrDefault(event, Collections.emptyList()).forEach(c -> c.accept(event));
+                if (event.isTerminal()) {
+                    this.pendingEvents.clear();
+                }
             }
             LOGGER.info("Finished consuming all pending events");
         } catch (InterruptedException e) {
