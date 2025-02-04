@@ -94,14 +94,26 @@ public record Rectangle(Point northWest, Point southEast) {
     }
 
     /**
-     * Check if a point is outside of the rectangle.
      * 
-     * @param point point
-     * @return if it is outside
+     * @param rect rectangle
+     * @return if it is contained in rect
      */
-    public boolean isOutside(final Point point) {
-        return point.x() < this.northWest().x() || point.x() > this.southEast().x()
-            || point.y() < this.northWest().y() || point.y() > this.southEast().y();
+    public boolean contains(final Rectangle rect) {
+        return rect.northWest().x() >= this.northWest().x() && rect.northWest().y() >= this.northWest().y()
+            && rect.southEast().x() <= this.southEast().x() && rect.southEast().y() <= this.southEast().y();
+    }
+
+    /**
+     * Checks if two rectangles are intesecting.
+     * 
+     * @param rect rectangle
+     * @return if they are intersecting
+     */
+    public boolean intersecting(final Rectangle rect) {
+        return this.northWest().x() < rect.northEast().x()
+                && this.northEast().x() > rect.northWest().x()
+                && this.northWest().y() < rect.southWest().y()
+                && this.southWest().y() > rect.northWest().y();
     }
 
 }

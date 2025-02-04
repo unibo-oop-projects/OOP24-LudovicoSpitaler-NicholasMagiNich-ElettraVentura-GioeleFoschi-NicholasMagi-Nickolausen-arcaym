@@ -24,8 +24,8 @@ import arcaym.model.game.events.impl.InputEvent;
 public class InputMovementComponent extends AbstractGameComponent {
     
     private final List<InputDirection> directions = List.of(
-        new InputDirection(InputType.UP, Vector.of(0, 1)),
-        new InputDirection(InputType.DOWN, Vector.of(0, -1)),
+        new InputDirection(InputType.UP, Vector.of(0, -1)),
+        new InputDirection(InputType.DOWN, Vector.of(0, 1)),
         new InputDirection(InputType.RIGHT, Vector.of(1, 0)),
         new InputDirection(InputType.LEFT, Vector.of(-1, 0))
     );
@@ -83,7 +83,7 @@ public class InputMovementComponent extends AbstractGameComponent {
         final double newY = currentPosition.y() + (vel.y() * deltaTime);
         final Point newPosition = Point.of(newX, newY);
 
-        if (!CollisionUtils.isWallCollisionActive(gameScene, gameObject) && !gameState.boundaries().isOutside(newPosition)) {                  
+        if (!CollisionUtils.isWallCollisionActive(gameScene, gameObject) && gameState.boundaries().contains(gameObject.boundaries())) {                  
             gameObject.setPosition(newPosition);
         }
     }

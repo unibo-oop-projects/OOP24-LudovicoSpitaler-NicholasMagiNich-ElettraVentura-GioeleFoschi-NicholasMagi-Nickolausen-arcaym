@@ -2,7 +2,6 @@ package arcaym.model.game.components.impl;
 
 import java.util.stream.Stream;
 
-import arcaym.common.geometry.impl.Rectangles;
 import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.core.objects.api.GameObjectInfo;
 import arcaym.model.game.core.scene.api.GameSceneInfo;
@@ -32,6 +31,7 @@ public final class CollisionUtils {
     public static Stream<GameObjectInfo> getCollidingObjects(final GameSceneInfo scene,
             final GameObject gameObject) {
         return scene.getGameObjectsInfos().stream()
-                .filter(obj -> Rectangles.intersecting(obj.boundaries(), gameObject.boundaries()));
+            .filter(obj -> obj.boundaries().intersecting(gameObject.boundaries())
+        );
     }
 }

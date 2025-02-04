@@ -3,9 +3,9 @@ package arcaym.model.game.components.impl;
 import arcaym.common.geometry.impl.Point;
 import arcaym.common.geometry.impl.Vector;
 import arcaym.model.game.components.api.MovementComponentsFactory;
+import arcaym.model.game.core.components.api.ComponentsBasedGameObject;
 import arcaym.model.game.core.components.api.GameComponent;
 import arcaym.model.game.core.components.impl.AbstractGameComponent;
-import arcaym.model.game.core.components.impl.UniqueComponentsGameObject;
 import arcaym.model.game.core.engine.api.GameStateInfo;
 import arcaym.model.game.core.events.api.EventsScheduler;
 import arcaym.model.game.core.objects.api.GameObject;
@@ -26,7 +26,7 @@ public class MovementComponentsFactoryImpl implements MovementComponentsFactory 
                 GameObject gameObject);
     }
 
-    private Point nextPosition(final Vector velocity, final long deltaTime, final UniqueComponentsGameObject object) {
+    private Point nextPosition(final Vector velocity, final long deltaTime, final ComponentsBasedGameObject object) {
         final Point currentPosition = object.getPosition();
         final double newX = currentPosition.x() + (velocity.x() * deltaTime);
         final double newY = currentPosition.y() + (velocity.y() * deltaTime);
@@ -34,7 +34,7 @@ public class MovementComponentsFactoryImpl implements MovementComponentsFactory 
     }
 
     private GameComponent genericMovement(final Vector initialVelocity,
-            final IllegalMovementHandler reaction, final UniqueComponentsGameObject gameObject) {
+            final IllegalMovementHandler reaction, final ComponentsBasedGameObject gameObject) {
         return new AbstractGameComponent(gameObject) {
             private Vector vel = initialVelocity;
 
@@ -44,7 +44,7 @@ public class MovementComponentsFactoryImpl implements MovementComponentsFactory 
                     final GameStateInfo gameState) {
                         
                 Point newPosition = nextPosition(vel, deltaTime, gameObject);
-                if (CollisionUtils.isWallCollisionActive(gameScene, gameObject) || gameState.boundaries().isOutside(newPosition)) {
+                if (CollisionUtils.isWallCollisionActive(gameScene, gameObject) || !gameState.boundaries().contains(gameObject.boundaries())) {
                     vel = reaction.reactToLimitReached(deltaTime, eventsScheduler, vel, gameObject);  
                     newPosition = nextPosition(vel, deltaTime, gameObject);                  
                 }
@@ -58,7 +58,7 @@ public class MovementComponentsFactoryImpl implements MovementComponentsFactory 
      * {@inheritDoc}
      */
     @Override
-    public GameComponent fromInputMovement(final UniqueComponentsGameObject gameObject) {
+    public GameComponent fromInputMovement(final ComponentsBasedGameObject gameObject) {
         return new InputMovementComponent(gameObject);
     }
 
@@ -66,7 +66,7 @@ public class MovementComponentsFactoryImpl implements MovementComponentsFactory 
      * {@inheritDoc}
      */
     @Override
-    public GameComponent automaticXMovement(final UniqueComponentsGameObject gameObject) {
+    public GameComponent automaticXMovement(final ComponentsBasedGameObject gameObject) {
         return genericMovement(Vector.of(1, 0),
             (deltaTime, eventsScheduler, vel, object) -> vel.invert(), gameObject);
     }
@@ -75,7 +75,7 @@ public class MovementComponentsFactoryImpl implements MovementComponentsFactory 
      * {@inheritDoc}
      */
     @Override
-    public GameComponent automaticYMovement(final UniqueComponentsGameObject gameObject) {
+    public GameComponent automaticYMovement(final ComponentsBasedGameObject gameObject) {
         return genericMovement(Vector.of(0, 1),
             (deltaTime, eventsScheduler, vel, object) -> vel.invert(), gameObject);
     }
