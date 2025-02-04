@@ -2,7 +2,6 @@ package arcaym.view.shop.impl;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.util.Collection;
 import java.util.Map.Entry;
 import java.util.Optional;
@@ -19,7 +18,6 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
 import arcaym.controller.shop.api.ShopController;
-import arcaym.controller.shop.impl.ShopControllerImpl;
 import arcaym.model.game.core.objects.api.GameObjectCategory;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.view.app.impl.AbstractView;
@@ -38,6 +36,9 @@ public class ShopViewImpl extends AbstractView<ShopController> implements ViewCo
     private static final Integer SCALE = 3;
     private static final String SHOP_TITLE = "SHOP";
     private static final String BUY_BUTTON = "PURCHASE";
+    private static final String CREDIT = "Credit : ";
+    private static final String CATEGORY = "CATEGORY : ";
+    private static final String NOT_AVAILABLE = "No Items Available.";
     private final BiMap<JButton, ProductInfo> productsMap = HashBiMap.create();
     private Optional<ProductInfo> selected = Optional.empty();
     private JButton buyButton;
@@ -68,7 +69,7 @@ public class ShopViewImpl extends AbstractView<ShopController> implements ViewCo
         final JScrollPane scrollPanel = new JScrollPane();
         final JPanel itemsPanel = new JPanel();
         itemsPanel.setMinimumSize(scrollPanel.getSize());
-        itemsPanel.setLayout(new GridLayout(0, 1));
+        itemsPanel.setLayout(new BoxLayout(itemsPanel, BoxLayout.PAGE_AXIS));
         scrollPanel.setViewportView(itemsPanel);
         fillItems(window, itemsPanel);
         contentPanel.add(Box.createVerticalStrut(gap));
@@ -98,7 +99,7 @@ public class ShopViewImpl extends AbstractView<ShopController> implements ViewCo
     }
 
     private void updateCreditLable(final JLabel userCredit) {
-        userCredit.setText("Credit : " + controller().getUserCredit());
+        userCredit.setText(CREDIT + controller().getUserCredit());
     }
 
     private void fillItems(final WindowInfo window, final JPanel itemsPanel) {
@@ -112,7 +113,7 @@ public class ShopViewImpl extends AbstractView<ShopController> implements ViewCo
     private JPanel createCategoryCard(final WindowInfo window, final GameObjectCategory category) {
         final JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.PAGE_AXIS));
-        final JLabel titleLabel = new JLabel("NEW " + category.name() + "S");
+        final JLabel titleLabel = new JLabel(CATEGORY + category.name());
         SwingUtils.changeFontSize(titleLabel, SCALE);
         final JPanel title = new CenteredPanel().build(window, titleLabel);
         title.setBackground(Color.WHITE);
@@ -124,8 +125,8 @@ public class ShopViewImpl extends AbstractView<ShopController> implements ViewCo
         final int maxAlreadyOwnedItems = (int) controller().getPurchasedItems().keySet().stream()
                 .filter(type -> type.category() == category).count();
         if (maxAvailableItems == 0 && maxAlreadyOwnedItems == 0) {
-            showItemsPanel.setBackground(Color.GRAY);
-            showItemsPanel.add(new JLabel("No Items Available."));
+            showItemsPanel.setBackground(Color.LIGHT_GRAY);
+            showItemsPanel.add(new JLabel(NOT_AVAILABLE));
         } else {
             if (maxAvailableItems != 0) {
                 for (final var object : filterForCategory(controller().getLockedItems().entrySet().stream(),
