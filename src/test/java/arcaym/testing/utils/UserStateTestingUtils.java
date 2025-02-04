@@ -1,12 +1,9 @@
-package arcaym.utils;
+package arcaym.testing.utils;
 
 import java.util.Collections;
-import java.util.EnumSet;
-import java.util.Set;
 
 import arcaym.common.utils.file.FileUtils;
 import arcaym.controller.user.impl.UserStateSerializerImpl;
-import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.model.user.api.UserStateInfo;
 import arcaym.model.user.impl.UserStateImpl;
 
@@ -36,16 +33,9 @@ public final class UserStateTestingUtils {
      */
     public static void writeUserStateDefault(final int defaultCredit) {
         final var serializer = new UserStateSerializerImpl();
-        final var defaultItems = EnumSet.copyOf(Set.of(
-                GameObjectType.USER_PLAYER,
-                GameObjectType.COIN,
-                GameObjectType.FLOOR,
-                GameObjectType.SPIKE));
         serializer.save(
                 new UserStateInfo(
                         defaultCredit,
-                        defaultItems,
-                        defaultItems,
                         Collections.emptySet()),
                 SAVES_FILE);
     }
@@ -56,16 +46,9 @@ public final class UserStateTestingUtils {
     public static void makeUserStateBackup() {
         final var serializer = new UserStateSerializerImpl();
         final var userState = new UserStateImpl();
-        final var defaultItems = EnumSet.copyOf(Set.of(
-                GameObjectType.USER_PLAYER,
-                GameObjectType.COIN,
-                GameObjectType.FLOOR,
-                GameObjectType.SPIKE));
         serializer.save(
         new UserStateInfo(
                 userState.getCredit(),
-                userState.getItemsOwned(),
-                defaultItems,
                 userState.getPurchasedItems()),
         COPY_FILE);
     }

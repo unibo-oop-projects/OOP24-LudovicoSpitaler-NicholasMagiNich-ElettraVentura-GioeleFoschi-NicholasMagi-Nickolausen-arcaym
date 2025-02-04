@@ -1,6 +1,11 @@
 package arcaym;
 
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import arcaym.common.utils.file.FileUtils;
+import arcaym.controller.app.impl.MainControllerImpl;
+import arcaym.view.app.impl.MainViewImpl;
 
 /**
  * App entry class.
@@ -8,7 +13,7 @@ import java.util.logging.Logger;
  */
 public class AppLauncher {
 
-    private static final Logger LOGGER = Logger.getLogger(AppLauncher.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(AppLauncher.class);
 
     /**
      * Get greeting message for subject.
@@ -26,9 +31,15 @@ public class AppLauncher {
      * @param args launch arguments
      */
     public static void main(final String[] args) {
-        //var controller = new MainController();
-        //controller.setView(new MainView(controller));
-        final var app = new AppLauncher();
-        LOGGER.info(app.getGreeting("World"));
+        FileUtils.createMetadataDirectory();
+        FileUtils.createSavesDirectory();
+        FileUtils.createUserDirectory();
+
+        final var controller = new MainControllerImpl();
+        final var view = new MainViewImpl(controller);
+        if (view.init()) {
+            controller.setView(view);
+            LOGGER.info("Application has started!");
+        }
     }
 }

@@ -15,6 +15,13 @@ import arcaym.view.shop.api.ShopView;
 public interface MainView extends View {
 
     /**
+     * Initializes the view.
+     * 
+     * @return {@code true} if the view has been initialized, {@code false} otherwise
+     */
+    boolean init();
+
+    /**
      * Create and switch to a menu view.
      * 
      * @param controller menu controller
@@ -45,5 +52,4 @@ public interface MainView extends View {
      * @return resulting view
      */
     ShopView switchToShop(ShopController controller);
-
 }

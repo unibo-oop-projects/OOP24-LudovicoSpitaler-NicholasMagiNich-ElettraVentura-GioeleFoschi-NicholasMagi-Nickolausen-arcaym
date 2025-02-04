@@ -14,8 +14,8 @@ import arcaym.model.game.core.objects.api.GameObjectsFactory;
 import arcaym.model.game.core.scene.api.GameScene;
 import arcaym.model.game.core.scene.impl.FactoryBasedGameScene;
 import arcaym.model.game.objects.api.GameObjectType;
-import arcaym.utils.EmptyGameView;
-import arcaym.utils.GameTestingUtils;
+import arcaym.testing.utils.EmptyGameView;
+import arcaym.testing.utils.GameTestingUtils;
 
 class TestScene {
 
