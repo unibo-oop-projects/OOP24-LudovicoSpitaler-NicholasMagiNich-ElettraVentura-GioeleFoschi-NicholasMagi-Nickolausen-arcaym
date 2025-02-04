@@ -4,7 +4,6 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.Objects;
 
-import arcaym.common.geometry.impl.Point;
 import arcaym.view.core.api.WindowInfo;
 import arcaym.view.utils.SwingUtils;
 
@@ -16,7 +15,6 @@ public class ScaledWindowInfo implements WindowInfo {
     private static final float FULLSCREEEN_SCALE_VALUE = 1f;
 
     private final Dimension size;
-    private final Point ratio;
     private final Scale scale;
 
     /**
@@ -30,10 +28,6 @@ public class ScaledWindowInfo implements WindowInfo {
             Toolkit.getDefaultToolkit().getScreenSize(), 
             scale.value()
         );
-        this.ratio = Point.of(
-            this.size.getWidth() / STANDARD_SIZE.getWidth(),
-            this.size.getHeight() / STANDARD_SIZE.getHeight()
-        );
     }
 
     /**
@@ -42,14 +36,6 @@ public class ScaledWindowInfo implements WindowInfo {
     @Override
     public Dimension size() {
         return new Dimension(this.size);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Point ratio() {
-        return this.ratio;
     }
 
     /**
