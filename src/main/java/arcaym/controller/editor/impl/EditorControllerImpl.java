@@ -93,8 +93,8 @@ public class EditorControllerImpl extends AbstractController<EditorView> impleme
      */
     @Override
     public void close() {
-        super.close();
         this.saveLevel();
+        super.close();
     }
 
     /**
