@@ -20,8 +20,6 @@ import arcaym.view.utils.SwingUtils;
 public class DisplayProductView implements ViewComponent<JPanel> {
     private static final Color TITLE_COLOR = Color.WHITE;
     private final GameObjectType productType;
-    // private final int price;
-    // private final Predicate<Integer> canBuy;
 
     /**
      * Contructor of single ProductView.
@@ -47,9 +45,6 @@ public class DisplayProductView implements ViewComponent<JPanel> {
         contenPanel.add(Box.createVerticalStrut(SwingUtils.getBigGap(contenPanel)));
         contenPanel.add(productImagePanel);
         contenPanel.add(Box.createVerticalStrut(SwingUtils.getBigGap(contenPanel)));
-        // JButton priceButton = new JButton(String.valueOf(price));
-        // contenPanel.add(new CenteredPanel().build(window, priceButton));
-        // priceButton.setEnabled(canBuy.apply(price) ? true : false);
         return new HorizontalCenteredPanel().build(window, contenPanel);
     }
 
