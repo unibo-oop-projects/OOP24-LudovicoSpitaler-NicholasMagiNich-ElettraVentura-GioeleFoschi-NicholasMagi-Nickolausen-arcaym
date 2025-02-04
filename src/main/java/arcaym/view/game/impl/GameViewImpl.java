@@ -11,7 +11,6 @@ import java.awt.event.KeyEvent;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import javax.swing.AbstractAction;
@@ -24,6 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
 import arcaym.common.geometry.impl.Rectangle;
+import arcaym.common.utils.Optionals;
 import arcaym.controller.game.api.GameController;
 import arcaym.model.game.core.engine.api.GameStateInfo;
 import arcaym.model.game.core.events.api.EventsScheduler;
@@ -49,8 +49,8 @@ public class GameViewImpl extends AbstractView<GameController> implements GameVi
     private static final int KEY_DOWN = KeyEvent.VK_S;
     private static final int KEY_LEFT = KeyEvent.VK_A;
     private static final int KEY_RIGHT = KeyEvent.VK_D;
-    private Optional<Consumer<JPanel>> setKeyBindings = Optional.empty();
-    private Optional<BiConsumer<JPanel, JLabel>> setGameEventReaction = Optional.empty();
+    private Optional<Consumer<EventsScheduler<InputEvent>>> setKeyBindings = Optional.empty();
+    private Optional<Consumer<EventsSubscriber<GameEvent>>> setGameEventReaction = Optional.empty();
     private Optional<GamePanel> gamePanel = Optional.empty();
     private final Rectangle boundaries;
     private final ConcurrentMap<GameObjectInfo, Image> gameMap = new ConcurrentHashMap<>();
@@ -124,12 +124,30 @@ public class GameViewImpl extends AbstractView<GameController> implements GameVi
         final GamePanel gameContentPanel = new GamePanel();
         gamePanel = Optional.of(gameContentPanel);
         // accepts the key bindings setup on the main panel
-        setKeyBindings.get().accept(mainPanel);
+        setKeyBindings = Optional.of((eventsScheduler) -> {
+            bindKey(InputType.UP, KEY_UP, eventsScheduler, gameContentPanel);
+            bindKey(InputType.DOWN, KEY_DOWN, eventsScheduler, gameContentPanel);
+            bindKey(InputType.LEFT, KEY_LEFT, eventsScheduler, gameContentPanel);
+            bindKey(InputType.RIGHT, KEY_RIGHT, eventsScheduler, gameContentPanel);
+        });
         // score label
         final JLabel score = new JLabel();
         SwingUtils.changeFontSize(score, LABELS_SCALE);
         scoreUpdateLabel(score);
-        setGameEventReaction.get().accept(gameContentPanel, score);
+        setGameEventReaction = Optional.of(eventsSubscriber -> {
+            eventsSubscriber.registerCallback(GameEvent.GAME_OVER, (gameEvent) -> {
+                JOptionPane.showMessageDialog(gameContentPanel, gameEvent.name());
+            });
+            eventsSubscriber.registerCallback(GameEvent.DECREMENT_SCORE, (gameEvent) -> {
+                scoreUpdateLabel(score);
+            });
+            eventsSubscriber.registerCallback(GameEvent.INCREMENT_SCORE, (gameEvent) -> {
+                scoreUpdateLabel(score);
+            });
+            eventsSubscriber.registerCallback(GameEvent.VICTORY, (gameEvent) -> {
+                JOptionPane.showMessageDialog(gameContentPanel, gameEvent.name());
+            });
+        });
         header.add(Box.createHorizontalStrut(SwingUtils.getNormalGap(header)));
         header.add(score);
         mainPanel.add(header, BorderLayout.NORTH);
@@ -142,27 +160,17 @@ public class GameViewImpl extends AbstractView<GameController> implements GameVi
         score.setText(SCORE + this.controller().getGameState().score().getValue());
     }
 
+    private <T> T getPostBuild(final Optional<T> value) {
+        return Optionals.orIllegalState(value, "View has not been built yet.");
+    } 
+
     /**
      * {@inheritDoc}
      */
     @Override
     public void registerEventsCallbacks(final EventsSubscriber<GameEvent> eventsSubscriber,
             final GameStateInfo gameState) {
-        // This method will be called before build().
-        setGameEventReaction = Optional.of((gamePanel, scoreLabel) -> {
-            eventsSubscriber.registerCallback(GameEvent.GAME_OVER, (gameEvent) -> {
-                JOptionPane.showMessageDialog(gamePanel, gameEvent.name());
-            });
-            eventsSubscriber.registerCallback(GameEvent.DECREMENT_SCORE, (gameEvent) -> {
-                scoreUpdateLabel(scoreLabel);
-            });
-            eventsSubscriber.registerCallback(GameEvent.INCREMENT_SCORE, (gameEvent) -> {
-                scoreUpdateLabel(scoreLabel);
-            });
-            eventsSubscriber.registerCallback(GameEvent.VICTORY, (gameEvent) -> {
-                JOptionPane.showMessageDialog(gamePanel, gameEvent.name());
-            });
-        });
+        getPostBuild(setGameEventReaction).accept(eventsSubscriber);
     }
 
     /**
@@ -170,13 +178,7 @@ public class GameViewImpl extends AbstractView<GameController> implements GameVi
      */
     @Override
     public void setInputEventsScheduler(final EventsScheduler<InputEvent> eventsScheduler) {
-        // This method will be called before build().
-        setKeyBindings = Optional.of((out) -> {
-            bindKey(InputType.UP, KEY_UP, eventsScheduler, out);
-            bindKey(InputType.DOWN, KEY_DOWN, eventsScheduler, out);
-            bindKey(InputType.LEFT, KEY_LEFT, eventsScheduler, out);
-            bindKey(InputType.RIGHT, KEY_RIGHT, eventsScheduler, out);
-        });
+        getPostBuild(setKeyBindings).accept(eventsScheduler);
     }
 
     private void bindKey(final InputType type, final int keyCode, final EventsScheduler<InputEvent> eventsScheduler,
