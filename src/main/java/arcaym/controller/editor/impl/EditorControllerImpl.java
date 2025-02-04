@@ -2,6 +2,7 @@ package arcaym.controller.editor.impl;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -28,7 +29,6 @@ import arcaym.model.editor.impl.GridModelImpl;
 import arcaym.model.game.components.impl.ComponentsBasedObjectsFactory;
 import arcaym.model.game.core.engine.impl.FactoryBasedGameBuilder;
 import arcaym.model.game.objects.api.GameObjectType;
-import arcaym.model.user.impl.UserStateInfo;
 import arcaym.view.editor.api.EditorView;
 
 /**
@@ -36,7 +36,7 @@ import arcaym.view.editor.api.EditorView;
  */
 public class EditorControllerImpl extends AbstractController<EditorView> implements ExtendedEditorController {
 
-    private final UserStateInfo userState;
+    private final Set<GameObjectType> unlockedItems;
     private final LevelMetadata metadata;
     private GameObjectType selectedObject = GameObjectType.FLOOR;
     private final GridModel grid;
@@ -65,7 +65,7 @@ public class EditorControllerImpl extends AbstractController<EditorView> impleme
             type,
             Position.of(width, height));
         this.view = Optional.empty();
-        this.userState = new UserStateSerializerJSON().getUpdatedState();
+        this.unlockedItems = getUnlockedItemsFromType(type);
     }
 
     /**
@@ -85,7 +85,14 @@ public class EditorControllerImpl extends AbstractController<EditorView> impleme
             metadata.type(),
             metadata.size());
         this.view = Optional.empty();
-        this.userState = new UserStateSerializerJSON().getUpdatedState();
+        this.unlockedItems = getUnlockedItemsFromType(metadata.type());
+    }
+
+    private Set<GameObjectType> getUnlockedItemsFromType(final EditorType type) {
+        return switch (type) {
+            case EditorType.SANDBOX -> EnumSet.allOf(GameObjectType.class);
+            case EditorType.NORMAL -> new UserStateSerializerJSON().getUpdatedState().getItemsOwned();
+        };
     }
 
     /**
@@ -102,7 +109,7 @@ public class EditorControllerImpl extends AbstractController<EditorView> impleme
      */
     @Override
     public Set<GameObjectType> getOwnedObjects() {
-        return Collections.unmodifiableSet(userState.getItemsOwned());
+        return Collections.unmodifiableSet(unlockedItems);
     }
 
     /**
