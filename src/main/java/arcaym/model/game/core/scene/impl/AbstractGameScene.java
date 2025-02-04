@@ -2,11 +2,10 @@ package arcaym.model.game.core.scene.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +24,7 @@ public abstract class AbstractGameScene implements GameScene {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractGameScene.class);
 
-    private final Set<GameObject> gameObjects = new HashSet<>();
+    private final Map<GameObject, Integer> elements = new HashMap<>();
     private final List<CreationInfo> creationEvents = new ArrayList<>();
     private final List<GameObject> destroyEvents = new ArrayList<>();
 
@@ -59,8 +58,8 @@ public abstract class AbstractGameScene implements GameScene {
      * {@inheritDoc}
      */
     @Override
-    public Collection<GameObjectInfo> getGameObjectsInfos() {
-        return Collections.unmodifiableCollection(this.gameObjects);
+    public Collection<? extends GameObjectInfo> getGameObjectsInfos() {
+        return this.getGameObjects();
     }
 
     /**
@@ -68,7 +67,7 @@ public abstract class AbstractGameScene implements GameScene {
      */
     @Override
     public Collection<GameObject> getGameObjects() {
-        return Collections.unmodifiableCollection(this.gameObjects);
+        return this.elements.keySet();
     }
 
     /**
@@ -89,12 +88,12 @@ public abstract class AbstractGameScene implements GameScene {
         final var gameObject = this.createObject(creation.type());
         gameObject.setPosition(creation.position());
         LOGGER.info(new StringBuilder("Created object ").append(gameObject).toString());
-        this.gameObjects.add(gameObject);
-        gameView.createObject(gameObject);
+        this.elements.put(gameObject, creation.zIndex());
+        gameView.createObject(gameObject, creation.zIndex());
     }
 
     private void destroyObject(final GameObject gameObject, final GameView gameView) {
-        this.gameObjects.remove(gameObject);
+        this.elements.remove(gameObject);
         LOGGER.info(new StringBuilder("Destroyed object ").append(gameObject).toString());
         gameView.destroyObject(gameObject);
     }

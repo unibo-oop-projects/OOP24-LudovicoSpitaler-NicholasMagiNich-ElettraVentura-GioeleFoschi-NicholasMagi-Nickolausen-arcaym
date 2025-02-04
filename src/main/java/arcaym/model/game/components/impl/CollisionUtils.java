@@ -31,7 +31,7 @@ public final class CollisionUtils {
      * @param gameObject
      * @return colliding objects
      */
-    public static Stream<GameObjectInfo> getCollidingObjects(final GameSceneInfo scene,
+    public static Stream<? extends GameObjectInfo> getCollidingObjects(final GameSceneInfo scene,
             final GameObject gameObject) {
         return scene.getGameObjectsInfos().stream()
             .filter(obj -> obj.boundaries().intersecting(gameObject.boundaries())

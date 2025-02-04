@@ -8,6 +8,7 @@ import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.Comparator;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -53,7 +54,9 @@ public class GameViewImpl extends AbstractView<GameController> implements GameVi
     private Optional<Consumer<EventsSubscriber<GameEvent>>> setGameEventReaction = Optional.empty();
     private Optional<GamePanel> gamePanel = Optional.empty();
     private final Rectangle boundaries;
-    private final ConcurrentMap<GameObjectInfo, Image> gameMap = new ConcurrentHashMap<>();
+    private final ConcurrentMap<GameObjectInfo, GameObjectRepresentation> gameMap = new ConcurrentHashMap<>();
+
+    private record GameObjectRepresentation(Image image, int zIndex) { }
 
     /**
      * Base constructor for GameViewImpl.
@@ -87,12 +90,14 @@ public class GameViewImpl extends AbstractView<GameController> implements GameVi
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
             g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
             g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
-            gameMap.entrySet().stream().forEach(entry -> {
-                g2d.drawImage(entry.getValue(),
+            gameMap.entrySet().stream().sorted(Comparator.comparingInt(entry -> entry.getValue().zIndex)).forEach(entry -> {
+                g2d.drawImage(entry.getValue().image(),
                         Double.valueOf(entry.getKey().boundaries().northWest().x() * scale).intValue(),
                         Double.valueOf(entry.getKey().boundaries().northWest().y() * scale).intValue(),
                         Double.valueOf(entry.getKey().boundaries().base() * scale).intValue(),
-                        Double.valueOf(entry.getKey().boundaries().height() * scale).intValue(), null);
+                        Double.valueOf(entry.getKey().boundaries().height() * scale).intValue(), 
+                        null
+                );
             });
             g2d.dispose();
         }
@@ -147,7 +152,7 @@ public class GameViewImpl extends AbstractView<GameController> implements GameVi
         header.add(Box.createHorizontalStrut(SwingUtils.getNormalGap(header)));
         header.add(score);
         mainPanel.add(header, BorderLayout.NORTH);
-        mainPanel.add(gameContentPanel, BorderLayout.CENTER);
+        mainPanel.add(gamePanel.get(), BorderLayout.CENTER);
         return mainPanel;
     }
 
@@ -216,8 +221,11 @@ public class GameViewImpl extends AbstractView<GameController> implements GameVi
      * {@inheritDoc}
      */
     @Override
-    public void createObject(final GameObjectInfo gameObject) {
-        gameMap.put(gameObject, new GameObjectView(gameObject.type()).getImage().get());
+    public void createObject(final GameObjectInfo gameObject, final int zIndex) {
+        gameMap.put(gameObject, new GameObjectRepresentation(
+            new GameObjectView(gameObject.type()).getImage().get(),
+            zIndex
+        ));
         this.gamePanel.ifPresent(JPanel::repaint);
     }
 
