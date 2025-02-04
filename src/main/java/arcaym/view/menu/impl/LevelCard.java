@@ -33,6 +33,7 @@ public class LevelCard implements ViewComponent<JPanel> {
      * 
      * @param metadata level metadata
      * @param levelOpener level opener function
+     * @param levelDeleter level delete function
      */
     public LevelCard(
         final LevelMetadata metadata, 

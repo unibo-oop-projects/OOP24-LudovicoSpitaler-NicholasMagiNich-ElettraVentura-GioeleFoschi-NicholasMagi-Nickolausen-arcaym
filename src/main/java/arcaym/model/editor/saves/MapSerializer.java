@@ -28,5 +28,5 @@ public interface MapSerializer<T, U> {
      * @param uuid the map to delete
      * @return if the operation concluded successfully
      */
-    public boolean deleteMap(String uuid);
+    boolean deleteMap(String uuid);
 }

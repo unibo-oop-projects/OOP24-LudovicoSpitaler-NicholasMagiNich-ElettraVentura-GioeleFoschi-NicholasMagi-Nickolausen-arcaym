@@ -29,6 +29,8 @@ public class LevelsList implements ViewComponent<JScrollPane> {
     /**
      * Initialize with level opener.
      * 
+     * @param levelsLoader levels loader function
+     * @param levelDeleter level delete function
      * @param levelOpener level opening function
      */
     public LevelsList(
@@ -50,7 +52,7 @@ public class LevelsList implements ViewComponent<JScrollPane> {
         this.reloadList(mainPanel, window);
         return new JScrollPane(mainPanel);
     }
-    
+
     private void reloadList(final JPanel mainPanel, final WindowInfo window) {
         mainPanel.removeAll();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));

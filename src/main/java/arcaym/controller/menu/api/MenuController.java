@@ -31,7 +31,7 @@ public interface MenuController extends Controller {
      * 
      * @return existing levels
      */
-    public List<LevelMetadata> getLevels();
+    List<LevelMetadata> getLevels();
 
     /**
      * Create and open a new editor.

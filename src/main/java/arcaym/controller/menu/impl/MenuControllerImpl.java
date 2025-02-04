@@ -42,7 +42,7 @@ public class MenuControllerImpl extends AbstractController<MenuView> implements 
      */
     @Override
     public boolean deleteLevel(final LevelMetadata levelMetadata) {
-        return metadataManager.deleteMetadata(levelMetadata);    
+        return metadataManager.deleteMetadata(levelMetadata);
     }
 
     /**

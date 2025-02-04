@@ -91,7 +91,7 @@ public final class FileUtils {
      * Deletes a file from a path.
      * @param folder the folder to select
      * @param name the path of the file
-     * @param string content
+     * @param content content
      * @return if the operation has concluded successfully
      */
     public static boolean writeFile(
