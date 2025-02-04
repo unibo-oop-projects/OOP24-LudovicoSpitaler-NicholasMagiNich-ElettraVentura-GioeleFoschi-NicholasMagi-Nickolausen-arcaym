@@ -11,7 +11,6 @@ import arcaym.model.game.core.components.impl.AbstractGameComponent;
 import arcaym.model.game.core.engine.api.GameStateInfo;
 import arcaym.model.game.core.events.api.EventsScheduler;
 import arcaym.model.game.core.events.api.EventsSubscriber;
-import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.core.scene.api.GameSceneInfo;
 import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.events.api.InputType;
@@ -22,7 +21,7 @@ import arcaym.model.game.events.impl.InputEvent;
  * input.
  */
 public class InputMovementComponent extends AbstractGameComponent {
-    
+
     private final List<InputDirection> directions = List.of(
         new InputDirection(InputType.UP, Vector.of(0, -1)),
         new InputDirection(InputType.DOWN, Vector.of(0, 1)),
@@ -30,9 +29,8 @@ public class InputMovementComponent extends AbstractGameComponent {
         new InputDirection(InputType.LEFT, Vector.of(-1, 0))
     );
     private final Map<Vector, Boolean> activeDirections;
-    private final GameObject gameObject;
 
-    private record InputDirection(InputType inputType, Vector direction) {}
+    private record InputDirection(InputType inputType, Vector direction) { }
 
     /**
      * Basic constructor getting gameObject as an argument.
@@ -41,7 +39,6 @@ public class InputMovementComponent extends AbstractGameComponent {
      */
     public InputMovementComponent(final ComponentsBasedGameObject gameObject) {
         super(gameObject);
-        this.gameObject = gameObject;
         activeDirections = directions.stream().collect(Collectors.toMap(InputDirection::direction, v -> false));
     }
 
@@ -83,8 +80,11 @@ public class InputMovementComponent extends AbstractGameComponent {
         final double newY = currentPosition.y() + (vel.y() * deltaTime);
         final Point newPosition = Point.of(newX, newY);
 
-        if (!CollisionUtils.isWallCollisionActive(gameScene, gameObject) && gameState.boundaries().contains(gameObject.boundaries())) {                  
-            gameObject.setPosition(newPosition);
+        if (
+            !CollisionUtils.isWallCollisionActive(gameScene, this.gameObject()) 
+            && gameState.boundaries().contains(this.gameObject().boundaries())
+        ) {
+            this.gameObject().setPosition(newPosition);
         }
     }
 }

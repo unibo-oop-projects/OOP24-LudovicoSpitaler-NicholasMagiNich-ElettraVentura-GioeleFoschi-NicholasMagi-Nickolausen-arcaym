@@ -11,11 +11,14 @@ import arcaym.model.game.objects.api.GameObjectType;
  * Utility class that handles collisions with borders and walls.
  */
 public final class CollisionUtils {
+
+    private CollisionUtils() { }
+
     /**
      * Returns wether or not there is a collision with a wall. 
      * @param gameScene game scene
      * @param gameObject game object
-     * @return 
+     * @return if it's colliding
      */
     public static boolean isWallCollisionActive(final GameSceneInfo gameScene, final GameObject gameObject) {
         return getCollidingObjects(gameScene, gameObject)
@@ -23,10 +26,10 @@ public final class CollisionUtils {
     }
 
     /**
-     * Returns stream of objects colliding with gameObject
+     * Returns stream of objects colliding with gameObject.
      * @param scene
      * @param gameObject
-     * @return
+     * @return colliding objects
      */
     public static Stream<GameObjectInfo> getCollidingObjects(final GameSceneInfo scene,
             final GameObject gameObject) {

@@ -36,7 +36,6 @@ public class CollisionComponentsFactoryImpl implements CollisionComponentsFactor
                     final GameSceneInfo gameScene,
                     final GameStateInfo gameState) {
                 CollisionUtils.getCollidingObjects(gameScene, gameObject)
-                        .peek(o -> System.out.println(o.getPosition()))
                         .filter(predicateFromObjectInfo::test)
                         .forEach(obj -> reaction.reactToCollision(deltaTime, eventsScheduler, obj, gameScene));
             }
