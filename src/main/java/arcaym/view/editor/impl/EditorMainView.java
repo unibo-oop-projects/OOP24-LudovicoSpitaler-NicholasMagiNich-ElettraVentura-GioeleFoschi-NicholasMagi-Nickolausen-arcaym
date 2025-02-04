@@ -3,18 +3,23 @@ package arcaym.view.editor.impl;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.util.Collection;
+import java.util.function.Consumer;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 
+import arcaym.common.utils.Position;
 import arcaym.controller.editor.api.EditorController;
 import arcaym.view.app.impl.AbstractView;
 import arcaym.view.core.api.ViewComponent;
 import arcaym.view.core.api.WindowInfo;
 import arcaym.view.editor.api.EditorView;
+import arcaym.view.editor.impl.components.GridView;
 import arcaym.view.editor.impl.components.SideMenuView;
 import arcaym.view.utils.SwingUtils;
 
@@ -82,18 +87,22 @@ public class EditorMainView extends AbstractView<EditorController> implements Vi
         footer.setEnabled(false);
         footer.setText("MAMMAMIA CHE ROBBA!!");
 
-        // JScrollPane body = new GridView(t -> {
-        //     try {
-        //         controller().applyChange(t);
-        //     } catch (EditorGridException e) {
-        //         footer.setText(e.getMessage());
-        //     }
-        // }, Position.of(20,20)).build(window);
+        JScrollPane body = new GridView(t -> {
+            this.executeCommand(t, footer::setText);
+        }, this.controller().getSize()).build(window);
 
-        // rightSide.add(body, BorderLayout.CENTER);
+        rightSide.add(body, BorderLayout.CENTER);
         rightSide.add(footer, BorderLayout.SOUTH);
 
         out.add(rightSide, BorderLayout.CENTER);
         return out;
+    }
+
+    private void executeCommand(final Collection<Position> positions, final Consumer<String> displayError){
+        try {
+            
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
     }
 }
