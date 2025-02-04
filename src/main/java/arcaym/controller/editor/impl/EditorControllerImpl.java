@@ -145,6 +145,7 @@ public class EditorControllerImpl extends AbstractController<EditorView> impleme
     @Override
     public void undo() {
         this.grid.undo();
+        this.updateView(this.grid.getUpdatedGrid());
     }
 
     /**
@@ -161,6 +162,7 @@ public class EditorControllerImpl extends AbstractController<EditorView> impleme
     @Override
     public void eraseArea(final Collection<Position> positions) throws EditorGridException {
         this.grid.removeObjects(positions);
+        this.updateView(this.grid.getUpdatedGrid());
     }
 
     /**
@@ -169,6 +171,7 @@ public class EditorControllerImpl extends AbstractController<EditorView> impleme
     @Override
     public void applyChange(final Collection<Position> positions) throws EditorGridException {
         this.grid.placeObjects(positions, selectedObject);
+        this.updateView(grid.getUpdatedGrid());
     }
 
     /**
