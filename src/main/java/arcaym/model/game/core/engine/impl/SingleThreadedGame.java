@@ -16,7 +16,7 @@ import arcaym.view.game.api.GameView;
 public class SingleThreadedGame extends AbstractThreadSafeGame {
 
     private static final String GAME_LOOP_THREAD_NAME = "GameLoopThread";
-    private static final long GAME_LOOP_PERIOD_MS = 10;
+    private static final long GAME_LOOP_PERIOD_MS = 1000;
     private static final long SECOND_MS = 1000;
     private static final Logger LOGGER = LoggerFactory.getLogger(SingleThreadedGame.class);
     private Optional<Thread> gameLoopThread = Optional.empty();
@@ -62,10 +62,10 @@ public class SingleThreadedGame extends AbstractThreadSafeGame {
 
     private void gameLoop(final GameView gameView) {
         LOGGER.info("Game loop thread started");
-        long deltaTime = this.updateDeltaTime(0);
+        long deltaTime = System.currentTimeMillis();
         while (this.runGameLoop) {
-            this.inputEventsManager().consumePendingEvents();
             deltaTime = this.updateDeltaTime(deltaTime);
+            this.inputEventsManager().consumePendingEvents();
             // no stream beacause delta time is not final
             for (final var gameObject : this.scene().getGameObjects()) {
                 gameObject.update(deltaTime, this.gameEventsManager(), this.scene(), this.state());
@@ -86,13 +86,15 @@ public class SingleThreadedGame extends AbstractThreadSafeGame {
                 LOGGER.warn("Update frame waiting interrupted");
             }
         }
-        LOGGER.info(
-            new StringBuilder("FPS: ")
-                .append(SECOND_MS / deltaTime)
-                .append(", Delta: ")
-                .append(deltaTime)
-                .toString()
-        );
+        if (deltaTime != 0) {
+            LOGGER.info(
+                new StringBuilder("FPS: ")
+                    .append(SECOND_MS / deltaTime)
+                    .append(", Delta: ")
+                    .append(deltaTime)
+                    .toString()
+            );
+        }
         return deltaTime;
     }
 

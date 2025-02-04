@@ -6,11 +6,7 @@ import arcaym.model.game.core.engine.api.GameStateInfo;
 /**
  * Interface for a game controller.
  */
-public interface GameController extends Controller { 
-    /**
-     * starts game.
-     */
-    void startGame();
+public interface GameController extends Controller {
     /**
      * 
      * @return game started.

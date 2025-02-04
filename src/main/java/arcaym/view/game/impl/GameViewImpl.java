@@ -110,10 +110,6 @@ public class GameViewImpl extends AbstractView<GameController> implements GameVi
      */
     @Override
     public JPanel build(final WindowInfo window) {
-        // These operations must be setted before the build starts
-        if (setGameEventReaction.isEmpty() || setKeyBindings.isEmpty()) {
-            throw new IllegalStateException("Operation not initialized.");
-        }
         final JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         // The header contains the game score
@@ -152,7 +148,6 @@ public class GameViewImpl extends AbstractView<GameController> implements GameVi
         header.add(score);
         mainPanel.add(header, BorderLayout.NORTH);
         mainPanel.add(gameContentPanel, BorderLayout.CENTER);
-        this.controller().startGame();
         return mainPanel;
     }
 
