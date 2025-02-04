@@ -1,7 +1,7 @@
 package arcaym.model.game.components.api;
 
+import arcaym.model.game.core.components.api.ComponentsBasedGameObject;
 import arcaym.model.game.core.components.api.GameComponent;
-import arcaym.model.game.core.components.impl.UniqueComponentsGameObject;
 
 /**
  * Interface for a Factory of game components related to movement.
@@ -14,7 +14,7 @@ public interface MovementComponentsFactory {
      * @param gameObject game object
      * @return said behaviour as a game component
      */
-    GameComponent fromInputMovement(UniqueComponentsGameObject gameObject);
+    GameComponent fromInputMovement(ComponentsBasedGameObject gameObject);
 
     /**
      * Handles automatic patrolling movement on X axis.
@@ -22,7 +22,7 @@ public interface MovementComponentsFactory {
      * @param gameObject game object
      * @return said behaviour as a game component
      */
-    GameComponent automaticXMovement(UniqueComponentsGameObject gameObject);
+    GameComponent automaticXMovement(ComponentsBasedGameObject gameObject);
 
     /**
      * Handles automatic patrolling movement on Y axis.
@@ -30,6 +30,6 @@ public interface MovementComponentsFactory {
      * @param gameObject game object
      * @return said behaviour as a game component
      */
-    GameComponent automaticYMovement(UniqueComponentsGameObject gameObject);
+    GameComponent automaticYMovement(ComponentsBasedGameObject gameObject);
 
 }

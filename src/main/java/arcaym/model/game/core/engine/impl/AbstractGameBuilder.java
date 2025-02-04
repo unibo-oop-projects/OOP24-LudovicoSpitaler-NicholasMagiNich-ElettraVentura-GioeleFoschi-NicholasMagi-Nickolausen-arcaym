@@ -64,18 +64,6 @@ public abstract class AbstractGameBuilder implements GameBuilder {
         Objects.requireNonNull(boundaries);
         this.consumed = true;
         final var scene = this.buildScene();
-        if (
-            this.creationEvents.stream()
-                .map(CreationInfo::position)
-                .anyMatch(boundaries::isOutside)
-        ) {
-            throw new IllegalArgumentException(
-                new StringBuilder("Boundaries ")
-                    .append(boundaries)
-                    .append(" are too small")
-                    .toString()
-            );
-        }
         this.creationEvents.forEach(scene::scheduleCreation);
         LOGGER.info("Finished scheduling all creation events");
         return this.buildGame(scene, boundaries);
