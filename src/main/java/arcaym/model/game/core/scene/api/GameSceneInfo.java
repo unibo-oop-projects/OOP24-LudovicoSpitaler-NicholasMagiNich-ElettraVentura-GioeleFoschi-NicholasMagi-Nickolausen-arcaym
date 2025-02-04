@@ -1,7 +1,6 @@
 package arcaym.model.game.core.scene.api;
 
 import java.util.Collection;
-import java.util.Objects;
 
 import arcaym.common.geometry.impl.Point;
 import arcaym.model.game.core.objects.api.GameObject;
@@ -18,8 +17,9 @@ public interface GameSceneInfo {
      * 
      * @param type game object type
      * @param position game object position
+     * @param zIndex z index
      */
-    record CreationInfo(GameObjectType type, Point position) { }
+    record CreationInfo(GameObjectType type, Point position, int zIndex) { }
 
     /**
      * Schedule creation of an object in the scene.
@@ -27,8 +27,8 @@ public interface GameSceneInfo {
      * @param type game object type
      * @param position game object position
      */
-    default void scheduleCreation(final GameObjectType type, final Point position) {
-        this.scheduleCreation(new CreationInfo(Objects.requireNonNull(type), Objects.requireNonNull(position)));
+    default void scheduleCreation(final GameObjectType type, final Point position, final int zIndex) {
+        this.scheduleCreation(new CreationInfo(type, position, zIndex));
     }
 
     /**
@@ -50,6 +50,6 @@ public interface GameSceneInfo {
      * 
      * @return game objects
      */
-    Collection<GameObjectInfo> getGameObjectsInfos();
+    Collection<? extends GameObjectInfo> getGameObjectsInfos();
 
 }

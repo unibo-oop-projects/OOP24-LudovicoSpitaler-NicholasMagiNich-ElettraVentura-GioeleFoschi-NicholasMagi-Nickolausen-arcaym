@@ -216,7 +216,7 @@ public class GameViewImpl extends AbstractView<GameController> implements GameVi
      * {@inheritDoc}
      */
     @Override
-    public void createObject(final GameObjectInfo gameObject) {
+    public void createObject(final GameObjectInfo gameObject, final int zIndex) {
         gameMap.put(gameObject, new GameObjectView(gameObject.type()).getImage().get());
         this.gamePanel.ifPresent(JPanel::repaint);
     }
