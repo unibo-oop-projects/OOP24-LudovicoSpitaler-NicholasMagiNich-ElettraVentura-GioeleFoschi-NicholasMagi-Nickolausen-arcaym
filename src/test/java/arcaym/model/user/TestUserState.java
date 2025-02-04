@@ -35,7 +35,7 @@ class TestUserState {
 
     @AfterEach
     void clearTraces() {
-        UserStateTestingUtils.writeUserStateBackup();
+        UserStateTestingUtils.loadUserStateBackup();
     }
 
     @Test
@@ -61,7 +61,7 @@ class TestUserState {
     }
 
     @Test
-    void testOwnedObjects() {
+    void testOwnedItems() {
         assertTrue(userState.getPurchasedItems().isEmpty());
         assertThrows(IllegalArgumentException.class, () -> userState.unlockNewItem(GameObjectType.COIN));
 

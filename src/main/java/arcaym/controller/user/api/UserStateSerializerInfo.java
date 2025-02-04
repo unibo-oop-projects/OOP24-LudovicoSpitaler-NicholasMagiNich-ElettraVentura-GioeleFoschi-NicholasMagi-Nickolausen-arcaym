@@ -1,8 +1,7 @@
 package arcaym.controller.user.api;
 
-import java.util.Optional;
 
-import arcaym.model.user.api.UserStateInfo;
+import arcaym.model.user.impl.UserStateInfo;
 
 /**
  * Models a collection of read-only operations of {@link UserStateSerializer}.
@@ -10,23 +9,11 @@ import arcaym.model.user.api.UserStateInfo;
 public interface UserStateSerializerInfo {
 
     /**
-     * Same as {@link UserStateSerializer#load()}, but throws an IllegalStateException if an error occurs.
+     * Reads the user state from file. 
+     * If no user save has been found, a {@link UserStateInfo#getDefaultState()}
+     * gets written in the save file and returned from the function.
      * 
-     * @return same as {@link UserStateSerializer#load()}
-     * @see UserStateSerializer#load()
+     * @return the saved state if it exists, {@link UserStateInfo#getDefaultState()} otherwise.
      */
     UserStateInfo getUpdatedState();
-
-    /**
-     * De-serializes the user state.
-     * @return the UserState previously saved. {@link Optional#empty()} if an error occurred while loading the UserState.
-     */
-    Optional<UserStateInfo> load();
-
-    /**
-     * De-serializes the user state.
-     * @param fileName the filename of the save. 
-     * @return the UserState previously saved. {@link Optional#empty()} if an error occurred while loading the UserState.
-     */
-    Optional<UserStateInfo> load(String fileName);
 }
