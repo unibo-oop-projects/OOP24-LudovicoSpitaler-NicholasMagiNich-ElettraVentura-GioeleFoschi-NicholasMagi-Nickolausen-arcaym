@@ -7,18 +7,14 @@ import java.awt.FlowLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 
-import arcaym.common.utils.Position;
 import arcaym.controller.editor.api.EditorController;
-import arcaym.model.editor.EditorGridException;
 import arcaym.view.app.impl.AbstractView;
 import arcaym.view.core.api.ViewComponent;
 import arcaym.view.core.api.WindowInfo;
 import arcaym.view.editor.api.EditorView;
-import arcaym.view.editor.impl.components.GridView;
 import arcaym.view.editor.impl.components.SideMenuView;
 import arcaym.view.utils.SwingUtils;
 
@@ -36,7 +32,7 @@ public class EditorMainView extends AbstractView<EditorController> implements Vi
      * Default constructor.
      * @param controller
      */
-    public EditorMainView(EditorController controller) {
+    public EditorMainView(final EditorController controller) {
         super(controller);
     }
 
@@ -51,10 +47,10 @@ public class EditorMainView extends AbstractView<EditorController> implements Vi
         this.controller().getOwnedObjects(),
         this.controller()::setSelectedObject).build(window);
         out.add(sideMenu, BorderLayout.WEST);
-        
+
         final var rightSide = new JPanel();
         rightSide.setLayout(new BorderLayout());
-            
+
         final var header = new JPanel(new BorderLayout());
         header.setBackground(Color.WHITE);
         final var eraserBtn = new JButton(new ImageIcon(SwingUtils.getResource(ERASER_ICON_PATH)));
@@ -70,7 +66,7 @@ public class EditorMainView extends AbstractView<EditorController> implements Vi
         });
         final JButton undo = new JButton("Undo");
         undo.setEnabled(this.controller().canUndo());
-        undo.addActionListener( evt -> {
+        undo.addActionListener(evt -> {
             this.controller().undo();
         });
         btnContainer.add(eraserBtn);
@@ -85,16 +81,16 @@ public class EditorMainView extends AbstractView<EditorController> implements Vi
         final var footer = new JTextArea();
         footer.setEnabled(false);
         footer.setText("MAMMAMIA CHE ROBBA!!");
-        
-        JScrollPane body = new GridView(t -> {
-            try {
-                controller().applyChange(t);
-            } catch (EditorGridException e) {
-                footer.setText(e.getMessage());
-            }
-        }, Position.of(20,20)).build(window); // to change and make it adapt to screen
-        
-        rightSide.add(body, BorderLayout.CENTER);
+
+        // JScrollPane body = new GridView(t -> {
+        //     try {
+        //         controller().applyChange(t);
+        //     } catch (EditorGridException e) {
+        //         footer.setText(e.getMessage());
+        //     }
+        // }, Position.of(20,20)).build(window);
+
+        // rightSide.add(body, BorderLayout.CENTER);
         rightSide.add(footer, BorderLayout.SOUTH);
 
         out.add(rightSide, BorderLayout.CENTER);

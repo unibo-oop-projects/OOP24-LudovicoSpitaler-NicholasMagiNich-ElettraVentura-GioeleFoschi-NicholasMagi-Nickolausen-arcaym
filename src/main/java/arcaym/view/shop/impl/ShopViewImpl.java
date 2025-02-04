@@ -19,7 +19,6 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
 import arcaym.controller.shop.api.ShopController;
-import arcaym.controller.shop.impl.ShopControllerImpl;
 import arcaym.model.game.core.objects.api.GameObjectCategory;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.view.app.impl.AbstractView;

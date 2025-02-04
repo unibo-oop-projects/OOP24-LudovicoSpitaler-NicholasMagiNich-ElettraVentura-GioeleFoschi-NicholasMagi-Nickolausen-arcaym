@@ -46,6 +46,7 @@ public class MainControllerImpl implements MainController {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void goBack() {
         if (!canGoBack()) {
             throw new IllegalStateException("Cannot go back!");

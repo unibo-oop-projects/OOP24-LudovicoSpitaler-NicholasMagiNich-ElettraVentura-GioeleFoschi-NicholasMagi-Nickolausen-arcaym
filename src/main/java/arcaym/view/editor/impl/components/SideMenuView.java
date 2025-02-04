@@ -3,8 +3,8 @@ package arcaym.view.editor.impl.components;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -35,11 +35,14 @@ public class SideMenuView implements ViewComponent<JScrollPane> {
 
     /**
      * A constructor of the component.
+     * 
+     * @param gameObjects
+     * @param gameObjectConsumer
      */
     public SideMenuView(final Set<GameObjectType> gameObjects, final Consumer<GameObjectType> gameObjectConsumer) {
         this.gameObjects = new EnumMap<>(GameObjectCategory.class);
         gameObjects.forEach(gameObject -> {
-            this.gameObjects.putIfAbsent(gameObject.category(), new HashSet<>());
+            this.gameObjects.putIfAbsent(gameObject.category(), EnumSet.noneOf(GameObjectType.class));
             this.gameObjects.get(gameObject.category()).add(gameObject);
         });
         this.gameObjectConsumer = gameObjectConsumer;
@@ -62,7 +65,7 @@ public class SideMenuView implements ViewComponent<JScrollPane> {
                 btnPanel.setOpaque(false);
                 btn.add(btnPanel);
                 btn.addActionListener(evt -> {
-                    final var src = (JButton)evt.getSource();
+                    final var src = (JButton) evt.getSource();
                     gameObjectConsumer.accept(menuItems.get(src));
                 });
                 menuItems.put(btn, obj);

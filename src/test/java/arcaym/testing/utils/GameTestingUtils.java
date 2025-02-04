@@ -1,4 +1,4 @@
-package arcaym.utils;
+package arcaym.testing.utils;
 
 import arcaym.model.game.components.impl.ComponentsBasedObjectsFactory;
 import arcaym.model.game.core.objects.api.GameObjectsFactory;
