@@ -175,6 +175,14 @@ public class EditorControllerImpl extends AbstractController<EditorView> impleme
      * {@inheritDoc}
      */
     @Override
+    public void setupMap() {
+        this.updateView(this.grid.getFullMap());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public boolean saveLevel() {
         return this.grid.saveState(metadata.uuid())
             && new MetadataManagerImpl().saveMetadata(metadata);

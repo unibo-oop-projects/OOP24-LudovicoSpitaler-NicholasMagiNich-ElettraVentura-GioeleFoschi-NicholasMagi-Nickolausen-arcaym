@@ -63,6 +63,11 @@ public interface EditorController extends Controller {
     void applyChange(Collection<Position> positions) throws EditorGridException;
 
     /**
+     * Loads the entire map, used when the grid just started.
+     */
+    void setupMap();
+
+    /**
      * Saves the current state of the level.
      * @return True if the save was successful, false otherwise
      */
