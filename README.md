@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://raw.githubusercontent.com/Nickolausen/nicholasmagi.it/refs/heads/main/public/imgs/hosting/arcaym.png"/>
+  <img src="https://raw.githubusercontent.com/4realgames/OOP24-arcaym/refs/heads/main/src/main/resources/title.png"/>
 </div>
 Email dei componenti:
 
