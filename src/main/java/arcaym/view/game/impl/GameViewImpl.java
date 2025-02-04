@@ -43,7 +43,8 @@ import arcaym.view.utils.SwingUtils;
  * Implementation of {@link GameView}.
  */
 public class GameViewImpl extends AbstractView<GameController> implements GameView, ViewComponent<JPanel> {
-    private static final int SCALE = 2;
+    private static final String SCORE = "SCORE : ";
+    private static final int LABELS_SCALE = 2;
     private static final int KEY_UP = KeyEvent.VK_W;
     private static final int KEY_DOWN = KeyEvent.VK_S;
     private static final int KEY_LEFT = KeyEvent.VK_A;
@@ -126,18 +127,19 @@ public class GameViewImpl extends AbstractView<GameController> implements GameVi
         setKeyBindings.get().accept(mainPanel);
         // score label
         final JLabel score = new JLabel();
-        SwingUtils.changeFontSize(score, SCALE);
+        SwingUtils.changeFontSize(score, LABELS_SCALE);
         scoreUpdateLabel(score);
         setGameEventReaction.get().accept(gameContentPanel, score);
         header.add(Box.createHorizontalStrut(SwingUtils.getNormalGap(header)));
         header.add(score);
         mainPanel.add(header, BorderLayout.NORTH);
         mainPanel.add(gameContentPanel, BorderLayout.CENTER);
+        this.controller().startGame();
         return mainPanel;
     }
 
     private void scoreUpdateLabel(final JLabel score) {
-        score.setText("SCORE : " + this.controller().getGameState().score().getValue());
+        score.setText(SCORE + this.controller().getGameState().score().getValue());
     }
 
     /**
@@ -180,10 +182,9 @@ public class GameViewImpl extends AbstractView<GameController> implements GameVi
     private void bindKey(final InputType type, final int keyCode, final EventsScheduler<InputEvent> eventsScheduler,
             final JPanel out) {
         final InputEvent nonDropEvent = new InputEvent(type, false);
-        final String nonDropKey = type.name() + "_PRESSED";
         out.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(keyCode,
-                0, false), nonDropKey);
-        out.getActionMap().put(nonDropKey, new AbstractAction() {
+                0, false), nonDropEvent);
+        out.getActionMap().put(nonDropEvent, new AbstractAction() {
 
             @Override
             public void actionPerformed(final ActionEvent arg) {
@@ -193,10 +194,9 @@ public class GameViewImpl extends AbstractView<GameController> implements GameVi
         });
 
         final InputEvent dropEvent = new InputEvent(type, true);
-        final String dropKey = type.name() + "_RELEASED";
         out.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(keyCode,
-                0, true), dropKey);
-        out.getActionMap().put(dropKey, new AbstractAction() {
+                0, true), dropEvent);
+        out.getActionMap().put(dropEvent, new AbstractAction() {
 
             @Override
             public void actionPerformed(final ActionEvent arg) {
