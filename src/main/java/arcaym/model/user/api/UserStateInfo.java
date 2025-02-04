@@ -30,7 +30,8 @@ public record UserStateInfo(
         GameObjectType.USER_PLAYER,
         GameObjectType.COIN,
         GameObjectType.FLOOR,
-        GameObjectType.SPIKE));
+        GameObjectType.SPIKE,
+        GameObjectType.WIN_GOAL));
 
     /**
      * Turns all the mutable parameters into immutable.

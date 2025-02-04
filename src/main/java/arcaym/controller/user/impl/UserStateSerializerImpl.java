@@ -39,6 +39,7 @@ public class UserStateSerializerImpl implements UserStateSerializer {
      */
     @Override
     public boolean save(final UserStateInfo userState, final String fileName) {
+        FileUtils.createUserDirectory();
         validateFileName(fileName);
         try {
             Files.writeString(
