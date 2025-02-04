@@ -1,11 +1,7 @@
 package arcaym.view.editor.impl.components;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.util.Collection;
 
 import javax.swing.JButton;
@@ -13,9 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
 import arcaym.common.utils.Position;
-import arcaym.controller.app.api.Controller;
 import arcaym.controller.editor.api.EditorController;
-import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.view.core.api.ViewComponent;
 import arcaym.view.core.api.WindowInfo;
 

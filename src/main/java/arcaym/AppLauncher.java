@@ -32,8 +32,9 @@ public class AppLauncher {
     public static void main(final String[] args) {
         final var controller = new MainControllerImpl();
         final var view = new MainViewImpl(controller);
-        view.init();
-        controller.setView(view);
-        LOGGER.info("Application has started!");
+        if (view.init()) {
+            controller.setView(view);
+            LOGGER.info("Application has started!");
+        }
     }
 }

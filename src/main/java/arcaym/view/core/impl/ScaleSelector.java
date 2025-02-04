@@ -1,13 +1,13 @@
 package arcaym.view.core.impl;
 
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import arcaym.view.core.api.WindowInfo;
-import arcaym.view.utils.SwingUtils;
 
 /**
  * View of a {@link JOptionPane} to select the windo scale.
@@ -25,7 +25,7 @@ public class ScaleSelector {
      * @param frame window frame
      * @return window infos
      */
-    public WindowInfo askScale(final JFrame frame) {
+    public Optional<WindowInfo> askScale(final JFrame frame) {
         final var scalesLabels = Stream.of(Scale.values()).map(Scale::label).toArray();
         final var result = JOptionPane.showOptionDialog(
             Objects.requireNonNull(frame),
@@ -38,7 +38,7 @@ public class ScaleSelector {
             DEFAULT_SCALE.label()
         );
         if (result == JOptionPane.CLOSED_OPTION) {
-            SwingUtils.closeFrame(frame);
+            return Optional.empty();
         }
         final var scale = Scale.values()[result];
         final var window = new ScaledWindowInfo(scale);
@@ -46,7 +46,7 @@ public class ScaleSelector {
         frame.setUndecorated(window.isFullscreen());
         frame.setSize(window.size());
         frame.setResizable(false);
-        return window;
+        return Optional.of(window);
     }
 
 }

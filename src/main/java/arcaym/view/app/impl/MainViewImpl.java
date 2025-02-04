@@ -117,15 +117,23 @@ public class MainViewImpl extends AbstractView<MainController> implements MainVi
         return shopView;
     }
 
-    public void init() {
-        this.window = Optional.of(new JFrame());
-        this.windowInfo = Optional.of(new ScaleSelector().askScale(this.window.get()));
-        this.window.get().setVisible(true);
-        this.window.get().addWindowListener(new WindowAdapter() {
+    public boolean init() {
+        final var window = new JFrame();
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        final var windowInfo = new ScaleSelector().askScale(window);
+        if (windowInfo.isEmpty()) {
+            SwingUtils.closeFrame(window);
+            return false;
+        }
+        window.setVisible(true);
+        window.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(final WindowEvent e) {
                 controller().close();
             }
         });
+        this.window = Optional.of(window);
+        this.windowInfo = windowInfo;
+        return true;
     }
 }
