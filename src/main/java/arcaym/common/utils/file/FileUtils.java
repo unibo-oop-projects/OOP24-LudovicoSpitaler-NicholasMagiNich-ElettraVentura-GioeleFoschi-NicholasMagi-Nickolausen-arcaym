@@ -29,8 +29,19 @@ public final class FileUtils {
      * The path to the levels metadata files.
      */
     public static final String METADATA_FOLDER = Paths.get(APP_FOLDER, "levelsMetadata").toString();
+    /**
+     * The path of the user data saves folder. 
+     */
+    public static final String USER_FOLDER = Paths.get(APP_FOLDER, "user").toString();
 
     private FileUtils() {
+    }
+
+    /**
+     * Creates the directory .arcaym/saves in the user home.
+     */
+    public static void createUserDirectory() {
+        createDirectory(USER_FOLDER);
     }
 
     /**

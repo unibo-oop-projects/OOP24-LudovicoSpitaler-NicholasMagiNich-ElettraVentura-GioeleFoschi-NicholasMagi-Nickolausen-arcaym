@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 
-import arcaym.common.utils.Optionals;
 import arcaym.common.utils.file.FileUtils;
 import arcaym.controller.user.api.UserStateSerializer;
 import arcaym.model.user.api.UserStateInfo;
@@ -25,7 +24,6 @@ public class UserStateSerializerImpl implements UserStateSerializer {
     private static final String EXTENSION = ".json";
     private static final String FILENAME = "user_data";
 
-    private static final String DEFAULT_SERIALIZATION_ERROR_MSG = "Something went wrong while loading the user state from file!";
     private static final Logger LOGGER = LoggerFactory.getLogger(UserStateSerializer.class);
 
     /**
@@ -81,11 +79,17 @@ public class UserStateSerializerImpl implements UserStateSerializer {
      */
     @Override
     public UserStateInfo getUpdatedState() {
-        return Optionals.orIllegalState(this.load(), DEFAULT_SERIALIZATION_ERROR_MSG);
+        final var previousSave = this.load();
+        if (previousSave.isPresent()) {
+            return previousSave.get();
+        }
+        final var defaultState = UserStateInfo.getDefaultState();
+        save(defaultState);
+        return defaultState;
     }
 
     private Path getPathOf(final String fileName) {
-        return Path.of(FileUtils.SAVES_FOLDER, fileName.concat(EXTENSION));
+        return Path.of(FileUtils.USER_FOLDER, fileName.concat(EXTENSION));
     }
 
     private void validateFileName(final String fileName) {

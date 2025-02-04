@@ -22,6 +22,9 @@ public record UserStateInfo(
         int credit,
         Set<GameObjectType> purchasedItems) {
 
+    /* Initial credit */
+    private static final int DEFAULT_CREDIT = 0;
+
     /* Items owned by the user at the beginning of the game */
     private static final Set<GameObjectType> DEFAULT_ITEMS = EnumSet.copyOf(Set.of(
         GameObjectType.USER_PLAYER,
@@ -37,6 +40,16 @@ public record UserStateInfo(
      */
     public UserStateInfo {
         purchasedItems = Collections.unmodifiableSet(purchasedItems);
+    }
+
+    /**
+     * Creates a default user state.
+     * 
+     * @return a default user state with {@link #DEFAULT_CREDIT} credit and an empty collection 
+     * of purchased assets 
+     */
+    public static UserStateInfo getDefaultState() {
+        return new UserStateInfo(DEFAULT_CREDIT, Collections.emptySet());
     }
 
     /**
