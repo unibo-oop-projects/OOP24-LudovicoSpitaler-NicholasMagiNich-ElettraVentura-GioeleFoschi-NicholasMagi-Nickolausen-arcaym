@@ -5,7 +5,7 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import arcaym.controller.user.api.UserStateSerializer;
-import arcaym.controller.user.impl.UserStateSerializerImpl;
+import arcaym.controller.user.impl.UserStateSerializerJSON;
 import arcaym.model.game.core.engine.api.GameStateInfo;
 import arcaym.model.game.core.events.api.EventsSubscriber;
 import arcaym.model.game.events.api.GameEvent;
@@ -23,7 +23,7 @@ public class UserStateImpl implements UserState {
      * Default constructor.
      */
     public UserStateImpl() {
-        this.serializer = new UserStateSerializerImpl();
+        this.serializer = new UserStateSerializerJSON();
     }
 
     /**

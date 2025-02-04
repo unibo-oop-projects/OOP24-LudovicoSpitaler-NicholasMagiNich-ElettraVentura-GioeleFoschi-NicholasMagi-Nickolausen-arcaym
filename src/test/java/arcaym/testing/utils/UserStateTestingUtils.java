@@ -11,7 +11,7 @@ import com.google.gson.Gson;
 
 import arcaym.common.utils.file.FileUtils;
 import arcaym.controller.user.api.UserStateSerializer;
-import arcaym.controller.user.impl.UserStateSerializerImpl;
+import arcaym.controller.user.impl.UserStateSerializerJSON;
 import arcaym.model.user.impl.UserStateImpl;
 import arcaym.model.user.impl.UserStateInfo;
 
@@ -28,9 +28,7 @@ public final class UserStateTestingUtils {
     private UserStateTestingUtils() { }
 
     private interface UserStateSerializerTestingUtils extends UserStateSerializer {
-
         boolean save(UserStateInfo userState, String filename);
-
         Optional<UserStateInfo> load(String filename);
     }
 
@@ -44,7 +42,7 @@ public final class UserStateTestingUtils {
 
             @Override
             public UserStateInfo getUpdatedState() {
-                return new UserStateSerializerImpl().getUpdatedState();
+                return new UserStateSerializerJSON().getUpdatedState();
             }
 
             @Override
