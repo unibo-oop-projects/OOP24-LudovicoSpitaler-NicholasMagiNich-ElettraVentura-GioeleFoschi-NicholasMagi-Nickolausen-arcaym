@@ -73,6 +73,8 @@ public class ThreeLayerCell implements Cell, Serializable {
      */
     @Override
     public Cell getCopy() {
-        return new ThreeLayerCell(Map.copyOf(layers));
+        final var copy = new EnumMap<Layer, GameObjectType>(Layer.class);
+        layers.entrySet().forEach(e -> copy.put(e.getKey(), e.getValue()));
+        return new ThreeLayerCell(copy);
     }
 }
