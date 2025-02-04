@@ -46,11 +46,11 @@ public abstract class AbstractGameBuilder implements GameBuilder {
      * {@inheritDoc}
      */
     @Override
-    public GameBuilder addObject(final GameObjectType type, final Point position) {
+    public GameBuilder addObject(final GameObjectType type, final Point position, final int zIndex) {
         if (this.consumed) {
             throw new IllegalStateException("Builder already consumed");
         }
-        final var event = new CreationInfo(type, position);
+        final var event = new CreationInfo(type, position, zIndex);
         this.creationEvents.add(event);
         LOGGER.info(new StringBuilder("Registered creation event ").append(event).toString());
         return this;
@@ -64,18 +64,6 @@ public abstract class AbstractGameBuilder implements GameBuilder {
         Objects.requireNonNull(boundaries);
         this.consumed = true;
         final var scene = this.buildScene();
-        if (
-            this.creationEvents.stream()
-                .map(CreationInfo::position)
-                .anyMatch(boundaries::isOutside)
-        ) {
-            throw new IllegalArgumentException(
-                new StringBuilder("Boundaries ")
-                    .append(boundaries)
-                    .append(" are too small")
-                    .toString()
-            );
-        }
         this.creationEvents.forEach(scene::scheduleCreation);
         LOGGER.info("Finished scheduling all creation events");
         return this.buildGame(scene, boundaries);

@@ -12,10 +12,9 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 
-import arcaym.common.utils.Optionals;
 import arcaym.common.utils.file.FileUtils;
 import arcaym.controller.user.api.UserStateSerializer;
-import arcaym.model.user.api.UserStateInfo;
+import arcaym.model.user.impl.UserStateInfo;
 
 /**
  * Implementation of {@link UserStateSerializer}. 
@@ -25,7 +24,6 @@ public class UserStateSerializerImpl implements UserStateSerializer {
     private static final String EXTENSION = ".json";
     private static final String FILENAME = "user_data";
 
-    private static final String DEFAULT_SERIALIZATION_ERROR_MSG = "Something went wrong while loading the user state from file!";
     private static final Logger LOGGER = LoggerFactory.getLogger(UserStateSerializer.class);
 
     /**
@@ -33,18 +31,11 @@ public class UserStateSerializerImpl implements UserStateSerializer {
      */
     @Override
     public boolean save(final UserStateInfo userState) {
-        return this.save(userState, FILENAME);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean save(final UserStateInfo userState, final String fileName) {
-        validateFileName(fileName);
+        FileUtils.createUserDirectory();
+        validateFileName(FILENAME);
         try {
             Files.writeString(
-                getPathOf(fileName),
+                getPathOf(FILENAME),
                 new Gson().toJson(userState),
                 StandardCharsets.UTF_8);
         } catch (IOException e) {
@@ -54,21 +45,10 @@ public class UserStateSerializerImpl implements UserStateSerializer {
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Optional<UserStateInfo> load() {
-        return this.load(FILENAME);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Optional<UserStateInfo> load(final String fileName) {
-        validateFileName(fileName);
-        final var rawState = FileUtils.readFromPath(getPathOf(fileName));
+    /* Utility function  */
+    private Optional<UserStateInfo> load() {
+        validateFileName(FILENAME);
+        final var rawState = FileUtils.readFromPath(getPathOf(FILENAME));
         if (rawState.isEmpty()) {
             LOGGER.error("An error occurred while READING '" + FILENAME + "' file.");
             return Optional.empty();
@@ -81,11 +61,18 @@ public class UserStateSerializerImpl implements UserStateSerializer {
      */
     @Override
     public UserStateInfo getUpdatedState() {
-        return Optionals.orIllegalState(this.load(), DEFAULT_SERIALIZATION_ERROR_MSG);
+        final var previousSave = load();
+        if (previousSave.isPresent()) {
+            return previousSave.get();
+        }
+        final var defaultState = UserStateInfo.getDefaultState();
+        save(defaultState);
+        LOGGER.info("Saving a default user state: " + defaultState);
+        return defaultState;
     }
 
     private Path getPathOf(final String fileName) {
-        return Path.of(FileUtils.SAVES_FOLDER, fileName.concat(EXTENSION));
+        return Path.of(FileUtils.USER_FOLDER, fileName.concat(EXTENSION));
     }
 
     private void validateFileName(final String fileName) {

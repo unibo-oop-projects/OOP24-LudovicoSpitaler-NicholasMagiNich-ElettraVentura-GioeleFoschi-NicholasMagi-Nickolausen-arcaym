@@ -15,13 +15,15 @@ public class MapConstraintFactoryImpl implements MapConstraintsFactory {
      */
     @Override
     public MapConstraint adjacencyConstraint() {
+        // Only partially works:
+        // Could not implement Connected-Component Labeling algorithm due to time constraints
         return positions -> {
             if (!positions
-            .stream()
-            .allMatch(p1 -> 
-                positions
                     .stream()
-                    .anyMatch(p2 -> adjacencyCondition(p1, p2) || positions.size() == 1))) {
+                    .allMatch(p1 -> 
+                        positions
+                            .stream()
+                            .anyMatch(p2 -> adjacencyCondition(p1, p2))) && positions.size() != 1) {
                 throw new ConstraintFailedException("All the cells placed must be nearby");
             }
         };

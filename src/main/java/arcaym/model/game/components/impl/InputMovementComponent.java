@@ -1,7 +1,8 @@
 package arcaym.model.game.components.impl;
 
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import arcaym.common.geometry.impl.Point;
 import arcaym.common.geometry.impl.Vector;
@@ -20,7 +21,16 @@ import arcaym.model.game.events.impl.InputEvent;
  * input.
  */
 public class InputMovementComponent extends AbstractGameComponent {
-    private final Map<Vector, Boolean> activeDirections = new HashMap<>();
+
+    private final List<InputDirection> directions = List.of(
+        new InputDirection(InputType.UP, Vector.of(0, -1)),
+        new InputDirection(InputType.DOWN, Vector.of(0, 1)),
+        new InputDirection(InputType.RIGHT, Vector.of(1, 0)),
+        new InputDirection(InputType.LEFT, Vector.of(-1, 0))
+    );
+    private final Map<Vector, Boolean> activeDirections;
+
+    private record InputDirection(InputType inputType, Vector direction) { }
 
     /**
      * Basic constructor getting gameObject as an argument.
@@ -29,10 +39,7 @@ public class InputMovementComponent extends AbstractGameComponent {
      */
     public InputMovementComponent(final ComponentsBasedGameObject gameObject) {
         super(gameObject);
-        activeDirections.put(Vector.of(0, -1), false);
-        activeDirections.put(Vector.of(0, 1), false);
-        activeDirections.put(Vector.of(-1, 0), false);
-        activeDirections.put(Vector.of(1, 0), false);
+        activeDirections = directions.stream().collect(Collectors.toMap(InputDirection::direction, v -> false));
     }
 
     /**
@@ -45,17 +52,14 @@ public class InputMovementComponent extends AbstractGameComponent {
             final GameStateInfo gameState) {
         super.setup(gameEventsSubscriber, inputEventsSubscriber, gameScene, gameState);
 
-        inputEventsSubscriber.registerCallback(new InputEvent(InputType.UP, false),
-                event -> activeDirections.put(Vector.of(0, -1), !event.drop()));
-
-        inputEventsSubscriber.registerCallback(new InputEvent(InputType.DOWN, false),
-                event -> activeDirections.put(Vector.of(0, 1), !event.drop()));
-
-        inputEventsSubscriber.registerCallback(new InputEvent(InputType.LEFT, false),
-                event -> activeDirections.put(Vector.of(-1, 0), !event.drop()));
-
-        inputEventsSubscriber.registerCallback(new InputEvent(InputType.RIGHT, false),
-                event -> activeDirections.put(Vector.of(1, 0), !event.drop()));
+        directions.forEach(inputDir -> {
+            List.of(true, false).forEach(drop -> {
+                inputEventsSubscriber.registerCallback(
+                    new InputEvent(inputDir.inputType, drop),
+                    event -> activeDirections.put(inputDir.direction, !drop)
+                );
+            });
+        });
     }
 
     /**
@@ -64,18 +68,24 @@ public class InputMovementComponent extends AbstractGameComponent {
     @Override
     public void update(final long deltaTime, final EventsScheduler<GameEvent> eventsScheduler,
             final GameSceneInfo gameScene, final GameStateInfo gameState) {
-        Vector velocity = Vector.zero();
+        Vector vel = Vector.zero();
         for (final var entry : activeDirections.entrySet()) {
             if (entry.getValue()) {
-                velocity = velocity.sum(entry.getKey());
+                vel = vel.sum(entry.getKey());
             }
         }
 
         final Point currentPosition = gameObject().getPosition();
-        final double newX = currentPosition.x() + (velocity.x() * deltaTime);
-        final double newY = currentPosition.y() + (velocity.y() * deltaTime);
+        final double newX = currentPosition.x() + (vel.x() * deltaTime);
+        final double newY = currentPosition.y() + (vel.y() * deltaTime);
         final Point newPosition = Point.of(newX, newY);
 
-        gameObject().setPosition(newPosition);
+        this.gameObject().setPosition(newPosition);
+        if (
+            CollisionUtils.isWallCollisionActive(gameScene, this.gameObject()) 
+            || !gameState.boundaries().contains(this.gameObject().boundaries())
+            ) {
+            this.gameObject().setPosition(currentPosition);
+        }
     }
 }

@@ -1,40 +1,55 @@
-package arcaym.model.user.api;
+package arcaym.model.user.impl;
 
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.Objects;
 import java.util.Set;
 
+import com.google.common.collect.Sets;
+
 import arcaym.model.game.objects.api.GameObjectType;
+import arcaym.model.user.api.UserState;
 
 /**
  * A read-only view of {@link UserState}. 
  * This record serves primarily as a collection of information
- * that gets serialized and deserialized across the application. To obtain the
- * updated version of these information, use {@link UserStateView}. 
+ * that gets serialized and deserialized across the application. 
  * 
  * @param credit the credit of the user needed to buy assets from the shop
- * @param itemsOwned the collection of the items owned by the user (purchased + default)
- * @param defaultItems the collection of the default items owned by the user at the beginning of the game
  * @param purchasedItems the collection of the items bought from the shop
  */
 public record UserStateInfo(
         int credit,
-        Set<GameObjectType> itemsOwned,
-        Set<GameObjectType> defaultItems,
         Set<GameObjectType> purchasedItems) {
+
+    /* Initial credit */
+    private static final int DEFAULT_CREDIT = 0;
+
+    /* Items owned by the user at the beginning of the game */
+    private static final Set<GameObjectType> DEFAULT_ITEMS = EnumSet.copyOf(Set.of(
+        GameObjectType.USER_PLAYER,
+        GameObjectType.COIN,
+        GameObjectType.FLOOR,
+        GameObjectType.WIN_GOAL));
 
     /**
      * Turns all the mutable parameters into immutable.
      * 
      * @param credit
-     * @param itemsOwned
-     * @param defaultItems
      * @param purchasedItems
      */
     public UserStateInfo {
-        itemsOwned = Collections.unmodifiableSet(itemsOwned);
-        defaultItems = Collections.unmodifiableSet(defaultItems);
         purchasedItems = Collections.unmodifiableSet(purchasedItems);
+    }
+
+    /**
+     * Creates a default user state.
+     * 
+     * @return a default user state with {@link #DEFAULT_CREDIT} credit and an empty collection 
+     * of purchased assets 
+     */
+    public static UserStateInfo getDefaultState() {
+        return new UserStateInfo(DEFAULT_CREDIT, Collections.emptySet());
     }
 
     /**
@@ -42,9 +57,17 @@ public record UserStateInfo(
      * 
      * @return an immutable view of defaultItems()
      */
-    @Override
-    public Set<GameObjectType> defaultItems() {
-        return Collections.unmodifiableSet(defaultItems);
+    public static Set<GameObjectType> getDefaultItems() {
+        return Collections.unmodifiableSet(DEFAULT_ITEMS);
+    }
+
+    /**
+     * 
+     * @return an immutable collection of the items owned 
+     * ({@link #getDefaultItems()} + {@link #purchasedItems()})
+     */
+    public Set<GameObjectType> getItemsOwned() {
+        return Sets.union(DEFAULT_ITEMS, purchasedItems);
     }
 
     /**
@@ -58,19 +81,8 @@ public record UserStateInfo(
     }
 
     /**
-     * Needed in order to avoid exposing internal representation of fields.
-     * 
-     * @return an immutable view of itemsOwned()
-     */
-    @Override
-    public Set<GameObjectType> itemsOwned() {
-        return Collections.unmodifiableSet(itemsOwned);
-    }
-
-    /**
      * Returns a new instance of {@link UserStateInfo} almost identical to the
-     * original
-     * instance, except for the credit parameter.
+     * original instance, except for the credit parameter.
      * 
      * @param credit
      * @return
@@ -81,25 +93,6 @@ public record UserStateInfo(
             throw new IllegalArgumentException("Cannot receive negative credit! (Received: " + credit + ")");
         }
         return new UserStateInfo(credit,
-                this.itemsOwned(),
-                this.defaultItems(),
-                this.purchasedItems());
-    }
-
-    /**
-     * Returns a new instance of {@link UserStateInfo} almost identical to the
-     * original
-     * instance, except for the items owned collection parameter.
-     * 
-     * @param itemsOwned
-     * @return
-     * @throws NullPointerException if the set is null!
-     */
-    public UserStateInfo withItemsOwned(final Set<GameObjectType> itemsOwned) {
-        return new UserStateInfo(
-                this.credit(),
-                Objects.requireNonNull(itemsOwned, "Cannot set null set!"),
-                this.defaultItems(),
                 this.purchasedItems());
     }
 
@@ -115,8 +108,6 @@ public record UserStateInfo(
     public UserStateInfo withPurchasedItems(final Set<GameObjectType> purchasedItems) {
         return new UserStateInfo(
                 this.credit(),
-                this.itemsOwned(),
-                this.defaultItems(),
                 Objects.requireNonNull(purchasedItems, "Cannot set null set!"));
     }
 }

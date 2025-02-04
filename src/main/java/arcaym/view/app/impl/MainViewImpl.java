@@ -14,7 +14,6 @@ import javax.swing.JPanel;
 
 import arcaym.common.utils.Optionals;
 import arcaym.controller.app.api.MainController;
-import arcaym.controller.app.impl.MainControllerImpl;
 import arcaym.controller.editor.api.EditorController;
 import arcaym.controller.game.api.GameController;
 import arcaym.controller.menu.api.MenuController;
@@ -38,6 +37,7 @@ import arcaym.view.utils.SwingUtils;
  */
 public class MainViewImpl extends AbstractView<MainController> implements MainView {
 
+    private static final String APPLICATION_TITLE = "Architect of Mayhem";
     private static final String BACK_BUTTON_TEXT = "BACK";
     private static final String CLOSE_BUTTON_TEXT = "CLOSE";
     private Optional<JFrame> window = Optional.empty();
@@ -52,16 +52,7 @@ public class MainViewImpl extends AbstractView<MainController> implements MainVi
         super(controller);
     }
 
-    /**
-     * Debug only!
-     * 
-     * @param args args
-     */
-    public static void main(final String... args) {
-        new MainViewImpl(new MainControllerImpl());
-    }
-
-    private void fillContent(ViewComponent<JPanel> mainContent) {
+    private void fillContent(final ViewComponent<JPanel> mainContent) {
         final var windowInfo = Optionals.orIllegalState(this.windowInfo, "View has not been built yet!");
         final var window = Optionals.orIllegalState(this.window, "View has not been built yet!");
 
@@ -84,42 +75,59 @@ public class MainViewImpl extends AbstractView<MainController> implements MainVi
         }
         mainPanel.add(topRow, BorderLayout.NORTH);
         mainPanel.add(mainContent.build(windowInfo), BorderLayout.CENTER);
+        mainPanel.setPreferredSize(windowInfo.size());
         window.setContentPane(mainPanel);
-        window.revalidate();
-        window.repaint();
-    }  
+        window.pack();
+    }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public MenuView switchToMenu(MenuController controller) {
+    public MenuView switchToMenu(final MenuController controller) {
         final var menuView = new MenuViewImpl(controller);
         fillContent(menuView);
         return menuView;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public EditorView switchToEditor(EditorController controller) {
+    public EditorView switchToEditor(final EditorController controller) {
         final var editorView = new EditorMainView(controller);
         fillContent(editorView);
         return editorView;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public GameView switchToGame(GameController controller) {
+    public GameView switchToGame(final GameController controller) {
         final var gameView = new GameViewImpl(controller);
         fillContent(gameView);
         return gameView;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public ShopView switchToShop(ShopController controller) {
+    public ShopView switchToShop(final ShopController controller) {
         final var shopView = new ShopViewImpl(controller);
         fillContent(shopView);
         return shopView;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public boolean init() {
         final var window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setTitle(APPLICATION_TITLE);
         final var windowInfo = new ScaleSelector().askScale(window);
         if (windowInfo.isEmpty()) {
             SwingUtils.closeFrame(window);

@@ -3,8 +3,8 @@ package arcaym.view.editor.impl.components;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -32,18 +32,27 @@ public class SideMenuView implements ViewComponent<JScrollPane> {
     private final Map<GameObjectCategory, Set<GameObjectType>> gameObjects;
     private final Map<JButton, GameObjectType> menuItems;
     private final Consumer<GameObjectType> gameObjectConsumer;
+    private final Runnable setNotErase;
 
     /**
      * A constructor of the component.
+     * 
+     * @param gameObjects
+     * @param gameObjectConsumer
+     * @param setObjectPlace used to set the editor to placing mode.
      */
-    public SideMenuView(final Set<GameObjectType> gameObjects, final Consumer<GameObjectType> gameObjectConsumer) {
+    public SideMenuView(
+        final Set<GameObjectType> gameObjects,
+        final Consumer<GameObjectType> gameObjectConsumer,
+        final Runnable setObjectPlace) {
         this.gameObjects = new EnumMap<>(GameObjectCategory.class);
         gameObjects.forEach(gameObject -> {
-            this.gameObjects.putIfAbsent(gameObject.category(), new HashSet<>());
+            this.gameObjects.putIfAbsent(gameObject.category(), EnumSet.noneOf(GameObjectType.class));
             this.gameObjects.get(gameObject.category()).add(gameObject);
         });
         this.gameObjectConsumer = gameObjectConsumer;
         this.menuItems = new HashMap<>();
+        this.setNotErase = setObjectPlace;
     }
 
     /**
@@ -62,8 +71,11 @@ public class SideMenuView implements ViewComponent<JScrollPane> {
                 btnPanel.setOpaque(false);
                 btn.add(btnPanel);
                 btn.addActionListener(evt -> {
-                    final var src = (JButton)evt.getSource();
+                    menuItems.keySet().forEach(b -> b.setEnabled(true));
+                    final var src = (JButton) evt.getSource();
+                    src.setEnabled(false);
                     gameObjectConsumer.accept(menuItems.get(src));
+                    setNotErase.run();
                 });
                 menuItems.put(btn, obj);
                 content.add(btn);
