@@ -26,6 +26,7 @@ public interface GameSceneInfo {
      * 
      * @param type game object type
      * @param position game object position
+     * @param zIndex z index
      */
     default void scheduleCreation(final GameObjectType type, final Point position, final int zIndex) {
         this.scheduleCreation(new CreationInfo(type, position, zIndex));
