@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 
 import arcaym.controller.menu.api.MenuController;
 import arcaym.view.app.impl.AbstractView;
-import arcaym.view.components.CenteredPanel;
+import arcaym.view.components.HorizontalCenteredPanel;
 import arcaym.view.components.ImageLabel;
 import arcaym.view.core.api.ViewComponent;
 import arcaym.view.core.api.WindowInfo;
@@ -50,13 +50,13 @@ public class MenuViewImpl extends AbstractView<MenuController> implements MenuVi
         buttonsRow.add(createButton);
         buttonsRow.add(shopButton);
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
-        mainPanel.add(new CenteredPanel().build(window, new ImageLabel(TITLE_IMAGE)));
+        mainPanel.add(new HorizontalCenteredPanel().build(window, new ImageLabel(TITLE_IMAGE)));
         mainPanel.add(Box.createVerticalGlue());
-        mainPanel.add(new CenteredPanel().build(window, buttonsRow));
+        mainPanel.add(new HorizontalCenteredPanel().build(window, buttonsRow));
         mainPanel.add(Box.createVerticalStrut(gap));
-        mainPanel.add(new CenteredPanel().build(window, new LevelsList(this.controller()::openEditor)));
+        mainPanel.add(new HorizontalCenteredPanel().build(window, new LevelsList(this.controller()::openEditor)));
         mainPanel.add(Box.createVerticalStrut(gap));
-        return new CenteredPanel().build(window, mainPanel);
+        return new HorizontalCenteredPanel().build(window, mainPanel);
     }
 
 }

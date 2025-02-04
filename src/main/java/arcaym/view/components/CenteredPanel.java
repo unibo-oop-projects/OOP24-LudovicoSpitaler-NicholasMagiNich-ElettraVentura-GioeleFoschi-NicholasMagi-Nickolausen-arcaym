@@ -2,8 +2,6 @@ package arcaym.view.components;
 
 import java.util.Optional;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
@@ -20,14 +18,7 @@ public class CenteredPanel implements ParentComponent<JPanel> {
      */
     @Override
     public JPanel build(final WindowInfo window, final Optional<JComponent> childComponent) {
-        final var panel = new JPanel();
-        childComponent.ifPresent(c -> {
-            panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
-            panel.add(Box.createHorizontalGlue());
-            panel.add(c);
-            panel.add(Box.createHorizontalGlue());
-        });
-        return panel;
+        return new HorizontalCenteredPanel().build(window, new VerticalCenteredPanel().build(window, childComponent));
     }
 
 }

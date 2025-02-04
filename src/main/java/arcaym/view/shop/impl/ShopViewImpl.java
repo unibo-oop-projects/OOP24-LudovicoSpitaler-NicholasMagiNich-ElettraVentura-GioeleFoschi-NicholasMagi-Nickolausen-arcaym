@@ -21,7 +21,7 @@ import arcaym.controller.shop.api.ShopController;
 import arcaym.model.game.core.objects.api.GameObjectCategory;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.view.app.impl.AbstractView;
-import arcaym.view.components.CenteredPanel;
+import arcaym.view.components.HorizontalCenteredPanel;
 import arcaym.view.core.api.ViewComponent;
 import arcaym.view.core.api.WindowInfo;
 import arcaym.view.shop.api.ShopView;
@@ -62,10 +62,10 @@ public class ShopViewImpl extends AbstractView<ShopController> implements ViewCo
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.PAGE_AXIS));
         final JLabel title = new JLabel(SHOP_TITLE);
         SwingUtils.changeFontSize(title, SCALE);
-        contentPanel.add(new CenteredPanel().build(window, title));
+        contentPanel.add(new HorizontalCenteredPanel().build(window, title));
         final JLabel userCredit = new JLabel();
         updateCreditLable(userCredit);
-        contentPanel.add(new CenteredPanel().build(window, userCredit));
+        contentPanel.add(new HorizontalCenteredPanel().build(window, userCredit));
         final JScrollPane scrollPanel = new JScrollPane();
         final JPanel itemsPanel = new JPanel();
         itemsPanel.setMinimumSize(scrollPanel.getSize());
@@ -90,7 +90,7 @@ public class ShopViewImpl extends AbstractView<ShopController> implements ViewCo
             }
         });
         SwingUtils.changeFontSize(buyButton, SCALE);
-        contentPanel.add(new CenteredPanel().build(window, buyButton));
+        contentPanel.add(new HorizontalCenteredPanel().build(window, buyButton));
 
         contentPanel.add(Box.createVerticalStrut(gap));
 
@@ -115,7 +115,7 @@ public class ShopViewImpl extends AbstractView<ShopController> implements ViewCo
         card.setLayout(new BoxLayout(card, BoxLayout.PAGE_AXIS));
         final JLabel titleLabel = new JLabel(CATEGORY + category.name());
         SwingUtils.changeFontSize(titleLabel, SCALE);
-        final JPanel title = new CenteredPanel().build(window, titleLabel);
+        final JPanel title = new HorizontalCenteredPanel().build(window, titleLabel);
         title.setBackground(Color.WHITE);
         card.add(title);
         final JPanel showItemsPanel = new JPanel();
@@ -150,7 +150,7 @@ public class ShopViewImpl extends AbstractView<ShopController> implements ViewCo
                             }
                             regulateBuyOption();
                     });
-                    item.add(new CenteredPanel().build(window, price));
+                    item.add(new HorizontalCenteredPanel().build(window, price));
                     showItemsPanel.add(item);
                 }
             }
@@ -163,7 +163,7 @@ public class ShopViewImpl extends AbstractView<ShopController> implements ViewCo
                     final JButton price = new JButton(String.valueOf(object.getValue()));
                     productsMap.put(price, new ProductInfo(object.getKey(), object.getValue()));
                     price.setEnabled(false);
-                    item.add(new CenteredPanel().build(window, price));
+                    item.add(new HorizontalCenteredPanel().build(window, price));
                     showItemsPanel.add(item);
                 }
 

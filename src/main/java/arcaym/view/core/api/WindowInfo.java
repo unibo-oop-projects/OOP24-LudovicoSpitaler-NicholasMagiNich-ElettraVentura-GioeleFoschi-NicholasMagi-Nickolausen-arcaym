@@ -2,8 +2,6 @@ package arcaym.view.core.api;
 
 import java.awt.Dimension;
 
-import arcaym.common.geometry.impl.Point;
-
 /**
  * Interface for window attributes.
  */
@@ -20,13 +18,6 @@ public interface WindowInfo {
      * @return size value
      */
     Dimension size();
-
-    /**
-     * Get ratio between window and default size.
-     * 
-     * @return ratio value
-     */
-    Point ratio();
 
     /**
      * Get window scale value.

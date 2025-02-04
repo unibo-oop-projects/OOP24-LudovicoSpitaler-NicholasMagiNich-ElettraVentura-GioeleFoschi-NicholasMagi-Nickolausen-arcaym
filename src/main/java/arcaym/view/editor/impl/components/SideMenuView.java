@@ -18,7 +18,7 @@ import javax.swing.SwingConstants;
 
 import arcaym.model.game.core.objects.api.GameObjectCategory;
 import arcaym.model.game.objects.api.GameObjectType;
-import arcaym.view.components.CenteredPanel;
+import arcaym.view.components.HorizontalCenteredPanel;
 import arcaym.view.core.api.ViewComponent;
 import arcaym.view.core.api.WindowInfo;
 import arcaym.view.objects.GameObjectView;
@@ -67,7 +67,7 @@ public class SideMenuView implements ViewComponent<JScrollPane> {
             content.add(new JLabel(category.toString().concat(objectsView.isEmpty() ? "" : "S"), SwingConstants.CENTER));
             objectsView.forEach(obj -> {
                 final var btn = new JButton();
-                final var btnPanel = new CenteredPanel().build(window, new GameObjectView(obj));
+                final var btnPanel = new HorizontalCenteredPanel().build(window, new GameObjectView(obj));
                 btnPanel.setOpaque(false);
                 btn.add(btnPanel);
                 btn.addActionListener(evt -> {

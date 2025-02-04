@@ -16,7 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
 import arcaym.model.editor.EditorType;
-import arcaym.view.components.CenteredPanel;
+import arcaym.view.components.HorizontalCenteredPanel;
 import arcaym.view.core.api.ViewDialog;
 import arcaym.view.core.api.WindowInfo;
 import arcaym.view.utils.SwingUtils;
@@ -68,7 +68,7 @@ public class CreateLevelDialog implements ViewDialog<Component, Void> {
         final var typesInput = new JComboBox<>(EditorType.values());
         typesInput.setSelectedItem(DEFAULT_TYPE);
         mainPanel.setBorder(BorderFactory.createEmptyBorder(gap, gap, gap, gap));
-        mainPanel.add(new CenteredPanel().build(window, SwingUtils.changeFontSize(new JLabel(MESSAGE), MESSAGE_FONT_SCALE)));
+        mainPanel.add(new HorizontalCenteredPanel().build(window, SwingUtils.changeFontSize(new JLabel(MESSAGE), MESSAGE_FONT_SCALE)));
         mainPanel.add(Box.createVerticalStrut(gap));
         mainPanel.add(this.createRow("Name", nameInput, gap));
         mainPanel.add(Box.createVerticalStrut(gap));
