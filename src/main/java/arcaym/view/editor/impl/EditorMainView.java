@@ -92,7 +92,7 @@ public class EditorMainView extends AbstractView<EditorController> implements Vi
         footer.setEnabled(false);
         final var gap = SwingUtils.getBigGap(footer);
         footer.setBorder(BorderFactory.createEmptyBorder(gap, gap, gap, gap));
-
+        footer.setBackground(Color.BLACK);
         final var grid =  new GridView(t -> {
             this.executeCommand(t, footer::setText);
             undo.setEnabled(this.controller().canUndo());
