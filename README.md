@@ -59,10 +59,10 @@ Funzionalità opzionali (a completamento del 100% del tempo a disposizione):
 
 Suddivisione di massima del lavoro (con parte significativa del model a ognuno):
 
-* Foschi: suddivisione generale: level editor + sistema di transizione; in particolare, gestione della griglia di oggetti e transizione "progetto di livello"/"livello giocabile".
+* Foschi: gestione della rappresentazione e della logica della griglia di oggetti dell'editor e transizione "progetto di livello"/"livello giocabile".
 
-* Magi: suddivisione generale: level editor + sistema di transizione; in particolare, gestione del menu degli oggetti dell'editor, con implementazione degli oggetti effettivi.
+* Magi: implementazione dello shop e gestione dello stato dell'utente. Creazione della view dell'editor e rappresentazione grafica del game object. 
 
-* Spitaleri: suddivisione generale: game engine; in particolare, si occupa della base del game engine, dell'implementazione grafica dei game objects e gestione degli eventi.
+* Spitaleri: realizzazione del game engine. Realizzazione del menu principale dell'applicazione.
 
-* Ventura: suddivisione generale: game engine; in particolare, si occupa della base del game engine, dell'implementazione grafica dei game objects e della gestione della fisica.
+* Ventura: realizzazione dei componenti che costituiscono un game object. Realizzazione della view dello shop.
