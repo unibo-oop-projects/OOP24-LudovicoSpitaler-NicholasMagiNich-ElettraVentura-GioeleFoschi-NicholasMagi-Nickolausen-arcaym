@@ -1,9 +1,7 @@
 package arcaym.model.game.components.impl;
 
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 
-import arcaym.common.geometry.impl.Rectangles;
 import arcaym.model.game.components.api.CollisionComponentsFactory;
 import arcaym.model.game.core.components.api.GameComponent;
 import arcaym.model.game.core.components.impl.AbstractGameComponent;
@@ -28,11 +26,6 @@ public class CollisionComponentsFactoryImpl implements CollisionComponentsFactor
                 GameObjectInfo collidingObject, GameSceneInfo gameScene);
     }
 
-    private Stream<GameObjectInfo> getCollidingObjects(final GameSceneInfo scene,
-            final UniqueComponentsGameObject gameObject) {
-        return scene.getGameObjectsInfos().stream()
-                .filter(obj -> Rectangles.intersecting(obj.boundaries(), gameObject.boundaries()));
-    }
 
     private GameComponent genericCollision(final Predicate<GameObjectInfo> predicateFromObjectInfo,
             final CollisionConsumer reaction, final UniqueComponentsGameObject gameObject) {
@@ -42,7 +35,7 @@ public class CollisionComponentsFactoryImpl implements CollisionComponentsFactor
             public void update(final long deltaTime, final EventsScheduler<GameEvent> eventsScheduler,
                     final GameSceneInfo gameScene,
                     final GameStateInfo gameState) {
-                getCollidingObjects(gameScene, gameObject)
+                CollisionUtils.getCollidingObjects(gameScene, gameObject)
                         .filter(predicateFromObjectInfo::test)
                         .forEach(obj -> reaction.reactToCollision(deltaTime, eventsScheduler, obj, gameScene));
             }
