@@ -48,15 +48,6 @@ public class GameObjectView extends ImageLabel {
     }
 
     /**
-     * Get object category.
-     * 
-     * @return the category the game object belongs to
-     */
-    public GameObjectCategory getCategory() {
-        return this.type.category();
-    }
-
-    /**
      * 
      * @return an image not wrapped in any component
      */
