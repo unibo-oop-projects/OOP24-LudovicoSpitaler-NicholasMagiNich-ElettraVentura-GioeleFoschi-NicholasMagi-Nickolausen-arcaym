@@ -29,7 +29,7 @@ public class FactoryBasedGameBuilder extends AbstractGameBuilder {
      * {@inheritDoc}
      */
     @Override
-    public GameScene buildScene() {
+    protected GameScene buildScene() {
         return new FactoryBasedGameScene(this.gameObjectsFactory);
     }
 

@@ -2,8 +2,8 @@ package arcaym.model.game.core.scene.api;
 
 import java.util.Collection;
 
+import arcaym.controller.game.api.GameObserver;
 import arcaym.model.game.core.objects.api.GameObject;
-import arcaym.view.game.api.GameView;
 
 /**
  * Interface for a game scene.
@@ -11,11 +11,11 @@ import arcaym.view.game.api.GameView;
 public interface GameScene extends GameSceneInfo {
 
     /**
-     * Consume pending scene events and notify game view.
+     * Consume pending scene events and notify game observer.
      * 
-     * @param gameView game view
+     * @param observer game observer
      */
-    void consumePendingActions(GameView gameView);
+    void consumePendingActions(GameObserver observer);
 
     /**
      * Get all objects in the scene.
