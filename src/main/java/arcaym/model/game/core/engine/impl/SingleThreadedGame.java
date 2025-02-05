@@ -6,8 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import arcaym.common.geometry.impl.Rectangle;
+import arcaym.controller.game.api.GameObserver;
 import arcaym.model.game.core.engine.api.Game;
-import arcaym.model.game.core.engine.api.GameObserver;
 import arcaym.model.game.core.scene.api.GameScene;
 
 /**

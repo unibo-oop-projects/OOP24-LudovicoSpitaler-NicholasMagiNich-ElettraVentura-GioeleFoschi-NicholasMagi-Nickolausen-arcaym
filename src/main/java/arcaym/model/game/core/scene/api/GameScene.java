@@ -2,7 +2,7 @@ package arcaym.model.game.core.scene.api;
 
 import java.util.Collection;
 
-import arcaym.model.game.core.engine.api.GameObserver;
+import arcaym.controller.game.api.GameObserver;
 import arcaym.model.game.core.objects.api.GameObject;
 
 /**

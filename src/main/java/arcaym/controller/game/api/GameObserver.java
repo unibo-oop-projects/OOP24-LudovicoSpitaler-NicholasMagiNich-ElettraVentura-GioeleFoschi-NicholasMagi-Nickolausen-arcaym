@@ -1,4 +1,4 @@
-package arcaym.model.game.core.engine.api;
+package arcaym.controller.game.api;
 
 import arcaym.model.game.core.events.api.EventsObserver;
 import arcaym.model.game.core.events.api.EventsScheduler;

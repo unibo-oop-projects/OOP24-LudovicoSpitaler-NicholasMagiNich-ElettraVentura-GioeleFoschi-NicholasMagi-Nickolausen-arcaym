@@ -1,6 +1,6 @@
 package arcaym.view.game.api;
 
-import arcaym.model.game.core.engine.api.GameObserver;
+import arcaym.controller.game.api.GameObserver;
 import arcaym.view.app.api.View;
 
 /**

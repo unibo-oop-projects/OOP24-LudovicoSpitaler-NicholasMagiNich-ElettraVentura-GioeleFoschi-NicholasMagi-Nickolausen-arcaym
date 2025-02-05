@@ -10,7 +10,7 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import arcaym.model.game.core.engine.api.GameObserver;
+import arcaym.controller.game.api.GameObserver;
 import arcaym.model.game.core.objects.api.GameObject;
 import arcaym.model.game.core.objects.api.GameObjectInfo;
 import arcaym.model.game.core.scene.api.GameScene;
