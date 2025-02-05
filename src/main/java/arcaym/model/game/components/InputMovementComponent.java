@@ -1,4 +1,4 @@
-package arcaym.model.game.components.impl;
+package arcaym.model.game.components;
 
 import java.util.List;
 import java.util.Map;
@@ -13,8 +13,8 @@ import arcaym.model.game.core.events.EventsScheduler;
 import arcaym.model.game.core.events.EventsSubscriber;
 import arcaym.model.game.core.scene.GameSceneInfo;
 import arcaym.model.game.events.GameEvent;
-import arcaym.model.game.events.InputType;
 import arcaym.model.game.events.InputEvent;
+import arcaym.model.game.events.InputType;
 
 /**
  * Implementation of {@link AbstractGameComponent} specific for movement from

@@ -1,8 +1,7 @@
-package arcaym.model.game.components.impl;
+package arcaym.model.game.components;
 
 import java.util.function.Predicate;
 
-import arcaym.model.game.components.api.CollisionComponentsFactory;
 import arcaym.model.game.core.components.AbstractGameComponent;
 import arcaym.model.game.core.components.ComponentsBasedGameObject;
 import arcaym.model.game.core.components.GameComponent;

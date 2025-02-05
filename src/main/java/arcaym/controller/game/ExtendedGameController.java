@@ -1,7 +1,7 @@
-package arcaym.controller.game.api;
+package arcaym.controller.game;
 
 import arcaym.controller.app.ExtendedController;
-import arcaym.view.game.api.GameView;
+import arcaym.view.game.GameView;
 
 /**
  * Interface for a {@link GameController} extended view.

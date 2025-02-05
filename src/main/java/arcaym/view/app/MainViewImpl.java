@@ -15,20 +15,20 @@ import javax.swing.JPanel;
 import arcaym.common.utils.Optionals;
 import arcaym.controller.app.MainController;
 import arcaym.controller.editor.api.EditorController;
-import arcaym.controller.game.api.GameController;
+import arcaym.controller.game.GameController;
 import arcaym.controller.menu.MenuController;
 import arcaym.controller.shop.ShopController;
 import arcaym.view.core.ViewComponent;
 import arcaym.view.editor.api.EditorView;
 import arcaym.view.editor.impl.EditorMainView;
-import arcaym.view.game.api.GameView;
-import arcaym.view.game.impl.GameViewImpl;
+import arcaym.view.game.GameView;
+import arcaym.view.game.GameViewImpl;
 import arcaym.view.menu.MenuView;
 import arcaym.view.menu.MenuViewImpl;
 import arcaym.view.scaling.ScaleSelector;
 import arcaym.view.scaling.WindowInfo;
-import arcaym.view.shop.api.ShopView;
-import arcaym.view.shop.impl.ShopViewImpl;
+import arcaym.view.shop.ShopView;
+import arcaym.view.shop.ShopViewImpl;
 import arcaym.view.utils.SwingUtils;
 
 /**

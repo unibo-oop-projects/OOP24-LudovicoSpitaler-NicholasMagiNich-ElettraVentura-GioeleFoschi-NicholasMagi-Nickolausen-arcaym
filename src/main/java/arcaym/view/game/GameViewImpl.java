@@ -1,4 +1,4 @@
-package arcaym.view.game.impl;
+package arcaym.view.game;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -27,17 +27,16 @@ import javax.swing.SwingUtilities;
 import arcaym.common.geometry.Point;
 import arcaym.common.geometry.Rectangle;
 import arcaym.common.utils.Optionals;
-import arcaym.controller.game.api.GameController;
+import arcaym.controller.game.GameController;
 import arcaym.model.game.core.engine.GameStateInfo;
 import arcaym.model.game.core.events.EventsScheduler;
 import arcaym.model.game.core.events.EventsSubscriber;
 import arcaym.model.game.core.objects.GameObjectInfo;
 import arcaym.model.game.events.GameEvent;
-import arcaym.model.game.events.InputType;
 import arcaym.model.game.events.InputEvent;
+import arcaym.model.game.events.InputType;
 import arcaym.view.app.AbstractView;
 import arcaym.view.core.ViewComponent;
-import arcaym.view.game.api.GameView;
 import arcaym.view.objects.GameObjectView;
 import arcaym.view.scaling.WindowInfo;
 import arcaym.view.utils.SwingUtils;
