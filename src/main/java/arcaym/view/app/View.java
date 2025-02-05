@@ -1,4 +1,4 @@
-package arcaym.view.app.api;
+package arcaym.view.app;
 
 /**
  * Interface for a generic view.

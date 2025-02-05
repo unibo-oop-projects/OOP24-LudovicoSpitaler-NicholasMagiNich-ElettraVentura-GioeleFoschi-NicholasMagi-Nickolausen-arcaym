@@ -1,6 +1,6 @@
-package arcaym.controller.app.api;
+package arcaym.controller.app;
 
-import arcaym.view.app.api.View;
+import arcaym.view.app.View;
 
 /**
  * Interface for a generic extended {@link Controller}.

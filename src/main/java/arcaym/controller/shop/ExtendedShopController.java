@@ -1,6 +1,6 @@
-package arcaym.controller.shop.api;
+package arcaym.controller.shop;
 
-import arcaym.controller.app.api.ExtendedController;
+import arcaym.controller.app.ExtendedController;
 import arcaym.view.shop.api.ShopView;
 
 /**

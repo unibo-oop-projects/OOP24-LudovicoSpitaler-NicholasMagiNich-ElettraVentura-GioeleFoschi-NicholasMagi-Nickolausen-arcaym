@@ -1,7 +1,6 @@
-package arcaym.controller.user.api;
+package arcaym.controller.user;
 
-
-import arcaym.model.user.impl.UserStateInfo;
+import arcaym.model.user.UserStateInfo;
 
 /**
  * Models a collection of read-only operations of {@link UserStateSerializer}.

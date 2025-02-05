@@ -1,14 +1,13 @@
-package arcaym.controller.shop.impl;
+package arcaym.controller.shop;
 
 import java.util.Map;
 
-import arcaym.controller.app.api.ControllerSwitcher;
-import arcaym.controller.app.impl.AbstractController;
-import arcaym.controller.shop.api.ExtendedShopController;
+import arcaym.controller.app.ControllerSwitcher;
+import arcaym.controller.app.AbstractController;
 import arcaym.model.game.objects.GameObjectType;
-import arcaym.model.shop.api.Shop;
-import arcaym.model.shop.impl.ShopImpl;
-import arcaym.model.user.impl.UserStateImpl;
+import arcaym.model.shop.Shop;
+import arcaym.model.shop.ShopImpl;
+import arcaym.model.user.UserStateImpl;
 import arcaym.view.shop.api.ShopView;
 
 /**

@@ -1,4 +1,4 @@
-package arcaym.model.shop.api;
+package arcaym.model.shop;
 
 import java.util.Map;
 

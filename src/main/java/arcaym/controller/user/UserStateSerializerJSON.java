@@ -1,4 +1,4 @@
-package arcaym.controller.user.impl;
+package arcaym.controller.user;
 
 import java.nio.file.Path;
 import java.util.Objects;
@@ -10,8 +10,7 @@ import org.slf4j.LoggerFactory;
 import com.google.gson.Gson;
 
 import arcaym.common.utils.file.FileUtils;
-import arcaym.controller.user.api.UserStateSerializer;
-import arcaym.model.user.impl.UserStateInfo;
+import arcaym.model.user.UserStateInfo;
 
 /**
  * Implementation of {@link UserStateSerializer}. 
@@ -36,7 +35,7 @@ public class UserStateSerializerJSON implements UserStateSerializer {
             new Gson().toJson(userState));
     }
 
-    /* Utility function  */
+    /* Utility function */
     private Optional<UserStateInfo> load() {
         validateFileName(FILENAME);
         final var rawState = FileUtils.readFromPath(getPathOf(FILENAME));

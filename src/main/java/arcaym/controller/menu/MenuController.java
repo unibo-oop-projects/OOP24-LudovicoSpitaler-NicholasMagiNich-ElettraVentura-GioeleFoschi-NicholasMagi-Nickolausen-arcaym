@@ -2,7 +2,7 @@ package arcaym.controller.menu;
 
 import java.util.List;
 
-import arcaym.controller.app.api.Controller;
+import arcaym.controller.app.Controller;
 import arcaym.controller.editor.saves.LevelMetadata;
 import arcaym.model.editor.EditorType;
 

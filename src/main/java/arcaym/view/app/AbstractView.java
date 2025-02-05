@@ -1,9 +1,8 @@
-package arcaym.view.app.impl;
+package arcaym.view.app;
 
 import java.util.Objects;
 
-import arcaym.controller.app.api.Controller;
-import arcaym.view.app.api.View;
+import arcaym.controller.app.Controller;
 
 /**
  * Abstract implementation of {@link View}.

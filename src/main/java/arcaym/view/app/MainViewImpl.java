@@ -1,4 +1,4 @@
-package arcaym.view.app.impl;
+package arcaym.view.app;
 
 import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;
@@ -13,12 +13,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import arcaym.common.utils.Optionals;
-import arcaym.controller.app.api.MainController;
+import arcaym.controller.app.MainController;
 import arcaym.controller.editor.api.EditorController;
 import arcaym.controller.game.api.GameController;
 import arcaym.controller.menu.MenuController;
-import arcaym.controller.shop.api.ShopController;
-import arcaym.view.app.api.MainView;
+import arcaym.controller.shop.ShopController;
 import arcaym.view.core.ViewComponent;
 import arcaym.view.editor.api.EditorView;
 import arcaym.view.editor.impl.EditorMainView;

@@ -1,15 +1,13 @@
-package arcaym.controller.app.impl;
+package arcaym.controller.app;
 
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Optional;
 import java.util.function.BiFunction;
 
-import arcaym.controller.app.api.ExtendedController;
-import arcaym.controller.app.api.MainController;
 import arcaym.controller.menu.MenuControllerImpl;
-import arcaym.view.app.api.MainView;
-import arcaym.view.app.api.View;
+import arcaym.view.app.MainView;
+import arcaym.view.app.View;
 
 /**
  * Implementation of {@link MainController}.

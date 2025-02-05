@@ -7,7 +7,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 import arcaym.common.utils.Position;
-import arcaym.controller.app.api.Controller;
+import arcaym.controller.app.Controller;
 import arcaym.model.editor.EditorGridException;
 import arcaym.model.game.objects.GameObjectType;
 

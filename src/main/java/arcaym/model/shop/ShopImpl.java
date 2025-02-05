@@ -1,4 +1,4 @@
-package arcaym.model.shop.impl;
+package arcaym.model.shop;
 
 import java.util.Collections;
 import java.util.EnumMap;
@@ -7,9 +7,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import arcaym.model.game.objects.GameObjectType;
-import arcaym.model.shop.api.Shop;
-import arcaym.model.user.api.UserState;
-import arcaym.model.user.impl.UserStateImpl;
+import arcaym.model.user.UserState;
+import arcaym.model.user.UserStateImpl;
 
 /**
  * Default implementation of interface {@link Shop}.

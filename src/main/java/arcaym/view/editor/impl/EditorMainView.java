@@ -17,7 +17,7 @@ import javax.swing.JTextArea;
 import arcaym.common.utils.Position;
 import arcaym.controller.editor.api.EditorController;
 import arcaym.model.editor.EditorGridException;
-import arcaym.view.app.impl.AbstractView;
+import arcaym.view.app.AbstractView;
 import arcaym.view.core.ViewComponent;
 import arcaym.view.editor.api.EditorView;
 import arcaym.view.editor.impl.components.GridView;

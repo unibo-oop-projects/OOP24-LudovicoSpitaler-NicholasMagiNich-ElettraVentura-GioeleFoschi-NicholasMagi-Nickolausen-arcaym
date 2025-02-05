@@ -1,6 +1,6 @@
 package arcaym.view.shop.api;
 
-import arcaym.view.app.api.View;
+import arcaym.view.app.View;
 
 /**
  * Interface for a shop view.

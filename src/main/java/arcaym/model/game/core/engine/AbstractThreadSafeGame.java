@@ -12,7 +12,7 @@ import arcaym.model.game.core.events.ThreadSafeEventsManager;
 import arcaym.model.game.core.scene.GameScene;
 import arcaym.model.game.events.GameEvent;
 import arcaym.model.game.events.InputEvent;
-import arcaym.model.user.impl.UserStateImpl;
+import arcaym.model.user.UserStateImpl;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**

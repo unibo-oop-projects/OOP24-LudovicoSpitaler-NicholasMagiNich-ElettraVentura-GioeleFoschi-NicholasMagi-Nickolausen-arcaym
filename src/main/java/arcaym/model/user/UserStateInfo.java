@@ -1,4 +1,4 @@
-package arcaym.model.user.impl;
+package arcaym.model.user;
 
 import java.util.Collections;
 import java.util.EnumSet;
@@ -8,7 +8,6 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import arcaym.model.game.objects.GameObjectType;
-import arcaym.model.user.api.UserState;
 
 /**
  * A read-only view of {@link UserState}. 
@@ -62,7 +61,6 @@ public record UserStateInfo(
     }
 
     /**
-     * 
      * @return an immutable collection of the items owned 
      * ({@link #getDefaultItems()} + {@link #purchasedItems()})
      */
@@ -98,8 +96,7 @@ public record UserStateInfo(
 
     /**
      * Returns a new instance of {@link UserStateInfo} almost identical to the
-     * original
-     * instance, except for the items purchased collection parameter.
+     * original instance, except for the items purchased collection parameter.
      * 
      * @param itemsOwned
      * @return

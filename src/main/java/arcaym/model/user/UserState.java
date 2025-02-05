@@ -1,4 +1,4 @@
-package arcaym.model.user.api;
+package arcaym.model.user;
 
 import java.util.Set;
 
@@ -13,7 +13,6 @@ import arcaym.model.game.objects.GameObjectType;
 public interface UserState extends EventsObserver<GameEvent> {
 
     /**
-     * 
      * @return the credit of the user.
      */
     int getCredit();
@@ -44,13 +43,11 @@ public interface UserState extends EventsObserver<GameEvent> {
     void decrementCredit(int amount);
 
     /**
-     * 
      * @return the items the user purchased from the shop.
      */
     Set<GameObjectType> getPurchasedItems();
 
     /**
-     * 
      * @return the items the user has (default + purchased).
      */
     Set<GameObjectType> getItemsOwned();

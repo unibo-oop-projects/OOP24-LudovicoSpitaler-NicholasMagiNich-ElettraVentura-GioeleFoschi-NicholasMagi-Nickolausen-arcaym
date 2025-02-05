@@ -1,16 +1,15 @@
-package arcaym.model.user.impl;
+package arcaym.model.user;
 
 import java.util.Set;
 
 import com.google.common.collect.Sets;
 
-import arcaym.controller.user.api.UserStateSerializer;
-import arcaym.controller.user.impl.UserStateSerializerJSON;
+import arcaym.controller.user.UserStateSerializer;
+import arcaym.controller.user.UserStateSerializerJSON;
 import arcaym.model.game.core.engine.GameStateInfo;
 import arcaym.model.game.core.events.EventsSubscriber;
 import arcaym.model.game.events.GameEvent;
 import arcaym.model.game.objects.GameObjectType;
-import arcaym.model.user.api.UserState;
 
 /**
  * Implementation of {@link UserState}.
@@ -32,7 +31,7 @@ public class UserStateImpl implements UserState {
     @Override
     public void unlockNewItem(final GameObjectType gameObject) {
         final var savedState = serializer.getUpdatedState();
-        if (savedState.getItemsOwned().contains(gameObject) || savedState.purchasedItems().contains(gameObject)) {
+        if (savedState.getItemsOwned().contains(gameObject)) {
             throw new IllegalArgumentException("Cannot unlock an object already owned! (Unlocking: " + gameObject + ")");
         }
         updateSavedState(savedState.withPurchasedItems(Sets.union(

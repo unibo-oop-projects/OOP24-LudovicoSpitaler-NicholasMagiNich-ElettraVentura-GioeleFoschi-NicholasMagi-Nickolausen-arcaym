@@ -2,13 +2,13 @@ package arcaym.controller.menu;
 
 import java.util.List;
 
-import arcaym.controller.app.api.ControllerSwitcher;
-import arcaym.controller.app.impl.AbstractController;
+import arcaym.controller.app.ControllerSwitcher;
+import arcaym.controller.app.AbstractController;
 import arcaym.controller.editor.impl.EditorControllerImpl;
 import arcaym.controller.editor.saves.LevelMetadata;
 import arcaym.controller.editor.saves.MetadataManager;
 import arcaym.controller.editor.saves.MetadataManagerImpl;
-import arcaym.controller.shop.impl.ShopControllerImpl;
+import arcaym.controller.shop.ShopControllerImpl;
 import arcaym.model.editor.EditorType;
 import arcaym.view.menu.MenuView;
 
