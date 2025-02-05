@@ -2,7 +2,7 @@ package arcaym.model.shop.api;
 
 import java.util.Map;
 
-import arcaym.model.game.objects.api.GameObjectType;
+import arcaym.model.game.objects.GameObjectType;
 
 /**
  * Interface modelling the operations made by the shop.

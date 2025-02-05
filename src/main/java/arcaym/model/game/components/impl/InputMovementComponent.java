@@ -4,17 +4,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import arcaym.common.geometry.impl.Point;
-import arcaym.common.geometry.impl.Vector;
-import arcaym.model.game.core.components.api.ComponentsBasedGameObject;
-import arcaym.model.game.core.components.impl.AbstractGameComponent;
-import arcaym.model.game.core.engine.api.GameStateInfo;
-import arcaym.model.game.core.events.api.EventsScheduler;
-import arcaym.model.game.core.events.api.EventsSubscriber;
-import arcaym.model.game.core.scene.api.GameSceneInfo;
-import arcaym.model.game.events.api.GameEvent;
-import arcaym.model.game.events.api.InputType;
-import arcaym.model.game.events.impl.InputEvent;
+import arcaym.common.geometry.Point;
+import arcaym.common.geometry.Vector;
+import arcaym.model.game.core.components.AbstractGameComponent;
+import arcaym.model.game.core.components.ComponentsBasedGameObject;
+import arcaym.model.game.core.engine.GameStateInfo;
+import arcaym.model.game.core.events.EventsScheduler;
+import arcaym.model.game.core.events.EventsSubscriber;
+import arcaym.model.game.core.scene.GameSceneInfo;
+import arcaym.model.game.events.GameEvent;
+import arcaym.model.game.events.InputType;
+import arcaym.model.game.events.InputEvent;
 
 /**
  * Implementation of {@link AbstractGameComponent} specific for movement from

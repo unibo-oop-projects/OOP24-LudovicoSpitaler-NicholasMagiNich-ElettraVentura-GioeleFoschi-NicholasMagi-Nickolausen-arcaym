@@ -6,7 +6,7 @@ import java.util.Set;
 
 import arcaym.common.utils.Position;
 import arcaym.model.editor.EditorGridException;
-import arcaym.model.game.objects.api.GameObjectType;
+import arcaym.model.game.objects.GameObjectType;
 
 /**
  * The interface used by {@link arcaym.controller.editor.api.GridController} that manages the editor grid.

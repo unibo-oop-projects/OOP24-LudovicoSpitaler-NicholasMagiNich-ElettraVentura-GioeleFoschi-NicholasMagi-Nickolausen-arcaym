@@ -14,7 +14,7 @@ import arcaym.model.editor.EditorGridException;
 import arcaym.model.editor.EditorType;
 import arcaym.model.editor.api.Grid;
 import arcaym.model.editor.api.GridModel;
-import arcaym.model.game.objects.api.GameObjectType;
+import arcaym.model.game.objects.GameObjectType;
 /**
  * An implementation of the grid model.
  */

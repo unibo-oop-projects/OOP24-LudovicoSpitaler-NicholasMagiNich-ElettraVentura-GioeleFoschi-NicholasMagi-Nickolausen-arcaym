@@ -7,11 +7,11 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import arcaym.model.game.objects.api.GameObjectType;
+import arcaym.model.game.objects.GameObjectType;
 import arcaym.view.components.HorizontalCenteredPanel;
-import arcaym.view.core.api.ViewComponent;
-import arcaym.view.core.api.WindowInfo;
+import arcaym.view.core.ViewComponent;
 import arcaym.view.objects.GameObjectView;
+import arcaym.view.scaling.WindowInfo;
 import arcaym.view.utils.SwingUtils;
 
 /**

@@ -5,8 +5,8 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import arcaym.view.core.api.ViewComponent;
-import arcaym.view.core.api.WindowInfo;
+import arcaym.view.core.ViewComponent;
+import arcaym.view.scaling.WindowInfo;
 import arcaym.view.utils.SwingUtils;
 
 /**

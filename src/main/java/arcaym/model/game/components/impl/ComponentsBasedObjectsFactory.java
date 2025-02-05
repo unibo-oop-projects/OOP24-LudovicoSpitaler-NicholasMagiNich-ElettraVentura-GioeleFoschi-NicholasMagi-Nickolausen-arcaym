@@ -2,10 +2,10 @@ package arcaym.model.game.components.impl;
 
 import arcaym.model.game.components.api.CollisionComponentsFactory;
 import arcaym.model.game.components.api.MovementComponentsFactory;
-import arcaym.model.game.core.components.impl.UniqueComponentsGameObject;
-import arcaym.model.game.core.objects.api.GameObject;
-import arcaym.model.game.core.objects.api.GameObjectsFactory;
-import arcaym.model.game.objects.api.GameObjectType;
+import arcaym.model.game.core.components.UniqueComponentsGameObject;
+import arcaym.model.game.core.objects.GameObject;
+import arcaym.model.game.core.objects.GameObjectsFactory;
+import arcaym.model.game.objects.GameObjectType;
 
 /**
  * Implementation of {@link GameObjectsFactory} using game components.

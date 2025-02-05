@@ -6,7 +6,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import arcaym.common.geometry.CartesianEntitiesProvider.CartesianEntityConstructor;
-import arcaym.common.geometry.api.CartesianEntity;
 
 class TestCartesianEntity<T extends CartesianEntity<T>> {
 

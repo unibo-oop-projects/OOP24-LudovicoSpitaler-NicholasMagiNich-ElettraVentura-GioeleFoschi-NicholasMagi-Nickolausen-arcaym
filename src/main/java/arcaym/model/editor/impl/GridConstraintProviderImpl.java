@@ -14,8 +14,8 @@ import arcaym.model.editor.api.GridConstraintProvider;
 import arcaym.model.editor.api.GridConstraintsContainer;
 import arcaym.model.editor.api.MapConstraint;
 import arcaym.model.editor.api.MapConstraintsFactory;
-import arcaym.model.game.core.objects.api.GameObjectCategory;
-import arcaym.model.game.objects.api.GameObjectType;
+import arcaym.model.game.core.objects.GameObjectCategory;
+import arcaym.model.game.objects.GameObjectType;
 
 /**
  * An implementation of the {@link GridConstraintProvider} interface.

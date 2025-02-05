@@ -19,12 +19,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
-import arcaym.model.game.core.objects.api.GameObjectCategory;
-import arcaym.model.game.objects.api.GameObjectType;
+import arcaym.model.game.core.objects.GameObjectCategory;
+import arcaym.model.game.objects.GameObjectType;
 import arcaym.view.components.HorizontalCenteredPanel;
-import arcaym.view.core.api.ViewComponent;
-import arcaym.view.core.api.WindowInfo;
+import arcaym.view.core.ViewComponent;
 import arcaym.view.objects.GameObjectView;
+import arcaym.view.scaling.WindowInfo;
 import arcaym.view.utils.SwingUtils;
 
 /**

@@ -11,9 +11,9 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import arcaym.view.core.api.WindowInfo;
-import arcaym.view.core.impl.Scale;
-import arcaym.view.core.impl.ScaledWindowInfo;
+import arcaym.view.scaling.Scale;
+import arcaym.view.scaling.ScaledWindowInfo;
+import arcaym.view.scaling.WindowInfo;
 
 /**
  * Utility class for swing.
@@ -21,7 +21,6 @@ import arcaym.view.core.impl.ScaledWindowInfo;
 public final class SwingUtils {
 
     private static final Scale WINDOW_SCALE = Scale.X75;
-
     private static final float NORMAL_GAP_FACTOR = 1f;
     private static final float LITTLE_GAP_FACTOR = 0.5f;
     private static final float BIG_GAP_FACTOR = 2f;

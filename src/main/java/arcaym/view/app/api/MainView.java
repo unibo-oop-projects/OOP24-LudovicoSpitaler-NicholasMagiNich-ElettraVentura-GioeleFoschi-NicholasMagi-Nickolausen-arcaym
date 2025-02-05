@@ -2,11 +2,11 @@ package arcaym.view.app.api;
 
 import arcaym.controller.editor.api.EditorController;
 import arcaym.controller.game.api.GameController;
-import arcaym.controller.menu.api.MenuController;
+import arcaym.controller.menu.MenuController;
 import arcaym.controller.shop.api.ShopController;
 import arcaym.view.editor.api.EditorView;
 import arcaym.view.game.api.GameView;
-import arcaym.view.menu.api.MenuView;
+import arcaym.view.menu.MenuView;
 import arcaym.view.shop.api.ShopView;
 
 /**

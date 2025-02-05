@@ -18,12 +18,12 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
 import arcaym.controller.shop.api.ShopController;
-import arcaym.model.game.core.objects.api.GameObjectCategory;
-import arcaym.model.game.objects.api.GameObjectType;
+import arcaym.model.game.core.objects.GameObjectCategory;
+import arcaym.model.game.objects.GameObjectType;
 import arcaym.view.app.impl.AbstractView;
 import arcaym.view.components.HorizontalCenteredPanel;
-import arcaym.view.core.api.ViewComponent;
-import arcaym.view.core.api.WindowInfo;
+import arcaym.view.core.ViewComponent;
+import arcaym.view.scaling.WindowInfo;
 import arcaym.view.shop.api.ShopView;
 import arcaym.view.shop.components.DisplayProductView;
 import arcaym.view.shop.components.ProductInfo;

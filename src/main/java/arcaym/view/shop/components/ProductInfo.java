@@ -1,6 +1,6 @@
 package arcaym.view.shop.components;
 
-import arcaym.model.game.objects.api.GameObjectType;
+import arcaym.model.game.objects.GameObjectType;
 
 /**
  * Record of product informations.

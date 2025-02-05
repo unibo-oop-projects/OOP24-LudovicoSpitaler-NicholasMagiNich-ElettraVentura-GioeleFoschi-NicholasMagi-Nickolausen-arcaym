@@ -4,8 +4,8 @@ import arcaym.controller.app.api.ControllerSwitcher;
 import arcaym.controller.app.impl.AbstractController;
 import arcaym.controller.game.api.ExtendedGameController;
 import arcaym.controller.game.api.GameController;
-import arcaym.model.game.core.engine.api.Game;
-import arcaym.model.game.core.engine.api.GameStateInfo;
+import arcaym.model.game.core.engine.Game;
+import arcaym.model.game.core.engine.GameStateInfo;
 import arcaym.view.game.api.GameView;
 
 /**

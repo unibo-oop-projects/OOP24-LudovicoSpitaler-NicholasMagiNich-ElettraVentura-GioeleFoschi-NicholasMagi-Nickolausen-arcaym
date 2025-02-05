@@ -2,9 +2,9 @@ package arcaym.model.user.api;
 
 import java.util.Set;
 
-import arcaym.model.game.core.events.api.EventsObserver;
-import arcaym.model.game.events.api.GameEvent;
-import arcaym.model.game.objects.api.GameObjectType;
+import arcaym.model.game.core.events.EventsObserver;
+import arcaym.model.game.events.GameEvent;
+import arcaym.model.game.objects.GameObjectType;
 
 /**
  * Interface modelling the user state and its relative operations.

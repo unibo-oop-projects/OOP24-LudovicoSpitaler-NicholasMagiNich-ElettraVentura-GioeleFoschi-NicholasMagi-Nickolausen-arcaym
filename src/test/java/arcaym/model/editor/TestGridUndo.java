@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import arcaym.common.utils.Position;
 import arcaym.model.editor.api.GridModel;
 import arcaym.model.editor.impl.GridModelImpl;
-import arcaym.model.game.objects.api.GameObjectType;
+import arcaym.model.game.objects.GameObjectType;
 
 final class TestGridUndo {
 

@@ -6,7 +6,7 @@ import java.util.Map;
 
 import arcaym.common.utils.Position;
 import arcaym.model.editor.EditorGridException;
-import arcaym.model.game.objects.api.GameObjectType;
+import arcaym.model.game.objects.GameObjectType;
 
 /**
  * The business logic of the grid.

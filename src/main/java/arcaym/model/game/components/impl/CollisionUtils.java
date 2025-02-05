@@ -2,10 +2,10 @@ package arcaym.model.game.components.impl;
 
 import java.util.stream.Stream;
 
-import arcaym.model.game.core.objects.api.GameObject;
-import arcaym.model.game.core.objects.api.GameObjectInfo;
-import arcaym.model.game.core.scene.api.GameSceneInfo;
-import arcaym.model.game.objects.api.GameObjectType;
+import arcaym.model.game.core.objects.GameObject;
+import arcaym.model.game.core.objects.GameObjectInfo;
+import arcaym.model.game.core.scene.GameSceneInfo;
+import arcaym.model.game.objects.GameObjectType;
 
 /**
  * Utility class that handles collisions with borders and walls.
@@ -33,7 +33,7 @@ public final class CollisionUtils {
      */
     public static Stream<? extends GameObjectInfo> getCollidingObjects(final GameSceneInfo scene,
             final GameObject gameObject) {
-        return scene.getGameObjectsInfos().stream()
+        return scene.getGameObjects().stream()
             .filter(obj -> obj.boundaries().intersecting(gameObject.boundaries())
         );
     }
