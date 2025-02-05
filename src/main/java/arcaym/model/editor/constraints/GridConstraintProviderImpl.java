@@ -1,4 +1,4 @@
-package arcaym.model.editor.impl;
+package arcaym.model.editor.constraints;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,10 +10,6 @@ import java.util.function.Function;
 
 import arcaym.common.utils.Position;
 import arcaym.model.editor.ConstraintFailedException;
-import arcaym.model.editor.api.GridConstraintProvider;
-import arcaym.model.editor.api.GridConstraintsContainer;
-import arcaym.model.editor.api.MapConstraint;
-import arcaym.model.editor.api.MapConstraintsFactory;
 import arcaym.model.game.core.objects.GameObjectCategory;
 import arcaym.model.game.objects.GameObjectType;
 

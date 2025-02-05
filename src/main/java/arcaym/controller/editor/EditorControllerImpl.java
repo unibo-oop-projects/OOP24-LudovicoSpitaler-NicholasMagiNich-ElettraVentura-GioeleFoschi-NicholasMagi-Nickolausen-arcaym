@@ -1,4 +1,4 @@
-package arcaym.controller.editor.impl;
+package arcaym.controller.editor;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -16,8 +16,6 @@ import arcaym.common.utils.Optionals;
 import arcaym.common.utils.Position;
 import arcaym.controller.app.AbstractController;
 import arcaym.controller.app.ControllerSwitcher;
-import arcaym.controller.editor.api.EditorController;
-import arcaym.controller.editor.api.ExtendedEditorController;
 import arcaym.controller.editor.saves.LevelMetadata;
 import arcaym.controller.editor.saves.MetadataManagerImpl;
 import arcaym.controller.game.GameControllerImpl;
@@ -25,12 +23,12 @@ import arcaym.controller.user.UserStateSerializerInfo;
 import arcaym.controller.user.UserStateSerializerJSON;
 import arcaym.model.editor.EditorGridException;
 import arcaym.model.editor.EditorType;
-import arcaym.model.editor.api.GridModel;
-import arcaym.model.editor.impl.GridModelImpl;
+import arcaym.model.editor.grid.GridModel;
+import arcaym.model.editor.grid.GridModelImpl;
 import arcaym.model.game.components.ComponentsBasedObjectsFactory;
 import arcaym.model.game.core.engine.FactoryBasedGameBuilder;
 import arcaym.model.game.objects.GameObjectType;
-import arcaym.view.editor.api.EditorView;
+import arcaym.view.editor.EditorView;
 
 /**
  * Implementation of {@link EditorController}.

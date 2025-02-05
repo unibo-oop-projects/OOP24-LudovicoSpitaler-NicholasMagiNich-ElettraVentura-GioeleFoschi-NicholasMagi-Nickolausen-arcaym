@@ -1,4 +1,4 @@
-package arcaym.controller.editor.api;
+package arcaym.controller.editor;
 
 import java.util.Collection;
 import java.util.List;

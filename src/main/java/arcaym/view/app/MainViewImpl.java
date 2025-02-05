@@ -14,13 +14,13 @@ import javax.swing.JPanel;
 
 import arcaym.common.utils.Optionals;
 import arcaym.controller.app.MainController;
-import arcaym.controller.editor.api.EditorController;
+import arcaym.controller.editor.EditorController;
 import arcaym.controller.game.GameController;
 import arcaym.controller.menu.MenuController;
 import arcaym.controller.shop.ShopController;
 import arcaym.view.core.ViewComponent;
-import arcaym.view.editor.api.EditorView;
-import arcaym.view.editor.impl.EditorMainView;
+import arcaym.view.editor.EditorMainView;
+import arcaym.view.editor.EditorView;
 import arcaym.view.game.GameView;
 import arcaym.view.game.GameViewImpl;
 import arcaym.view.menu.MenuView;

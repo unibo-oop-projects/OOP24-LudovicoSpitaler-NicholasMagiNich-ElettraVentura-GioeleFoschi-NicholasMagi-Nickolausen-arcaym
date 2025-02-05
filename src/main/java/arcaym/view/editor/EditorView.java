@@ -1,4 +1,4 @@
-package arcaym.view.editor.api;
+package arcaym.view.editor;
 
 import arcaym.view.app.View;
 

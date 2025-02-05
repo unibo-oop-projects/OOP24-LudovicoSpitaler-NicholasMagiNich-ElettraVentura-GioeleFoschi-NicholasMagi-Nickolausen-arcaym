@@ -2,9 +2,9 @@ package arcaym.controller.menu;
 
 import java.util.List;
 
-import arcaym.controller.app.ControllerSwitcher;
 import arcaym.controller.app.AbstractController;
-import arcaym.controller.editor.impl.EditorControllerImpl;
+import arcaym.controller.app.ControllerSwitcher;
+import arcaym.controller.editor.EditorControllerImpl;
 import arcaym.controller.editor.saves.LevelMetadata;
 import arcaym.controller.editor.saves.MetadataManager;
 import arcaym.controller.editor.saves.MetadataManagerImpl;

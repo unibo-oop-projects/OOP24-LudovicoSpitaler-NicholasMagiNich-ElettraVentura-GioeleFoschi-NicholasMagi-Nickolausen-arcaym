@@ -14,12 +14,12 @@ import org.junit.jupiter.api.Test;
 import arcaym.common.utils.Position;
 import arcaym.common.utils.file.FileUtils;
 import arcaym.controller.editor.saves.LevelMetadata;
-import arcaym.model.editor.api.Grid;
-import arcaym.model.editor.impl.GridImpl;
+import arcaym.model.editor.grid.Grid;
+import arcaym.model.editor.grid.GridImpl;
 import arcaym.model.game.objects.GameObjectType;
 
 /**
- * Test class for the {@link arcaym.model.editor.api.Grid} class.
+ * Test class for the {@link arcaym.model.editor.grid.Grid} class.
  */
 final class TestGrid {
 

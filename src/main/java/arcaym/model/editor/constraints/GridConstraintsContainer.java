@@ -1,4 +1,4 @@
-package arcaym.model.editor.api;
+package arcaym.model.editor.constraints;
 
 import java.util.Collection;
 import java.util.function.Function;

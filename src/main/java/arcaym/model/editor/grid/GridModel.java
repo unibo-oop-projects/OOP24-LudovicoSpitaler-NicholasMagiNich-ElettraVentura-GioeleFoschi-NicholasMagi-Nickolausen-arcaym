@@ -1,4 +1,4 @@
-package arcaym.model.editor.api;
+package arcaym.model.editor.grid;
 
 import java.util.Collection;
 import java.util.List;

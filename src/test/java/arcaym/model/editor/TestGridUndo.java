@@ -13,8 +13,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import arcaym.common.utils.Position;
-import arcaym.model.editor.api.GridModel;
-import arcaym.model.editor.impl.GridModelImpl;
+import arcaym.model.editor.grid.GridModel;
+import arcaym.model.editor.grid.GridModelImpl;
 import arcaym.model.game.objects.GameObjectType;
 
 final class TestGridUndo {

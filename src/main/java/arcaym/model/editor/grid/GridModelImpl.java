@@ -1,4 +1,4 @@
-package arcaym.model.editor.impl;
+package arcaym.model.editor.grid;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -12,8 +12,7 @@ import arcaym.common.utils.Position;
 import arcaym.controller.editor.saves.LevelMetadata;
 import arcaym.model.editor.EditorGridException;
 import arcaym.model.editor.EditorType;
-import arcaym.model.editor.api.Grid;
-import arcaym.model.editor.api.GridModel;
+import arcaym.model.editor.undo.GridStateCaretaker;
 import arcaym.model.game.objects.GameObjectType;
 /**
  * An implementation of the grid model.

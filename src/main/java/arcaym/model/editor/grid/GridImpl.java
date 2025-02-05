@@ -1,4 +1,4 @@
-package arcaym.model.editor.impl;
+package arcaym.model.editor.grid;
 
 import java.util.AbstractMap;
 import java.util.Collection;
@@ -18,11 +18,10 @@ import arcaym.controller.editor.saves.LevelMetadata;
 import arcaym.model.editor.ConstraintFailedException;
 import arcaym.model.editor.EditorGridException;
 import arcaym.model.editor.EditorType;
-import arcaym.model.editor.api.Cell;
-import arcaym.model.editor.api.Grid;
-import arcaym.model.editor.api.GridConstraintsContainer;
-import arcaym.model.editor.api.Memento;
+import arcaym.model.editor.constraints.GridConstraintProviderImpl;
+import arcaym.model.editor.constraints.GridConstraintsContainer;
 import arcaym.model.editor.saves.MapSerializerImpl;
+import arcaym.model.editor.undo.Memento;
 import arcaym.model.game.core.objects.GameObjectCategory;
 import arcaym.model.game.objects.GameObjectType;
 

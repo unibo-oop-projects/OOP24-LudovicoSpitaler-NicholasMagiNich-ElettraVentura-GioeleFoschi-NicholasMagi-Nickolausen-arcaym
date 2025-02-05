@@ -1,4 +1,4 @@
-package arcaym.view.editor.impl.components;
+package arcaym.view.editor.components;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;

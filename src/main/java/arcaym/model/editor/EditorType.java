@@ -1,6 +1,6 @@
 package arcaym.model.editor;
 
-import arcaym.model.editor.api.Grid;
+import arcaym.model.editor.grid.Grid;
 
 /**
  * An enum class describing every type of grid that you can have.

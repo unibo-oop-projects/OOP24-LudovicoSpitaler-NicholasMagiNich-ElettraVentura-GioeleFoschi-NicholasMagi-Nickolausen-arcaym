@@ -1,4 +1,4 @@
-package arcaym.model.editor.impl;
+package arcaym.model.editor.grid;
 
 import java.io.Serializable;
 import java.util.EnumMap;
@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import arcaym.model.editor.api.Cell;
 import arcaym.model.game.core.objects.GameObjectCategory;
 import arcaym.model.game.objects.GameObjectType;
 

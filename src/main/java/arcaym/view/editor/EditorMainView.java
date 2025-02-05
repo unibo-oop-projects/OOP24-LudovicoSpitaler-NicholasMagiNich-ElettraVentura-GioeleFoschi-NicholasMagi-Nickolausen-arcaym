@@ -1,4 +1,4 @@
-package arcaym.view.editor.impl;
+package arcaym.view.editor;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -15,13 +15,12 @@ import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 
 import arcaym.common.utils.Position;
-import arcaym.controller.editor.api.EditorController;
+import arcaym.controller.editor.EditorController;
 import arcaym.model.editor.EditorGridException;
 import arcaym.view.app.AbstractView;
 import arcaym.view.core.ViewComponent;
-import arcaym.view.editor.api.EditorView;
-import arcaym.view.editor.impl.components.GridView;
-import arcaym.view.editor.impl.components.SideMenuView;
+import arcaym.view.editor.components.GridView;
+import arcaym.view.editor.components.SideMenuView;
 import arcaym.view.scaling.WindowInfo;
 import arcaym.view.utils.SwingUtils;
 

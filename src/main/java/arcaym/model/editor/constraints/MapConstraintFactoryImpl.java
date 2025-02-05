@@ -1,4 +1,4 @@
-package arcaym.model.editor.impl;
+package arcaym.model.editor.constraints;
 
 import java.util.stream.Collectors;
 
@@ -9,8 +9,6 @@ import com.google.common.graph.Traverser;
 
 import arcaym.common.utils.Position;
 import arcaym.model.editor.ConstraintFailedException;
-import arcaym.model.editor.api.MapConstraint;
-import arcaym.model.editor.api.MapConstraintsFactory;
 
 /**
  * A concrete factory of map constraints.

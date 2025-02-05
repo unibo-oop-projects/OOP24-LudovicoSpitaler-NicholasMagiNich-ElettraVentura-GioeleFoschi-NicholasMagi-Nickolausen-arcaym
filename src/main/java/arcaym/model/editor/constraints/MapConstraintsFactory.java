@@ -1,4 +1,4 @@
-package arcaym.model.editor.api;
+package arcaym.model.editor.constraints;
 
 /**
  * A factory for the possible constraints of the map.

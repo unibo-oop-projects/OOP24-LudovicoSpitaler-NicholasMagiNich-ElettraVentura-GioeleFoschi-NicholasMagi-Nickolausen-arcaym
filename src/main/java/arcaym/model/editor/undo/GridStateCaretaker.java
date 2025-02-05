@@ -1,12 +1,10 @@
-package arcaym.model.editor.impl;
+package arcaym.model.editor.undo;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import arcaym.model.editor.api.Grid;
-import arcaym.model.editor.api.Memento;
-import arcaym.model.editor.api.MementoCaretaker;
+import arcaym.model.editor.grid.Grid;
 
 /**
  * A class that saves all the previous states of a {@link Grid}.

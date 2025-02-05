@@ -12,9 +12,9 @@ import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
 
 import arcaym.common.utils.Position;
-import arcaym.model.editor.api.MapConstraint;
-import arcaym.model.editor.api.MapConstraintsFactory;
-import arcaym.model.editor.impl.MapConstraintFactoryImpl;
+import arcaym.model.editor.constraints.MapConstraint;
+import arcaym.model.editor.constraints.MapConstraintFactoryImpl;
+import arcaym.model.editor.constraints.MapConstraintsFactory;
 
 /**
  * Tests the various {@link MapConstraint} created by the {@link MapConstraintsFactory}.

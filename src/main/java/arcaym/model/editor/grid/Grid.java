@@ -1,4 +1,4 @@
-package arcaym.model.editor.api;
+package arcaym.model.editor.grid;
 
 import java.util.Collection;
 import java.util.List;
@@ -6,6 +6,7 @@ import java.util.Set;
 
 import arcaym.common.utils.Position;
 import arcaym.model.editor.EditorGridException;
+import arcaym.model.editor.undo.Memento;
 import arcaym.model.game.objects.GameObjectType;
 
 /**
