@@ -17,10 +17,10 @@ import javax.swing.JScrollPane;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
-import arcaym.controller.shop.api.ShopController;
+import arcaym.controller.shop.ShopController;
 import arcaym.model.game.core.objects.GameObjectCategory;
 import arcaym.model.game.objects.GameObjectType;
-import arcaym.view.app.impl.AbstractView;
+import arcaym.view.app.AbstractView;
 import arcaym.view.components.HorizontalCenteredPanel;
 import arcaym.view.core.ViewComponent;
 import arcaym.view.scaling.WindowInfo;

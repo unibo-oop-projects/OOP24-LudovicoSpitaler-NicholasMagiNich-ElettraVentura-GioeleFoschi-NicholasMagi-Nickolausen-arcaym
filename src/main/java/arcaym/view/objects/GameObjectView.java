@@ -52,7 +52,7 @@ public class GameObjectView extends ImageLabel {
      */
     public Optional<Image> getImage() {
         try {
-            return Optional.of(ImageIO.read(SwingUtils.getResource(getImagePath(type))));
+            return Optional.of(ImageIO.read(SwingUtils.getResource(getImagePath(this.type))));
         } catch (IOException e) {
             LOGGER.error("Cannot load game object image!", e);
             return Optional.empty();

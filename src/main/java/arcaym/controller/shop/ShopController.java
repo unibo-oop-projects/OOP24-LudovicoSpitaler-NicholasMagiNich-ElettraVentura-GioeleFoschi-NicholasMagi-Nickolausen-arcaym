@@ -1,10 +1,10 @@
-package arcaym.controller.shop.api;
+package arcaym.controller.shop;
 
 import java.util.Map;
 
-import arcaym.controller.app.api.Controller;
+import arcaym.controller.app.Controller;
 import arcaym.model.game.objects.GameObjectType;
-import arcaym.model.shop.api.Shop;
+import arcaym.model.shop.Shop;
 
 /**
  * Interface for a shop controller.

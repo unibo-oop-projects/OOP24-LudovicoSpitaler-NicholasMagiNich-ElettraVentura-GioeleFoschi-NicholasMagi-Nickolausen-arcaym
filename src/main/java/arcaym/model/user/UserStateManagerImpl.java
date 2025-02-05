@@ -1,28 +1,27 @@
-package arcaym.model.user.impl;
+package arcaym.model.user;
 
 import java.util.Set;
 
 import com.google.common.collect.Sets;
 
-import arcaym.controller.user.api.UserStateSerializer;
-import arcaym.controller.user.impl.UserStateSerializerJSON;
+import arcaym.controller.user.UserStateSerializer;
+import arcaym.controller.user.UserStateSerializerJSON;
 import arcaym.model.game.core.engine.GameStateInfo;
 import arcaym.model.game.core.events.EventsSubscriber;
 import arcaym.model.game.events.GameEvent;
 import arcaym.model.game.objects.GameObjectType;
-import arcaym.model.user.api.UserState;
 
 /**
- * Implementation of {@link UserState}.
+ * Implementation of {@link UserStateManager}.
  */
-public class UserStateImpl implements UserState {
+public class UserStateManagerImpl implements UserStateManager {
 
     private final UserStateSerializer serializer;
 
     /**
      * Default constructor.
      */
-    public UserStateImpl() {
+    public UserStateManagerImpl() {
         this.serializer = new UserStateSerializerJSON();
     }
 
@@ -31,11 +30,11 @@ public class UserStateImpl implements UserState {
      */
     @Override
     public void unlockNewItem(final GameObjectType gameObject) {
-        final var savedState = serializer.getUpdatedState();
-        if (savedState.getItemsOwned().contains(gameObject) || savedState.purchasedItems().contains(gameObject)) {
+        final var savedState = this.serializer.getUpdatedState();
+        if (this.hasItem(gameObject)) {
             throw new IllegalArgumentException("Cannot unlock an object already owned! (Unlocking: " + gameObject + ")");
         }
-        updateSavedState(savedState.withPurchasedItems(Sets.union(
+        this.updateSavedStateOrIllegalState(savedState.withPurchasedItems(Sets.union(
             savedState.purchasedItems(), 
             Set.of(gameObject))));
     }
@@ -45,7 +44,7 @@ public class UserStateImpl implements UserState {
      */
     @Override
     public int getCredit() {
-        final var savedState = serializer.getUpdatedState();
+        final var savedState = this.serializer.getUpdatedState();
         return savedState.credit();
     }
 
@@ -54,8 +53,17 @@ public class UserStateImpl implements UserState {
      */
     @Override
     public Set<GameObjectType> getItemsOwned() {
-        final var savedState = serializer.getUpdatedState();
-        return savedState.getItemsOwned();
+        final var savedState = this.serializer.getUpdatedState();
+        return savedState.itemsOwned();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean hasItem(final GameObjectType item) {
+        final var savedState = this.serializer.getUpdatedState();
+        return savedState.hasItem(item);
     }
 
     /**
@@ -63,7 +71,7 @@ public class UserStateImpl implements UserState {
      */
     @Override
     public Set<GameObjectType> getPurchasedItems() {
-        final var savedState = serializer.getUpdatedState();
+        final var savedState = this.serializer.getUpdatedState();
         return savedState.purchasedItems();
     }
 
@@ -72,10 +80,10 @@ public class UserStateImpl implements UserState {
      */
     @Override
     public void incrementCredit(final int amount) {
-        validateAmount(amount);
-        final var savedState = serializer.getUpdatedState();
+        this.validateAmount(amount);
+        final var savedState = this.serializer.getUpdatedState();
         final var newCredit = savedState.credit() + amount;
-        updateSavedState(savedState.withCredit(newCredit));
+        this.updateSavedStateOrIllegalState(savedState.withCredit(newCredit));
     }
 
     /**
@@ -83,10 +91,10 @@ public class UserStateImpl implements UserState {
      */
     @Override
     public void decrementCredit(final int amount) {
-        validateAmount(amount);
-        final var savedState = serializer.getUpdatedState();
+        this.validateAmount(amount);
+        final var savedState = this.serializer.getUpdatedState();
         final var newCredit = savedState.credit() - (savedState.credit() - amount < 0 ? savedState.credit() : amount);
-        updateSavedState(savedState.withCredit(newCredit));
+        this.updateSavedStateOrIllegalState(savedState.withCredit(newCredit));
     }
 
     /**
@@ -94,11 +102,13 @@ public class UserStateImpl implements UserState {
      */
     @Override
     public void registerEventsCallbacks(final EventsSubscriber<GameEvent> eventsSubscriber, final GameStateInfo gameState) {
-        eventsSubscriber.registerCallback(GameEvent.VICTORY, e -> incrementCredit(gameState.score().getValue()));
+        eventsSubscriber.registerCallback(GameEvent.VICTORY, e -> this.incrementCredit(gameState.score().getValue()));
     }
 
-    private void updateSavedState(final UserStateInfo newState) {
-        serializer.save(newState);
+    private void updateSavedStateOrIllegalState(final UserStateInfo newState) {
+        if (!this.serializer.save(newState)) {
+            throw new IllegalStateException("Cannot save the user state!");
+        }
     }
 
     private void validateAmount(final int amount) {

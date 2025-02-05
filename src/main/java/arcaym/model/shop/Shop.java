@@ -1,4 +1,4 @@
-package arcaym.model.shop.api;
+package arcaym.model.shop;
 
 import java.util.Map;
 
@@ -19,7 +19,6 @@ public interface Shop {
     boolean makeTransaction(GameObjectType toBuy);
 
     /**
-     * 
      * @return the set of the objects to be purchased
      */
     Map<GameObjectType, Integer> getLockedGameObjects();
@@ -33,12 +32,17 @@ public interface Shop {
      * </ol>
      * 
      * @param item the item to test
-     * @return {@code True} if the user can buy the item, {@code False} otherwise
+     * @return {@code true} if the user can buy the item, {@code false} otherwise
      */
     boolean canBuy(GameObjectType item);
 
     /**
-     * 
+     * @param item
+     * @return {@code true} if the item has been already bought, {@code false} otherwise 
+     */
+    boolean isBought(GameObjectType item);
+
+    /**
      * @param item
      * @return the price of the item passed as argument
      */

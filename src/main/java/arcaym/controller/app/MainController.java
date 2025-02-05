@@ -1,6 +1,6 @@
-package arcaym.controller.app.api;
+package arcaym.controller.app;
 
-import arcaym.view.app.api.MainView;
+import arcaym.view.app.MainView;
 
 /**
  * Interface for the main app controller.

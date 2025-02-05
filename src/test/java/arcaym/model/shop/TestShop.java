@@ -13,8 +13,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import arcaym.model.game.objects.GameObjectType;
-import arcaym.model.shop.api.Shop;
-import arcaym.model.shop.impl.ShopImpl;
 import arcaym.testing.utils.UserStateTestingUtils;
 
 class TestShop {
@@ -26,7 +24,7 @@ class TestShop {
     void setup() {
         UserStateTestingUtils.makeUserStateBackup();
         UserStateTestingUtils.writeTestUserState(DEFAULT_CREDIT);
-        shopModel = new ShopImpl();
+        this.shopModel = new ShopImpl();
     }
 
     @AfterEach

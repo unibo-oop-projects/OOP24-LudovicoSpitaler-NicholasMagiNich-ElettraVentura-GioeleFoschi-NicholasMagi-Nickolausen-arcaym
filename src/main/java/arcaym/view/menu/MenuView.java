@@ -1,6 +1,6 @@
 package arcaym.view.menu;
 
-import arcaym.view.app.api.View;
+import arcaym.view.app.View;
 
 /**
  * Interface for a menu view.

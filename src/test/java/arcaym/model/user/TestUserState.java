@@ -11,15 +11,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import arcaym.model.game.objects.GameObjectType;
-import arcaym.model.user.api.UserState;
-import arcaym.model.user.impl.UserStateImpl;
 import arcaym.testing.utils.UserStateTestingUtils;
 
 class TestUserState {
 
     private static final int DEFAULT_CREDIT = 0;
 
-    private UserState userState;
+    private UserStateManager userState;
 
     private void resetCredit() {
         this.userState.decrementCredit(this.userState.getCredit());
@@ -30,7 +28,7 @@ class TestUserState {
         // Does not overwrite the previous states (if the player has some recent saves)
         UserStateTestingUtils.makeUserStateBackup();
         UserStateTestingUtils.writeTestUserState(DEFAULT_CREDIT);
-        this.userState = new UserStateImpl();
+        this.userState = new UserStateManagerImpl();
     }
 
     @AfterEach
@@ -44,7 +42,7 @@ class TestUserState {
         final var firstCreditAmount = 50;
         final var increments = 3;
         for (int i = 0; i < increments; i++) {
-            userState.incrementCredit(firstCreditAmount);
+            this.userState.incrementCredit(firstCreditAmount);
         }
         final var expectedCreditAfterIncrement1 = firstCreditAmount * increments;
         assertEquals(userState.getCredit(), expectedCreditAfterIncrement1);
@@ -63,20 +61,20 @@ class TestUserState {
     @Test
     void testOwnedItems() {
         assertTrue(userState.getPurchasedItems().isEmpty());
-        assertThrows(IllegalArgumentException.class, () -> userState.unlockNewItem(GameObjectType.COIN));
+        assertThrows(IllegalArgumentException.class, () -> this.userState.unlockNewItem(GameObjectType.COIN));
 
-        userState.unlockNewItem(GameObjectType.WALL);
-        assertEquals(Set.of(GameObjectType.WALL), userState.getPurchasedItems());
+        this.userState.unlockNewItem(GameObjectType.WALL);
+        assertEquals(Set.of(GameObjectType.WALL), this.userState.getPurchasedItems());
         assertTrue(userState.getItemsOwned().contains(GameObjectType.WALL));
 
-        userState.unlockNewItem(GameObjectType.MOVING_X_OBSTACLE);
-        userState.unlockNewItem(GameObjectType.MOVING_Y_OBSTACLE);
+        this.userState.unlockNewItem(GameObjectType.MOVING_X_OBSTACLE);
+        this.userState.unlockNewItem(GameObjectType.MOVING_Y_OBSTACLE);
         assertEquals(Set.of(
             GameObjectType.WALL, 
             GameObjectType.MOVING_X_OBSTACLE, 
-            GameObjectType.MOVING_Y_OBSTACLE), userState.getPurchasedItems());
+            GameObjectType.MOVING_Y_OBSTACLE), this.userState.getPurchasedItems());
         assertTrue(
-            userState.getItemsOwned().containsAll(Set.of(
+            this.userState.getItemsOwned().containsAll(Set.of(
                 GameObjectType.WALL, 
                 GameObjectType.MOVING_X_OBSTACLE,
                 GameObjectType.MOVING_Y_OBSTACLE)));

@@ -4,8 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import arcaym.common.utils.file.FileUtils;
-import arcaym.controller.app.impl.MainControllerImpl;
-import arcaym.view.app.impl.MainViewImpl;
+import arcaym.controller.app.MainControllerImpl;
+import arcaym.view.app.MainViewImpl;
 
 /**
  * App entry class.

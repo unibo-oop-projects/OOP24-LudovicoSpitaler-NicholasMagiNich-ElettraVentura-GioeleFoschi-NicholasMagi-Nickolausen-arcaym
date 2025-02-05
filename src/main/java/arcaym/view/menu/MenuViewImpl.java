@@ -7,7 +7,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import arcaym.controller.menu.MenuController;
-import arcaym.view.app.impl.AbstractView;
+import arcaym.view.app.AbstractView;
 import arcaym.view.components.HorizontalCenteredPanel;
 import arcaym.view.components.ImageLabel;
 import arcaym.view.core.ViewComponent;

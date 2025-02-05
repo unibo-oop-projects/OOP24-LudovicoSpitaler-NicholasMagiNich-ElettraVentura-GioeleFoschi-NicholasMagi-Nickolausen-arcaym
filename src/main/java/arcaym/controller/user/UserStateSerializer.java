@@ -1,6 +1,6 @@
-package arcaym.controller.user.api;
+package arcaym.controller.user;
 
-import arcaym.model.user.impl.UserStateInfo;
+import arcaym.model.user.UserStateInfo;
 
 /**
  * A facade for the serialization & de-serialization of the user state.

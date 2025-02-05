@@ -1,12 +1,10 @@
-package arcaym.controller.app.impl;
+package arcaym.controller.app;
 
 import java.util.Objects;
 import java.util.Optional;
 
 import arcaym.common.utils.Optionals;
-import arcaym.controller.app.api.ControllerSwitcher;
-import arcaym.controller.app.api.ExtendedController;
-import arcaym.view.app.api.View;
+import arcaym.view.app.View;
 
 /**
  * Abstract implementation of {@link ExtendedController}.

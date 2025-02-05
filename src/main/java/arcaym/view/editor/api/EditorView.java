@@ -1,6 +1,6 @@
 package arcaym.view.editor.api;
 
-import arcaym.view.app.api.View;
+import arcaym.view.app.View;
 
 /**
  * Interface for an editor view.

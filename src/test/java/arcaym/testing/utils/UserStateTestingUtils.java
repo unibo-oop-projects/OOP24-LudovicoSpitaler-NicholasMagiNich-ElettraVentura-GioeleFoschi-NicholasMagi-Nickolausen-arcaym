@@ -7,10 +7,10 @@ import java.util.Optional;
 import com.google.gson.Gson;
 
 import arcaym.common.utils.file.FileUtils;
-import arcaym.controller.user.api.UserStateSerializer;
-import arcaym.controller.user.impl.UserStateSerializerJSON;
-import arcaym.model.user.impl.UserStateImpl;
-import arcaym.model.user.impl.UserStateInfo;
+import arcaym.controller.user.UserStateSerializer;
+import arcaym.controller.user.UserStateSerializerJSON;
+import arcaym.model.user.UserStateManagerImpl;
+import arcaym.model.user.UserStateInfo;
 
 /**
  * Some utilites for multiple operations in testing.
@@ -30,6 +30,7 @@ public final class UserStateTestingUtils {
         even the private ones.
     */
     private interface UserStateSerializerTestingUtils extends UserStateSerializer {
+
         boolean save(UserStateInfo userState, String filename);
 
         Optional<UserStateInfo> load(String filename);
@@ -99,7 +100,7 @@ public final class UserStateTestingUtils {
      */
     public static void makeUserStateBackup() {
         final var serializer = utilitySerializer();
-        final var userState = new UserStateImpl();
+        final var userState = new UserStateManagerImpl();
         serializer.save(
                 new UserStateInfo(
                         userState.getCredit(),

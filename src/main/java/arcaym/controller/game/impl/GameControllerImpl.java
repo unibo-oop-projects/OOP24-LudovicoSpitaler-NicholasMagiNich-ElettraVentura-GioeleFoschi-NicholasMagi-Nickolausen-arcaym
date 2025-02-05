@@ -1,7 +1,7 @@
 package arcaym.controller.game.impl;
 
-import arcaym.controller.app.api.ControllerSwitcher;
-import arcaym.controller.app.impl.AbstractController;
+import arcaym.controller.app.ControllerSwitcher;
+import arcaym.controller.app.AbstractController;
 import arcaym.controller.game.api.ExtendedGameController;
 import arcaym.controller.game.api.GameController;
 import arcaym.model.game.core.engine.Game;

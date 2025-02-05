@@ -1,4 +1,4 @@
-package arcaym.model.user.impl;
+package arcaym.model.user;
 
 import java.util.Collections;
 import java.util.EnumSet;
@@ -8,10 +8,9 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import arcaym.model.game.objects.GameObjectType;
-import arcaym.model.user.api.UserState;
 
 /**
- * A read-only view of {@link UserState}. 
+ * A read-only view of {@link UserStateManager}. 
  * This record serves primarily as a collection of information
  * that gets serialized and deserialized across the application. 
  * 
@@ -48,7 +47,7 @@ public record UserStateInfo(
      * @return a default user state with {@link #DEFAULT_CREDIT} credit and an empty collection 
      * of purchased assets 
      */
-    public static UserStateInfo getDefaultState() {
+    public static UserStateInfo defaultState() {
         return new UserStateInfo(DEFAULT_CREDIT, Collections.emptySet());
     }
 
@@ -57,16 +56,15 @@ public record UserStateInfo(
      * 
      * @return an immutable view of defaultItems()
      */
-    public static Set<GameObjectType> getDefaultItems() {
+    public static Set<GameObjectType> defaultItems() {
         return Collections.unmodifiableSet(DEFAULT_ITEMS);
     }
 
     /**
-     * 
      * @return an immutable collection of the items owned 
-     * ({@link #getDefaultItems()} + {@link #purchasedItems()})
+     * ({@link #defaultItems()} + {@link #purchasedItems()})
      */
-    public Set<GameObjectType> getItemsOwned() {
+    public Set<GameObjectType> itemsOwned() {
         return Sets.union(DEFAULT_ITEMS, purchasedItems);
     }
 
@@ -77,7 +75,15 @@ public record UserStateInfo(
      */
     @Override
     public Set<GameObjectType> purchasedItems() {
-        return Collections.unmodifiableSet(purchasedItems);
+        return Collections.unmodifiableSet(this.purchasedItems);
+    }
+
+    /**
+     * @param item
+     * @return
+     */
+    public boolean hasItem(final GameObjectType item) {
+        return this.itemsOwned().contains(item);
     }
 
     /**
@@ -98,8 +104,7 @@ public record UserStateInfo(
 
     /**
      * Returns a new instance of {@link UserStateInfo} almost identical to the
-     * original
-     * instance, except for the items purchased collection parameter.
+     * original instance, except for the items purchased collection parameter.
      * 
      * @param itemsOwned
      * @return

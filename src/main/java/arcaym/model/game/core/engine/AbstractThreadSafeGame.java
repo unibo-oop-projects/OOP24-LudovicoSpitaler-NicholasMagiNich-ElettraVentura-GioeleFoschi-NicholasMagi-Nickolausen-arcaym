@@ -12,7 +12,7 @@ import arcaym.model.game.core.events.ThreadSafeEventsManager;
 import arcaym.model.game.core.scene.GameScene;
 import arcaym.model.game.events.GameEvent;
 import arcaym.model.game.events.InputEvent;
-import arcaym.model.user.impl.UserStateImpl;
+import arcaym.model.user.UserStateManagerImpl;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
@@ -27,6 +27,7 @@ public abstract class AbstractThreadSafeGame implements Game {
     private final EventsManager<InputEvent> inputEventsManager = new ThreadSafeEventsManager<>();
     private final GameState gameState;
     private final GameScene gameScene;
+    private boolean started;
 
     /**
      * Initialize with the given scene and boundaries.
@@ -88,11 +89,17 @@ public abstract class AbstractThreadSafeGame implements Game {
      */
     @Override
     public void start(final GameObserver observer) {
-        LOGGER.info("Setting up game view");
         Objects.requireNonNull(observer);
+        if (this.started) {
+            return;
+        }
+        LOGGER.info("Enabling events managers");
+        this.inputEventsManager.enable();
+        this.gameEventsManager.enable();
+        LOGGER.info("Setting up game view");
         observer.setInputEventsScheduler(this.inputEventsManager);
         observer.registerEventsCallbacks(this.gameEventsManager, this.gameState);
-        new UserStateImpl().registerEventsCallbacks(this.gameEventsManager, this.gameState);
+        new UserStateManagerImpl().registerEventsCallbacks(this.gameEventsManager, this.gameState);
         LOGGER.info("Setting up game scene");
         this.gameScene.consumePendingActions(observer);
         this.gameScene.getGameObjects().forEach(
@@ -103,6 +110,21 @@ public abstract class AbstractThreadSafeGame implements Game {
         LOGGER.info("Registering stop conditions");
         this.gameEventsManager.registerCallback(GameEvent.GAME_OVER, e -> this.scheduleStop());
         this.gameEventsManager.registerCallback(GameEvent.VICTORY, e -> this.scheduleStop());
+        this.started = true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void scheduleStop() {
+        if (!this.started) {
+            return;
+        }
+        LOGGER.info("Disabling events managers");
+        this.inputEventsManager.disable();
+        this.gameEventsManager.disable();
+        this.started = false;
     }
 
 }

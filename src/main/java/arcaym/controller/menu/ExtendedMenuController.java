@@ -1,6 +1,6 @@
 package arcaym.controller.menu;
 
-import arcaym.controller.app.api.ExtendedController;
+import arcaym.controller.app.ExtendedController;
 import arcaym.view.menu.MenuView;
 
 /**

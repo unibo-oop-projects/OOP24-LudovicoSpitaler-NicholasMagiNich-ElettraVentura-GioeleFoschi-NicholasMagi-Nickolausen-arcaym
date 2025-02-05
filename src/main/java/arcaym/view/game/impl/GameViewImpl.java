@@ -35,7 +35,7 @@ import arcaym.model.game.core.objects.GameObjectInfo;
 import arcaym.model.game.events.GameEvent;
 import arcaym.model.game.events.InputType;
 import arcaym.model.game.events.InputEvent;
-import arcaym.view.app.impl.AbstractView;
+import arcaym.view.app.AbstractView;
 import arcaym.view.core.ViewComponent;
 import arcaym.view.game.api.GameView;
 import arcaym.view.objects.GameObjectView;

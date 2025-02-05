@@ -1,4 +1,4 @@
-package arcaym.controller.user.impl;
+package arcaym.controller.user;
 
 import java.nio.file.Path;
 import java.util.Objects;
@@ -10,8 +10,7 @@ import org.slf4j.LoggerFactory;
 import com.google.gson.Gson;
 
 import arcaym.common.utils.file.FileUtils;
-import arcaym.controller.user.api.UserStateSerializer;
-import arcaym.model.user.impl.UserStateInfo;
+import arcaym.model.user.UserStateInfo;
 
 /**
  * Implementation of {@link UserStateSerializer}. 
@@ -29,17 +28,17 @@ public class UserStateSerializerJSON implements UserStateSerializer {
     @Override
     public boolean save(final UserStateInfo userState) {
         FileUtils.createUserDirectory();
-        validateFileName(FILENAME);
+        this.validateFileName(FILENAME);
         return FileUtils.writeFile(
             FILENAME.concat(EXTENSION), 
             FileUtils.USER_FOLDER, 
             new Gson().toJson(userState));
     }
 
-    /* Utility function  */
+    /* Utility function */
     private Optional<UserStateInfo> load() {
-        validateFileName(FILENAME);
-        final var rawState = FileUtils.readFromPath(getPathOf(FILENAME));
+        this.validateFileName(FILENAME);
+        final var rawState = FileUtils.readFromPath(this.getPathOf(FILENAME));
         if (rawState.isEmpty()) {
             LOGGER.error("An error occurred while READING '" + FILENAME + "' file.");
             return Optional.empty();
@@ -52,12 +51,12 @@ public class UserStateSerializerJSON implements UserStateSerializer {
      */
     @Override
     public UserStateInfo getUpdatedState() {
-        final var previousSave = load();
+        final var previousSave = this.load();
         if (previousSave.isPresent()) {
             return previousSave.get();
         }
-        final var defaultState = UserStateInfo.getDefaultState();
-        if (!save(defaultState)) {
+        final var defaultState = UserStateInfo.defaultState();
+        if (!this.save(defaultState)) {
             LOGGER.error("Cannot save the default state: " + defaultState);
         } else {
             LOGGER.info("It looks like nothing has been saved before. Saving a default user state: " + defaultState);

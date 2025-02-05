@@ -1,4 +1,4 @@
-package arcaym.controller.app.api;
+package arcaym.controller.app;
 
 /**
  * Interface that models a general controller.

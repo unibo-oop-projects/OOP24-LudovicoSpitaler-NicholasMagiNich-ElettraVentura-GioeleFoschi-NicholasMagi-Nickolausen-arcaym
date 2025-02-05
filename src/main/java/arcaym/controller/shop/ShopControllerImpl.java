@@ -1,14 +1,13 @@
-package arcaym.controller.shop.impl;
+package arcaym.controller.shop;
 
 import java.util.Map;
 
-import arcaym.controller.app.api.ControllerSwitcher;
-import arcaym.controller.app.impl.AbstractController;
-import arcaym.controller.shop.api.ExtendedShopController;
+import arcaym.controller.app.ControllerSwitcher;
+import arcaym.controller.app.AbstractController;
 import arcaym.model.game.objects.GameObjectType;
-import arcaym.model.shop.api.Shop;
-import arcaym.model.shop.impl.ShopImpl;
-import arcaym.model.user.impl.UserStateImpl;
+import arcaym.model.shop.Shop;
+import arcaym.model.shop.ShopImpl;
+import arcaym.model.user.UserStateManagerImpl;
 import arcaym.view.shop.api.ShopView;
 
 /**
@@ -33,7 +32,7 @@ public class ShopControllerImpl extends AbstractController<ShopView> implements 
      */
     @Override
     public boolean requestTransaction(final GameObjectType toBuy) {
-        return shopModel.makeTransaction(toBuy);
+        return this.shopModel.makeTransaction(toBuy);
     }
 
     /**
@@ -41,7 +40,7 @@ public class ShopControllerImpl extends AbstractController<ShopView> implements 
      */
     @Override
     public Map<GameObjectType, Integer> getLockedItems() {
-        return shopModel.getLockedGameObjects();
+        return this.shopModel.getLockedGameObjects();
     }
 
     /**
@@ -49,7 +48,7 @@ public class ShopControllerImpl extends AbstractController<ShopView> implements 
      */
     @Override
     public int getUserCredit() {
-        return new UserStateImpl().getCredit();
+        return new UserStateManagerImpl().getCredit();
     }
 
     /**
@@ -57,7 +56,7 @@ public class ShopControllerImpl extends AbstractController<ShopView> implements 
      */
     @Override
     public boolean canBuy(final GameObjectType item) {
-        return shopModel.canBuy(item);
+        return this.shopModel.canBuy(item);
     }
 
     /**
@@ -65,6 +64,6 @@ public class ShopControllerImpl extends AbstractController<ShopView> implements 
      */
     @Override
     public Map<GameObjectType, Integer> getPurchasedItems() {
-        return shopModel.getPurchasedGameObjects();
+        return this.shopModel.getPurchasedGameObjects();
     }
 }

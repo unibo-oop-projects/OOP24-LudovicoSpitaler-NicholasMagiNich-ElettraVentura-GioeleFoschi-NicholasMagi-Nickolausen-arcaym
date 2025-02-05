@@ -1,7 +1,5 @@
 package arcaym.model.game.core.engine;
 
-import java.util.Optional;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +16,6 @@ public class SingleThreadedGame extends AbstractThreadSafeGame {
     private static final long DESIRED_FPS = 60;
     private static final long SECOND_MS = 1000;
     private static final Logger LOGGER = LoggerFactory.getLogger(SingleThreadedGame.class);
-    private Optional<Thread> gameLoopThread = Optional.empty();
     private volatile boolean runGameLoop;
 
     /**
@@ -37,14 +34,14 @@ public class SingleThreadedGame extends AbstractThreadSafeGame {
     @Override
     public void start(final GameObserver observer) {
         super.start(observer);
-        this.runGameLoop = true;
-        LOGGER.info("Starting background thread");
-        this.gameLoopThread = Optional.of(
+        if (!this.runGameLoop) {
+            this.runGameLoop = true;
+            LOGGER.info("Starting background thread");
             Thread.ofPlatform()
                 .name(GAME_LOOP_THREAD_NAME)
                 .daemon()
-                .start(() -> this.gameLoop(observer))
-        );
+                .start(() -> this.gameLoop(observer));
+        }
     }
 
     /**
@@ -52,11 +49,11 @@ public class SingleThreadedGame extends AbstractThreadSafeGame {
      */
     @Override
     public void scheduleStop() {
-        if (this.gameLoopThread.isEmpty()) {
-            throw new IllegalStateException("Game is not running");
+        if (this.runGameLoop) {
+            this.runGameLoop = false;
+            LOGGER.info("Requested game loop stop");
         }
-        this.runGameLoop = false;
-        LOGGER.info("Requested game loop stop");
+        super.scheduleStop();
     }
 
     private void gameLoop(final GameObserver observer) {
@@ -75,6 +72,7 @@ public class SingleThreadedGame extends AbstractThreadSafeGame {
             lastFrameTime = System.currentTimeMillis();
         }
         LOGGER.info("Finished game loop");
+        this.runGameLoop = false;
     }
 
     private long updateDeltaTime(final long lastFrameTime) {

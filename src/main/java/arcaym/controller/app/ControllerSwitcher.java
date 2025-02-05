@@ -1,13 +1,13 @@
-package arcaym.controller.app.api;
+package arcaym.controller.app;
 
 import java.util.function.BiFunction;
 
 import arcaym.controller.editor.api.ExtendedEditorController;
 import arcaym.controller.game.api.ExtendedGameController;
 import arcaym.controller.menu.ExtendedMenuController;
-import arcaym.controller.shop.api.ExtendedShopController;
-import arcaym.view.app.api.MainView;
-import arcaym.view.app.api.View;
+import arcaym.controller.shop.ExtendedShopController;
+import arcaym.view.app.MainView;
+import arcaym.view.app.View;
 
 /**
  * Interface for a {@link MainController} switch function.

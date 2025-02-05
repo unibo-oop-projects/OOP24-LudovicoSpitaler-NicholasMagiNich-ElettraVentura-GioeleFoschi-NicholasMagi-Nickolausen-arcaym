@@ -1,4 +1,4 @@
-package arcaym.model.user.api;
+package arcaym.model.user;
 
 import java.util.Set;
 
@@ -10,10 +10,9 @@ import arcaym.model.game.objects.GameObjectType;
  * Interface modelling the user state and its relative operations.
  * This class serves primarily as collector of useful information.
  */
-public interface UserState extends EventsObserver<GameEvent> {
+public interface UserStateManager extends EventsObserver<GameEvent> {
 
     /**
-     * 
      * @return the credit of the user.
      */
     int getCredit();
@@ -44,14 +43,18 @@ public interface UserState extends EventsObserver<GameEvent> {
     void decrementCredit(int amount);
 
     /**
-     * 
      * @return the items the user purchased from the shop.
      */
     Set<GameObjectType> getPurchasedItems();
 
     /**
-     * 
      * @return the items the user has (default + purchased).
      */
     Set<GameObjectType> getItemsOwned();
+
+    /**
+     * @param item
+     * @return {@code true} if the user owns the item, {@code false} otherwise
+     */
+    boolean hasItem(GameObjectType item);
 }

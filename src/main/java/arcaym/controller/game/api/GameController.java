@@ -1,6 +1,6 @@
 package arcaym.controller.game.api;
 
-import arcaym.controller.app.api.Controller;
+import arcaym.controller.app.Controller;
 import arcaym.model.game.core.engine.GameStateInfo;
 
 /**
