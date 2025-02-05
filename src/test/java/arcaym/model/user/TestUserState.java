@@ -15,7 +15,7 @@ import arcaym.testing.utils.UserStateTestingUtils;
 
 class TestUserState {
 
-    private static final int DEFAULT_CREDIT = 0;
+    private static final int DEFAULT_CREDIT = UserStateInfoUtils.defaultCredit();
 
     private UserStateManager userState;
 
