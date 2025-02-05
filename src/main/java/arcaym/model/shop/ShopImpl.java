@@ -7,8 +7,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import arcaym.model.game.objects.GameObjectType;
-import arcaym.model.user.UserState;
-import arcaym.model.user.UserStateImpl;
+import arcaym.model.user.UserStateManager;
+import arcaym.model.user.UserStateManagerImpl;
 
 /**
  * Default implementation of interface {@link Shop}.
@@ -22,20 +22,13 @@ public class ShopImpl implements Shop {
         GameObjectType.MOVING_Y_OBSTACLE, 900
     ));
 
-    private final Map<GameObjectType, Integer> lockedObjects;
-    private final UserState userState;
+    private final UserStateManager userState;
 
     /**
      * Default constructor.
      */
     public ShopImpl() {
-        this.userState = new UserStateImpl();
-        this.lockedObjects = new EnumMap<>(PRICES);
-        // Removes from the locked objects all the ones bought from the user. 
-        this.userState.getPurchasedItems().forEach(item -> {
-            // Does not throw an Exception if the item was not mapped.
-            this.lockedObjects.remove(item);
-        });
+        this.userState = new UserStateManagerImpl();
     }
 
     /**
@@ -43,10 +36,10 @@ public class ShopImpl implements Shop {
      */
     @Override
     public boolean makeTransaction(final GameObjectType toBuy) {
-        final int price = lockedObjects.get(toBuy);
-        if (canBuy(toBuy)) {
-            userState.decrementCredit(price);
-            userState.unlockNewItem(toBuy);
+        final int price = this.getLockedGameObjects().get(toBuy);
+        if (this.canBuy(toBuy)) {
+            this.userState.decrementCredit(price);
+            this.userState.unlockNewItem(toBuy);
             return true;
         }
         return false;
@@ -57,7 +50,13 @@ public class ShopImpl implements Shop {
      */
     @Override
     public Map<GameObjectType, Integer> getLockedGameObjects() {
-        return Collections.unmodifiableMap(lockedObjects);
+        final Map<GameObjectType, Integer> out = new EnumMap<>(PRICES);
+        // Removes from the locked objects all the ones bought from the user. 
+        this.userState.getPurchasedItems().forEach(item -> {
+            // Does not throw an Exception if the item was not mapped.
+            out.remove(item);
+        });
+        return Collections.unmodifiableMap(out);
     }
 
     /**
@@ -65,11 +64,11 @@ public class ShopImpl implements Shop {
      */
     @Override
     public boolean canBuy(final GameObjectType item) {
-        if (!lockedObjects.containsKey(item)) {
+        if (this.isBought(item)) {
             return false;
         }
-        final int price = lockedObjects.get(item);
-        return !userState.getItemsOwned().contains(item) && userState.getCredit() - price >= 0;
+        final int price = this.getLockedGameObjects().get(item);
+        return !this.userState.hasItem(item) && userState.getCredit() - price >= 0;
     }
 
     /**
@@ -81,6 +80,14 @@ public class ShopImpl implements Shop {
             throw new IllegalArgumentException(item + " not included in the purchasable assets collection!");
         }
         return PRICES.get(item);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isBought(final GameObjectType item) {
+        return !this.getLockedGameObjects().containsKey(item);
     }
 
     /**

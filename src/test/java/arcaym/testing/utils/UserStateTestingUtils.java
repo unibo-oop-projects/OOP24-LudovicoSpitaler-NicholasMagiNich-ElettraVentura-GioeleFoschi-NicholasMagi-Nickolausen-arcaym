@@ -9,7 +9,7 @@ import com.google.gson.Gson;
 import arcaym.common.utils.file.FileUtils;
 import arcaym.controller.user.UserStateSerializer;
 import arcaym.controller.user.UserStateSerializerJSON;
-import arcaym.model.user.UserStateImpl;
+import arcaym.model.user.UserStateManagerImpl;
 import arcaym.model.user.UserStateInfo;
 
 /**
@@ -100,7 +100,7 @@ public final class UserStateTestingUtils {
      */
     public static void makeUserStateBackup() {
         final var serializer = utilitySerializer();
-        final var userState = new UserStateImpl();
+        final var userState = new UserStateManagerImpl();
         serializer.save(
                 new UserStateInfo(
                         userState.getCredit(),

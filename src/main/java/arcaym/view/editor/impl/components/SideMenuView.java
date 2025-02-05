@@ -85,7 +85,7 @@ public class SideMenuView implements ViewComponent<JScrollPane> {
                     final var src = (JButton) evt.getSource();
                     src.setEnabled(false);
                     gameObjectConsumer.accept(menuItems.get(src));
-                    setNotErase.run();
+                    this.setNotErase.run();
                 });
                 content.add(btn, gbc);
                 menuItems.put(btn, obj);

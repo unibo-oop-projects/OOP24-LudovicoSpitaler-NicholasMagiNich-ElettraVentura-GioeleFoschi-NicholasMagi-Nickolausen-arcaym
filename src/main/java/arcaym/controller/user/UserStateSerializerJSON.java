@@ -28,7 +28,7 @@ public class UserStateSerializerJSON implements UserStateSerializer {
     @Override
     public boolean save(final UserStateInfo userState) {
         FileUtils.createUserDirectory();
-        validateFileName(FILENAME);
+        this.validateFileName(FILENAME);
         return FileUtils.writeFile(
             FILENAME.concat(EXTENSION), 
             FileUtils.USER_FOLDER, 
@@ -37,8 +37,8 @@ public class UserStateSerializerJSON implements UserStateSerializer {
 
     /* Utility function */
     private Optional<UserStateInfo> load() {
-        validateFileName(FILENAME);
-        final var rawState = FileUtils.readFromPath(getPathOf(FILENAME));
+        this.validateFileName(FILENAME);
+        final var rawState = FileUtils.readFromPath(this.getPathOf(FILENAME));
         if (rawState.isEmpty()) {
             LOGGER.error("An error occurred while READING '" + FILENAME + "' file.");
             return Optional.empty();
@@ -51,12 +51,12 @@ public class UserStateSerializerJSON implements UserStateSerializer {
      */
     @Override
     public UserStateInfo getUpdatedState() {
-        final var previousSave = load();
+        final var previousSave = this.load();
         if (previousSave.isPresent()) {
             return previousSave.get();
         }
-        final var defaultState = UserStateInfo.getDefaultState();
-        if (!save(defaultState)) {
+        final var defaultState = UserStateInfo.defaultState();
+        if (!this.save(defaultState)) {
             LOGGER.error("Cannot save the default state: " + defaultState);
         } else {
             LOGGER.info("It looks like nothing has been saved before. Saving a default user state: " + defaultState);

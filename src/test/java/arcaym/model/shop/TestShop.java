@@ -24,7 +24,7 @@ class TestShop {
     void setup() {
         UserStateTestingUtils.makeUserStateBackup();
         UserStateTestingUtils.writeTestUserState(DEFAULT_CREDIT);
-        shopModel = new ShopImpl();
+        this.shopModel = new ShopImpl();
     }
 
     @AfterEach

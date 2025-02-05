@@ -93,7 +93,7 @@ public class EditorControllerImpl extends AbstractController<EditorView> impleme
         final UserStateSerializerInfo serializer = new UserStateSerializerJSON();
         return switch (type) {
             case EditorType.SANDBOX -> EnumSet.allOf(GameObjectType.class);
-            case EditorType.NORMAL -> serializer.getUpdatedState().getItemsOwned();
+            case EditorType.NORMAL -> serializer.getUpdatedState().itemsOwned();
             default -> Collections.emptySet();
         };
     }

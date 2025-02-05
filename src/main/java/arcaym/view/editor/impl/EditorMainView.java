@@ -40,7 +40,7 @@ public class EditorMainView extends AbstractView<EditorController> implements Vi
      */
     public EditorMainView(final EditorController controller) {
         super(controller);
-        isErasing = false;
+        this.isErasing = false;
     }
 
     /**
@@ -115,7 +115,7 @@ public class EditorMainView extends AbstractView<EditorController> implements Vi
 
     private void executeCommand(final Collection<Position> positions, final Consumer<String> displayError) {
         try {
-            if (isErasing) {
+            if (this.isErasing) {
                 this.controller().eraseArea(positions);
             } else {
                 this.controller().applyChange(positions);
