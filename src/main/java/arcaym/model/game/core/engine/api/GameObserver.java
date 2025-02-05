@@ -6,6 +6,9 @@ import arcaym.model.game.core.objects.api.GameObjectInfo;
 import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.events.impl.InputEvent;
 
+/**
+ * Inteface for a game observer.
+ */
 public interface GameObserver extends EventsObserver<GameEvent> {
 
     /**
