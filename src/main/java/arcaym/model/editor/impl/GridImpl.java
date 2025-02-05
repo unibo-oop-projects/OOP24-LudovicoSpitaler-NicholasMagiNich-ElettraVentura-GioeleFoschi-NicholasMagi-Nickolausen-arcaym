@@ -1,13 +1,16 @@
 package arcaym.model.editor.impl;
 
+import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import arcaym.common.utils.Position;
@@ -211,26 +214,34 @@ public class GridImpl implements Grid {
 
         private Map<Position, Cell> getState() {
             return Map.copyOf(changedCells);
-            // Older implementation of the memento, that also checked for constraints.
-            // Changed for performance issues
-            // Saving it, because it was beautiful
-            // from the map of Position, List<GameObjectType> creates a Map<GameObjectType, List<Position>>
-            // for easier recovery of the old state;
-            // return changedCells.entrySet()
-            //     .stream()
-            //     .flatMap(e -> 
-            //         e.getValue()
-            //             .stream()
-            //             .map(gameObject -> new AbstractMap.SimpleEntry<GameObjectType, Position>(gameObject, e.getKey())))
-            //     .collect(Collectors.groupingBy(
-            //         Entry::getKey, 
-            //         Collector.of(
-            //             HashSet::new,
-            //             (set, entry) -> set.add(entry.getValue()),
-            //             (set1, set2) -> {
-            //                 set1.addAll(set2); return set1;
-            //             }
-            //     )));
+        }
+
+        /**
+         * Older implementation of the memento, that also checked for constraints.
+         * Deprecated in favor of cleaner implementation
+         * Saving it, because it was beautiful
+         * From a Map<Position, List<GameObjectType>> creates a Map<GameObjectType,Set<Position>>
+         * 
+         * @param state the saved state
+         * @return The inverted map
+         */
+        @SuppressWarnings("unused")
+        @Deprecated
+        private Map<GameObjectType, Set<Position>> getMap(final Map<Position, List<GameObjectType>> state) {
+            return state.entrySet()
+                .stream()
+                .flatMap(e -> e.getValue()
+                    .stream()
+                    .map(gameObject -> new AbstractMap.SimpleEntry<GameObjectType, Position>(gameObject, e.getKey())))
+                .collect(Collectors.groupingBy(
+                    Entry::getKey,
+                    Collector.of(
+                        HashSet::new,
+                        (set, entry) -> set.add(entry.getValue()),
+                        (set1, set2) -> {
+                            set1.addAll(set2); return set1;
+                    }
+                )));
         }
     }
 }
