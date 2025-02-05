@@ -2,13 +2,13 @@ package arcaym.controller.shop;
 
 import java.util.Map;
 
-import arcaym.controller.app.ControllerSwitcher;
 import arcaym.controller.app.AbstractController;
+import arcaym.controller.app.ControllerSwitcher;
 import arcaym.model.game.objects.GameObjectType;
 import arcaym.model.shop.Shop;
 import arcaym.model.shop.ShopImpl;
 import arcaym.model.user.UserStateManagerImpl;
-import arcaym.view.shop.api.ShopView;
+import arcaym.view.shop.ShopView;
 
 /**
  * Default implementation of {@link ExtendedShopController}.

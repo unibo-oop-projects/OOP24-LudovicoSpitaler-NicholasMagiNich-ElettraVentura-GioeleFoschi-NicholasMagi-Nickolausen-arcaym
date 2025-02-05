@@ -1,4 +1,4 @@
-package arcaym.view.shop.impl;
+package arcaym.view.shop;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -24,9 +24,6 @@ import arcaym.view.app.AbstractView;
 import arcaym.view.components.HorizontalCenteredPanel;
 import arcaym.view.core.ViewComponent;
 import arcaym.view.scaling.WindowInfo;
-import arcaym.view.shop.api.ShopView;
-import arcaym.view.shop.components.DisplayProductView;
-import arcaym.view.shop.components.ProductInfo;
 import arcaym.view.utils.SwingUtils;
 
 /**

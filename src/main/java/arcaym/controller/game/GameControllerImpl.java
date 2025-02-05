@@ -1,12 +1,10 @@
-package arcaym.controller.game.impl;
+package arcaym.controller.game;
 
-import arcaym.controller.app.ControllerSwitcher;
 import arcaym.controller.app.AbstractController;
-import arcaym.controller.game.api.ExtendedGameController;
-import arcaym.controller.game.api.GameController;
+import arcaym.controller.app.ControllerSwitcher;
 import arcaym.model.game.core.engine.Game;
 import arcaym.model.game.core.engine.GameStateInfo;
-import arcaym.view.game.api.GameView;
+import arcaym.view.game.GameView;
 
 /**
  * Implementation of {@link GameController} that extends

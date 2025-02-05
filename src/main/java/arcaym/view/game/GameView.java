@@ -1,4 +1,4 @@
-package arcaym.view.game.api;
+package arcaym.view.game;
 
 import arcaym.controller.game.GameObserver;
 import arcaym.view.app.View;

@@ -1,6 +1,6 @@
 package arcaym.model.game.core.components;
 
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.Set;
 
 import arcaym.model.game.core.engine.GameStateInfo;
@@ -18,7 +18,7 @@ import arcaym.model.game.objects.GameObjectType;
  */
 public class UniqueComponentsGameObject extends AbstractGameObject implements ComponentsBasedGameObject {
 
-    private final Set<GameComponent> components = new HashSet<>();
+    private Set<GameComponent> components = Collections.emptySet();
 
     /**
      * Initialize with the given object type.
@@ -60,8 +60,8 @@ public class UniqueComponentsGameObject extends AbstractGameObject implements Co
      * {@inheritDoc}
      */
     @Override
-    public void addComponent(final GameComponent component) {
-        this.components.add(component);
+    public void setComponents(final Set<GameComponent> components) {
+        this.components = Set.copyOf(components);
     }
 
 }

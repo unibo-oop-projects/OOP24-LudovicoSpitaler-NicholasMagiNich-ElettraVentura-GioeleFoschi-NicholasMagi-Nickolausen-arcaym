@@ -1,8 +1,7 @@
-package arcaym.model.game.components.impl;
+package arcaym.model.game.components;
 
 import arcaym.common.geometry.Point;
 import arcaym.common.geometry.Vector;
-import arcaym.model.game.components.api.MovementComponentsFactory;
 import arcaym.model.game.core.components.AbstractGameComponent;
 import arcaym.model.game.core.components.ComponentsBasedGameObject;
 import arcaym.model.game.core.components.GameComponent;

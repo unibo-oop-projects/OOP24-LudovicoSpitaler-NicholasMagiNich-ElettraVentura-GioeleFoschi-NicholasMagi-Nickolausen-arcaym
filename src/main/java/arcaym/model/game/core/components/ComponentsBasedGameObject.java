@@ -1,5 +1,7 @@
 package arcaym.model.game.core.components;
 
+import java.util.Set;
+
 import arcaym.model.game.core.objects.GameObject;
 
 /**
@@ -8,10 +10,10 @@ import arcaym.model.game.core.objects.GameObject;
 public interface ComponentsBasedGameObject extends GameObject {
 
     /**
-     * Add game component.
+     * Set game components.
      * 
-     * @param component game component
+     * @param components game components
      */
-    void addComponent(GameComponent component);
+    void setComponents(Set<GameComponent> components);
 
 }

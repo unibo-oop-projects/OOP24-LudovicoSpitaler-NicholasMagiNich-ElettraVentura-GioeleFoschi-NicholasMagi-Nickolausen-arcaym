@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 
 import arcaym.common.utils.file.FileUtils;
 import arcaym.model.user.UserStateInfo;
+import arcaym.model.user.UserStateInfoUtils;
 
 /**
  * Implementation of {@link UserStateSerializer}. 
@@ -55,7 +56,7 @@ public class UserStateSerializerJSON implements UserStateSerializer {
         if (previousSave.isPresent()) {
             return previousSave.get();
         }
-        final var defaultState = UserStateInfo.defaultState();
+        final var defaultState = UserStateInfoUtils.defaultState();
         if (!this.save(defaultState)) {
             LOGGER.error("Cannot save the default state: " + defaultState);
         } else {

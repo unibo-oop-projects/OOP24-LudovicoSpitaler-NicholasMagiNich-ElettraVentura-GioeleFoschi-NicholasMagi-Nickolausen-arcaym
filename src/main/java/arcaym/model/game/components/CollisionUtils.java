@@ -1,4 +1,4 @@
-package arcaym.model.game.components.impl;
+package arcaym.model.game.components;
 
 import java.util.stream.Stream;
 

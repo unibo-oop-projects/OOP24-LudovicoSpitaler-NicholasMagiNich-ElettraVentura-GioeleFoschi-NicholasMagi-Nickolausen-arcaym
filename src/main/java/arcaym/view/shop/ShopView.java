@@ -1,4 +1,4 @@
-package arcaym.view.shop.api;
+package arcaym.view.shop;
 
 import arcaym.view.app.View;
 
