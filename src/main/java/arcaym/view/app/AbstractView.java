@@ -10,7 +10,7 @@ import arcaym.controller.app.Controller;
  * 
  * @param <C> controller type
  */
-public class AbstractView<C extends Controller> implements View {
+public abstract class AbstractView<C extends Controller> implements View {
 
     private final C controller;
 
