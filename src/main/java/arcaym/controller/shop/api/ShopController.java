@@ -3,7 +3,7 @@ package arcaym.controller.shop.api;
 import java.util.Map;
 
 import arcaym.controller.app.api.Controller;
-import arcaym.model.game.objects.api.GameObjectType;
+import arcaym.model.game.objects.GameObjectType;
 import arcaym.model.shop.api.Shop;
 
 /**

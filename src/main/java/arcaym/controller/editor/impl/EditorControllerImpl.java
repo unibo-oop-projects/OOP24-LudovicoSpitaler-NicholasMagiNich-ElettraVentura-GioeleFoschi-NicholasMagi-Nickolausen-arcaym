@@ -10,8 +10,8 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-import arcaym.common.geometry.impl.Point;
-import arcaym.common.geometry.impl.Rectangle;
+import arcaym.common.geometry.Point;
+import arcaym.common.geometry.Rectangle;
 import arcaym.common.utils.Optionals;
 import arcaym.common.utils.Position;
 import arcaym.controller.app.api.ControllerSwitcher;
@@ -28,8 +28,8 @@ import arcaym.model.editor.EditorType;
 import arcaym.model.editor.api.GridModel;
 import arcaym.model.editor.impl.GridModelImpl;
 import arcaym.model.game.components.impl.ComponentsBasedObjectsFactory;
-import arcaym.model.game.core.engine.impl.FactoryBasedGameBuilder;
-import arcaym.model.game.objects.api.GameObjectType;
+import arcaym.model.game.core.engine.FactoryBasedGameBuilder;
+import arcaym.model.game.objects.GameObjectType;
 import arcaym.view.editor.api.EditorView;
 
 /**

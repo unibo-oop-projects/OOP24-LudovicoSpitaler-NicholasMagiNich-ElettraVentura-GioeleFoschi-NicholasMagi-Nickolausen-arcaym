@@ -1,16 +1,16 @@
 package arcaym.model.game.components.impl;
 
-import arcaym.common.geometry.impl.Point;
-import arcaym.common.geometry.impl.Vector;
+import arcaym.common.geometry.Point;
+import arcaym.common.geometry.Vector;
 import arcaym.model.game.components.api.MovementComponentsFactory;
-import arcaym.model.game.core.components.api.ComponentsBasedGameObject;
-import arcaym.model.game.core.components.api.GameComponent;
-import arcaym.model.game.core.components.impl.AbstractGameComponent;
-import arcaym.model.game.core.engine.api.GameStateInfo;
-import arcaym.model.game.core.events.api.EventsScheduler;
-import arcaym.model.game.core.objects.api.GameObject;
-import arcaym.model.game.core.scene.api.GameSceneInfo;
-import arcaym.model.game.events.api.GameEvent;
+import arcaym.model.game.core.components.AbstractGameComponent;
+import arcaym.model.game.core.components.ComponentsBasedGameObject;
+import arcaym.model.game.core.components.GameComponent;
+import arcaym.model.game.core.engine.GameStateInfo;
+import arcaym.model.game.core.events.EventsScheduler;
+import arcaym.model.game.core.objects.GameObject;
+import arcaym.model.game.core.scene.GameSceneInfo;
+import arcaym.model.game.events.GameEvent;
 
 /**
  * Implementation of a {@link MovementComponentsFactory}.

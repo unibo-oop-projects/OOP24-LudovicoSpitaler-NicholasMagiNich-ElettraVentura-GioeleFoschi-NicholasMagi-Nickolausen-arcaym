@@ -5,8 +5,8 @@ import java.util.function.Function;
 
 import arcaym.common.utils.Position;
 import arcaym.model.editor.ConstraintFailedException;
-import arcaym.model.game.core.objects.api.GameObjectCategory;
-import arcaym.model.game.objects.api.GameObjectType;
+import arcaym.model.game.core.objects.GameObjectCategory;
+import arcaym.model.game.objects.GameObjectType;
 
 /**
  * A class containing all the constraints in a grid.

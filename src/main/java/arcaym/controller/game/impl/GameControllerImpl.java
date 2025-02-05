@@ -4,8 +4,8 @@ import arcaym.controller.app.api.ControllerSwitcher;
 import arcaym.controller.app.impl.AbstractController;
 import arcaym.controller.game.api.ExtendedGameController;
 import arcaym.controller.game.api.GameController;
-import arcaym.model.game.core.engine.api.Game;
-import arcaym.model.game.core.engine.api.GameStateInfo;
+import arcaym.model.game.core.engine.Game;
+import arcaym.model.game.core.engine.GameStateInfo;
 import arcaym.view.game.api.GameView;
 
 /**
@@ -30,17 +30,17 @@ public class GameControllerImpl extends AbstractController<GameView> implements 
      * {@inheritDoc}
      */
     @Override
-    public void setView(final GameView view) {
-        super.setView(view);
-        this.game.start(view);
+    public GameStateInfo getGameState() {
+        return this.game.state();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public GameStateInfo getGameState() {
-        return this.game.state();
+    public void setView(final GameView view) {
+        super.setView(view);
+        this.game.start(view);
     }
 
     /**
@@ -51,4 +51,5 @@ public class GameControllerImpl extends AbstractController<GameView> implements 
         this.game.scheduleStop();
         super.close();
     }
+
 }

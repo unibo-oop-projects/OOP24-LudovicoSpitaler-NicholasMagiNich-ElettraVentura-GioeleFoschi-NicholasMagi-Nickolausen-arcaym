@@ -10,7 +10,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import arcaym.model.game.objects.api.GameObjectType;
+import arcaym.model.game.objects.GameObjectType;
 import arcaym.model.user.api.UserState;
 import arcaym.model.user.impl.UserStateImpl;
 import arcaym.testing.utils.UserStateTestingUtils;

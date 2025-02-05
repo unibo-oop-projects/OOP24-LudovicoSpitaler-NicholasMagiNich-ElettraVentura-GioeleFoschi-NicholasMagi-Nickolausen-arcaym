@@ -7,7 +7,7 @@ import java.util.function.BiFunction;
 
 import arcaym.controller.app.api.ExtendedController;
 import arcaym.controller.app.api.MainController;
-import arcaym.controller.menu.impl.MenuControllerImpl;
+import arcaym.controller.menu.MenuControllerImpl;
 import arcaym.view.app.api.MainView;
 import arcaym.view.app.api.View;
 

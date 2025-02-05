@@ -2,7 +2,7 @@ package arcaym.model.editor.api;
 
 import java.util.List;
 
-import arcaym.model.game.objects.api.GameObjectType;
+import arcaym.model.game.objects.GameObjectType;
 
 /**
  * The interface for a single cell of the {@link Grid}.

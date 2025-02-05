@@ -7,10 +7,6 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import arcaym.model.game.core.events.api.Event;
-import arcaym.model.game.core.events.api.EventsManager;
-import arcaym.model.game.core.events.impl.ThreadSafeEventsManager;
-
 class TestEventsManager {
 
     private Counter counter;

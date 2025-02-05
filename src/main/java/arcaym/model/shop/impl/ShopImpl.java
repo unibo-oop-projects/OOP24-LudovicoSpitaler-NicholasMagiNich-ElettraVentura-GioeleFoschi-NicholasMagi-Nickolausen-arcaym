@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import arcaym.model.game.objects.api.GameObjectType;
+import arcaym.model.game.objects.GameObjectType;
 import arcaym.model.shop.api.Shop;
 import arcaym.model.user.api.UserState;
 import arcaym.model.user.impl.UserStateImpl;

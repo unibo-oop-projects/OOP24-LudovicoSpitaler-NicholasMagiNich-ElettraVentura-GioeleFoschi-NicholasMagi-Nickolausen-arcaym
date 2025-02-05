@@ -23,8 +23,8 @@ import arcaym.model.editor.api.Grid;
 import arcaym.model.editor.api.GridConstraintsContainer;
 import arcaym.model.editor.api.Memento;
 import arcaym.model.editor.saves.MapSerializerImpl;
-import arcaym.model.game.core.objects.api.GameObjectCategory;
-import arcaym.model.game.objects.api.GameObjectType;
+import arcaym.model.game.core.objects.GameObjectCategory;
+import arcaym.model.game.objects.GameObjectType;
 
 /**
  * An implementation fot the grid interface.

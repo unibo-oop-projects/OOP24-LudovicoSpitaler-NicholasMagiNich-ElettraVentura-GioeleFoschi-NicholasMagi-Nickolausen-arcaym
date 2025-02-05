@@ -4,7 +4,7 @@ import java.util.function.BiFunction;
 
 import arcaym.controller.editor.api.ExtendedEditorController;
 import arcaym.controller.game.api.ExtendedGameController;
-import arcaym.controller.menu.api.ExtendedMenuController;
+import arcaym.controller.menu.ExtendedMenuController;
 import arcaym.controller.shop.api.ExtendedShopController;
 import arcaym.view.app.api.MainView;
 import arcaym.view.app.api.View;

@@ -7,10 +7,6 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 
-import arcaym.common.geometry.api.CartesianEntity;
-import arcaym.common.geometry.impl.Point;
-import arcaym.common.geometry.impl.Vector;
-
 class CartesianEntitiesProvider implements ArgumentsProvider {
 
     interface CartesianEntityConstructor<T extends CartesianEntity<T>> extends BiFunction<Double, Double, T> {

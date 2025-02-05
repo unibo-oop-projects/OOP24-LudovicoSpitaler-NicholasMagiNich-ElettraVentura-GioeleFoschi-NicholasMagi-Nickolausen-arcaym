@@ -7,8 +7,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import arcaym.view.core.api.ParentComponent;
-import arcaym.view.core.api.WindowInfo;
+import arcaym.view.core.ParentComponent;
+import arcaym.view.scaling.WindowInfo;
 
 /**
  * Blank panel that horizontally centers it's content without stretching it.

@@ -6,10 +6,10 @@ import com.google.common.collect.Sets;
 
 import arcaym.controller.user.api.UserStateSerializer;
 import arcaym.controller.user.impl.UserStateSerializerJSON;
-import arcaym.model.game.core.engine.api.GameStateInfo;
-import arcaym.model.game.core.events.api.EventsSubscriber;
-import arcaym.model.game.events.api.GameEvent;
-import arcaym.model.game.objects.api.GameObjectType;
+import arcaym.model.game.core.engine.GameStateInfo;
+import arcaym.model.game.core.events.EventsSubscriber;
+import arcaym.model.game.events.GameEvent;
+import arcaym.model.game.objects.GameObjectType;
 import arcaym.model.user.api.UserState;
 
 /**

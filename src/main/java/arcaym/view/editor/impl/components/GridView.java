@@ -20,10 +20,10 @@ import com.google.common.collect.HashBiMap;
 
 import arcaym.common.utils.Optionals;
 import arcaym.common.utils.Position;
-import arcaym.model.game.objects.api.GameObjectType;
-import arcaym.view.core.api.ViewComponent;
-import arcaym.view.core.api.WindowInfo;
+import arcaym.model.game.objects.GameObjectType;
+import arcaym.view.core.ViewComponent;
 import arcaym.view.objects.GameObjectView;
+import arcaym.view.scaling.WindowInfo;
 
 /**
  * An implementation of the grid view.

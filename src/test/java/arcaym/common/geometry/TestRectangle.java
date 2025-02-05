@@ -6,9 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import arcaym.common.geometry.impl.Point;
-import arcaym.common.geometry.impl.Rectangle;
-
 class TestRectangle {
 
     private void assertRectangleEquals(

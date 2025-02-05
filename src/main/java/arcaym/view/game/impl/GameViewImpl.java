@@ -24,22 +24,22 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
-import arcaym.common.geometry.impl.Point;
-import arcaym.common.geometry.impl.Rectangle;
+import arcaym.common.geometry.Point;
+import arcaym.common.geometry.Rectangle;
 import arcaym.common.utils.Optionals;
 import arcaym.controller.game.api.GameController;
-import arcaym.model.game.core.engine.api.GameStateInfo;
-import arcaym.model.game.core.events.api.EventsScheduler;
-import arcaym.model.game.core.events.api.EventsSubscriber;
-import arcaym.model.game.core.objects.api.GameObjectInfo;
-import arcaym.model.game.events.api.GameEvent;
-import arcaym.model.game.events.api.InputType;
-import arcaym.model.game.events.impl.InputEvent;
+import arcaym.model.game.core.engine.GameStateInfo;
+import arcaym.model.game.core.events.EventsScheduler;
+import arcaym.model.game.core.events.EventsSubscriber;
+import arcaym.model.game.core.objects.GameObjectInfo;
+import arcaym.model.game.events.GameEvent;
+import arcaym.model.game.events.InputType;
+import arcaym.model.game.events.InputEvent;
 import arcaym.view.app.impl.AbstractView;
-import arcaym.view.core.api.ViewComponent;
-import arcaym.view.core.api.WindowInfo;
+import arcaym.view.core.ViewComponent;
 import arcaym.view.game.api.GameView;
 import arcaym.view.objects.GameObjectView;
+import arcaym.view.scaling.WindowInfo;
 import arcaym.view.utils.SwingUtils;
 
 /**
