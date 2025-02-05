@@ -11,7 +11,7 @@ import arcaym.model.game.objects.api.GameObjectType;
  * Implementation of {@link GameObjectsFactory} using game components.
  */
 public class ComponentsBasedObjectsFactory implements GameObjectsFactory {
-    private final double tileSize;
+    private final int tileSize;
     private final CollisionComponentsFactory collisionFactory = new CollisionComponentsFactoryImpl();
     private final MovementComponentsFactory movementFactory = new MovementComponentsFactoryImpl();
 
