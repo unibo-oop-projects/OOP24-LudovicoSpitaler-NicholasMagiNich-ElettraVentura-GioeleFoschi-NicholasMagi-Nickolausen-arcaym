@@ -22,6 +22,7 @@ import arcaym.model.editor.impl.MapConstraintFactoryImpl;
 
 final class TestConstraints {
 
+    static final String TEST_ERROR = "test";
     static final int DEFAULT_MAX_WIDTH = 30;
     static final int DEFAULT_MAX_HEIGHT = 30;
     static final int MAX_OBJECTS = 11;
@@ -56,44 +57,44 @@ final class TestConstraints {
     @Test
     void testSingleBlockConstraint() {
         final var posSet = Set.of(Position.of(rd.nextInt(DEFAULT_MAX_WIDTH), rd.nextInt(DEFAULT_MAX_HEIGHT)));
-        assertDoesNotThrow(() -> factory.singleBlockConstraint().checkConstraint(posSet));
+        assertDoesNotThrow(() -> factory.singleBlockConstraint(TEST_ERROR).checkConstraint(posSet));
     }
 
     @Test
     void testSingleBlockConstraintFail() {
         final var posSet = createSetOfMinSize(2);
-        assertThrows(ConstraintFailedException.class, () -> factory.singleBlockConstraint().checkConstraint(posSet));
+        assertThrows(ConstraintFailedException.class, () -> factory.singleBlockConstraint(TEST_ERROR).checkConstraint(posSet));
     }
 
     @Test
     void testMaxBlocksConstraint() {
         final int maxNumOfObjects = rd.nextInt(MIN_OBJECTS, MAX_OBJECTS);
-        assertDoesNotThrow(() -> factory.maxNumberOfBlocks(maxNumOfObjects)
+        assertDoesNotThrow(() -> factory.maxNumberOfBlocks(maxNumOfObjects, TEST_ERROR)
             .checkConstraint(createSetOfMinSize(maxNumOfObjects - 2))); // create a set with one less object than the max
-        assertDoesNotThrow(() -> factory.maxNumberOfBlocks(maxNumOfObjects)
+        assertDoesNotThrow(() -> factory.maxNumberOfBlocks(maxNumOfObjects, TEST_ERROR)
                 .checkConstraint(createSetOfMinSize(maxNumOfObjects - 1))); // edge test max objects == num objects
     }
 
     @Test
     void testMaxBlocksConstraintFail() {
         final int maxNumOfObjects = rd.nextInt(MIN_OBJECTS, MAX_OBJECTS);
-        assertThrows(ConstraintFailedException.class, () -> factory.maxNumberOfBlocks(maxNumOfObjects)
+        assertThrows(ConstraintFailedException.class, () -> factory.maxNumberOfBlocks(maxNumOfObjects, TEST_ERROR)
                 .checkConstraint(createSetOfMinSize(maxNumOfObjects + MIN_OBJECTS)));
     }
 
     @Test
     void testMinBlocksConstraint() {
         final int minNumOfObjects = rd.nextInt(MIN_OBJECTS, MAX_OBJECTS);
-        assertDoesNotThrow(() -> factory.minNumberOfBlocks(minNumOfObjects)
+        assertDoesNotThrow(() -> factory.minNumberOfBlocks(minNumOfObjects, TEST_ERROR)
             .checkConstraint(createSetOfMinSize(minNumOfObjects + MIN_OBJECTS)));
-        assertDoesNotThrow(() -> factory.minNumberOfBlocks(minNumOfObjects)
+        assertDoesNotThrow(() -> factory.minNumberOfBlocks(minNumOfObjects, TEST_ERROR)
             .checkConstraint(createSetOfMinSize(minNumOfObjects  - 1))); // min objects == numObjects
     }
 
     @Test 
     void testMinBlocksConstraintFail() {
         final int minNumOfObjects = rd.nextInt(MIN_OBJECTS, MAX_OBJECTS);
-        assertThrows(ConstraintFailedException.class, () -> factory.minNumberOfBlocks(minNumOfObjects)
+        assertThrows(ConstraintFailedException.class, () -> factory.minNumberOfBlocks(minNumOfObjects, TEST_ERROR)
                 .checkConstraint(createSetOfMinSize(minNumOfObjects - 2)));
     }
 
