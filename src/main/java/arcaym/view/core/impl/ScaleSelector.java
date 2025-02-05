@@ -43,8 +43,13 @@ public class ScaleSelector {
         final var scale = Scale.values()[result];
         final var window = new ScaledWindowInfo(scale);
         frame.dispose(); // prevent java.awt.IllegalComponentStateException: The frame is displayable
-        frame.setUndecorated(window.isFullscreen());
         frame.setResizable(false);
+        if (window.isFullscreen()) {
+            frame.setUndecorated(true);
+            frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        } else {
+            frame.setSize(window.size());
+        }
         return Optional.of(window);
     }
 

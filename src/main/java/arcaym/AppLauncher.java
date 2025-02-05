@@ -11,19 +11,11 @@ import arcaym.view.app.impl.MainViewImpl;
  * App entry class.
  * Merry Christmas
  */
-public class AppLauncher {
+public final class AppLauncher {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AppLauncher.class);
 
-    /**
-     * Get greeting message for subject.
-     * 
-     * @param subject name to greet
-     * @return greeting message
-     */
-    public String getGreeting(final String subject) {
-        return "Hello, " + subject;
-    }
+    private AppLauncher() { }
 
     /**
      * App entry point.
