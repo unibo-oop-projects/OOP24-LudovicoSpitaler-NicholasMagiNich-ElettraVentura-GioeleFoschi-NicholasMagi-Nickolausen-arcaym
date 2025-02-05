@@ -2,7 +2,7 @@ package arcaym.model.editor.impl;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +17,7 @@ import arcaym.model.editor.EditorGridException;
 import arcaym.model.editor.EditorType;
 import arcaym.model.editor.api.Cell;
 import arcaym.model.editor.api.Grid;
-import arcaym.model.editor.api.MapConstraint;
+import arcaym.model.editor.api.GridConstraintsContainer;
 import arcaym.model.editor.api.Memento;
 import arcaym.model.editor.saves.MapSerializerImpl;
 import arcaym.model.game.core.objects.api.GameObjectCategory;
@@ -32,9 +32,8 @@ public class GridImpl implements Grid {
     private static final String ILLEGAL_POSITION_EXCEPTION_MESSAGE = "Trying to place a block outside of the boundary";
 
     private final Map<Position, Cell> map;
-    private final Map<GameObjectType, MapConstraint> objectConstraint = new EnumMap<>(GameObjectType.class);
-    private final Map<GameObjectCategory, MapConstraint> categoryConstraint = new EnumMap<>(GameObjectCategory.class);
     private final Position mapSize;
+    private final GridConstraintsContainer constraints;
 
     /**
      * Creates a new Grid with the given dimentions.
@@ -50,7 +49,7 @@ public class GridImpl implements Grid {
             }
         }
         this.mapSize = Position.of(x, y);
-        addConstraints(editorType);
+        this.constraints = new GridConstraintProviderImpl().selectEditorType(editorType);
     }
 
     /**
@@ -60,11 +59,7 @@ public class GridImpl implements Grid {
     public GridImpl(final LevelMetadata metadata) {
         this.mapSize = Position.of(metadata.size().x(), metadata.size().y());
         this.map = new MapSerializerImpl<Position, Cell>().loadMapFromBinaryFile(metadata.uuid());
-        addConstraints(metadata.type());
-    }
-
-    private void addConstraints(final EditorType type) {
-        new GridConstraintProviderImpl().selectEditorType(objectConstraint::put, categoryConstraint::put, type);
+        this.constraints = new GridConstraintProviderImpl().selectEditorType(metadata.type());
     }
 
     /**
@@ -76,16 +71,22 @@ public class GridImpl implements Grid {
             throw new EditorGridException(ILLEGAL_POSITION_EXCEPTION_MESSAGE, true);
         }
         try {
-            if (objectConstraint.containsKey(type)) {
-                final var mapOfType = getSetOfType(type);
-                mapOfType.addAll(positions);
-                objectConstraint.get(type).checkConstraint(mapOfType);
-            }
-            if (categoryConstraint.containsKey(type.category())) {
-                final var mapOfCategory = getSetOfCategory(type.category());
-                mapOfCategory.addAll(positions);
-                categoryConstraint.get(type.category()).checkConstraint(mapOfCategory);
-            }
+            final var mapOfType = getSetOfType(type);
+            mapOfType.addAll(positions);
+            this.constraints.checkConstraint(mapOfType, type);
+            final var mapOfCategory = getSetOfCategory(type.category());
+            mapOfCategory.addAll(positions);
+            this.constraints.checkConstraint(mapOfCategory, type.category());
+            // if (objectConstraint.containsKey(type)) {
+            //     final var mapOfType = getSetOfType(type);
+            //     mapOfType.addAll(positions);
+            //     objectConstraint.get(type).checkConstraint(mapOfType);
+            // }
+            // if (categoryConstraint.containsKey(type.category())) {
+            //     final var mapOfCategory = getSetOfCategory(type.category());
+            //     mapOfCategory.addAll(positions);
+            //     categoryConstraint.get(type.category()).checkConstraint(mapOfCategory);
+            // }
         } catch (ConstraintFailedException e) {
             throw new EditorGridException(e.toString(), true, e);
         }
@@ -127,24 +128,40 @@ public class GridImpl implements Grid {
         if (positions.stream().anyMatch(this::outsideBoundary)) {
             throw new EditorGridException(ILLEGAL_POSITION_EXCEPTION_MESSAGE, false);
         }
-        for (final Entry<GameObjectType, MapConstraint> e : objectConstraint.entrySet()) {
-            try {
-                final var mapOfType = getSetOfType(e.getKey());
+
+        try {
+            for (final GameObjectType type : EnumSet.allOf(GameObjectType.class)) {
+                final var mapOfType = getSetOfType(type);
                 mapOfType.removeAll(positions);
-                e.getValue().checkConstraint(mapOfType);
-            } catch (ConstraintFailedException ex) {
-                throw new EditorGridException(ex.toString(), false, ex);
+                this.constraints.checkConstraint(mapOfType, type);
             }
-        }
-        for (final Entry<GameObjectCategory, MapConstraint> e : categoryConstraint.entrySet()) {
-            try {
-                final var mapOfCategory = getSetOfCategory(e.getKey());
-                mapOfCategory.removeAll(positions);
-                e.getValue().checkConstraint(mapOfCategory);
-            } catch (ConstraintFailedException ex) {
-                throw new EditorGridException(ex.toString(), false, ex);
+            for (final GameObjectCategory cat : EnumSet.allOf(GameObjectCategory.class)) {
+                final var mapOfType = getSetOfCategory(cat);
+                mapOfType.removeAll(positions);
+                this.constraints.checkConstraint(mapOfType, cat);
             }
+            // this.constraints.checkBeforeStartConstraints(this::getSetOfType, this::getSetOfCategory);
+        } catch (ConstraintFailedException e) {
+            throw new EditorGridException(e.toString(), false, e);
         }
+        // for (final Entry<GameObjectType, MapConstraint> e : objectConstraint.entrySet()) {
+        //     try {
+        //         final var mapOfType = getSetOfType(e.getKey());
+        //         mapOfType.removeAll(positions);
+        //         e.getValue().checkConstraint(mapOfType);
+        //     } catch (ConstraintFailedException ex) {
+        //         throw new EditorGridException(ex.toString(), false, ex);
+        //     }
+        // }
+        // for (final Entry<GameObjectCategory, MapConstraint> e : categoryConstraint.entrySet()) {
+        //     try {
+        //         final var mapOfCategory = getSetOfCategory(e.getKey());
+        //         mapOfCategory.removeAll(positions);
+        //         e.getValue().checkConstraint(mapOfCategory);
+        //     } catch (ConstraintFailedException ex) {
+        //         throw new EditorGridException(ex.toString(), false, ex);
+        //     }
+        // }
         positions.forEach(map::remove);
     }
 

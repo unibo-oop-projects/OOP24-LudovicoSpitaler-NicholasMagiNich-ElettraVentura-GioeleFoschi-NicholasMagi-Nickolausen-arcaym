@@ -1,9 +1,19 @@
 package arcaym.model.editor.impl;
 
-import java.util.function.BiConsumer;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.function.Function;
 
+import arcaym.common.utils.Position;
+import arcaym.model.editor.ConstraintFailedException;
 import arcaym.model.editor.api.GridConstraintProvider;
+import arcaym.model.editor.api.GridConstraintsContainer;
 import arcaym.model.editor.api.MapConstraint;
+import arcaym.model.editor.api.MapConstraintsFactory;
 import arcaym.model.game.core.objects.api.GameObjectCategory;
 import arcaym.model.game.objects.api.GameObjectType;
 
@@ -12,27 +22,146 @@ import arcaym.model.game.objects.api.GameObjectType;
  */
 public class GridConstraintProviderImpl implements GridConstraintProvider {
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void sandbox(
-        final BiConsumer<GameObjectType, MapConstraint> object, 
-        final BiConsumer<GameObjectCategory, MapConstraint> category) {
-        // free to place objects without rules
+    private final MapConstraintsFactory constraintFactory = new MapConstraintFactoryImpl();
+
+    private final class Container implements GridConstraintsContainer {
+
+        /**
+         * Position 0 is for normal constraints, position 1 is for the constraints to check before the play function.
+         */
+        private final List<Map<GameObjectType, MapConstraint>> objectConstraints = new ArrayList<>(2); 
+        private final List<Map<GameObjectCategory, MapConstraint>> categoryConstraints = new ArrayList<>(2);
+
+        private Container() {
+            objectConstraints.add(new EnumMap<>(GameObjectType.class));
+            objectConstraints.add(new EnumMap<>(GameObjectType.class));
+            categoryConstraints.add(new EnumMap<>(GameObjectCategory.class));
+            categoryConstraints.add(new EnumMap<>(GameObjectCategory.class));
+        }
+
+        private void addConstraint(final GameObjectType type, final MapConstraint con, final boolean isBeforePlayCheck) {
+            if (isBeforePlayCheck) {
+                objectConstraints.get(1).put(type, con);
+            } else {
+                objectConstraints.get(0).put(type, con);
+            }
+        }
+
+        private void addConstraint(final GameObjectCategory category, final MapConstraint con, final boolean isBeforePlayCheck) {
+            if (isBeforePlayCheck) {
+                categoryConstraints.get(1).put(category, con);
+            } else {
+                categoryConstraints.get(0).put(category, con);
+            }
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void checkConstraint(
+            final Collection<Position> positions,
+            final GameObjectType type) throws ConstraintFailedException {
+            if (this.objectConstraints.get(0).containsKey(type)) {
+                this.objectConstraints.get(0).get(type).checkConstraint(positions);
+            }
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void checkConstraint(
+            final Collection<Position> positions,
+            final GameObjectCategory category) throws ConstraintFailedException {
+            if (this.categoryConstraints.get(0).containsKey(category)) {
+                this.categoryConstraints.get(0).get(category).checkConstraint(positions);
+            }
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void checkBeforeStartConstraints(
+            final Function<GameObjectType, Collection<Position>> typeMapProvider,
+            final Function<GameObjectCategory, Collection<Position>> categoryMapProvider) throws ConstraintFailedException {
+            for (final Entry<GameObjectType, MapConstraint> e : objectConstraints.get(1).entrySet()) {
+                e.getValue().checkConstraint(typeMapProvider.apply(e.getKey()));
+            }
+            for (final Entry<GameObjectCategory, MapConstraint> e : categoryConstraints.get(1).entrySet()) {
+                e.getValue().checkConstraint(categoryMapProvider.apply(e.getKey()));
+            }
+        }
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void normal(
-            final BiConsumer<GameObjectType, MapConstraint> object,
-            final BiConsumer<GameObjectCategory, MapConstraint> category) {
-        final var constraintFactory = new MapConstraintFactoryImpl();
-        object.accept(GameObjectType.COIN, constraintFactory.maxNumberOfBlocks(3));
-        object.accept(GameObjectType.USER_PLAYER, constraintFactory.singleBlockConstraint());
-        category.accept(GameObjectCategory.COLLECTABLE, constraintFactory.maxNumberOfBlocks(10));
-        category.accept(GameObjectCategory.GOAL, constraintFactory.adjacencyConstraint());
+    public GridConstraintsContainer sandbox() {
+        return new Container();
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public GridConstraintsContainer normal() {
+        final var constraints = new Container();
+        final int maxCoin = 3;
+        final int maxCollectable = 10;
+
+        constraints.addConstraint(
+            GameObjectType.COIN,
+            this.constraintFactory.maxNumberOfBlocks(maxCoin),
+            false);
+        constraints.addConstraint(
+            GameObjectType.USER_PLAYER,
+            this.constraintFactory.singleBlockConstraint(),
+            false);
+        constraints.addConstraint(
+            GameObjectCategory.GOAL,
+            this.constraintFactory.adjacencyConstraint(),
+            false);
+        constraints.addConstraint(
+            GameObjectCategory.COLLECTABLE,
+            this.constraintFactory.maxNumberOfBlocks(maxCollectable),
+            false);
+        // set before play constraints
+        constraints.addConstraint(
+            GameObjectCategory.GOAL,
+            this.constraintFactory.minNumberOfBlocks(1),
+            true);
+        constraints.addConstraint(
+            GameObjectCategory.PLAYER,
+            this.constraintFactory.minNumberOfBlocks(1),
+            true);
+
+        return constraints;
+    }
+
+    // /**
+    //  * {@inheritDoc}
+    //  */
+    // @Override
+    // public void sandbox(
+    //     final BiConsumer<GameObjectType, MapConstraint> object, 
+    //     final BiConsumer<GameObjectCategory, MapConstraint> category) {
+    //     // free to place objects without rules
+    // }
+
+    // /**
+    //  * {@inheritDoc}
+    //  */
+    // @Override
+    // public void normal(
+    //         final BiConsumer<GameObjectType, MapConstraint> object,
+    //         final BiConsumer<GameObjectCategory, MapConstraint> category) {
+    //     final var constraintFactory = new MapConstraintFactoryImpl();
+    //     object.accept(GameObjectType.COIN, constraintFactory.maxNumberOfBlocks(3));
+    //     object.accept(GameObjectType.USER_PLAYER, constraintFactory.singleBlockConstraint());
+    //     category.accept(GameObjectCategory.COLLECTABLE, constraintFactory.maxNumberOfBlocks(10));
+    //     category.accept(GameObjectCategory.GOAL, constraintFactory.adjacencyConstraint());
+    // }
 }
