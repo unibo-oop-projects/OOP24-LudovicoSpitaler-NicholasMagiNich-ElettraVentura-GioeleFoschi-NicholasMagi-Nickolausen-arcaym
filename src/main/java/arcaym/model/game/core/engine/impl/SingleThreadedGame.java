@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory;
 
 import arcaym.common.geometry.impl.Rectangle;
 import arcaym.model.game.core.engine.api.Game;
+import arcaym.model.game.core.engine.api.GameObserver;
 import arcaym.model.game.core.scene.api.GameScene;
-import arcaym.view.game.api.GameView;
 
 /**
  * Implementation of {@link Game} that uses a single background thread.
@@ -36,15 +36,15 @@ public class SingleThreadedGame extends AbstractThreadSafeGame {
      * {@inheritDoc}
      */
     @Override
-    public void start(final GameView gameView) {
-        super.start(gameView);
+    public void start(final GameObserver observer) {
+        super.start(observer);
         this.runGameLoop = true;
         LOGGER.info("Starting background thread");
         this.gameLoopThread = Optional.of(
             Thread.ofPlatform()
                 .name(GAME_LOOP_THREAD_NAME)
                 .daemon()
-                .start(() -> this.gameLoop(gameView))
+                .start(() -> this.gameLoop(observer))
         );
     }
 
@@ -60,7 +60,7 @@ public class SingleThreadedGame extends AbstractThreadSafeGame {
         LOGGER.info("Requested game loop stop");
     }
 
-    private void gameLoop(final GameView gameView) {
+    private void gameLoop(final GameObserver observer) {
         LOGGER.info("Game loop thread started");
         long deltaTime = 0;
         long lastFrameTime = System.currentTimeMillis();
@@ -69,8 +69,8 @@ public class SingleThreadedGame extends AbstractThreadSafeGame {
             for (final var gameObject : this.scene().getGameObjects()) {
                 gameObject.update(deltaTime, this.gameEventsManager(), this.scene(), this.state());
             }
-            this.scene().getGameObjects().forEach(gameView::updateObject);
-            this.scene().consumePendingActions(gameView);
+            this.scene().getGameObjects().forEach(observer::updateObject);
+            this.scene().consumePendingActions(observer);
             this.gameEventsManager().consumePendingEvents();
             deltaTime = this.updateDeltaTime(lastFrameTime);
             lastFrameTime = System.currentTimeMillis();
