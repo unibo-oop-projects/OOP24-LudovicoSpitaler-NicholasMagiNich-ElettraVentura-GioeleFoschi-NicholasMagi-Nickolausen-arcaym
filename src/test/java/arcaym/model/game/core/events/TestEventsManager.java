@@ -1,6 +1,8 @@
 package arcaym.model.game.core.events;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 
@@ -81,6 +83,7 @@ class TestEventsManager {
     @BeforeEach
     void setup() {
         this.eventsManager = new ThreadSafeEventsManager<>();
+        this.eventsManager.enable();
         this.counter = new Counter();
         this.counter.reset();
     }
@@ -107,6 +110,35 @@ class TestEventsManager {
         assertCounterValue(0); // increment is scheduled but not consumed
         this.eventsManager.consumePendingEvents();
         assertCounterValue(1); // increment performed
+    }
+
+    @Test
+    void testEnable() {
+        this.eventsManager.registerCallback(NormalEvent.INCREMENT, e -> this.counter.increment());
+        assertTrue(this.eventsManager.isEnabled());
+        assertCounterValue(0);
+        this.eventsManager.scheduleEvent(NormalEvent.INCREMENT);
+        this.eventsManager.consumePendingEvents();
+        assertCounterValue(1);
+        this.counter.reset();
+        assertCounterValue(0);
+        this.eventsManager.disable();
+        assertFalse(this.eventsManager.isEnabled());
+        this.eventsManager.scheduleEvent(NormalEvent.INCREMENT);
+        this.eventsManager.consumePendingEvents();
+        assertCounterValue(0);
+        this.eventsManager.enable();
+        assertTrue(this.eventsManager.isEnabled());
+        this.eventsManager.scheduleEvent(NormalEvent.INCREMENT);
+        this.eventsManager.consumePendingEvents();
+        assertCounterValue(1);
+        this.counter.reset();
+        assertCounterValue(0);
+        assertTrue(this.eventsManager.isEnabled());
+        this.eventsManager.scheduleEvent(NormalEvent.INCREMENT);
+        this.eventsManager.disable();
+        this.eventsManager.consumePendingEvents();
+        assertCounterValue(1);
     }
 
     @Test
