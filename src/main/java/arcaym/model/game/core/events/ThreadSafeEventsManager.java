@@ -31,6 +31,31 @@ public class ThreadSafeEventsManager<T extends Event> implements EventsManager<T
         EVENTS_QUEUE_INITIAL_CAPACITY, 
         Event::compare
     );
+    private boolean isEnabled;
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void enable() {
+        this.isEnabled = true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void disable() {
+        this.isEnabled = false;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isEnabled() {
+        return this.isEnabled;
+    }
 
     /**
      * {@inheritDoc}
@@ -53,8 +78,12 @@ public class ThreadSafeEventsManager<T extends Event> implements EventsManager<T
      */
     @Override
     public void scheduleEvent(final T event) {
-        this.pendingEvents.add(Objects.requireNonNull(event));
-        LOGGER.info(new StringBuilder("Scheduled event ").append(event).toString());
+        if (this.isEnabled) {
+            this.pendingEvents.add(Objects.requireNonNull(event));
+            LOGGER.info(new StringBuilder("Scheduled event ").append(event).toString());
+        } else {
+            LOGGER.info(new StringBuilder("Ignoring event ").append(event).toString());
+        }
     }
 
     /**

@@ -12,4 +12,19 @@ public interface EventsManager<T extends Event> extends EventsScheduler<T>, Even
      */
     void consumePendingEvents();
 
+    /**
+     * Start registering the events.
+     */
+    void enable();
+
+    /**
+     * Stop registering the events.
+     */
+    void disable();
+
+    /**
+     * @return if the events manager is enabled
+     */
+    boolean isEnabled();
+
 }
