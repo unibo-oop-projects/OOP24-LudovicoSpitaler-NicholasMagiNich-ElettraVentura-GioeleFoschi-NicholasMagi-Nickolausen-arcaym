@@ -57,8 +57,11 @@ public class UserStateSerializerJSON implements UserStateSerializer {
             return previousSave.get();
         }
         final var defaultState = UserStateInfo.getDefaultState();
-        save(defaultState);
-        LOGGER.info("Saving a default user state: " + defaultState);
+        if (!save(defaultState)) {
+            LOGGER.error("Cannot save the default state: " + defaultState);
+        } else {
+            LOGGER.info("It looks like nothing has been saved before. Saving a default user state: " + defaultState);
+        }
         return defaultState;
     }
 
