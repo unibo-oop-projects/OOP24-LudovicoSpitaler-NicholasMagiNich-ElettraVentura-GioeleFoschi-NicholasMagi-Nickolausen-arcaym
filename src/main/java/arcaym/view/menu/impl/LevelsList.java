@@ -49,11 +49,12 @@ public class LevelsList implements ViewComponent<JScrollPane> {
     @Override
     public JScrollPane build(final WindowInfo window) {
         final var mainPanel = new JPanel();
-        this.reloadList(mainPanel, window);
-        return new JScrollPane(mainPanel);
+        final var scrollPanel = new JScrollPane(mainPanel);
+        this.reloadList(mainPanel, scrollPanel, window);
+        return scrollPanel;
     }
 
-    private void reloadList(final JPanel mainPanel, final WindowInfo window) {
+    private void reloadList(final JPanel mainPanel, final JScrollPane scrollPanel, final WindowInfo window) {
         mainPanel.removeAll();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
         final var gap = SwingUtils.getNormalGap(mainPanel);
@@ -65,16 +66,16 @@ public class LevelsList implements ViewComponent<JScrollPane> {
                 this.levelOpener, 
                 m -> {
                     this.levelDeleter.accept(m);
-                    this.reloadList(mainPanel, window);
+                    this.reloadList(mainPanel, scrollPanel, window);
                 }
             ).build(window))
             .flatMap(c -> Stream.of(Box.createVerticalStrut(gap), c))
             .skip(1)
             .forEach(mainPanel::add);
         mainPanel.setBorder(BorderFactory.createEmptyBorder(gap, gap, gap, gap));
-        mainPanel.setVisible(!levels.isEmpty());
-        mainPanel.revalidate();
-        mainPanel.repaint();
+        scrollPanel.setVisible(!levels.isEmpty());
+        scrollPanel.revalidate();
+        scrollPanel.repaint();
     }
 
 }

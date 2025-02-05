@@ -75,9 +75,9 @@ public class MainViewImpl extends AbstractView<MainController> implements MainVi
         }
         mainPanel.add(topRow, BorderLayout.NORTH);
         mainPanel.add(mainContent.build(windowInfo), BorderLayout.CENTER);
-        mainPanel.setPreferredSize(windowInfo.size());
         window.setContentPane(mainPanel);
-        window.pack();
+        window.revalidate();
+        window.repaint();
     }
 
     /**
