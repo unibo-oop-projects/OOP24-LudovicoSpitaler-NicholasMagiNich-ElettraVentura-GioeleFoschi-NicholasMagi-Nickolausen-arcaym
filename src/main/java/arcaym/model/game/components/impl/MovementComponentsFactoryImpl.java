@@ -42,14 +42,16 @@ public class MovementComponentsFactoryImpl implements MovementComponentsFactory 
             public void update(final long deltaTime, final EventsScheduler<GameEvent> eventsScheduler,
                     final GameSceneInfo gameScene,
                     final GameStateInfo gameState) {
+                        final Point cuurentPosition = gameObject.getPosition();
+                        final Point newPosition = nextPosition(vel, deltaTime, gameObject);
+                        gameObject.setPosition(newPosition);
                     if (
                         CollisionUtils.isWallCollisionActive(gameScene, gameObject) 
                         || !gameState.boundaries().contains(gameObject.boundaries())
                     ) {
                         vel = reaction.reactToLimitReached(deltaTime, eventsScheduler, vel, gameObject);
+                        gameObject.setPosition(cuurentPosition);
                     }
-                        final Point newPosition = nextPosition(vel, deltaTime, gameObject);
-                        gameObject.setPosition(newPosition);
             }
 
         };
