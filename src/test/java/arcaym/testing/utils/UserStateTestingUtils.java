@@ -1,8 +1,5 @@
 package arcaym.testing.utils;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.Optional;
@@ -25,10 +22,12 @@ public final class UserStateTestingUtils {
     private static final String EXTENSION = ".json";
 
     // Utility class
-    private UserStateTestingUtils() { }
+    private UserStateTestingUtils() {
+    }
 
     private interface UserStateSerializerTestingUtils extends UserStateSerializer {
         boolean save(UserStateInfo userState, String filename);
+
         Optional<UserStateInfo> load(String filename);
     }
 
@@ -61,15 +60,10 @@ public final class UserStateTestingUtils {
             @Override
             public boolean save(final UserStateInfo userState, final String filename) {
                 FileUtils.createUserDirectory();
-                try {
-                    Files.writeString(
-                            getPathOf(filename),
-                            new Gson().toJson(userState),
-                            StandardCharsets.UTF_8);
-                } catch (IOException e) {
-                    return false;
-                }
-                return true;
+                return FileUtils.writeFile(
+                        filename.concat(EXTENSION),
+                        FileUtils.USER_FOLDER,
+                        new Gson().toJson(userState));
             }
         };
     }

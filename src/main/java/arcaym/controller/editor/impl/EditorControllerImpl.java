@@ -21,6 +21,7 @@ import arcaym.controller.editor.api.ExtendedEditorController;
 import arcaym.controller.editor.saves.LevelMetadata;
 import arcaym.controller.editor.saves.MetadataManagerImpl;
 import arcaym.controller.game.impl.GameControllerImpl;
+import arcaym.controller.user.api.UserStateSerializerInfo;
 import arcaym.controller.user.impl.UserStateSerializerJSON;
 import arcaym.model.editor.EditorGridException;
 import arcaym.model.editor.EditorType;
@@ -89,9 +90,10 @@ public class EditorControllerImpl extends AbstractController<EditorView> impleme
     }
 
     private Set<GameObjectType> getUnlockedItems(final EditorType type) {
+        final UserStateSerializerInfo serializer = new UserStateSerializerJSON();
         return switch (type) {
             case EditorType.SANDBOX -> EnumSet.allOf(GameObjectType.class);
-            case EditorType.NORMAL -> new UserStateSerializerJSON().getUpdatedState().getItemsOwned();
+            case EditorType.NORMAL -> serializer.getUpdatedState().getItemsOwned();
             default -> Collections.emptySet();
         };
     }

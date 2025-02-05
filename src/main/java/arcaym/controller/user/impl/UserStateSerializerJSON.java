@@ -1,8 +1,5 @@
 package arcaym.controller.user.impl;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
 import java.util.Optional;
@@ -33,16 +30,10 @@ public class UserStateSerializerJSON implements UserStateSerializer {
     public boolean save(final UserStateInfo userState) {
         FileUtils.createUserDirectory();
         validateFileName(FILENAME);
-        try {
-            Files.writeString(
-                getPathOf(FILENAME),
-                new Gson().toJson(userState),
-                StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            LOGGER.error("An error occurred while WRITING '" + FILENAME + "' file.", e);
-            return false;
-        }
-        return true;
+        return FileUtils.writeFile(
+            FILENAME.concat(EXTENSION), 
+            FileUtils.USER_FOLDER, 
+            new Gson().toJson(userState));
     }
 
     /* Utility function  */
