@@ -140,28 +140,4 @@ public class GridConstraintProviderImpl implements GridConstraintProvider {
 
         return constraints;
     }
-
-    // /**
-    //  * {@inheritDoc}
-    //  */
-    // @Override
-    // public void sandbox(
-    //     final BiConsumer<GameObjectType, MapConstraint> object, 
-    //     final BiConsumer<GameObjectCategory, MapConstraint> category) {
-    //     // free to place objects without rules
-    // }
-
-    // /**
-    //  * {@inheritDoc}
-    //  */
-    // @Override
-    // public void normal(
-    //         final BiConsumer<GameObjectType, MapConstraint> object,
-    //         final BiConsumer<GameObjectCategory, MapConstraint> category) {
-    //     final var constraintFactory = new MapConstraintFactoryImpl();
-    //     object.accept(GameObjectType.COIN, constraintFactory.maxNumberOfBlocks(3));
-    //     object.accept(GameObjectType.USER_PLAYER, constraintFactory.singleBlockConstraint());
-    //     category.accept(GameObjectCategory.COLLECTABLE, constraintFactory.maxNumberOfBlocks(10));
-    //     category.accept(GameObjectCategory.GOAL, constraintFactory.adjacencyConstraint());
-    // }
 }

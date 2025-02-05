@@ -77,16 +77,6 @@ public class GridImpl implements Grid {
             final var mapOfCategory = getSetOfCategory(type.category());
             mapOfCategory.addAll(positions);
             this.constraints.checkConstraint(mapOfCategory, type.category());
-            // if (objectConstraint.containsKey(type)) {
-            //     final var mapOfType = getSetOfType(type);
-            //     mapOfType.addAll(positions);
-            //     objectConstraint.get(type).checkConstraint(mapOfType);
-            // }
-            // if (categoryConstraint.containsKey(type.category())) {
-            //     final var mapOfCategory = getSetOfCategory(type.category());
-            //     mapOfCategory.addAll(positions);
-            //     categoryConstraint.get(type.category()).checkConstraint(mapOfCategory);
-            // }
         } catch (ConstraintFailedException e) {
             throw new EditorGridException(e.toString(), true, e);
         }
@@ -144,24 +134,6 @@ public class GridImpl implements Grid {
         } catch (ConstraintFailedException e) {
             throw new EditorGridException(e.toString(), false, e);
         }
-        // for (final Entry<GameObjectType, MapConstraint> e : objectConstraint.entrySet()) {
-        //     try {
-        //         final var mapOfType = getSetOfType(e.getKey());
-        //         mapOfType.removeAll(positions);
-        //         e.getValue().checkConstraint(mapOfType);
-        //     } catch (ConstraintFailedException ex) {
-        //         throw new EditorGridException(ex.toString(), false, ex);
-        //     }
-        // }
-        // for (final Entry<GameObjectCategory, MapConstraint> e : categoryConstraint.entrySet()) {
-        //     try {
-        //         final var mapOfCategory = getSetOfCategory(e.getKey());
-        //         mapOfCategory.removeAll(positions);
-        //         e.getValue().checkConstraint(mapOfCategory);
-        //     } catch (ConstraintFailedException ex) {
-        //         throw new EditorGridException(ex.toString(), false, ex);
-        //     }
-        // }
         positions.forEach(map::remove);
     }
 
