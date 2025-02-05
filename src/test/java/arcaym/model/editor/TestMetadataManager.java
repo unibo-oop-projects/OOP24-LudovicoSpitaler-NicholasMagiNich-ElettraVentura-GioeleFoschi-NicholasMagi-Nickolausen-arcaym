@@ -44,7 +44,7 @@ final class TestMetadataManager {
     @AfterEach
     void clearFolderOfTests() {
         for (final LevelMetadata levelMetadata : savedFiles) {
-            FileUtils.deleteFile(levelMetadata.uuid() + ".json", "levelsMetadata");
+            FileUtils.deleteFile(levelMetadata.uuid() + ".json", FileUtils.METADATA_FOLDER);
         }
     }
 

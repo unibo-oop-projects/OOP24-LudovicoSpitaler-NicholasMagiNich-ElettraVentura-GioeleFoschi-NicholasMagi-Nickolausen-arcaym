@@ -30,8 +30,9 @@ public class GameControllerImpl extends AbstractController<GameView> implements 
      * {@inheritDoc}
      */
     @Override
-    public void startGame() {
-        this.game.start(this.view());
+    public void setView(final GameView view) {
+        super.setView(view);
+        this.game.start(view);
     }
 
     /**
@@ -47,7 +48,7 @@ public class GameControllerImpl extends AbstractController<GameView> implements 
      */
     @Override
     public void close() {
-        super.close();
         this.game.scheduleStop();
+        super.close();
     }
 }

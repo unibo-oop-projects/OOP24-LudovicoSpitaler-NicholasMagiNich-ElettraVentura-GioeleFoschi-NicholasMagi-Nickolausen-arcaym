@@ -1,7 +1,7 @@
 package arcaym.model.game.components.api;
 
+import arcaym.model.game.core.components.api.ComponentsBasedGameObject;
 import arcaym.model.game.core.components.api.GameComponent;
-import arcaym.model.game.core.components.impl.UniqueComponentsGameObject;
 
 /**
  * Interface for a Factory of game components related to collisions.
@@ -12,19 +12,19 @@ public interface CollisionComponentsFactory {
      * @param gameObject game object
      * @return said behaviour as a game component
      */
-    GameComponent obstacleCollision(UniqueComponentsGameObject gameObject);
+    GameComponent obstacleCollision(ComponentsBasedGameObject gameObject);
 
     /**
      * Handles a collision with a collectable.
      * @param gameObject game object
      * @return said behaviour as a game component
      */
-    GameComponent collectableCollision(UniqueComponentsGameObject gameObject);
+    GameComponent collectableCollision(ComponentsBasedGameObject gameObject);
 
     /**
      * Handles a collision with the goal area.
      * @param gameObject game object
      * @return said behaviour as a game component
      */
-    GameComponent reachedGoal(UniqueComponentsGameObject gameObject);
+    GameComponent reachedGoal(ComponentsBasedGameObject gameObject);
 }

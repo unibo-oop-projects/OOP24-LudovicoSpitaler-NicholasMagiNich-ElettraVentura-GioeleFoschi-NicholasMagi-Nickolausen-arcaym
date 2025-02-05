@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.model.shop.api.Shop;
 import arcaym.model.shop.impl.ShopImpl;
-import arcaym.utils.UserStateTestingUtils;
+import arcaym.testing.utils.UserStateTestingUtils;
 
 class TestShop {
 
@@ -25,13 +25,13 @@ class TestShop {
     @BeforeEach
     void setup() {
         UserStateTestingUtils.makeUserStateBackup();
-        UserStateTestingUtils.writeUserStateDefault(DEFAULT_CREDIT);
+        UserStateTestingUtils.writeTestUserState(DEFAULT_CREDIT);
         shopModel = new ShopImpl();
     }
 
     @AfterEach
     void clearTraces() {
-        UserStateTestingUtils.writeUserStateBackup();
+        UserStateTestingUtils.loadUserStateBackup();
     }
 
     @Test
@@ -39,23 +39,25 @@ class TestShop {
         // Make sure nothing can be bought with 0 credit
         assertFalse(shopModel.getLockedGameObjects().keySet().stream().anyMatch(shopModel::canBuy));
 
-        final int creditRecharge = 50;
-        UserStateTestingUtils.writeUserStateDefault(creditRecharge);
+        final int creditRecharge = 300;
+        UserStateTestingUtils.writeTestUserState(creditRecharge);
 
         // Now the user should be able to buy something
         assertTrue(shopModel.getLockedGameObjects().keySet().stream().anyMatch(shopModel::canBuy));
-        // So he buys the WALL asset (spoiler for the following test)
+        // So he buys the WALL asset (assuming makeTransaction works)
         assertTrue(shopModel.makeTransaction(GameObjectType.WALL));
-        // And eventually he can't buy it anymore
+        // And eventually he can't buy it anymore - because he already owns it
         assertFalse(shopModel.canBuy(GameObjectType.WALL));
+        // He cannot afford anything else
+        assertFalse(shopModel.getLockedGameObjects().keySet().stream().anyMatch(shopModel::canBuy));
     }
 
     @Test
     void testMakeTransaction() {
         assertFalse(shopModel.getLockedGameObjects().keySet().stream().anyMatch(shopModel::makeTransaction));
 
-        final int creditRecharge = 50;
-        UserStateTestingUtils.writeUserStateDefault(creditRecharge);
+        final int creditRecharge = 300;
+        UserStateTestingUtils.writeTestUserState(creditRecharge);
 
         // The transaction ends with success
         assertTrue(shopModel.makeTransaction(GameObjectType.WALL));
@@ -69,12 +71,13 @@ class TestShop {
     void testGetPurchasedGameObjects() {
         assertEquals(shopModel.getPurchasedGameObjects(), Collections.emptyMap());
 
-        final int creditRecharge = 200;
-        UserStateTestingUtils.writeUserStateDefault(creditRecharge);
+        final int creditRecharge = 2100;
+        UserStateTestingUtils.writeTestUserState(creditRecharge);
 
-        assertTrue(shopModel.makeTransaction(GameObjectType.WALL)); // -50
-        assertTrue(shopModel.makeTransaction(GameObjectType.MOVING_X_OBSTACLE)); // -30
-        assertTrue(shopModel.makeTransaction(GameObjectType.MOVING_Y_OBSTACLE)); // -40
+        assertTrue(shopModel.makeTransaction(GameObjectType.WALL));
+        assertTrue(shopModel.makeTransaction(GameObjectType.MOVING_X_OBSTACLE));
+        assertTrue(shopModel.makeTransaction(GameObjectType.MOVING_Y_OBSTACLE));
+        assertFalse(shopModel.makeTransaction(GameObjectType.SPIKE));
         assertEquals(shopModel.getPurchasedGameObjects(), 
             Map.of(
                 GameObjectType.WALL, shopModel.getPriceOf(GameObjectType.WALL),

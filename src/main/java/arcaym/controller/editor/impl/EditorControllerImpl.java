@@ -2,6 +2,7 @@ package arcaym.controller.editor.impl;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -20,7 +21,8 @@ import arcaym.controller.editor.api.ExtendedEditorController;
 import arcaym.controller.editor.saves.LevelMetadata;
 import arcaym.controller.editor.saves.MetadataManagerImpl;
 import arcaym.controller.game.impl.GameControllerImpl;
-import arcaym.controller.user.impl.UserStateSerializerImpl;
+import arcaym.controller.user.api.UserStateSerializerInfo;
+import arcaym.controller.user.impl.UserStateSerializerJSON;
 import arcaym.model.editor.EditorGridException;
 import arcaym.model.editor.EditorType;
 import arcaym.model.editor.api.GridModel;
@@ -28,7 +30,6 @@ import arcaym.model.editor.impl.GridModelImpl;
 import arcaym.model.game.components.impl.ComponentsBasedObjectsFactory;
 import arcaym.model.game.core.engine.impl.FactoryBasedGameBuilder;
 import arcaym.model.game.objects.api.GameObjectType;
-import arcaym.model.user.api.UserStateInfo;
 import arcaym.view.editor.api.EditorView;
 
 /**
@@ -36,7 +37,7 @@ import arcaym.view.editor.api.EditorView;
  */
 public class EditorControllerImpl extends AbstractController<EditorView> implements ExtendedEditorController {
 
-    private final UserStateInfo userState;
+    private final Set<GameObjectType> unlockedItems;
     private final LevelMetadata metadata;
     private GameObjectType selectedObject = GameObjectType.FLOOR;
     private final GridModel grid;
@@ -65,7 +66,7 @@ public class EditorControllerImpl extends AbstractController<EditorView> impleme
             type,
             Position.of(width, height));
         this.view = Optional.empty();
-        this.userState = new UserStateSerializerImpl().getUpdatedState();
+        this.unlockedItems = getUnlockedItems(type);
     }
 
     /**
@@ -85,7 +86,16 @@ public class EditorControllerImpl extends AbstractController<EditorView> impleme
             metadata.type(),
             metadata.size());
         this.view = Optional.empty();
-        this.userState = new UserStateSerializerImpl().getUpdatedState();
+        this.unlockedItems = getUnlockedItems(metadata.type());
+    }
+
+    private Set<GameObjectType> getUnlockedItems(final EditorType type) {
+        final UserStateSerializerInfo serializer = new UserStateSerializerJSON();
+        return switch (type) {
+            case EditorType.SANDBOX -> EnumSet.allOf(GameObjectType.class);
+            case EditorType.NORMAL -> serializer.getUpdatedState().getItemsOwned();
+            default -> Collections.emptySet();
+        };
     }
 
     /**
@@ -93,8 +103,8 @@ public class EditorControllerImpl extends AbstractController<EditorView> impleme
      */
     @Override
     public void close() {
-        super.close();
         this.saveLevel();
+        super.close();
     }
 
     /**
@@ -102,7 +112,7 @@ public class EditorControllerImpl extends AbstractController<EditorView> impleme
      */
     @Override
     public Set<GameObjectType> getOwnedObjects() {
-        return Collections.unmodifiableSet(userState.itemsOwned());
+        return Collections.unmodifiableSet(this.unlockedItems);
     }
 
     /**
@@ -110,24 +120,29 @@ public class EditorControllerImpl extends AbstractController<EditorView> impleme
      */
     @Override
     public void play() {
-        final int tileSize = 10; // logic dimension of the tile
-        final var gameFactory = new FactoryBasedGameBuilder(new ComponentsBasedObjectsFactory(tileSize));
+        this.saveLevel();
+        final int tileSize = 100; // logic dimension of the tile
+        final var gameBuilder = new FactoryBasedGameBuilder(new ComponentsBasedObjectsFactory(tileSize));
         final var objectsInPosition = this.grid.getFullMap();
         objectsInPosition.entrySet().forEach(e -> {
-            e.getValue()
-                .forEach(type -> gameFactory.addObject(
-                    type,
+            final var objects = e.getValue();
+            for (int i = 0; i < objects.size(); i++) {
+                gameBuilder.addObject(
+                    objects.get(i),
                     Point.of(
                         e.getKey().x() * tileSize + tileSize / 2,
-                        e.getKey().y() * tileSize + tileSize / 2)));
+                        e.getKey().y() * tileSize + tileSize / 2),
+                    i
+                );
+            }
         });
         this.switcher().switchToGame(new GameControllerImpl(
-            gameFactory.build(
+            gameBuilder.build(
                 new Rectangle(
                     Point.of(0, 0),
                     Point.of(
-                        (this.metadata.size().x() + 1) * tileSize,
-                        (this.metadata.size().y() + 1) * tileSize))),
+                        this.metadata.size().x() * tileSize,
+                        this.metadata.size().y() * tileSize))),
             this.switcher()));
     }
 
@@ -145,6 +160,7 @@ public class EditorControllerImpl extends AbstractController<EditorView> impleme
     @Override
     public void undo() {
         this.grid.undo();
+        this.updateView(this.grid.getUpdatedGrid());
     }
 
     /**
@@ -161,6 +177,7 @@ public class EditorControllerImpl extends AbstractController<EditorView> impleme
     @Override
     public void eraseArea(final Collection<Position> positions) throws EditorGridException {
         this.grid.removeObjects(positions);
+        this.updateView(this.grid.getUpdatedGrid());
     }
 
     /**
@@ -169,6 +186,23 @@ public class EditorControllerImpl extends AbstractController<EditorView> impleme
     @Override
     public void applyChange(final Collection<Position> positions) throws EditorGridException {
         this.grid.placeObjects(positions, selectedObject);
+        this.updateView(grid.getUpdatedGrid());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setupMap() {
+        this.updateView(this.grid.getFullMap());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Position getSize() {
+        return Position.of(metadata.size().x(), metadata.size().y());
     }
 
     /**

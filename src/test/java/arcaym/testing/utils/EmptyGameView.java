@@ -1,4 +1,4 @@
-package arcaym.utils;
+package arcaym.testing.utils;
 
 import arcaym.model.game.core.engine.api.GameStateInfo;
 import arcaym.model.game.core.events.api.EventsScheduler;
@@ -32,7 +32,7 @@ public class EmptyGameView implements GameView {
      * {@inheritDoc}
      */
     @Override
-    public void createObject(final GameObjectInfo gameObject) { }
+    public void createObject(final GameObjectInfo gameObject, final int zIndex) { }
 
     /**
      * {@inheritDoc}
@@ -44,6 +44,6 @@ public class EmptyGameView implements GameView {
      * {@inheritDoc}
      */
     @Override
-    public void destroyObject(final GameObjectInfo gameObjects) { }
+    public void destroyObject(final GameObjectInfo gameObject) { }
 
 }

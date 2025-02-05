@@ -16,7 +16,7 @@ import arcaym.view.game.api.GameView;
 public class SingleThreadedGame extends AbstractThreadSafeGame {
 
     private static final String GAME_LOOP_THREAD_NAME = "GameLoopThread";
-    private static final long GAME_LOOP_PERIOD_MS = 10;
+    private static final long DESIRED_FPS = 60;
     private static final long SECOND_MS = 1000;
     private static final Logger LOGGER = LoggerFactory.getLogger(SingleThreadedGame.class);
     private Optional<Thread> gameLoopThread = Optional.empty();
@@ -62,38 +62,45 @@ public class SingleThreadedGame extends AbstractThreadSafeGame {
 
     private void gameLoop(final GameView gameView) {
         LOGGER.info("Game loop thread started");
-        long deltaTime = this.updateDeltaTime(0);
+        long deltaTime = 0;
+        long lastFrameTime = System.currentTimeMillis();
         while (this.runGameLoop) {
             this.inputEventsManager().consumePendingEvents();
-            deltaTime = this.updateDeltaTime(deltaTime);
-            // no stream beacause delta time is not final
             for (final var gameObject : this.scene().getGameObjects()) {
                 gameObject.update(deltaTime, this.gameEventsManager(), this.scene(), this.state());
             }
             this.scene().getGameObjects().forEach(gameView::updateObject);
             this.scene().consumePendingActions(gameView);
             this.gameEventsManager().consumePendingEvents();
+            deltaTime = this.updateDeltaTime(lastFrameTime);
+            lastFrameTime = System.currentTimeMillis();
         }
         LOGGER.info("Finished game loop");
     }
 
-    private long updateDeltaTime(final long start) {
-        final var deltaTime = System.currentTimeMillis() - start;
-        if (deltaTime < GAME_LOOP_PERIOD_MS) {
+    private long updateDeltaTime(final long lastFrameTime) {
+        var deltaTime = this.calculateDeltaTime(lastFrameTime);
+        final var period = SECOND_MS / DESIRED_FPS;
+        if (deltaTime < period) {
             try {
-                Thread.sleep(GAME_LOOP_PERIOD_MS - deltaTime);
+                Thread.sleep(period - deltaTime);
             } catch (InterruptedException e) {
                 LOGGER.warn("Update frame waiting interrupted");
             }
         }
+        deltaTime = this.calculateDeltaTime(lastFrameTime);
         LOGGER.info(
             new StringBuilder("FPS: ")
-                .append(SECOND_MS / deltaTime)
-                .append(", Delta: ")
-                .append(deltaTime)
-                .toString()
+            .append(SECOND_MS / deltaTime)
+            .append(", Delta: ")
+            .append(deltaTime)
+            .toString()
         );
         return deltaTime;
+    }
+
+    private long calculateDeltaTime(final long lastFrameTime) {
+        return System.currentTimeMillis() - lastFrameTime;
     }
 
 }

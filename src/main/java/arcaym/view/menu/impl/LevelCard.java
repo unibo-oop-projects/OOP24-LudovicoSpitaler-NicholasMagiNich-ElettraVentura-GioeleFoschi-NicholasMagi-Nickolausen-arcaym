@@ -19,35 +19,45 @@ import arcaym.view.utils.SwingUtils;
 /**
  * View for a {@link LevelMetadata}.
  */
-public class LevelCard implements ViewComponent<JButton> {
+public class LevelCard implements ViewComponent<JPanel> {
 
     private static final String KEY_DIVISOR = ": ";
+    private static final String DELETE_BUTTON_TEXT = "DELETE";
 
     private final LevelMetadata metadata;
     private final Consumer<LevelMetadata> levelOpener;
+    private final Consumer<LevelMetadata> levelDeleter;
 
     /**
      * Initialize with given metadata.
      * 
      * @param metadata level metadata
      * @param levelOpener level opener function
+     * @param levelDeleter level delete function
      */
-    public LevelCard(final LevelMetadata metadata, final Consumer<LevelMetadata> levelOpener) {
+    public LevelCard(
+        final LevelMetadata metadata, 
+        final Consumer<LevelMetadata> levelOpener,
+        final Consumer<LevelMetadata> levelDeleter
+    ) {
         this.metadata = Objects.requireNonNull(metadata);
         this.levelOpener = Objects.requireNonNull(levelOpener);
+        this.levelDeleter = Objects.requireNonNull(levelDeleter);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public JButton build(final WindowInfo window) {
-        final var button = new JButton();
-        final var normalGap = SwingUtils.getNormalGap(button);
-        final var littleGap = SwingUtils.getLittleGap(button);
-
+    public JPanel build(final WindowInfo window) {
+        final var mainPanel = new JPanel();
+        final var normalGap = SwingUtils.getNormalGap(mainPanel);
+        final var littleGap = SwingUtils.getLittleGap(mainPanel);
+        mainPanel.setLayout(new BorderLayout(littleGap, littleGap));
+        final var levelButton = new JButton();
         final var nameLabel = new JLabel(this.metadata.levelName());
         SwingUtils.changeFontSize(nameLabel, 4);
+        mainPanel.setOpaque(false);
         final var infoPanel = new JPanel();
         infoPanel.setOpaque(false);
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.PAGE_AXIS));
@@ -58,14 +68,16 @@ public class LevelCard implements ViewComponent<JButton> {
         infoPanel.add(Box.createVerticalStrut(littleGap));
         infoPanel.add(this.buildLine("Type", this.metadata.type().name()));
         infoPanel.add(Box.createVerticalGlue());
-
-        button.setLayout(new BorderLayout());
-        button.add(nameLabel, BorderLayout.WEST);
-        button.add(Box.createHorizontalStrut(normalGap), BorderLayout.CENTER);
-        button.add(infoPanel, BorderLayout.EAST);
-        button.addActionListener(e -> this.levelOpener.accept(this.metadata));
-
-        return button;
+        final var deleteButton = new JButton(DELETE_BUTTON_TEXT);
+        deleteButton.addActionListener(e -> this.levelDeleter.accept(this.metadata));
+        levelButton.setLayout(new BorderLayout());
+        levelButton.add(nameLabel, BorderLayout.WEST);
+        levelButton.add(Box.createHorizontalStrut(normalGap), BorderLayout.CENTER);
+        levelButton.add(infoPanel, BorderLayout.EAST);
+        levelButton.addActionListener(e -> this.levelOpener.accept(this.metadata));
+        mainPanel.add(levelButton, BorderLayout.CENTER);
+        mainPanel.add(deleteButton, BorderLayout.EAST);
+        return mainPanel;
     }
 
     private JLabel buildLine(final String key, final Object value) {

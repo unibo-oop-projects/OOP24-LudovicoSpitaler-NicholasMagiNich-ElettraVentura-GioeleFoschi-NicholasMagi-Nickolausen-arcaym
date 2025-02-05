@@ -9,7 +9,6 @@ import javax.imageio.ImageIO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import arcaym.model.game.core.objects.api.GameObjectCategory;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.view.components.ImageLabel;
 import arcaym.view.utils.SwingUtils;
@@ -45,15 +44,6 @@ public class GameObjectView extends ImageLabel {
      */
     public GameObjectView(final GameObjectType type) {
         this(type, ImageLabel.DEFAULT_SCALE);
-    }
-
-    /**
-     * Get object category.
-     * 
-     * @return the category the game object belongs to
-     */
-    public GameObjectCategory getCategory() {
-        return this.type.category();
     }
 
     /**

@@ -1,5 +1,12 @@
 package arcaym.model.editor.impl;
 
+import java.util.stream.Collectors;
+
+import com.google.common.collect.Sets;
+import com.google.common.graph.GraphBuilder;
+import com.google.common.graph.MutableGraph;
+import com.google.common.graph.Traverser;
+
 import arcaym.common.utils.Position;
 import arcaym.model.editor.ConstraintFailedException;
 import arcaym.model.editor.api.MapConstraint;
@@ -16,13 +23,28 @@ public class MapConstraintFactoryImpl implements MapConstraintsFactory {
     @Override
     public MapConstraint adjacencyConstraint() {
         return positions -> {
-            if (!positions
-            .stream()
-            .allMatch(p1 -> 
-                positions
-                    .stream()
-                    .anyMatch(p2 -> adjacencyCondition(p1, p2) || positions.size() == 1))) {
-                throw new ConstraintFailedException("All the cells placed must be nearby");
+            if (!positions.isEmpty()) {
+                // create a map:
+                // Cells are nodes, Edges are connection between neighbour cells 
+                final MutableGraph<Position> checkGraph = GraphBuilder.directed().build();
+                positions.forEach(checkGraph::addNode);
+                positions.forEach(pos -> {
+                    final var adjacent = positions
+                        .stream()
+                        .filter(p -> adjacencyCondition(p, pos))
+                        .collect(Collectors.toSet());
+                    adjacent.forEach(p -> checkGraph.putEdge(p, pos));
+                });
+                // If the intersection between the dfs exploration result and the original set
+                // is not equal to the original set, it means some cells are not reachable from a random cell
+                // Uses the Connected-component Labeling algorithm
+                if (!Sets.intersection(
+                        Sets.newHashSet(
+                            Traverser.forGraph(checkGraph).depthFirstPostOrder(positions.iterator().next())),
+                            positions.stream().collect(Collectors.toSet())).equals(positions)
+                    ) {
+                        throw new ConstraintFailedException("All the cells placed must be nearby");
+                } 
             }
         };
     }

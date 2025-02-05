@@ -10,6 +10,12 @@ public interface Event {
      */
     int NO_PRIORITY = Integer.MAX_VALUE;
 
+
+    /**
+     * Default value for {@link #isTerminal()}.
+     */
+    boolean DEFAULT_TERMINAL = false;
+
     /**
      * Get priority value.
      * 
@@ -17,6 +23,15 @@ public interface Event {
      */
     default int priority() {
         return NO_PRIORITY;
+    }
+
+    /**
+     * Get if the event should clear all the other events.
+     * 
+     * @return if it is terminal
+     */
+    default boolean isTerminal() {
+        return DEFAULT_TERMINAL;
     }
 
     /**

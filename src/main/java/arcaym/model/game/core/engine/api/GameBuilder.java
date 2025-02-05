@@ -14,9 +14,10 @@ public interface GameBuilder {
      * 
      * @param type game object type
      * @param position game object position
+     * @param zIndex z index
      * @return this builder
      */
-    GameBuilder addObject(GameObjectType type, Point position);
+    GameBuilder addObject(GameObjectType type, Point position, int zIndex);
 
 
     /**

@@ -8,7 +8,7 @@ import arcaym.view.app.api.MainView;
 public interface MainController extends ExtendedController<MainView> { 
 
     /**
-     * Goes back to the previous panel;
+     * Goes back to the previous panel.
      */
     void goBack();
 

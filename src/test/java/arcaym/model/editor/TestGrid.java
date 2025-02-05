@@ -33,7 +33,7 @@ final class TestGrid {
 
     @AfterAll
     public static void cleanUp() {
-        FileUtils.deleteFile(TEST_SAVE_NAME.concat(".bin"), "saves");
+        FileUtils.deleteFile(TEST_SAVE_NAME.concat(".bin"), FileUtils.SAVES_FOLDER);
     }
 
     private void setUpSandboxGrid() {

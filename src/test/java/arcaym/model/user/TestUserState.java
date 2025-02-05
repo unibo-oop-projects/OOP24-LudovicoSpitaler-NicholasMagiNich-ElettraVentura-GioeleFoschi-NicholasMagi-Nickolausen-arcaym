@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.model.user.api.UserState;
 import arcaym.model.user.impl.UserStateImpl;
-import arcaym.utils.UserStateTestingUtils;
+import arcaym.testing.utils.UserStateTestingUtils;
 
 class TestUserState {
 
@@ -29,13 +29,13 @@ class TestUserState {
     void setup() {
         // Does not overwrite the previous states (if the player has some recent saves)
         UserStateTestingUtils.makeUserStateBackup();
-        UserStateTestingUtils.writeUserStateDefault(0);
+        UserStateTestingUtils.writeTestUserState(DEFAULT_CREDIT);
         this.userState = new UserStateImpl();
     }
 
     @AfterEach
     void clearTraces() {
-        UserStateTestingUtils.writeUserStateBackup();
+        UserStateTestingUtils.loadUserStateBackup();
     }
 
     @Test
@@ -61,7 +61,7 @@ class TestUserState {
     }
 
     @Test
-    void testOwnedObjects() {
+    void testOwnedItems() {
         assertTrue(userState.getPurchasedItems().isEmpty());
         assertThrows(IllegalArgumentException.class, () -> userState.unlockNewItem(GameObjectType.COIN));
 

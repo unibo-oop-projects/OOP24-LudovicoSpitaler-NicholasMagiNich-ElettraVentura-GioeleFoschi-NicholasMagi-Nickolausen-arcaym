@@ -22,4 +22,11 @@ public interface MapSerializer<T, U> {
      * @return The created map
      */
     Map<T, U> loadMapFromBinaryFile(String uuid);
+
+    /**
+     * Delete a map file.
+     * @param uuid the map to delete
+     * @return if the operation concluded successfully
+     */
+    boolean deleteMap(String uuid);
 }

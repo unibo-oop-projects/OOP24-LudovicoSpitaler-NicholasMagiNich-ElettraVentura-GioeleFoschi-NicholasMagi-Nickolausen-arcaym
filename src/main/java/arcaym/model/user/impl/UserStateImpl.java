@@ -1,31 +1,21 @@
 package arcaym.model.user.impl;
 
-import java.util.Collections;
-import java.util.EnumSet;
 import java.util.Set;
 
+import com.google.common.collect.Sets;
+
 import arcaym.controller.user.api.UserStateSerializer;
-import arcaym.controller.user.impl.UserStateSerializerImpl;
+import arcaym.controller.user.impl.UserStateSerializerJSON;
 import arcaym.model.game.core.engine.api.GameStateInfo;
 import arcaym.model.game.core.events.api.EventsSubscriber;
 import arcaym.model.game.events.api.GameEvent;
 import arcaym.model.game.objects.api.GameObjectType;
 import arcaym.model.user.api.UserState;
-import arcaym.model.user.api.UserStateInfo;
 
 /**
  * Implementation of {@link UserState}.
  */
 public class UserStateImpl implements UserState {
-
-    /* Initial credit */
-    private static final int DEFAULT_CREDIT = 0;
-    /* Items owned by the user at the beginning of the game */
-    private static final Set<GameObjectType> DEFAULT_ITEMS = EnumSet.copyOf(Set.of(
-        GameObjectType.USER_PLAYER,
-        GameObjectType.COIN,
-        GameObjectType.FLOOR,
-        GameObjectType.SPIKE));
 
     private final UserStateSerializer serializer;
 
@@ -33,11 +23,7 @@ public class UserStateImpl implements UserState {
      * Default constructor.
      */
     public UserStateImpl() {
-        this.serializer = new UserStateSerializerImpl();
-        final var savedState = serializer.load();
-        if (savedState.isEmpty()) {
-            updateSavedState(new UserStateInfo(DEFAULT_CREDIT, DEFAULT_ITEMS, DEFAULT_ITEMS, Collections.emptySet()));
-        }
+        this.serializer = new UserStateSerializerJSON();
     }
 
     /**
@@ -46,19 +32,12 @@ public class UserStateImpl implements UserState {
     @Override
     public void unlockNewItem(final GameObjectType gameObject) {
         final var savedState = serializer.getUpdatedState();
-        if (savedState.itemsOwned().contains(gameObject) || savedState.purchasedItems().contains(gameObject)) {
+        if (savedState.getItemsOwned().contains(gameObject) || savedState.purchasedItems().contains(gameObject)) {
             throw new IllegalArgumentException("Cannot unlock an object already owned! (Unlocking: " + gameObject + ")");
         }
-        final var itemsOwned = EnumSet.copyOf(savedState.itemsOwned());
-        itemsOwned.add(gameObject);
-        final var newState = savedState.withItemsOwned(itemsOwned);
-        if (savedState.purchasedItems().isEmpty()) {
-            updateSavedState(newState.withPurchasedItems(EnumSet.copyOf(Set.of(gameObject))));
-        } else {
-            final var purchasedItems = EnumSet.copyOf(savedState.purchasedItems());
-            purchasedItems.add(gameObject);
-            updateSavedState(newState.withPurchasedItems(purchasedItems));
-        }
+        updateSavedState(savedState.withPurchasedItems(Sets.union(
+            savedState.purchasedItems(), 
+            Set.of(gameObject))));
     }
 
     /**
@@ -76,7 +55,7 @@ public class UserStateImpl implements UserState {
     @Override
     public Set<GameObjectType> getItemsOwned() {
         final var savedState = serializer.getUpdatedState();
-        return savedState.itemsOwned();
+        return savedState.getItemsOwned();
     }
 
     /**
