@@ -118,4 +118,12 @@ public class GridModelImpl implements GridModel {
             .collect(Collectors.toSet());
         return getUpdatedGrid();
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void beforeStartCheck() throws EditorGridException {
+        this.grid.canPlay();
+    }
 }

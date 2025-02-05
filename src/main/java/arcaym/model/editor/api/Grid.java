@@ -14,6 +14,17 @@ import arcaym.model.game.objects.api.GameObjectType;
 public interface Grid {
 
     /**
+     * Getter for the grid size.
+     * 
+     * @return The size of the grid:
+     *         <br>
+     *         - {@link Position#x()} = width;
+     *         <br>
+     *         - {@link Position#y()} = height
+     */
+    Position getSize();
+
+    /**
      * Sets the object @param type in all the positions in the collection.
      * 
      * @param positions The collection of position of the grid
@@ -41,6 +52,13 @@ public interface Grid {
     List<GameObjectType> getObjects(Position pos);
 
     /**
+     * Checks the "before playing" constraints.
+     * 
+     * @throws EditorGridException if any constraint check is failed
+     */
+    void canPlay() throws EditorGridException;
+
+    /**
      * Saves only the cells modified.
      * 
      * @param positions The cells that needs to be saved
@@ -55,17 +73,6 @@ public interface Grid {
      * @return Returns the set of positions that were modified by the operation
      */
     Set<Position> recoverSavedState(Memento state);
-
-    /**
-     * Getter for the grid size.
-     * 
-     * @return The size of the grid:
-     * <br>
-     * - {@link Position#x()} = width;
-     * <br>
-     * - {@link Position#y()} = height
-     */
-    Position getSize();
 
     /**
      * Saves the current state of the grid.

@@ -57,18 +57,18 @@ public class MapConstraintFactoryImpl implements MapConstraintsFactory {
      * {@inheritDoc}
      */
     @Override
-    public MapConstraint singleBlockConstraint() {
-        return maxNumberOfBlocks(1);
+    public MapConstraint singleBlockConstraint(final String objectError) {
+        return maxNumberOfBlocks(1, objectError);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public MapConstraint maxNumberOfBlocks(final int maxBlocks) {
+    public MapConstraint maxNumberOfBlocks(final int maxBlocks, final String objectError) {
         return positions -> {
             if (positions.size() > maxBlocks) {
-                throw new ConstraintFailedException("Maximum amount of object placed exceeded: Max = "
+                throw new ConstraintFailedException("Maximum amount of " + objectError + " placed exceeded: Max = "
                 + maxBlocks
                 + ", Placed = "
                 + positions.size());
@@ -80,11 +80,11 @@ public class MapConstraintFactoryImpl implements MapConstraintsFactory {
      * {@inheritDoc}
      */
     @Override
-    public MapConstraint minNumberOfBlocks(final int minBlocks) {
+    public MapConstraint minNumberOfBlocks(final int minBlocks, final String objectError) {
         return positions -> {
             if (positions.size() < minBlocks) {
                 throw new ConstraintFailedException(
-                    "The level does not have enough objects of the selected type"
+                    "The level does not have enough objects of type: " + objectError
                 );
             }
         };

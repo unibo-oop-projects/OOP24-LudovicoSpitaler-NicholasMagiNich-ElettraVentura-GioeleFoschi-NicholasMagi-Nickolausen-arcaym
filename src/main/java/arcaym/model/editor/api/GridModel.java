@@ -56,6 +56,13 @@ public interface GridModel {
     Map<Position, List<GameObjectType>> getFullMap();
 
     /**
+     * Checks the "before playing" constraints.
+     * 
+     * @throws EditorGridException if any constraint check is failed
+     */
+    void beforeStartCheck() throws EditorGridException;
+
+    /**
      * Saves the current state of the grid in a file for later use.
      * @param uuid The name of the file.
      * @return Returns true if the file was saved successfully

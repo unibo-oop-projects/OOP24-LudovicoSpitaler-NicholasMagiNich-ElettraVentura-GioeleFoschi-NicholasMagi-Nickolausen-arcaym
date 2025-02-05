@@ -19,7 +19,7 @@ public interface EditorController extends Controller {
     /**
      * Builds the level that u been cooking.
      */
-    void play();
+    void play() throws EditorGridException;
 
     /**
      * 

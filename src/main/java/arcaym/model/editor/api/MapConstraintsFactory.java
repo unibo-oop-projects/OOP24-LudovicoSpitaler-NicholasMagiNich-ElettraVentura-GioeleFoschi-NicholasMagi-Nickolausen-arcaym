@@ -17,18 +17,20 @@ public interface MapConstraintsFactory {
      * Creates a {@link MapConstraint} with the following rule.
      * - There can only be one block of the type
      * 
+     * @param objectError The string to display if the constraints fail
      * @return A {@link MapConstraint} with the above rule
      */
-    MapConstraint singleBlockConstraint();
+    MapConstraint singleBlockConstraint(String objectError);
 
     /**
      * Creates a {@link MapConstraint} with the following rule.
      * - There can only be a maximum amount of blocks of a type.
      * 
-     * @param maxBlocks The maximum amount of blocks that can be placed 
+     * @param maxBlocks   The maximum amount of blocks that can be placed
+     * @param objectError The string to display if the constraints fail
      * @return A {@link MapConstraint} with the above rule
      */
-    MapConstraint maxNumberOfBlocks(int maxBlocks);
+    MapConstraint maxNumberOfBlocks(int maxBlocks, String objectError);
 
     /**
      * Creates a {@link MapConstraint} with the following rule.
@@ -38,7 +40,8 @@ public interface MapConstraintsFactory {
      * starting the level, if every must-have block is present
      * 
      * @param minBlocks The minimum amount of blocks that can be placed
+     * @param objectError The string to display if the constraints fail
      * @return A {@link MapConstraint} with the above rule
      */
-    MapConstraint minNumberOfBlocks(int minBlocks);
+    MapConstraint minNumberOfBlocks(int minBlocks, String objectError);
 }

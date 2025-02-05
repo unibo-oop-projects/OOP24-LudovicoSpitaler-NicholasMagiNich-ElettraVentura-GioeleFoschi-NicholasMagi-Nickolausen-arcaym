@@ -59,6 +59,8 @@ public class EditorMainView extends AbstractView<EditorController> implements Vi
         final var rightSide = new JPanel();
         rightSide.setLayout(new BorderLayout());
 
+        final var footer = new JTextArea();
+        footer.setEnabled(false);
         final var header = new JPanel(new BorderLayout());
         header.setBackground(Color.WHITE);
         final var eraserBtn = new JButton(new ImageIcon(SwingUtils.getResource(ERASER_ICON_PATH)));
@@ -66,7 +68,11 @@ public class EditorMainView extends AbstractView<EditorController> implements Vi
         final var btnContainer = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         final JButton start = new JButton("START");
         start.addActionListener(evt -> {
-            this.controller().play();
+            try {
+                this.controller().play();
+            } catch (EditorGridException e) {
+                footer.setText(e.getMessage());
+            }
         });
         final JButton save = new JButton("SAVE");
         save.addActionListener(evt -> {
@@ -87,8 +93,6 @@ public class EditorMainView extends AbstractView<EditorController> implements Vi
         header.add(btnContainer, BorderLayout.EAST);
         rightSide.add(header, BorderLayout.NORTH);
 
-        final var footer = new JTextArea();
-        footer.setEnabled(false);
         final var gap = SwingUtils.getBigGap(footer);
         footer.setBorder(BorderFactory.createEmptyBorder(gap, gap, gap, gap));
         footer.setBackground(Color.BLACK);

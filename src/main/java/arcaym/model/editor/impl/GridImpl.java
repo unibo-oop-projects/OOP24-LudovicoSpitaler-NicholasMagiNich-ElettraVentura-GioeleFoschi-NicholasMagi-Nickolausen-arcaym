@@ -28,8 +28,12 @@ import arcaym.model.game.objects.api.GameObjectType;
  */
 public class GridImpl implements Grid {
 
-    private static final GameObjectType DEFAUL_TYPE = GameObjectType.FLOOR; // GameObjectType.WALL;
     private static final String ILLEGAL_POSITION_EXCEPTION_MESSAGE = "Trying to place a block outside of the boundary";
+    private static final String PLACED_MESSAGE = "place objects";
+    private static final String REMOVED_MESSAGE = "removed objects";
+    private static final String CANNOT_PLAY_MESSAGE = "play";
+
+    private static final GameObjectType DEFAUL_TYPE = GameObjectType.FLOOR; // GameObjectType.WALL;
 
     private final Map<Position, Cell> map;
     private final Position mapSize;
@@ -66,9 +70,17 @@ public class GridImpl implements Grid {
      * {@inheritDoc}
      */
     @Override
+    public Position getSize() {
+        return Position.of(this.mapSize.x(), this.mapSize.y());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void setObjects(final Collection<Position> positions, final GameObjectType type) throws EditorGridException {
         if (positions.stream().anyMatch(this::outsideBoundary)) {
-            throw new EditorGridException(ILLEGAL_POSITION_EXCEPTION_MESSAGE, true);
+            throw new EditorGridException(ILLEGAL_POSITION_EXCEPTION_MESSAGE, PLACED_MESSAGE);
         }
         try {
             final var mapOfType = getSetOfType(type);
@@ -78,7 +90,7 @@ public class GridImpl implements Grid {
             mapOfCategory.addAll(positions);
             this.constraints.checkConstraint(mapOfCategory, type.category());
         } catch (ConstraintFailedException e) {
-            throw new EditorGridException(e.toString(), true, e);
+            throw new EditorGridException(e.toString(), PLACED_MESSAGE, e);
         }
 
         positions.forEach(pos -> {
@@ -116,7 +128,7 @@ public class GridImpl implements Grid {
     @Override
     public void removeObjects(final Collection<Position> positions) throws EditorGridException {
         if (positions.stream().anyMatch(this::outsideBoundary)) {
-            throw new EditorGridException(ILLEGAL_POSITION_EXCEPTION_MESSAGE, false);
+            throw new EditorGridException(ILLEGAL_POSITION_EXCEPTION_MESSAGE, REMOVED_MESSAGE);
         }
 
         try {
@@ -130,9 +142,8 @@ public class GridImpl implements Grid {
                 mapOfType.removeAll(positions);
                 this.constraints.checkConstraint(mapOfType, cat);
             }
-            // this.constraints.checkBeforeStartConstraints(this::getSetOfType, this::getSetOfCategory);
         } catch (ConstraintFailedException e) {
-            throw new EditorGridException(e.toString(), false, e);
+            throw new EditorGridException(e.toString(), REMOVED_MESSAGE, e);
         }
         positions.forEach(map::remove);
     }
@@ -149,8 +160,12 @@ public class GridImpl implements Grid {
      * {@inheritDoc}
      */
     @Override
-    public Position getSize() {
-        return Position.of(this.mapSize.x(), this.mapSize.y());
+    public void canPlay() throws EditorGridException {
+        try {
+            this.constraints.checkBeforeStartConstraints(this::getSetOfType, this::getSetOfCategory);
+        } catch (ConstraintFailedException e) {
+            throw new EditorGridException(e.toString(), CANNOT_PLAY_MESSAGE, e);
+        }
     }
 
     /**

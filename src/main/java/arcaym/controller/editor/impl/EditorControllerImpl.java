@@ -119,7 +119,8 @@ public class EditorControllerImpl extends AbstractController<EditorView> impleme
      * {@inheritDoc}
      */
     @Override
-    public void play() {
+    public void play() throws EditorGridException {
+        this.grid.beforeStartCheck();
         this.saveLevel();
         final int tileSize = 100; // logic dimension of the tile
         final var gameBuilder = new FactoryBasedGameBuilder(new ComponentsBasedObjectsFactory(tileSize));

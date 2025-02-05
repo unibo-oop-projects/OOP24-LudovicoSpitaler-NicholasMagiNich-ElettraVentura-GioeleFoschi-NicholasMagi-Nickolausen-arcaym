@@ -114,11 +114,11 @@ public class GridConstraintProviderImpl implements GridConstraintProvider {
 
         constraints.addConstraint(
             GameObjectType.COIN,
-            this.constraintFactory.maxNumberOfBlocks(maxCoin),
+            this.constraintFactory.maxNumberOfBlocks(maxCoin, GameObjectType.COIN.toString()),
             false);
         constraints.addConstraint(
             GameObjectType.USER_PLAYER,
-            this.constraintFactory.singleBlockConstraint(),
+            this.constraintFactory.singleBlockConstraint(GameObjectType.USER_PLAYER.toString()),
             false);
         constraints.addConstraint(
             GameObjectCategory.GOAL,
@@ -126,16 +126,16 @@ public class GridConstraintProviderImpl implements GridConstraintProvider {
             false);
         constraints.addConstraint(
             GameObjectCategory.COLLECTABLE,
-            this.constraintFactory.maxNumberOfBlocks(maxCollectable),
+            this.constraintFactory.maxNumberOfBlocks(maxCollectable, GameObjectCategory.COLLECTABLE.toString()),
             false);
         // set before play constraints
         constraints.addConstraint(
             GameObjectCategory.GOAL,
-            this.constraintFactory.minNumberOfBlocks(1),
+            this.constraintFactory.minNumberOfBlocks(1, GameObjectCategory.GOAL.toString()),
             true);
         constraints.addConstraint(
             GameObjectCategory.PLAYER,
-            this.constraintFactory.minNumberOfBlocks(1),
+            this.constraintFactory.minNumberOfBlocks(1, GameObjectCategory.PLAYER.toString()),
             true);
 
         return constraints;
