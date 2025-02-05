@@ -1,7 +1,6 @@
 package arcaym.model.user;
 
 import java.util.Collections;
-import java.util.EnumSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -21,16 +20,6 @@ public record UserStateInfo(
         int credit,
         Set<GameObjectType> purchasedItems) {
 
-    /* Initial credit */
-    private static final int DEFAULT_CREDIT = 0;
-
-    /* Items owned by the user at the beginning of the game */
-    private static final Set<GameObjectType> DEFAULT_ITEMS = EnumSet.copyOf(Set.of(
-        GameObjectType.USER_PLAYER,
-        GameObjectType.COIN,
-        GameObjectType.FLOOR,
-        GameObjectType.WIN_GOAL));
-
     /**
      * Turns all the mutable parameters into immutable.
      * 
@@ -42,30 +31,11 @@ public record UserStateInfo(
     }
 
     /**
-     * Creates a default user state.
-     * 
-     * @return a default user state with {@link #DEFAULT_CREDIT} credit and an empty collection 
-     * of purchased assets 
-     */
-    public static UserStateInfo defaultState() {
-        return new UserStateInfo(DEFAULT_CREDIT, Collections.emptySet());
-    }
-
-    /**
-     * Needed in order to avoid exposing internal representation of fields.
-     * 
-     * @return an immutable view of defaultItems()
-     */
-    public static Set<GameObjectType> defaultItems() {
-        return Collections.unmodifiableSet(DEFAULT_ITEMS);
-    }
-
-    /**
      * @return an immutable collection of the items owned 
      * ({@link #defaultItems()} + {@link #purchasedItems()})
      */
     public Set<GameObjectType> itemsOwned() {
-        return Sets.union(DEFAULT_ITEMS, purchasedItems);
+        return Sets.union(UserStateInfoUtils.defaultItems(), purchasedItems);
     }
 
     /**
