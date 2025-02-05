@@ -35,12 +35,9 @@ public class UserStateImpl implements UserState {
         if (savedState.getItemsOwned().contains(gameObject) || savedState.purchasedItems().contains(gameObject)) {
             throw new IllegalArgumentException("Cannot unlock an object already owned! (Unlocking: " + gameObject + ")");
         }
-        if (savedState.purchasedItems().isEmpty()) {
-            updateSavedState(savedState.withPurchasedItems(Set.of(gameObject)));
-        } else {
-            final var purchasedItems = Sets.union(savedState.purchasedItems(), Set.of(gameObject));
-            updateSavedState(savedState.withPurchasedItems(purchasedItems));
-        }
+        updateSavedState(savedState.withPurchasedItems(Sets.union(
+            savedState.purchasedItems(), 
+            Set.of(gameObject))));
     }
 
     /**

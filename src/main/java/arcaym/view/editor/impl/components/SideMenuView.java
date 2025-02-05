@@ -73,7 +73,7 @@ public class SideMenuView implements ViewComponent<JScrollPane> {
         gbc.insets = new Insets(0, 0, gap, gap);
         gameObjects.forEach((category, objectsView) -> {
             content.add(
-                new JLabel(category.toString().concat(objectsView.isEmpty() ? "" : "S"), SwingConstants.CENTER),
+                new JLabel(category.toString(), SwingConstants.CENTER),
                 gbc);
             objectsView.forEach(obj -> {
                 final var btn = new JButton();

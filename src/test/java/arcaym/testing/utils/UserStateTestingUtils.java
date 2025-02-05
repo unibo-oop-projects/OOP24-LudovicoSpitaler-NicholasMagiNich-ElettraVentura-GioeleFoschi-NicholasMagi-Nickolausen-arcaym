@@ -25,6 +25,10 @@ public final class UserStateTestingUtils {
     private UserStateTestingUtils() {
     }
 
+    /* 
+        Mirrors all the operations included in UserStateSerializer & UserStateSerializerJSON,
+        even the private ones.
+    */
     private interface UserStateSerializerTestingUtils extends UserStateSerializer {
         boolean save(UserStateInfo userState, String filename);
 
@@ -73,22 +77,21 @@ public final class UserStateTestingUtils {
      */
     public static void loadUserStateBackup() {
         final var serializer = utilitySerializer();
-        serializer.save(serializer.load(COPY_FILE).get(), SAVES_FILE);
+        serializer.save(serializer.load(COPY_FILE).get());
         FileUtils.deleteFile(COPY_FILE.concat(EXTENSION), FileUtils.USER_FOLDER);
     }
 
     /**
-     * Writes a default user state in the saves file.
+     * Writes a custom user state in the saves file.
      * 
      * @param defaultCredit the initial credit of the user state to test
      */
-    public static void writeUserStateDefault(final int defaultCredit) {
+    public static void writeTestUserState(final int defaultCredit) {
         final var serializer = utilitySerializer();
         serializer.save(
                 new UserStateInfo(
                         defaultCredit,
-                        Collections.emptySet()),
-                SAVES_FILE);
+                        Collections.emptySet()));
     }
 
     /**

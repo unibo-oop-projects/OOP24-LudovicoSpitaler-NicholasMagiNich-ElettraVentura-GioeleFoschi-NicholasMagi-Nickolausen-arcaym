@@ -29,7 +29,7 @@ class TestUserState {
     void setup() {
         // Does not overwrite the previous states (if the player has some recent saves)
         UserStateTestingUtils.makeUserStateBackup();
-        UserStateTestingUtils.writeUserStateDefault(0);
+        UserStateTestingUtils.writeTestUserState(0);
         this.userState = new UserStateImpl();
     }
 

@@ -63,7 +63,6 @@ public class EditorMainView extends AbstractView<EditorController> implements Vi
         header.setBackground(Color.WHITE);
         final var eraserBtn = new JButton(new ImageIcon(SwingUtils.getResource(ERASER_ICON_PATH)));
         eraserBtn.addActionListener(evt -> isErasing = !isErasing);
-        sideMenu.setEnabled(eraserBtn.isEnabled());
         final var btnContainer = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         final JButton start = new JButton("START");
         start.addActionListener(evt -> {
