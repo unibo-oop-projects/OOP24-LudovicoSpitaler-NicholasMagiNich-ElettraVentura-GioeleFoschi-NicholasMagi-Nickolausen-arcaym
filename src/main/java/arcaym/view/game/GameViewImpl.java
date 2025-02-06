@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.Comparator;
@@ -88,9 +87,6 @@ public class GameViewImpl extends AbstractView<GameController> implements GameVi
             super.paintComponent(g);
             final double scale = calculateScale();
             final Graphics2D g2d = (Graphics2D) g.create();
-            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-            g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
-            g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
             final var pivot = Point.of(
                 (this.getSize().getWidth() - (boundaries.base() * scale)) / 2,
                 (this.getSize().getHeight() - (boundaries.height() * scale)) / 2
