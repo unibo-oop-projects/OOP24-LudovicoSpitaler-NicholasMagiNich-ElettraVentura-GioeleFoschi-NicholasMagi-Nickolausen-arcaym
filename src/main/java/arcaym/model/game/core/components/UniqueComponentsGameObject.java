@@ -21,13 +21,14 @@ public class UniqueComponentsGameObject extends AbstractGameObject implements Co
     private Set<GameComponent> components = Collections.emptySet();
 
     /**
-     * Initialize with the given object type.
+     * Initialize with the given parameters.
      * 
      * @param type game object type
      * @param size game object size
+     * @param zIndex z index
      */
-    public UniqueComponentsGameObject(final GameObjectType type, final double size) {
-        super(type, size);
+    public UniqueComponentsGameObject(final GameObjectType type, final double size, final int zIndex) {
+        super(type, size, zIndex);
     }
 
     /**

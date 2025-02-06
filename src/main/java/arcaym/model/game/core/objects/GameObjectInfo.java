@@ -22,13 +22,18 @@ public interface GameObjectInfo {
     }
 
     /**
-     * @return object position
+     * @return position
      */
     Point getPosition();
 
     /**
-     * @return object boundaries
+     * @return boundaries
      */
     Rectangle boundaries();
+
+    /**
+     * @return z index
+     */
+    int zIndex();
 
 }

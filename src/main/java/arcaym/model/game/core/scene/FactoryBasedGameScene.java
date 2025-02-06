@@ -27,8 +27,8 @@ public class FactoryBasedGameScene extends AbstractGameScene {
      * {@inheritDoc}
      */
     @Override
-    protected GameObject createObject(final GameObjectType type) {
-        return this.gameObjectsFactory.ofType(type);
+    protected GameObject createObject(final GameObjectType type, final int zIndex) {
+        return this.gameObjectsFactory.ofType(type, zIndex);
     }
 
 }

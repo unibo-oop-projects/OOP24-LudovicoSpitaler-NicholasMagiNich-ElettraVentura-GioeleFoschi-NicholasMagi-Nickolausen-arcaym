@@ -29,8 +29,8 @@ public class ComponentsBasedObjectsFactory implements GameObjectsFactory {
      * {@inheritDoc}
      */
     @Override
-    public GameObject ofType(final GameObjectType gameObjectType) {
-        final var obj = new UniqueComponentsGameObject(gameObjectType, tileSize);
+    public GameObject ofType(final GameObjectType gameObjectType, final int zIndex) {
+        final var obj = new UniqueComponentsGameObject(gameObjectType, tileSize, zIndex);
 
         obj.setComponents(
         switch (gameObjectType) {

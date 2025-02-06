@@ -22,9 +22,8 @@ public interface GameUser extends EventsObserver<GameEvent> {
      * Create a game object.
      * 
      * @param gameObject game object
-     * @param zIndex z index
      */
-    void createObject(GameObjectInfo gameObject, int zIndex);
+    void createObject(GameObjectInfo gameObject);
 
     /**
      * Update an existing game object.

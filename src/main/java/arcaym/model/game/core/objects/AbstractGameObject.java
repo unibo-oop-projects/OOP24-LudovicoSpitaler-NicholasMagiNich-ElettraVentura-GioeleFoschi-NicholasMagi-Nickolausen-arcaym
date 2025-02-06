@@ -19,17 +19,20 @@ public abstract class AbstractGameObject implements GameObject {
 
     private final GameObjectType type;
     private final double size;
+    private final int zIndex;
     private Point position = Point.zero();
 
     /**
-     * Initialize with the given type and size.
+     * Initialize with the given parameters.
      * 
      * @param type type
      * @param size size
+     * @param zIndex z index
      */
-    protected AbstractGameObject(final GameObjectType type, final double size) {
+    protected AbstractGameObject(final GameObjectType type, final double size, final int zIndex) {
         this.type = Objects.requireNonNull(type);
         this.size = size;
+        this.zIndex = zIndex;
     }
 
     /**
@@ -65,6 +68,14 @@ public abstract class AbstractGameObject implements GameObject {
     @FieldRepresentation
     public Rectangle boundaries() {
         return Rectangle.centeredSquare(this.size, this.position);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int zIndex() {
+        return this.zIndex;
     }
 
     /**

@@ -2,10 +2,11 @@ package arcaym.model.game.core.scene;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +23,7 @@ public abstract class AbstractGameScene implements GameScene {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractGameScene.class);
 
-    private final Map<GameObject, Integer> elements = new HashMap<>();
+    private final Set<GameObject> gameObjects = new HashSet<>();
     private final List<CreationInfo> creationEvents = new ArrayList<>();
     private final List<GameObject> destroyEvents = new ArrayList<>();
 
@@ -30,9 +31,10 @@ public abstract class AbstractGameScene implements GameScene {
      * Create a new instance of a game object.
      * 
      * @param type game object type
+     * @param zIndex z index
      * @return resulting object
      */
-    protected abstract GameObject createObject(GameObjectType type);
+    protected abstract GameObject createObject(GameObjectType type, int zIndex);
 
     /**
      * {@inheritDoc}
@@ -57,7 +59,7 @@ public abstract class AbstractGameScene implements GameScene {
      */
     @Override
     public Collection<GameObject> getGameObjects() {
-        return this.elements.keySet();
+        return Collections.unmodifiableCollection(this.gameObjects);
     }
 
     /**
@@ -75,15 +77,15 @@ public abstract class AbstractGameScene implements GameScene {
     }
 
     private void createObject(final CreationInfo creation, final GameUser user) {
-        final var gameObject = this.createObject(creation.type());
+        final var gameObject = this.createObject(creation.type(), creation.zIndex());
         gameObject.setPosition(creation.position());
         LOGGER.info(new StringBuilder("Created object ").append(gameObject).toString());
-        this.elements.put(gameObject, creation.zIndex());
-        user.createObject(gameObject, creation.zIndex());
+        this.gameObjects.add(gameObject);
+        user.createObject(gameObject);
     }
 
     private void destroyObject(final GameObject gameObject, final GameUser user) {
-        this.elements.remove(gameObject);
+        this.gameObjects.remove(gameObject);
         LOGGER.info(new StringBuilder("Destroyed object ").append(gameObject).toString());
         user.destroyObject(gameObject);
     }
