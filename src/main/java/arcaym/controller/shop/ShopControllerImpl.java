@@ -4,10 +4,11 @@ import java.util.Map;
 
 import arcaym.controller.app.AbstractController;
 import arcaym.controller.app.ControllerSwitcher;
+import arcaym.controller.user.UserStateSerializerInfo;
+import arcaym.controller.user.UserStateSerializerJSON;
 import arcaym.model.game.objects.GameObjectType;
 import arcaym.model.shop.Shop;
 import arcaym.model.shop.ShopImpl;
-import arcaym.model.user.UserStateManagerImpl;
 import arcaym.view.shop.ShopView;
 
 /**
@@ -48,7 +49,8 @@ public class ShopControllerImpl extends AbstractController<ShopView> implements 
      */
     @Override
     public int getUserCredit() {
-        return new UserStateManagerImpl().getCredit();
+        final UserStateSerializerInfo serializer = new UserStateSerializerJSON(); 
+        return serializer.getUpdatedState().credit();
     }
 
     /**
