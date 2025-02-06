@@ -22,24 +22,6 @@ public interface GameSceneInfo {
     record CreationInfo(GameObjectType type, Point position, int zIndex) { }
 
     /**
-     * Schedule creation of an object in the scene.
-     * 
-     * @param type game object type
-     * @param position game object position
-     * @param zIndex z index
-     */
-    default void scheduleCreation(final GameObjectType type, final Point position, final int zIndex) {
-        this.scheduleCreation(new CreationInfo(type, position, zIndex));
-    }
-
-    /**
-     * Schedule creation of an object in the scene.
-     * 
-     * @param creation creation info
-     */
-    void scheduleCreation(CreationInfo creation);
-
-    /**
      * Remove object from the scene.
      * 
      * @param gameObject game object to remove
