@@ -30,10 +30,10 @@ public class UserStateManagerImpl implements UserStateManager {
      */
     @Override
     public void unlockNewItem(final GameObjectType gameObject) {
-        final var savedState = this.serializer.getUpdatedState();
         if (this.hasItem(gameObject)) {
             throw new IllegalArgumentException("Cannot unlock an object already owned! (Unlocking: " + gameObject + ")");
         }
+        final var savedState = this.serializer.getUpdatedState();
         this.updateSavedStateOrIllegalState(savedState.withPurchasedItems(Sets.union(
             savedState.purchasedItems(), 
             Set.of(gameObject))));
