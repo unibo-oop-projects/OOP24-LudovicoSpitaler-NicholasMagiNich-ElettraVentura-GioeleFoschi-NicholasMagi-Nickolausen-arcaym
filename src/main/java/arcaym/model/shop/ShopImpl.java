@@ -52,10 +52,7 @@ public class ShopImpl implements Shop {
     public Map<GameObjectType, Integer> getLockedGameObjects() {
         final Map<GameObjectType, Integer> out = new EnumMap<>(PRICES);
         // Removes from the locked objects all the ones bought from the user. 
-        this.userState.getPurchasedItems().forEach(item -> {
-            // Does not throw an Exception if the item was not mapped.
-            out.remove(item);
-        });
+        this.userState.getPurchasedItems().forEach(out::remove);
         return Collections.unmodifiableMap(out);
     }
 
