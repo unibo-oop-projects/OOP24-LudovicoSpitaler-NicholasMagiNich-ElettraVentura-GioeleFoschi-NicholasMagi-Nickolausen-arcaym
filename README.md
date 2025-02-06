@@ -66,3 +66,27 @@ Suddivisione di massima del lavoro (con parte significativa del model a ognuno):
 * Spitaleri: realizzazione del game engine. Realizzazione del menu principale dell'applicazione.
 
 * Ventura: realizzazione dei componenti che costituiscono un game object. Realizzazione della view dello shop.
+
+# Commands
+## Editor
+>While in the editor
+
+- Click on an object in the sidebar to select the object.
+
+Once the object is selected:
+- With the mouse click and drag on the grid area where you want to place the object
+
+> [!WARNING] 
+> While dragging you will not see the objects being placed.
+> The objects will be placed once the mouse click has been released and if the placement of the object follows it's constraints.
+
+Undo-Button
+- Click on the undo button to cancel the last operation
+
+## In-Game Movements
+
+| Movement | Binding |
+|----------|---------|
+| Up       | w       |
+| Left     | a       |
+| Down     | s       |
