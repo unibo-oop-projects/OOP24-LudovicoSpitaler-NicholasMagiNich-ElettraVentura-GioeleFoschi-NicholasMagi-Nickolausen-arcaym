@@ -15,9 +15,9 @@ import arcaym.view.app.View;
 public class MainControllerImpl implements MainController {
 
     private Optional<MainView> mainView = Optional.empty();
-    private final Deque<QueueElement<?, ?>> stack = new LinkedList<>();
+    private final Deque<StackElement<?, ?>> stack = new LinkedList<>();
 
-    private record QueueElement<V extends View, C extends ExtendedController<V>>(
+    private record StackElement<V extends View, C extends ExtendedController<V>>(
         C controller, 
         BiFunction<MainView, C, V> viewCreator) { }
 
@@ -36,7 +36,7 @@ public class MainControllerImpl implements MainController {
     @Override
     public void close() {
         stack.stream()
-            .map(QueueElement::controller)
+            .map(StackElement::controller)
             .forEach(ExtendedController::close);
         Runtime.getRuntime().exit(0);
     }
@@ -61,14 +61,14 @@ public class MainControllerImpl implements MainController {
         return stack.size() > 1;
     }
 
-    private <V extends View, C extends ExtendedController<V>> void switchTo(final QueueElement<V, C> element) {
+    private <V extends View, C extends ExtendedController<V>> void switchTo(final StackElement<V, C> element) {
         this.switchTo(element.controller(), element.viewCreator());
     }
 
     private <V extends View, C extends ExtendedController<V>> void switchTo(
             final C controller, 
             final BiFunction<MainView, C, V> viewCreator) {
-        this.stack.addLast(new QueueElement<>(controller, viewCreator));
+        this.stack.addLast(new StackElement<>(controller, viewCreator));
         final var view = viewCreator.apply(mainView.get(), controller);
         controller.setView(view);
     }
