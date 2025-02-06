@@ -50,7 +50,7 @@ public record UserStateInfo(
 
     /**
      * @param item
-     * @return
+     * @return {@code true} if the user owns the item, {@code false} otherwise
      */
     public boolean hasItem(final GameObjectType item) {
         return this.itemsOwned().contains(item);
