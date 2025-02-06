@@ -42,6 +42,6 @@ public final class UserStateInfoUtils {
      * and {@link #defaultItems()} items
      */
     public static UserStateInfo defaultState() {
-        return new UserStateInfo(DEFAULT_CREDIT, Collections.unmodifiableSet(DEFAULT_ITEMS));
+        return new UserStateInfo(DEFAULT_CREDIT, Collections.emptySet());
     }
 }
