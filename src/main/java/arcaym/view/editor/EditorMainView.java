@@ -89,6 +89,7 @@ public class EditorMainView extends AbstractView<EditorController> implements Vi
         btnContainer.add(new JSeparator(JSeparator.VERTICAL));
         btnContainer.add(start);
         btnContainer.add(new JSeparator(JSeparator.VERTICAL));
+        btnContainer.setBackground(Color.WHITE);
         header.add(btnContainer, BorderLayout.EAST);
         rightSide.add(header, BorderLayout.NORTH);
 
