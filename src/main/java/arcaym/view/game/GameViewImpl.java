@@ -75,7 +75,7 @@ public class GameViewImpl extends AbstractView<GameController> implements GameVi
      * Due to the quoted spotbugs error, we implemented the game panel class
      * directly in the game view implementation,
      * as a private class. In this way, the fields in GamePanel do not have
-     * serialization problem
+     * serialization problems
      */
     private final class GamePanel extends JPanel {
         private static final long serialVersionUID = 1L;

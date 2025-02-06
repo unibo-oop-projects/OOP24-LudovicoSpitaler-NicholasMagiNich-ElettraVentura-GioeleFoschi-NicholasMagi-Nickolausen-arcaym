@@ -66,7 +66,7 @@ public class SingleThreadedGame extends AbstractThreadSafeGame {
                 gameObject.update(deltaTime, this.gameEventsManager(), this.scene(), this.state());
             }
             this.scene().getGameObjects().forEach(observer::updateObject);
-            this.scene().consumePendingActions(observer);
+            this.scene().consumePendingEvents(observer);
             this.gameEventsManager().consumePendingEvents();
             deltaTime = this.updateDeltaTime(lastFrameTime);
             lastFrameTime = System.currentTimeMillis();

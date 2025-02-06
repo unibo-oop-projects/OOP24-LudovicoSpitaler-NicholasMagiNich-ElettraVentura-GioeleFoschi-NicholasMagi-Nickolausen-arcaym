@@ -64,7 +64,7 @@ public abstract class AbstractGameScene implements GameScene {
      * {@inheritDoc}
      */
     @Override
-    public void consumePendingActions(final GameObserver observer) {
+    public void consumePendingEvents(final GameObserver observer) {
         while (!this.creationEvents.isEmpty()) {
             this.createObject(this.creationEvents.removeFirst(), observer);
         }

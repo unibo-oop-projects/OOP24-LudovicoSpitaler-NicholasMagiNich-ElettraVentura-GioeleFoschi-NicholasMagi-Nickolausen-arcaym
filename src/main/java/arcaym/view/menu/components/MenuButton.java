@@ -1,4 +1,4 @@
-package arcaym.view.menu;
+package arcaym.view.menu.components;
 
 import java.awt.Dimension;
 import java.util.Objects;
@@ -6,6 +6,7 @@ import java.util.Objects;
 import javax.swing.JButton;
 
 import arcaym.view.core.ViewComponent;
+import arcaym.view.menu.MenuViewImpl;
 import arcaym.view.scaling.WindowInfo;
 import arcaym.view.utils.SwingUtils;
 

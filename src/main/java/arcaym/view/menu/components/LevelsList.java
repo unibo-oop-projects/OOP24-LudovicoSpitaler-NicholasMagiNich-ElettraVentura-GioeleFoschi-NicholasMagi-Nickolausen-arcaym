@@ -1,4 +1,4 @@
-package arcaym.view.menu;
+package arcaym.view.menu.components;
 
 import java.util.List;
 import java.util.Objects;

@@ -1,4 +1,4 @@
-package arcaym.view.menu;
+package arcaym.view.menu.components;
 
 import java.awt.Component;
 import java.util.Objects;
@@ -41,8 +41,18 @@ public class CreateLevelDialog implements ViewDialog<Component, Void> {
      * Interface for the level creation function.
      */
     @FunctionalInterface
-    interface LevelCreator {
+    public interface LevelCreator {
+
+        /**
+         * Create an editor from the given attributes.
+         * 
+         * @param width grid width
+         * @param height grid height
+         * @param type editor type
+         * @param name level name
+         */
         void createEditor(int width, int height, EditorType type, String name);
+
     } 
 
     /**

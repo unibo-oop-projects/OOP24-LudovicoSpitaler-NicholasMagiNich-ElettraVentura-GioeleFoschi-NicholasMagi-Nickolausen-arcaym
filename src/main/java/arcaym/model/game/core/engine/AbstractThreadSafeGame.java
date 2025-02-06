@@ -101,7 +101,7 @@ public abstract class AbstractThreadSafeGame implements Game {
         observer.registerEventsCallbacks(this.gameEventsManager, this.gameState);
         new UserStateManagerImpl().registerEventsCallbacks(this.gameEventsManager, this.gameState);
         LOGGER.info("Setting up game scene");
-        this.gameScene.consumePendingActions(observer);
+        this.gameScene.consumePendingEvents(observer);
         this.gameScene.getGameObjects().forEach(
             o -> o.setup(this.gameEventsManager, this.inputEventsManager, gameScene, this.gameState)
         );

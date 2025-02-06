@@ -20,7 +20,7 @@ import arcaym.view.scaling.WindowInfo;
  */
 public final class SwingUtils {
 
-    private static final Scale WINDOW_SCALE = Scale.X75;
+    private static final Scale TEST_WINDOW_SCALE = Scale.X75;
     private static final float NORMAL_GAP_FACTOR = 1f;
     private static final float LITTLE_GAP_FACTOR = 0.5f;
     private static final float BIG_GAP_FACTOR = 2f;
@@ -133,7 +133,7 @@ public final class SwingUtils {
      */
     public static JFrame testComponent(final BiFunction<WindowInfo, JFrame, JComponent> componentCreator) {
         final var frame = new JFrame();
-        final var window = new ScaledWindowInfo(WINDOW_SCALE);
+        final var window = new ScaledWindowInfo(TEST_WINDOW_SCALE);
         frame.setSize(window.size());
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

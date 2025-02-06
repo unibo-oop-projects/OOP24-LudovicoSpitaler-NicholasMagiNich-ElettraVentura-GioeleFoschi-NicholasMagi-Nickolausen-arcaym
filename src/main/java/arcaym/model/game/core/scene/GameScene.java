@@ -15,7 +15,7 @@ public interface GameScene extends GameSceneInfo {
      * 
      * @param observer game observer
      */
-    void consumePendingActions(GameObserver observer);
+    void consumePendingEvents(GameObserver observer);
 
     /**
      * {@inheritDoc}

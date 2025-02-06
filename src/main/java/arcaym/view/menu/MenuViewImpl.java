@@ -11,6 +11,9 @@ import arcaym.view.app.AbstractView;
 import arcaym.view.components.HorizontalCenteredPanel;
 import arcaym.view.components.ImageLabel;
 import arcaym.view.core.ViewComponent;
+import arcaym.view.menu.components.CreateLevelDialog;
+import arcaym.view.menu.components.LevelsList;
+import arcaym.view.menu.components.MenuButton;
 import arcaym.view.scaling.WindowInfo;
 import arcaym.view.utils.SwingUtils;
 
