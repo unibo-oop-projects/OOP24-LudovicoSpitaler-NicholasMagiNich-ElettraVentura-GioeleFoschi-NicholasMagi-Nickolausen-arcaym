@@ -10,7 +10,7 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import arcaym.controller.game.GameObserver;
+import arcaym.controller.game.GameUser;
 import arcaym.model.game.core.objects.GameObject;
 import arcaym.model.game.objects.GameObjectType;
 
@@ -64,28 +64,28 @@ public abstract class AbstractGameScene implements GameScene {
      * {@inheritDoc}
      */
     @Override
-    public void consumePendingEvents(final GameObserver observer) {
+    public void consumePendingEvents(final GameUser user) {
         while (!this.creationEvents.isEmpty()) {
-            this.createObject(this.creationEvents.removeFirst(), observer);
+            this.createObject(this.creationEvents.removeFirst(), user);
         }
         while (!this.destroyEvents.isEmpty()) {
-            this.destroyObject(this.destroyEvents.removeFirst(), observer);
+            this.destroyObject(this.destroyEvents.removeFirst(), user);
         }
         LOGGER.info("Finished consuming all pending events");
     }
 
-    private void createObject(final CreationInfo creation, final GameObserver observer) {
+    private void createObject(final CreationInfo creation, final GameUser user) {
         final var gameObject = this.createObject(creation.type());
         gameObject.setPosition(creation.position());
         LOGGER.info(new StringBuilder("Created object ").append(gameObject).toString());
         this.elements.put(gameObject, creation.zIndex());
-        observer.createObject(gameObject, creation.zIndex());
+        user.createObject(gameObject, creation.zIndex());
     }
 
-    private void destroyObject(final GameObject gameObject, final GameObserver observer) {
+    private void destroyObject(final GameObject gameObject, final GameUser user) {
         this.elements.remove(gameObject);
         LOGGER.info(new StringBuilder("Destroyed object ").append(gameObject).toString());
-        observer.destroyObject(gameObject);
+        user.destroyObject(gameObject);
     }
 
 }

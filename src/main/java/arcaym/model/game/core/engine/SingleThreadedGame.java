@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import arcaym.common.geometry.Rectangle;
-import arcaym.controller.game.GameObserver;
+import arcaym.controller.game.GameUser;
 import arcaym.model.game.core.scene.GameScene;
 
 /**
@@ -32,15 +32,15 @@ public class SingleThreadedGame extends AbstractThreadSafeGame {
      * {@inheritDoc}
      */
     @Override
-    public void start(final GameObserver observer) {
-        super.start(observer);
+    public void start(final GameUser user) {
+        super.start(user);
         if (!this.runGameLoop) {
             this.runGameLoop = true;
             LOGGER.info("Starting background thread");
             Thread.ofPlatform()
                 .name(GAME_LOOP_THREAD_NAME)
                 .daemon()
-                .start(() -> this.gameLoop(observer));
+                .start(() -> this.gameLoop(user));
         }
     }
 
@@ -56,7 +56,7 @@ public class SingleThreadedGame extends AbstractThreadSafeGame {
         super.scheduleStop();
     }
 
-    private void gameLoop(final GameObserver observer) {
+    private void gameLoop(final GameUser user) {
         LOGGER.info("Game loop thread started");
         long deltaTime = 0;
         long lastFrameTime = System.currentTimeMillis();
@@ -65,8 +65,8 @@ public class SingleThreadedGame extends AbstractThreadSafeGame {
             for (final var gameObject : this.scene().getGameObjects()) {
                 gameObject.update(deltaTime, this.gameEventsManager(), this.scene(), this.state());
             }
-            this.scene().getGameObjects().forEach(observer::updateObject);
-            this.scene().consumePendingEvents(observer);
+            this.scene().getGameObjects().forEach(user::updateObject);
+            this.scene().consumePendingEvents(user);
             this.gameEventsManager().consumePendingEvents();
             deltaTime = this.updateDeltaTime(lastFrameTime);
             lastFrameTime = System.currentTimeMillis();

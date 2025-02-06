@@ -2,7 +2,7 @@ package arcaym.model.game.core.scene;
 
 import java.util.Collection;
 
-import arcaym.controller.game.GameObserver;
+import arcaym.controller.game.GameUser;
 import arcaym.model.game.core.objects.GameObject;
 
 /**
@@ -11,11 +11,11 @@ import arcaym.model.game.core.objects.GameObject;
 public interface GameScene extends GameSceneInfo {
 
     /**
-     * Consume pending scene events and notify game observer.
+     * Consume pending scene events and notify game user.
      * 
-     * @param observer game observer
+     * @param user game user
      */
-    void consumePendingEvents(GameObserver observer);
+    void consumePendingEvents(GameUser user);
 
     /**
      * {@inheritDoc}
