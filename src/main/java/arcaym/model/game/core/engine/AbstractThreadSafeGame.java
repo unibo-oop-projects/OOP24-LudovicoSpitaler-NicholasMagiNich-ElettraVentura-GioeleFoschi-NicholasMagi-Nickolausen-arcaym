@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import arcaym.common.geometry.Rectangle;
-import arcaym.controller.game.GameObserver;
+import arcaym.controller.game.GameUser;
 import arcaym.model.game.core.events.EventsManager;
 import arcaym.model.game.core.events.ThreadSafeEventsManager;
 import arcaym.model.game.core.scene.GameScene;
@@ -88,8 +88,8 @@ public abstract class AbstractThreadSafeGame implements Game {
      * {@inheritDoc}
      */
     @Override
-    public void start(final GameObserver observer) {
-        Objects.requireNonNull(observer);
+    public void start(final GameUser user) {
+        Objects.requireNonNull(user);
         if (this.started) {
             return;
         }
@@ -97,11 +97,11 @@ public abstract class AbstractThreadSafeGame implements Game {
         this.inputEventsManager.enable();
         this.gameEventsManager.enable();
         LOGGER.info("Setting up game view");
-        observer.setInputEventsScheduler(this.inputEventsManager);
-        observer.registerEventsCallbacks(this.gameEventsManager, this.gameState);
+        user.setInputEventsScheduler(this.inputEventsManager);
+        user.registerEventsCallbacks(this.gameEventsManager, this.gameState);
         new UserStateManagerImpl().registerEventsCallbacks(this.gameEventsManager, this.gameState);
         LOGGER.info("Setting up game scene");
-        this.gameScene.consumePendingEvents(observer);
+        this.gameScene.consumePendingEvents(user);
         this.gameScene.getGameObjects().forEach(
             o -> o.setup(this.gameEventsManager, this.inputEventsManager, gameScene, this.gameState)
         );

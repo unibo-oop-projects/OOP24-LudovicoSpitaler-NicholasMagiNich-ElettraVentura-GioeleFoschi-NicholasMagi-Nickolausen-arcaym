@@ -7,9 +7,9 @@ import arcaym.model.game.events.GameEvent;
 import arcaym.model.game.events.InputEvent;
 
 /**
- * Inteface for a game observer.
+ * Inteface for a game user.
  */
-public interface GameObserver extends EventsObserver<GameEvent> {
+public interface GameUser extends EventsObserver<GameEvent> {
 
     /**
      * Set input events scheduler to use.
