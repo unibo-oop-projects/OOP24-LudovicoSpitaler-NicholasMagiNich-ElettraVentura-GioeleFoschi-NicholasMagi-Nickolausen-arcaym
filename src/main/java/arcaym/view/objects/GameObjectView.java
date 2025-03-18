@@ -2,6 +2,7 @@ package arcaym.view.objects;
 
 import java.awt.Image;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Optional;
 
 import javax.imageio.ImageIO;
@@ -17,6 +18,8 @@ import arcaym.view.utils.SwingUtils;
  * Generic class to represent all the views of the objects implemented via Swing. 
  */
 public class GameObjectView extends ImageLabel {
+
+    private static final String ASSETS_ROOT = "assets";
 
     /**
      * Default image scaling value.
@@ -60,7 +63,7 @@ public class GameObjectView extends ImageLabel {
     }
 
     private static String getImagePath(final GameObjectType type) {
-        return switch (type) {
+        return Path.of(ASSETS_ROOT, switch (type) {
             case USER_PLAYER -> "player.png"; 
             case WIN_GOAL -> "goal.png";
             case COIN -> "coin.png";
@@ -69,6 +72,6 @@ public class GameObjectView extends ImageLabel {
             case SPIKE -> "spike.png";
             case WALL -> "wall.png"; 
             case FLOOR -> "tile.png";
-        };
+        }).toString();
     }
 }

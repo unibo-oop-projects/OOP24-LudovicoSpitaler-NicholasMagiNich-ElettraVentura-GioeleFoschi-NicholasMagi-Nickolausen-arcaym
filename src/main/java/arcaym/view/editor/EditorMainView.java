@@ -3,6 +3,7 @@ package arcaym.view.editor;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.function.Consumer;
 
@@ -29,7 +30,7 @@ import arcaym.view.utils.SwingUtils;
  */
 public class EditorMainView extends AbstractView<EditorController> implements ViewComponent<JPanel>, EditorView {
 
-    private static final String ERASER_ICON_PATH = "eraser.png";
+    private static final String ERASER_ICON_PATH = Path.of("assets", "eraser.png").toString();
 
     private boolean isErasing;
 

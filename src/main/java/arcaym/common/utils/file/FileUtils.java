@@ -2,6 +2,7 @@ package arcaym.common.utils.file;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,6 +12,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.io.Resources;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
@@ -37,35 +39,63 @@ public final class FileUtils {
     private FileUtils() {
     }
 
+    private static URL getResource(final String path) {
+        return Thread.currentThread().getContextClassLoader().getResource(path);
+    }
+
+    /**
+     *  Initialize App data directory in user.home.
+     */
+    public static void setupDataDirectory() {
+        final File root = new File(APP_FOLDER);
+        if (root.exists()) {
+            return;
+        }
+        LOGGER.info("Firs App launch, loading resources");
+        createDirectory(root);
+        createUserDirectory();
+        createSavesDirectory();
+        createMetadataDirectory();
+
+        try {
+            Resources.asByteSource(
+                getResource(Path.of("testLevel", "test-level.json").toString()))
+                .copyTo(com.google.common.io.Files.asByteSink(new File(Path.of(METADATA_FOLDER, "test-level.json").toString())));
+
+            Resources.asByteSource(
+                getResource(Path.of("testLevel", "test-level.bin").toString()))
+                .copyTo(com.google.common.io.Files.asByteSink(new File(Path.of(SAVES_FOLDER, "test-level.bin").toString())));
+        } catch (IOException e) {
+            LOGGER.error("Error while loading test-level", e);
+        }
+    }
+
     /**
      * Creates the directory .arcaym/saves in the user home.
      */
     public static void createUserDirectory() {
-        createDirectory(USER_FOLDER);
+        createDirectory(new File(USER_FOLDER));
     }
 
     /**
      * Creates the directory .arcaym/saves in the user home.
      */
     public static void createSavesDirectory() {
-        createDirectory(SAVES_FOLDER);
+        createDirectory(new File(SAVES_FOLDER));
     }
 
     /**
      * Creates the directory .arcaym/levelsMetadata in the user home.
      */
     public static void createMetadataDirectory() {
-        createDirectory(METADATA_FOLDER);
+        createDirectory(new File(METADATA_FOLDER));
     }
 
-    private static boolean createDirectory(final String path) {
-        final File directory = new File(path);
-        if (!directory.exists()) {
-            final boolean folderCreated = directory.mkdirs();
-            if (!folderCreated && !directory.exists()) {
-                LOGGER.error("Error while creating directory");
-                return false;
-            }
+    private static boolean createDirectory(final File directory) {
+        final boolean folderCreated = directory.mkdirs();
+        if (!folderCreated && !directory.exists()) {
+            LOGGER.error("Error while creating directory");
+            return false;
         }
         return true;
     }
@@ -139,4 +169,5 @@ public final class FileUtils {
             return Optional.empty();
         }
     }
+
 }

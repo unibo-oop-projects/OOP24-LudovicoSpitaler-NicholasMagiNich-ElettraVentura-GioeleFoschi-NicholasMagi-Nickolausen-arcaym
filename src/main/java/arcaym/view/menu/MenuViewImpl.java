@@ -1,6 +1,7 @@
 package arcaym.view.menu;
 
 import java.awt.FlowLayout;
+import java.nio.file.Path;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -22,7 +23,7 @@ import arcaym.view.utils.SwingUtils;
  */
 public class MenuViewImpl extends AbstractView<MenuController> implements MenuView, ViewComponent<JPanel> {
 
-    private static final String TITLE_IMAGE = "title.png";
+    private static final String TITLE_IMAGE = Path.of("assets", "title.png").toString();
     private static final String SHOP_BUTTON_TEXT = "OPEN SHOP";
     private static final String CREATE_BUTTON_TEXT = "NEW LEVEL";
 

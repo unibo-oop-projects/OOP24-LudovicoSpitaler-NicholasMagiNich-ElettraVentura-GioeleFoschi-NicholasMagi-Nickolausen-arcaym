@@ -23,9 +23,7 @@ public final class AppLauncher {
      * @param args launch arguments
      */
     public static void main(final String[] args) {
-        FileUtils.createMetadataDirectory();
-        FileUtils.createSavesDirectory();
-        FileUtils.createUserDirectory();
+        FileUtils.setupDataDirectory();
 
         final var controller = new MainControllerImpl();
         final var view = new MainViewImpl(controller);
