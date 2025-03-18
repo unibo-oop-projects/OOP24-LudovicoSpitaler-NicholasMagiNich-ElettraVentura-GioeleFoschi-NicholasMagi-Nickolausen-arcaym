@@ -15,7 +15,7 @@ plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1"
     id("org.danilopianini.gradle-java-qa") version "1.79.0"
 
-    id("org.danilopianini.unibo-oop-gradle-plugin") version "1.1.7"
+    id("org.danilopianini.unibo-oop-gradle-plugin") version "1.1.12"
 }
 
 java { toolchain { languageVersion.set(JavaLanguageVersion.of(21)) } }
