@@ -1,7 +1,6 @@
 package arcaym.view.menu;
 
 import java.awt.FlowLayout;
-import java.nio.file.Path;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -23,7 +22,7 @@ import arcaym.view.utils.SwingUtils;
  */
 public class MenuViewImpl extends AbstractView<MenuController> implements MenuView, ViewComponent<JPanel> {
 
-    private static final String TITLE_IMAGE = Path.of("assets", "title.png").toString();
+    private static final String TITLE_IMAGE = "assets/title.png";
     private static final String SHOP_BUTTON_TEXT = "OPEN SHOP";
     private static final String CREATE_BUTTON_TEXT = "NEW LEVEL";
 
@@ -46,8 +45,7 @@ public class MenuViewImpl extends AbstractView<MenuController> implements MenuVi
         final var shopButton = new MenuButton(SHOP_BUTTON_TEXT).build(window);
         final var createButton = new MenuButton(CREATE_BUTTON_TEXT).build(window);
         createButton.addActionListener(
-            e -> new CreateLevelDialog(this.controller()::createEditor).show(window, mainPanel)
-        );
+                e -> new CreateLevelDialog(this.controller()::createEditor).show(window, mainPanel));
         shopButton.addActionListener(e -> this.controller().openShop());
         final var buttonsRow = new JPanel(new FlowLayout(FlowLayout.CENTER, gap, 0));
         buttonsRow.add(createButton);
@@ -58,10 +56,9 @@ public class MenuViewImpl extends AbstractView<MenuController> implements MenuVi
         mainPanel.add(new HorizontalCenteredPanel().build(window, buttonsRow));
         mainPanel.add(Box.createVerticalStrut(gap));
         mainPanel.add(new HorizontalCenteredPanel().build(window, new LevelsList(
-            this.controller()::getLevels,
-            this.controller()::deleteLevel,
-            this.controller()::openEditor
-        )));
+                this.controller()::getLevels,
+                this.controller()::deleteLevel,
+                this.controller()::openEditor)));
         mainPanel.add(Box.createVerticalStrut(gap));
         return new HorizontalCenteredPanel().build(window, mainPanel);
     }

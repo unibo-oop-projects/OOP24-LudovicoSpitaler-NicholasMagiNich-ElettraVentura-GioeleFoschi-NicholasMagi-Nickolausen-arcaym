@@ -3,7 +3,6 @@ package arcaym.view.editor;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
-import java.nio.file.Path;
 import java.util.Collection;
 import java.util.function.Consumer;
 
@@ -30,12 +29,13 @@ import arcaym.view.utils.SwingUtils;
  */
 public class EditorMainView extends AbstractView<EditorController> implements ViewComponent<JPanel>, EditorView {
 
-    private static final String ERASER_ICON_PATH = Path.of("assets", "eraser.png").toString();
+    private static final String ERASER_ICON_PATH = "assets/eraser.png";
 
     private boolean isErasing;
 
     /**
      * Default constructor.
+     * 
      * @param controller
      */
     public EditorMainView(final EditorController controller) {
@@ -51,9 +51,9 @@ public class EditorMainView extends AbstractView<EditorController> implements Vi
         final var out = new JPanel();
         out.setLayout(new BorderLayout());
         final var sideMenu = new SideMenuView(
-            this.controller().getOwnedObjects(),
-            this.controller()::setSelectedObject,
-            this::setNotErase).build(window);
+                this.controller().getOwnedObjects(),
+                this.controller()::setSelectedObject,
+                this::setNotErase).build(window);
         out.add(sideMenu, BorderLayout.WEST);
 
         final var rightSide = new JPanel();
@@ -97,7 +97,7 @@ public class EditorMainView extends AbstractView<EditorController> implements Vi
         final var gap = SwingUtils.getBigGap(footer);
         footer.setBorder(BorderFactory.createEmptyBorder(gap, gap, gap, gap));
         footer.setBackground(Color.BLACK);
-        final var grid =  new GridView(t -> {
+        final var grid = new GridView(t -> {
             this.executeCommand(t, footer::setText);
             undo.setEnabled(this.controller().canUndo());
         }, this.controller().getSize());

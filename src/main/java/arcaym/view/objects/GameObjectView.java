@@ -2,7 +2,6 @@ package arcaym.view.objects;
 
 import java.awt.Image;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.Optional;
 
 import javax.imageio.ImageIO;
@@ -15,7 +14,8 @@ import arcaym.view.components.ImageLabel;
 import arcaym.view.utils.SwingUtils;
 
 /**
- * Generic class to represent all the views of the objects implemented via Swing. 
+ * Generic class to represent all the views of the objects implemented via
+ * Swing.
  */
 public class GameObjectView extends ImageLabel {
 
@@ -32,8 +32,9 @@ public class GameObjectView extends ImageLabel {
     /**
      * Default constructor.
      * 
-     * @param type the category (OBSTACLE, WALL, PLAYER...)
-     * @param scaleFactor factor needed to resize the image (default: {@link #DEFAULT_SCALE}) 
+     * @param type        the category (OBSTACLE, WALL, PLAYER...)
+     * @param scaleFactor factor needed to resize the image (default:
+     *                    {@link #DEFAULT_SCALE})
      */
     public GameObjectView(final GameObjectType type, final double scaleFactor) {
         super(getImagePath(type), scaleFactor * DEFAULT_SCALE);
@@ -63,15 +64,15 @@ public class GameObjectView extends ImageLabel {
     }
 
     private static String getImagePath(final GameObjectType type) {
-        return Path.of(ASSETS_ROOT, switch (type) {
-            case USER_PLAYER -> "player.png"; 
+        return ASSETS_ROOT + "/" + switch (type) {
+            case USER_PLAYER -> "player.png";
             case WIN_GOAL -> "goal.png";
             case COIN -> "coin.png";
             case MOVING_X_OBSTACLE -> "h_obstacle.png";
             case MOVING_Y_OBSTACLE -> "v_obstacle.png";
             case SPIKE -> "spike.png";
-            case WALL -> "wall.png"; 
+            case WALL -> "wall.png";
             case FLOOR -> "tile.png";
-        }).toString();
+        };
     }
 }
